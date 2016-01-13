@@ -3,10 +3,27 @@
 "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="accountMapper">
+    <cache flushInterval="60000" eviction="FIFO" readOnly="true"></cache>
+    <resultMap type="vo.Account" id="accMap">
+        <result column="username" property="uname"/>
+    </resultMap>
     <insert id="insertAccount" parameterType="vo.Account" useGeneratedKeys="true">
         insert into account(username,password,active) values(#{uname},#{password},#{active});
     </insert>
     <update id="updateAccount" parameterType="vo.Account">
         update account set username=#{uname},password=#{password},active=#{active} where id=#{id};
     </update>
+    <select id="accountList" resultMap="accMap">
+        select * from account 
+        <where>
+        	id in <foreach collection="array" item="id" open="(" separator="," close=")">
+        		#{id}
+        	</foreach>
+        </where>
+    </select>
+    <select id="getNameById" statementType="CALLABLE" parameterType="int" resultType="string">
+        {
+        	call getNameById(#{id,mode=IN},#{name,mode=OUT,jdbcType=VARCHAR})
+        }
+    </select>
 </mapper>

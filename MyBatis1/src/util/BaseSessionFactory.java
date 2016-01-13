@@ -11,19 +11,29 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 public class BaseSessionFactory {
 	public static String resource="mybatis_cfg.xml";
 	public static SqlSession session=null;
+	private final static SqlSessionFactory factory;
+	static{
+		Reader reader=null;
+		try {
+			reader=Resources.getResourceAsReader(resource);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		SqlSessionFactoryBuilder builder=new SqlSessionFactoryBuilder();
+		factory=builder.build(reader);
+	}
 	public static SqlSession getSqlSession(){
 		if(session==null){
-			try {
-				Reader reader=Resources.getResourceAsReader(resource);
-				SqlSessionFactoryBuilder builder=new SqlSessionFactoryBuilder();
-				SqlSessionFactory factory=builder.build(reader);
+			
+				
 				session=factory.openSession();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
 		}
 		return session;
+	}
+	public static SqlSessionFactory getSqlSessionFactory(){
+		return factory;
 	}
 	public static void main(String[] args) {
 		System.out.println(BaseSessionFactory.getSqlSession());

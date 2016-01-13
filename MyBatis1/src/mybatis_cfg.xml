@@ -3,14 +3,18 @@
 "-//mybatis.org//DTD Config 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
-    <environments default="development">
-        <environment id="development">
+    <properties resource="mysql_database.properties"></properties>
+    <settings>
+        <setting name="cacheEnabled" value="false"/>
+    </settings>
+    <environments default="mysql_database">
+        <environment id="mysql_database">
             <transactionManager type="JDBC"></transactionManager>
             <dataSource type="POOLED">
-                <property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/bright"/>
-                <property name="username" value="root"/>
-                <property name="password" value="root"/>
+                <property name="driver" value="${driverClassName}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
             </dataSource>
         </environment>
     </environments>

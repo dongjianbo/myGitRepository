@@ -1,0 +1,40 @@
+table {
+	width: 100%;
+	background-color: #aacccc;
+	border: 0px;
+	padding: 0px;
+	margin: 1px;
+}
+
+table tr {
+	height: 30px;
+}
+
+tr:nth-child(odd) {
+	background-color: #eee;
+}
+
+tr:nth-child(even) {
+	background-color: #ccc;
+}
+
+table tr th {
+	background-color: #cceeee;
+	font: bold 12px/1.5em "Microsoft YaHei";
+}
+
+table tr td {
+	text-align: center;
+	background-color: #FFFFFF;
+	font: normal 11px/1.5em "Microsoft YaHei";
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+table tr:hover {
+	background: #eeeeee;
+}
+
+table tr:hover td {
+	background: none;
+}
