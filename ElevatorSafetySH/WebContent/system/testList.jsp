@@ -53,6 +53,11 @@
 			height:450,
 			buttons:{
 				"确定":function(fn){
+					var danweiname=$("#danweiname").val();
+					if(danweiname==null||danweiname==""){
+						$("#message").html("<i>单位名称不能为空 !!!</i>");
+					}else{
+						$("#message").html("");
 					var form = $("#insertForm");
 					$.post(form.attr('action'),form.serialize(),function(a){
 						if(a=="ok"){
@@ -62,6 +67,7 @@
 							alert("程序有点问题哟！");
 						}
 					});
+				  }
 				},
 				"关闭":function(){
 					$(this).dialog("close");
@@ -78,6 +84,11 @@
 			height:450,
 			buttons:{
 				"确定":function(){
+					var danweiname=$("#name").val();
+					if(danweiname==null||danweiname==""){
+						$("#message1").html("<i>单位名称不能为空 !!!</i>");
+					}else{
+						$("#message1").html("");
 					var form = $("#updateForm");
 					$.post(form.attr('action'),form.serialize(),function(a){
 						if(a=="ok"){
@@ -86,6 +97,7 @@
 							alert("程序有点问题哟！");
 						}
 					});
+				  }
 				},
 				"关闭":function(){
 					$(this).dialog("close");
@@ -103,17 +115,42 @@
 			height:450,
 			buttons:{
 				"确定":function(){
-					var form = $("#insertweibaoForm");
-					$.post(form.attr('action'),form.serialize(),function(a){
-						if(a=="ok"){
-							//location.reload();
-							//插入业务员信息
-							$("#insertweibaoDialog").dialog("close");
-							$("#insertyewuDialog").dialog("open");
+					var name=$("#insertname").val();
+					var loginname=$("#loginname").val();
+					var password=$("#password").val();
+					var status=$("#status").val();
+					if(name==null||name==""){
+						$("#message2").html("<i>姓名不能为空!!!</i>");
+					}else{
+						$("#message2").html("");
+						if(loginname==null||loginname==""){
+							$("#message3").html("<i>登录名不能为空</i>");
 						}else{
-							alert("程序有点问题哟！");
+							$("#message3").html("");
+							if(password==null||password==""){
+								$("#message4").html("<i>密码不能为空</i>");
+							}else{
+								$("#message4").html("");
+								if(status==null||status==""){
+									$("#message5").html("<i>状态不能为空</i>");
+								}else{
+									$("#message5").html("");
+									var form = $("#insertweibaoForm");
+									$.post(form.attr('action'),form.serialize(),function(a){
+										if(a=="ok"){
+											//location.reload();
+											//插入业务员信息
+											$("#insertweibaoDialog").dialog("close");
+											$("#insertyewuDialog").dialog("open");
+										}else{
+											alert("程序有点问题哟！");
+										}
+									});
+								}
+							}
 						}
-					});
+					}
+					
 				},
 				"关闭":function(){
 					$(this).dialog("close");
@@ -131,14 +168,38 @@
 			height:450,
 			buttons:{
 				"确定":function(){
-					var form = $("#insertyewuForm");
-					$.post(form.attr('action'),form.serialize(),function(a){
-						if(a=="ok"){
-							location.reload();
+					var name=$("#insert1name").val();
+					var loginname=$("#loginname1").val();
+					var password=$("#password1").val();
+					var status=$("#status1").val();
+					if(name==null||name==""){
+						$("#message6").html("<i>姓名不能为空!!!</i>");
+					}else{
+						$("#message6").html("");
+						if(loginname==null||loginname==""){
+							$("#message7").html("<i>登录名不能为空</i>");
 						}else{
-							alert("程序有点问题哟！");
+							$("#message7").html("");
+							if(password==null||password==""){
+								$("#message8").html("<i>密码不能为空</i>");
+							}else{
+								$("#message8").html("");
+								if(status==null||status==""){
+									$("#message9").html("<i>状态不能为空</i>");
+								}else{
+									$("#message9").html("");
+									var form = $("#insertyewuForm");
+									$.post(form.attr('action'),form.serialize(),function(a){
+										if(a=="ok"){
+											location.reload();
+										}else{
+											alert("程序有点问题哟！");
+										}
+									});
+								}
+							}
 						}
-					});
+					}
 				},
 				"关闭":function(){
 					$(this).dialog("close");
@@ -277,9 +338,9 @@
 		<form action="${path }/test/insert.do" method="post" id="insertForm">
 			<ul>
 				<li>检验检测单位代码:
-				<li><input type="text" name="code" size="50"/>
+				<li><input type="text" name="code" size="50" maxlength="9"/>
 				<li>单位名称:
-				<li><input type="text" name="name" size="50"/>
+				<li><input type="text" name="name" id="danweiname" size="50"/>*<div id="message" style="float: right;padding-right:220px;"></div>
 				<li>检验检测许可证编号:
 				<li><input type="text" name="licencecode" size="50"/>
 				<li>检验检测许可证:
@@ -291,7 +352,7 @@
 				<li>单位地址:
 				<li><input type="text" name="addr" size="100"/>
 				<li>注册区域:
-				<li><input type="text" name="registerArea" size="100"/>
+				<li><input type="text" name="registerArea" size="100" maxlength="2"/>
 			</ul>
 		</form>
 	</div>
@@ -299,9 +360,9 @@
 		<form action="${path }/test/update.do" method="post" id="updateForm">
 			<ul>
 				<li>检验检测单位代码:
-				<li><input type="text" id="code" name="code" size="50"/>
+				<li><input type="text" id="code" name="code" size="50" maxlength="9"/>
 				<li>单位名称:
-				<li><input type="text" id="name" name="name" size="50"/>
+				<li><input type="text" id="name" name="name" size="50"/>*<div id="message1" style="float: right;padding-right:220px;"></div>
 				<li>检验检测许可证编号:
 				<li><input type="text" id="licencecode" name="licencecode" size="50"/>
 				<li>检验检测许可证:
@@ -313,7 +374,7 @@
 				<li>单位地址:
 				<li><input type="text" id="addr" name="addr" size="100"/>
 				<li>注册区域:
-				<li><input type="text" id="registerArea" name="registerArea" size="100"/>
+				<li><input type="text" id="registerArea" name="registerArea" size="100" maxlength="2"/>
 				<li><input type="hidden" id="idtest" name="idtest"/>
 			</ul>
 		</form>
@@ -323,7 +384,7 @@
 		<form action="${path }/operator/insert1.do" method="post" id="insertweibaoForm">
 			<ul>
 				<li>姓名:
-				<li><input type="text" id="name" name="name" size="50"/>
+				<li><input type="text" id="insertname" name="name" size="50"/>*<div id="message2" style="float: right;padding-right:220px;"></div>
 				<li>身份证号码:
 				<li><input type="text" id="idcard" name="idcard" size="50"/>
 				<li>城市:
@@ -334,11 +395,11 @@
 				<li>街道:
 				<li><select id="idsubdistrict" name="idsubdistrict"></select>
 				<li>登录名:
-				<li><input type="text" id="loginname" name="loginname" size="50"/>
+				<li><input type="text" id="loginname" name="loginname" size="50"/>*<div id="message3" style="float: right;padding-right:220px;"></div>
 				<li>密码:
-				<li><input type="text" id="password" name="password" size="50"/>
+				<li><input type="text" id="password" name="password" size="50" maxlength="8"/>*<div id="message4" style="float: right;padding-right:230px;"></div>
 				<li>状态:
-				<li><input type="text" id="status" name="status" size="50"/>
+				<li><input type="text" id="status" name="status" size="50" maxlength="1"/>*<div id="message5" style="float: right;padding-right:220px;"></div>
 				<input type="hidden" name="typeOperator" value="30">
 				<input type="hidden" name="idprivilege" value="1">
 				 <input type="hidden" name="idOrganization" value="${idtest }">
@@ -350,7 +411,7 @@
 		<form action="${path }/operator/insert1.do" method="post" id="insertyewuForm">
 			<ul>
 				<li>姓名:
-				<li><input type="text" id="name" name="name" size="50"/>
+				<li><input type="text" id="insert1name" name="name" size="50"/>*<div id="message6" style="float: right;padding-right:220px;"></div>
 				<li>身份证号码:
 				<li><input type="text" id="idcard" name="idcard" size="50"/>
 				<li>城市:
@@ -361,11 +422,11 @@
 				<li>街道:
 				<li><select id="idsubdistrict1" name="idsubdistrict"></select>
 				<li>登录名:
-				<li><input type="text" id="loginname" name="loginname" size="50"/>
+				<li><input type="text" id="loginname1" name="loginname" size="50"/>*<div id="message7" style="float: right;padding-right:220px;"></div>
 				<li>密码:
-				<li><input type="text" id="password" name="password" size="50"/>
+				<li><input type="text" id="password1" name="password" size="50"/>*<div id="message8" style="float: right;padding-right:220px;"></div>
 				<li>状态:
-				<li><input type="text" id="status" name="status" size="50"/>
+				<li><input type="text" id="status1" name="status" size="50"/>*<div id="message9" style="float: right;padding-right:220px;"></div>
 				<input type="hidden" name="typeOperator" value="31">
 				<input type="hidden" name="idprivilege" value="2">
 				 <input type="hidden" name="idOrganization" value="${idtest }">
