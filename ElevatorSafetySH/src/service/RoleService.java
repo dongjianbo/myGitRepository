@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.FetchMode;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
@@ -38,7 +39,10 @@ public class RoleService {
 		return roleDao.save(role);
 	}
 	public Role findById(int idrole){
-		return roleDao.get(Role.class, idrole);
+		DetachedCriteria dc=DetachedCriteria.forClass(Role.class);
+		dc.setFetchMode("menus", FetchMode.JOIN);
+		dc.add(Restrictions.eq("idrole", idrole));
+		return (Role)roleDao.getListByDc(dc).get(0);
 	}
 	public void update(Role role){
 		roleDao.update(role);

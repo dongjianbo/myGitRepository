@@ -145,7 +145,6 @@
 		</tr>
 	</table>
 	<div align="right">
-	<input type="text" value=""/>
 		<input type="button" value="添加一个设计单位"
 			onclick="showInsert()" />
 	</div>

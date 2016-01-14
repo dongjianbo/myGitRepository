@@ -20,10 +20,9 @@
 	border-width: 1px;
 	border-style: solid;
 	width: 100%;
-	height: 100%;
+	height: 51px;
 	background-color: #ddefff;
 	font-family: 微软雅黑;
-	font-size: 40px;
 	font-style: normal;
 	text-align: center;
 	vertical-align: middle;
@@ -45,7 +44,7 @@ p {
 }
 
 ul {
-	margin: 0;
+	margin-left: -30px;
 	list-style: none;
 }
 
@@ -83,8 +82,11 @@ $(function() {
 <body>
 	<table height="100%" width="100%">
 		<tr height="6%">
-			<td colspan="2">
-				<div id="top">电梯安全管理平台</div>
+			<td colspan="2" id="top">
+				<ul>
+				<li><div style="font-size: 30px;margin-top: 10px;">电梯安全管理平台</div>
+				<li><div style="font-size:14px;text-align: right;margin-right: 30px;">所属单位</div>
+				</ul>
 			</td>
 		</tr>
 		<tr>
@@ -93,28 +95,21 @@ $(function() {
 					<ul>
 						<li><a href="${path}/system/system.jsp">单位信息维护</a></li>
 						<li><a href="${path}/system/person.jsp">人员信息维护</a></li>
-						<li><a href="#">人员权限维护</a></li>
-						<li><a href="#">电梯类型维护</a></li>
-					</ul>
-					<ul>
+						<li><a href="${path}/role/list.do">角色定义与配置</a></li>
+						
 						<li><a href="${path}/system/insertElevatorDeclaration.jsp">电梯资料申报</a></li>
-						<li><a href="#">电梯注册手续</a></li>
-						<li><a href="#">分类汇总</a></li>
-						<li><a href="#">电梯详细查询</a></li>
-					</ul>
-					<ul>
-						<li><a href="">分类汇总</a></li>
-						<li><a href="${path}/system/elevatorTongji.jsp">任务提醒</a></li>
-						<li><a href="#">任务量统计</a></li>
-						<li><a href="#">应急任务流程</a></li>
-					</ul>
-					<ul>
-						<li><a href="#">年检提醒</a></li>
-						<li><a href="#">巡检情况统计</a></li>
-						<li><a href="#">安全任务量统计</a></li>
-					</ul>
-					<ul>
-						<li><a href="#">年检任务提醒</a></li>
+						<li><a href="#">电梯资料注册</a></li>
+						<li><a href="#">原有电梯资料录入</a></li>
+						<li><a href="#">技术监督部门统计查询</a></li>
+					
+						<li><a href="${path}/system/elevatorTongji.jsp">维保单位任务提醒</a></li>
+						<li><a href="#">维保人员任务量统计</a></li>
+					
+						<li><a href="#">使用单位年检提醒</a></li>
+						<li><a href="#">安全人员任务量统计</a></li>
+					
+						<li><a href="#">检测单位年检提醒</a></li>
+						<li><a href="#">检测人员任务量统计</a></li>
 						<li><a href="#">检测报告录入</a></li>
 					</ul>
 				</div>
@@ -134,7 +129,7 @@ $(function() {
 		</tr>
 	</table>
 	<div title="打开或关闭侧边栏" onclick="$('#main_td').toggle();"
-		style="width: 20px; height: 20px; display: block; position: absolute; left: 4px; top: 35px; border: 1px solid #aacccc; background-color: #ddefff; text-align: center; cursor: pointer;">
+		style="width: 20px; height: 20px; display: block; position: absolute; left: 4px; top: 40px; border: 1px solid #aacccc; background-color: #ddefff; text-align: center; cursor: pointer;">
 		&lt;&gt;</div>
 </body>
 </html>

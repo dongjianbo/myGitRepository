@@ -21,6 +21,7 @@ tr:nth-child(even) {
 table tr th {
 	background-color: #cceeee;
 	font: bold 12px/1.5em "Microsoft YaHei";
+	text-align: center;
 }
 
 table tr td {

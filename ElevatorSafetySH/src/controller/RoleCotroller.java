@@ -2,7 +2,9 @@ package controller;
 
 
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +21,9 @@ import service.HistoryService;
 import service.History_listService;
 import service.RoleService;
 import service.ServiceService;
+import service.System_menuService;
 import vo.Role;
+import vo.System_menu;
 
 
 @Controller
@@ -27,6 +31,8 @@ import vo.Role;
 public class RoleCotroller {
 	@Resource
 	public RoleService roleService;
+	@Resource
+	public System_menuService systemmenuService;
 	@Resource
 	public ServiceService serviceService;
 	@Resource
@@ -36,8 +42,8 @@ public class RoleCotroller {
 	 @RequestMapping("list")
 	    public ModelAndView list(String key,HttpServletRequest request){
 			ModelAndView mav=new ModelAndView("system/roleList");
-			System.out.println(key);
 			mav.addObject("roleList",roleService.list(key, 12, request));
+			mav.addObject("menuList",systemmenuService.list());
 			return mav;
 		}
 	 
@@ -50,7 +56,15 @@ public class RoleCotroller {
     }
 	@RequestMapping(value="insert",produces="text/html;charset=utf-8")
 	@ResponseBody
-	public String insert(Role role,HttpServletRequest request){
+	public String insert(Role role,int menus_id[],HttpServletRequest request){
+		Set<System_menu> menuSet=new HashSet<System_menu>();
+		for(int menu_id:menus_id){
+			System_menu smenu=new System_menu();
+			smenu.setId_system_menu(menu_id);
+			menuSet.add(smenu);
+		}
+		role.setMenus(menuSet);
+		role.setRole_status("1");
 		roleService.insert(role);
 		return "ok";
 	}
@@ -63,7 +77,15 @@ public class RoleCotroller {
 	}
 	@RequestMapping(value="update",produces="text/html;charset=utf-8")
 	@ResponseBody
-	public String update(Role role){
+	public String update(Role role,int menus_id[]){
+		Set<System_menu> menuSet=new HashSet<System_menu>();
+		for(int menu_id:menus_id){
+			System_menu smenu=new System_menu();
+			smenu.setId_system_menu(menu_id);
+			menuSet.add(smenu);
+		}
+		role.setMenus(menuSet);
+		role.setRole_status("1");
 		roleService.update(role);
 		return "ok";
 	}
