@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import service.HistoryService;
 import service.History_listService;
 import service.OperatorService;
+import util.MD5;
 import vo.History;
 import vo.History_list;
 import vo.History_listKey;
@@ -82,6 +83,10 @@ public class OperatorController {
   	@ResponseBody
   	public String insert1(Operator operator,HttpServletRequest request){
   	    //插入技术监督局操作员信息
+	   MD5 md5=new MD5();//将密码转码之后存在数据库中
+	   String psd=md5.getMD5ofStr(operator.getPassword());
+	   operator.setPassword(psd);
+	   System.out.println(operator.getPassword());
   		operatorService.insert(operator);//返回表的主键  		
   		return "ok";
   	}
