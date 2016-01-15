@@ -1,10 +1,14 @@
 package vo;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -18,7 +22,15 @@ public class Elevator {
    private String register_code;
    private String device_code;
    private int id_designer;
+   //设计单位
+   @ManyToOne(cascade=CascadeType.REFRESH,optional=true)
+   @JoinColumn(name="id_designer",insertable=false,updatable=false)
+   private Designer designer;
    private int id_manufer;
+   //生产单位
+   @ManyToOne(cascade=CascadeType.REFRESH,optional=true)
+   @JoinColumn(name="id_manufer",insertable=false,updatable=false)
+   private Manufer manufer;
    private String date_manufer;//日期
    private String code_manufer;
    private String constucter;
@@ -28,7 +40,15 @@ public class Elevator {
    private String check_construct;
    private String check_construct_code;
    private int id_installer;
+   //安装单位
+   @ManyToOne(cascade=CascadeType.REFRESH,optional=true)
+   @JoinColumn(name="id_installer",insertable=false,updatable=false)
+   private Installer installer;
    private int id_owner;
+   //产权单位
+   @ManyToOne(cascade=CascadeType.REFRESH,optional=true)
+   @JoinColumn(name="id_owner",insertable=false,updatable=false)
+   private Owner owner;
    private int id_user;
    private String id_city;
    private String id_district;
@@ -39,9 +59,21 @@ public class Elevator {
    private String date_enable;//日期
    private String project_duty;
    private int id_service;
+   //维保单位
+   @ManyToOne(cascade=CascadeType.REFRESH,optional=true)
+   @JoinColumn(name="id_service",insertable=false,updatable=false)
+   private Service1 service;
    private int id_test;
+   //检测单位
+   @ManyToOne(cascade=CascadeType.REFRESH,optional=true)
+   @JoinColumn(name="id_test",insertable=false,updatable=false)
+   private Test test;
    private int num_floor_elevator;
    private int id_elevator_model;
+   //电梯型号
+   @ManyToOne(cascade=CascadeType.REFRESH,optional=true)
+   @JoinColumn(name="id_elevator_model",insertable=false,updatable=false)
+   private Elevator_type_def elevatorType;
    private String register_status;
    @Column(name="[desc]")
    private String desc;
@@ -253,6 +285,48 @@ public String getGis_type() {
 }
 public void setGis_type(String gis_type) {
 	this.gis_type = gis_type;
+}
+public Designer getDesigner() {
+	return designer;
+}
+public void setDesigner(Designer designer) {
+	this.designer = designer;
+}
+public Manufer getManufer() {
+	return manufer;
+}
+public void setManufer(Manufer manufer) {
+	this.manufer = manufer;
+}
+public Installer getInstaller() {
+	return installer;
+}
+public void setInstaller(Installer installer) {
+	this.installer = installer;
+}
+public Owner getOwner() {
+	return owner;
+}
+public void setOwner(Owner owner) {
+	this.owner = owner;
+}
+public Service1 getService() {
+	return service;
+}
+public void setService(Service1 service) {
+	this.service = service;
+}
+public Test getTest() {
+	return test;
+}
+public void setTest(Test test) {
+	this.test = test;
+}
+public Elevator_type_def getElevatorType() {
+	return elevatorType;
+}
+public void setElevatorType(Elevator_type_def elevatorType) {
+	this.elevatorType = elevatorType;
 }
  
    

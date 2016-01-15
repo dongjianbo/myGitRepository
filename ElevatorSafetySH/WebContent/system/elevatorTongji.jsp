@@ -28,7 +28,7 @@
 		<th>已注销数量</th>
 	</tr>
 	<tr>
-		<td><a href="#">${count }</a></td>
+		<td><a href="${path }/elevator/listForSearch.do?key=count">${count }</a></td>
 		<td><a href="#">${count_registed}</a></td>
 		<td><a href="#">${count_noregist }</a></td>
 		<td><a href="#">${count_stop }</a></td>

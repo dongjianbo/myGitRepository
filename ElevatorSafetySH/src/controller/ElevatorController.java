@@ -1,7 +1,9 @@
 package controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -160,6 +162,19 @@ public class ElevatorController{
 		mav.addObject("count_360service_normal",count_360service_normal);
 		mav.addObject("count_360service_warnning",count_360service_warnning);
 		mav.addObject("count_360service_overdue",count_360service_overdue);
+		return mav;
+	}
+	//点击统计中的数字进入电梯列表
+	@RequestMapping("listForSearch")
+	public ModelAndView listForSearch(String key,HttpServletRequest request){
+		//
+		List<Elevator> list=new ArrayList<Elevator>();
+		//电梯总数量
+		if(key.equals("count")){
+			list=elevatorService.listCount(10, request);
+		}
+		ModelAndView mav=new ModelAndView("system/elevatorList");
+		mav.addObject("list",list);
 		return mav;
 	}
 }
