@@ -11,6 +11,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
+import util.MD5;
 import vo.Operator;
 
 import dao.OperatorDao;
@@ -42,14 +43,18 @@ public class OperatorService {
  		operatorDao.delete(operator);
  	}
  	public int check(Operator operator){
+ 		//先将登陆的密码加密再和数据库中的比对
+ 		MD5 md5=new MD5();
+ 		String code=md5.getMD5ofStr(operator.getPassword());//将密码加密
  		DetachedCriteria dc=DetachedCriteria.forClass(Operator.class);
  		dc.add(Restrictions.eq("loginname", operator.getLoginname().trim()));
- 		List<Operator> operlist=operatorDao.getListByDc(dc);
+ 		List<Operator> operlist=operatorDao.getListByDc(dc);//数据库中的密码
  		if(operlist==null||operlist.size()==0){
  			return 1;//表示用户名不存在
  		}else{
  			System.out.println(operator.getLoginname());
- 			if(!operator.getPassword().equals(operlist.get(0).getPassword())){
+ 			if(!code.equals(operlist.get(0).getPassword())){
+ 				System.out.println(code);
  					return 2;//表示密码不正确
  			}else{
  				return 3;//用户密码都正确

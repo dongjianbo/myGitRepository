@@ -102,7 +102,7 @@
 		$("#insertDialog").dialog("open");
 	}
 	function showUpdate(did){
-		$.getJSON("${path }/designer/toUpdate.do?iddesigner="+did,"",function(d){
+		$.getJSON("${path }/designer/toUpdate.do?iddesigner="+did,"rand="+Math.random(),function(d){
 			//将查询到的信息放入修改表单中--注意隐藏域中的主键
 			$("#code").val(d.code);
 			$("#name").val(d.name);
@@ -202,9 +202,9 @@
 				<li>设计许可证:
 				<li><input type="text" id="licename" name="licename" size="50"/>
 				<li>设计负责人:
-				<li><input type="text" id="licename" name="licename" size="50"/>
-				<li>联系电话:
 				<li><input type="text" id="manager" name="manager" size="50"/>
+				<li>联系电话:
+				<li><input type="text" id="tel" name="tel" size="50"/>
 				<li>单位地址:
 				<li><input type="text" id="addr" name="addr" size="100"/>
 				<li>注册区域:

@@ -398,8 +398,7 @@
 				<li><input type="text" id="loginname" name="loginname" size="50"/>*<div id="message3" style="float: right;padding-right:220px;"></div>
 				<li>密码:
 				<li><input type="text" id="password" name="password" size="50" maxlength="8"/>*<div id="message4" style="float: right;padding-right:230px;"></div>
-				<li>状态:
-				<li><input type="text" id="status" name="status" size="50" maxlength="1"/>*<div id="message5" style="float: right;padding-right:220px;"></div>
+				<input type="hidden" name="status" value="1">
 				<input type="hidden" name="typeOperator" value="30">
 				<input type="hidden" name="idprivilege" value="1">
 				 <input type="hidden" name="idOrganization" value="${idtest }">
