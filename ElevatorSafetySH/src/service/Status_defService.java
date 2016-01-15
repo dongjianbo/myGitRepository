@@ -8,6 +8,8 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.stereotype.Service;
 
 
+
+import vo.Servicer_type_def;
 import vo.Status_def;
 import dao.Status_defDao;
 
@@ -20,4 +22,7 @@ public class Status_defService {
 		DetachedCriteria dc=DetachedCriteria.forClass(Status_def.class);
 		return status_defDao.getListByDc(dc);
 	} 
+	public Status_def findById(String idstatus){
+		return status_defDao.get(Status_def.class, idstatus);
+	}
 }

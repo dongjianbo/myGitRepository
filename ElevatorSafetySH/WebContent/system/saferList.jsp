@@ -42,13 +42,40 @@
 			buttons:{
 				"确定":function(fn){
 					var form = $("#insertForm");
-					$.post(form.attr('action'),form.serialize(),function(a){
-						if(a=="ok"){
-							location.reload();
+					//=================检查表单中的字段是否为空 ===================================
+					//判断文本框中的值是否为空
+				var name1=$("#name1").val();
+				if(name1==null||name1==""){
+					$("#name2").html("<i>姓名不能为空 !!!</i>");
+				}else{
+					$("#name2").html("");
+					var idcard1=$("#idcard1").val();
+				    if(idcard1==null||idcard1==""){
+					 $("#idcard2").html("<i>身份证号码不能为空 !!!</i>");
+					}else{
+						$("#idcard2").html("");
+						var licencecode1=$("#licencecode1").val();
+						if(licencecode1==null||licencecode1==""){
+							$("#licencecode2").html("<i>从业资格证书编号不能为空 !!!</i>");
 						}else{
-							alert("程序有点问题哟！");
-						}
-					});
+							$("#licencecode2").html("");
+				            var idMifare1=$("#idMifare1").val();
+						    if(idMifare1==null||idMifare1==""){
+							  $("#idMifare2").html("<i>上岗卡标识号不能为空 !!!</i>");
+							 }else{
+							   $("#idMifare2").html("");
+								//提交表单 
+									$.post(form.attr('action'),form.serialize(),function(a){
+										if(a=="ok"){
+											location.reload();
+										}else{
+											alert("程序有点问题哟！");
+										}
+									});
+							 }
+				        }
+				   }
+				}
 				},
 				"关闭":function(){
 					$(this).dialog("close");
@@ -82,13 +109,40 @@
 			buttons:{
 				"确定":function(){
 					var form = $("#updateForm");
-					$.post(form.attr('action'),form.serialize(),function(a){
-						if(a=="ok"){
-							location.reload();
+					//=================检查表单中的字段是否为空 ===================================
+					//判断文本框中的值是否为空
+				var name=$("#name").val();
+				if(name==null||name==""){
+					$("#name0").html("<i>姓名不能为空 !!!</i>");
+				}else{
+					$("#name0").html("");
+					var idcard=$("#idcard").val();
+				    if(idcard==null||idcard==""){
+					 $("#idcard0").html("<i>身份证号码不能为空 !!!</i>");
+					}else{
+						$("#idcard0").html("");
+						var licencecode=$("#licencecode").val();
+						if(licencecode==null||licencecode==""){
+							$("#licencecode0").html("<i>从业资格证书编号不能为空 !!!</i>");
 						}else{
-							alert("程序有点问题哟！");
-						}
-					});
+							$("#licencecode0").html("");
+				            var idMifare=$("#idMifare").val();
+						    if(idMifare==null||idMifare==""){
+							  $("#idMifare0").html("<i>上岗卡标识号不能为空 !!!</i>");
+							 }else{
+							   $("#idMifare0").html("");
+								   //提交表单 
+									$.post(form.attr('action'),form.serialize(),function(a){
+										if(a=="ok"){
+											location.reload();
+										}else{
+											alert("程序有点问题哟！");
+										}
+									});
+							 }
+				        }
+				   }
+				}
 				},
 				"关闭":function(){
 					$(this).dialog("close");
@@ -151,9 +205,9 @@
 				<td>${d.idsafer}</td>
 				<td>${d.name }</td>
 				<td>${d.idcard}</td>
-				<td>${d.iduser}</td>
+				<td>${d.user.name}</td>
 				<td>${d.licencecode}</td>
-				<td>${d.status }</td>
+				<td>${d.status_def.name }</td>
 				<td><a
 					href="javascript:showUpdate(${d.idsafer})">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;
 					<a href="${path }/safer/delete.do?idsafer=${d.idsafer}">删除</a>
@@ -174,18 +228,16 @@
 		<form action="${path }/safer/insert.do" method="post" id="insertForm">
 			<ul>
 				<li>安全员姓名:
-				<li><input type="text" name="name" size="50"/>
+				<li><input type="text" name="name" id="name1" size="50" maxlength="20"/>*<div id="name2" style="float: right; margin-right:220 "></div>
 				<li>身份证号码:
-				<li><input type="text" name="idcard" size="50"/>
+				<li><input type="text" name="idcard" id="idcard1" size="50" maxlength="18"/>*<div id="idcard2" style="float: right; margin-right:220 "></div>
 				<li>所属用户单位:
 				<li><select name="iduser" id="iduser1"></select>
 				<li>从业资格证书编号:
-				<li><input type="text" name="licencecode" size="50"/>
-				<li>安全人员状态:
-				<li><select name="status" id="status1"></select>
+				<li><input type="text" name="licencecode" id="licencecode1" size="50" maxlength="20"/>*<div id="licencecode2" style="float: right; margin-right:220 "></div>
 				<li>上岗卡标识号:
-				<li><input type="text" name="idMifare" size="50"/>
-				
+				<li><input type="text" name="idMifare"  id="idMifare1" size="50" maxlength="8"/>*<div id="idMifare2" style="float: right; margin-right:220 "></div>
+				<li><input type="hidden" name="status" id="status1" value="1"/>
 			</ul>
 		</form>
 	</div>
@@ -193,17 +245,17 @@
 		<form action="${path }/safer/update.do" method="post" id="updateForm">
 			<ul>
 				<li>安全员姓名:
-				<li><input type="text" name="name" id="name" size="50"/>
+				<li><input type="text" name="name" id="name" size="50" maxlength="20"/>*<div id="name0" style="float: right; margin-right:220 "></div>
 				<li>身份证号码:
-				<li><input type="text" name="idcard" id="idcard" size="50"/>
+				<li><input type="text" name="idcard" id="idcard" size="50" maxlength="18"/>*<div id="idcard0" style="float: right; margin-right:220 "></div>
 				<li>所属用户单位:
 				<li><select name="iduser" id="iduser"></select>
 				<li>从业资格证书编号:
-				<li><input type="text" name="licencecode" id="licencecode" size="50"/>
+				<li><input type="text" name="licencecode" id="licencecode" size="50" maxlength="20"/>*<div id="licencecode0" style="float: right; margin-right:220 "></div>
 				<li>安全人员状态:
 				<li><select name="status" id="status"></select>
 				<li>上岗卡标识号:
-				<li><input type="text" name="idMifare" id="idMifare" size="50"/>
+				<li><input type="text" name="idMifare" id="idMifare" size="50" maxlength="8"/>*<div id="idMifare0" style="float: right; margin-right:220 "></div>
 				<li><input type="hidden" name="idsafer" id="idsafer" />
 			</ul>
 		</form>
