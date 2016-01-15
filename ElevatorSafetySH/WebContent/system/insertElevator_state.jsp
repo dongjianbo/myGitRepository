@@ -32,10 +32,48 @@
 		$("#date7").datepicker({dateFormat:'yy-mm-dd'});//日期控件
 		
 	});
+	function shijian(){
+		var banyue=$("#date1").val();
+		var date2=$("#date2").val();
+		var date3=$("#date3").val();
+		var date4=$("#date4").val();
+		var date5=$("#date5").val();
+		var date6=$("#date6").val();
+		var date7=$("#date7").val();
+		if(banyue==null||banyue==""){
+			alert("请选择上次半月维保日期");
+		}else{
+			if(date2==null||date2==""){
+				alert("请选择上次季度维保日期");
+			}else{
+				if(date3==null||date3==""){
+					alert("请选择上次半年维保日期");
+				}else{
+					if(date4==null||date4==""){
+						alert("请选择上次年度维保日期");
+					}else{
+						if(date5==null||date5==""){
+							alert("请选择上次安全员巡检日期");
+						}else{
+							if(date6==null||date6==""){
+								alert("请选择上次检验检测日期");
+							}else{
+								if(date7==null||date7==""){
+									alert("请选择最后修改日期时间");
+								}else{
+									myform.submit();
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 </script>
 </head>
 <body>
-		<form action="${path }/elevator_state/insertElevator_state.do" method="post">
+		<form action="${path }/elevator_state/insertElevator_state.do" method="post" name="myform">
 			     <ul>
 			        <li>上次半月维保日期:
 					<li><input type="text" name="last_15_service" size="50" id="date1">
@@ -52,7 +90,7 @@
 				    <li>标签下载备注项:
 				    <li><input type="text" name="labeldemo" size="50">
 				    <li>最后修改日期时间:
-				    <li><input type="text" name="lastmodified" size="50" id="date7"><input type="submit" value="提交">
+				    <li><input type="text" name="lastmodified" size="50" id="date7"><input type="button" value="提交" onclick="shijian()">
 				  </ul>
 			    
 		</form>

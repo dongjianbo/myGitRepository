@@ -31,6 +31,11 @@
 			height:450,
 			buttons:{
 				"确定":function(fn){
+					var danweiname=$("#danweiname").val();
+					if(danweiname==null||danweiname==""){
+						$("#message1").html("<i>单位名称不能为空!!!</i>");
+					}else{
+						$("#message1").html("");
 					var form = $("#insertForm");
 					$.post(form.attr('action'),form.serialize(),function(a){
 						if(a=="ok"){
@@ -39,7 +44,8 @@
 							alert("程序有点问题哟！");
 						}
 					});
-				},
+				}
+			 },
 				"关闭":function(){
 					$(this).dialog("close");
 				}
@@ -55,6 +61,11 @@
 			height:450,
 			buttons:{
 				"确定":function(){
+					var danweiname=$("#name").val();
+					if(danweiname==null||danweiname==""){
+						$("#message2").html("<i>单位名称不能为空 !!!</i>");
+					}else{
+						$("#message2").html("");
 					var form = $("#updateForm");
 					$.post(form.attr('action'),form.serialize(),function(a){
 						if(a=="ok"){
@@ -63,6 +74,7 @@
 							alert("程序有点问题哟！");
 						}
 					});
+					}
 				},
 				"关闭":function(){
 					$(this).dialog("close");
@@ -148,21 +160,21 @@
 		<form action="${path }/owner/insert.do" method="post" id="insertForm">
 			<ul>
 				<li>产权单位代码:
-				<li><input type="text" name="code" size="50"/>
+				<li><input type="text" name="code" size="50" maxlength="9"/>
 				<li>单位名称:
-				<li><input type="text" name="name" size="50"/>
+				<li><input type="text" name="name" id="danweiname" size="50"/>*<div id="message1" style="float: right;padding-right:190px;"></div>
 				<li>单位法人代表:
 			    <li><input type="text" name="legalrep" size="50"/>
 				<li>管理负责人:
 				<li><input type="text" name="manager" size="50"/>
 				<li>邮政编码:
-				<li><input type="text" name="postcode" size="50"/>
+				<li><input type="text" name="postcode" size="50" maxlength="6"/>
 				<li>联系电话:
 				<li><input type="text" name="tel" size="50"/>
 				<li>单位地址:
 				<li><input type="text" name="addr" size="100"/>
 				<li>注册区域:
-				<li><input type="text" name="registerArea" size="100"/>
+				<li><input type="text" name="registerArea" size="100" maxlength="2"/>
 			</ul>
 		</form>
 	</div>
@@ -170,21 +182,21 @@
 		<form action="${path }/owner/update.do" method="post" id="updateForm">
 			<ul>
 				<li>产权单位代码:
-				<li><input type="text" id="code" name="code" size="50"/>
+				<li><input type="text" id="code" name="code" size="50" maxlength="9"/>
 				<li>单位名称:
-				<li><input type="text" id="name" name="name" size="50"/>
+				<li><input type="text" id="name" name="name" size="50"/>*<div id="message2" style="float: right;padding-right:190px;"></div>
 				<li>单位法人代表:
 				<li><input type="text" id="legalrep" name="legalrep" size="50"/>
 				<li>管理负责人:
 				<li><input type="text" id="manager" name="manager" size="50"/>
 				<li>邮政编码:
-				<li><input type="text" id="postcode" name="postcode" size="50"/>
+				<li><input type="text" id="postcode" name="postcode" size="50" maxlength="6"/>
 				<li>联系电话:
 				<li><input type="text" id="tel" name="tel" size="50"/>
 				<li>单位地址:
 				<li><input type="text" id="addr" name="addr" size="100"/>
 				<li>注册区域:
-				<li><input type="text" id="registerArea" name="registerArea" size="100"/>
+				<li><input type="text" id="registerArea" name="registerArea" size="100" maxlength="2"/>
 				<li><input type="hidden" id="idowner" name="idowner"/>
 			</ul>
 		</form>

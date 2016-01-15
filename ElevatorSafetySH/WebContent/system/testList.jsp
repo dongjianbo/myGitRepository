@@ -118,7 +118,6 @@
 					var name=$("#insertname").val();
 					var loginname=$("#loginname").val();
 					var password=$("#password").val();
-					var status=$("#status").val();
 					if(name==null||name==""){
 						$("#message2").html("<i>姓名不能为空!!!</i>");
 					}else{
@@ -131,10 +130,6 @@
 								$("#message4").html("<i>密码不能为空</i>");
 							}else{
 								$("#message4").html("");
-								if(status==null||status==""){
-									$("#message5").html("<i>状态不能为空</i>");
-								}else{
-									$("#message5").html("");
 									var form = $("#insertweibaoForm");
 									$.post(form.attr('action'),form.serialize(),function(a){
 										if(a=="ok"){
@@ -147,7 +142,6 @@
 										}
 									});
 								}
-							}
 						}
 					}
 					
@@ -171,7 +165,6 @@
 					var name=$("#insert1name").val();
 					var loginname=$("#loginname1").val();
 					var password=$("#password1").val();
-					var status=$("#status1").val();
 					if(name==null||name==""){
 						$("#message6").html("<i>姓名不能为空!!!</i>");
 					}else{
@@ -184,10 +177,6 @@
 								$("#message8").html("<i>密码不能为空</i>");
 							}else{
 								$("#message8").html("");
-								if(status==null||status==""){
-									$("#message9").html("<i>状态不能为空</i>");
-								}else{
-									$("#message9").html("");
 									var form = $("#insertyewuForm");
 									$.post(form.attr('action'),form.serialize(),function(a){
 										if(a=="ok"){
@@ -196,7 +185,6 @@
 											alert("程序有点问题哟！");
 										}
 									});
-								}
 							}
 						}
 					}

@@ -37,19 +37,22 @@ public class ElevatorController{
 	public History_listService history_listService;
 	@RequestMapping("insert")
 	public String insert(Elevator elevator,HttpServletRequest request,HttpServletResponse response){
-		Elevator e=(Elevator)request.getSession().getAttribute("el");
-		e.setDate_enable(elevator.getDate_enable());
-		e.setProject_duty(elevator.getProject_duty());
-		e.setId_service(elevator.getId_service());
-		e.setId_test(elevator.getId_test());
-		e.setNum_floor_elevator(elevator.getNum_floor_elevator());
-		e.setId_elevator_model(elevator.getId_elevator_model());
-		e.setRegister_status(elevator.getRegister_status());
-		e.setDesc(elevator.getDesc());
-		e.setGis_x(elevator.getGis_x());
-		e.setGis_y(elevator.getGis_y());
-		e.setGis_type(elevator.getGis_type()); 
-		int id_elevator=Integer.parseInt(elevatorService.insert(e).toString());
+		Elevator el=(Elevator)request.getSession().getAttribute("elevator");//存在第一页的值
+		el.setCheck_construct(elevator.getCheck_construct());//
+		el.setCheck_construct_code(elevator.getCheck_construct_code());//
+		el.setId_installer(elevator.getId_installer());//
+		el.setAddress(elevator.getAddress());//
+		el.setDesc(elevator.getDesc());//
+		el.setDate_declare(elevator.getDate_declare());//
+		el.setNum_floor_elevator(elevator.getNum_floor_elevator());//
+		el.setId_elevator_model(elevator.getId_elevator_model());//
+		el.setDate_register(elevator.getDate_register());//
+		el.setProject_duty(elevator.getProject_duty());//
+		el.setId_service(elevator.getId_service());//
+		el.setId_test(elevator.getId_test());//
+		el.setRegister_status(elevator.getRegister_status());//
+		el.setDate_enable(elevator.getDate_enable());//
+		int id_elevator=Integer.parseInt(elevatorService.insert(el).toString());
 		request.getSession().setAttribute("id_elevator",id_elevator);
 		//systemstate修改字段version_elevator +1
 		systemService.update_version_elevator();
@@ -78,23 +81,6 @@ public class ElevatorController{
 	public String insert1(Elevator elevator,HttpServletRequest request,HttpServletResponse response){
 		request.getSession().setAttribute("elevator", elevator);
 		return "/system/insertElevatorDeclaration1";
-	}
-	@RequestMapping("insertTo2")
-	public String insert2(Elevator elevator,HttpServletRequest request,HttpServletResponse response){
-		Elevator el=(Elevator)request.getSession().getAttribute("elevator");//存在第一页的值
-		el.setCheck_construct(elevator.getCheck_construct());
-		el.setCheck_construct_code(elevator.getCheck_construct_code());
-		el.setId_installer(elevator.getId_installer());
-		el.setId_owner(elevator.getId_owner());
-		el.setId_user(elevator.getId_user());
-		el.setId_city(elevator.getId_city());
-		el.setId_district(elevator.getId_district());
-		el.setId_subdistrict(elevator.getId_subdistrict());
-		el.setAddress(elevator.getAddress());
-		el.setDate_declare(elevator.getDate_declare());
-		el.setDate_register(elevator.getDate_register());
-		request.getSession().setAttribute("el", el);
-		return "/system/insertElevatorDeclaration2";
 	}
 	
 	//技术监督部门统计查询

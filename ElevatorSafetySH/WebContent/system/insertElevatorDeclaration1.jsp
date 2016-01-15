@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <link href="${path}/css/system.css" rel="stylesheet" type="text/css">
-<link href="${path}/css/table.css" rel="stylesheet" type="text/css">
+<%-- <link href="${path}/css/table.css" rel="stylesheet" type="text/css"> --%>
 <link rel="stylesheet" href="${path}/jquery/themes/base/jquery.ui.all.css">
 	<script src="${path}/jquery/jquery-1.10.2.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.core.js"></script>
@@ -26,102 +26,118 @@
 	$().ready(function(){
 		$("#date1").datepicker({dateFormat:'yy-mm-dd'});//日期控件
 		$("#date2").datepicker({dateFormat:'yy-mm-dd'});//日期控件
+		$("#date3").datepicker({dateFormat:'yy-mm-dd'});//日期控件
 		 $.getJSON("${path}/installer/selectId_installer.do","rand="+Math.random(),function(d){
 	    	  //对安装单位进行循环
 	    	  for(var i=0;i<d.length;i++){
 	    		  $("#id_installer").append("<option size='"+50+"' value='"+d[i].idinstaller+"'>"+d[i].name+"</option>");
 	    	  }
-	       });	
-		 $.getJSON("${path}/owner/selectId_owner.do","rand="+Math.random(),function(d){
-	    	  //对产权单位进行循环
+	    	 });	
+		 $.getJSON("${path}/service/selectId_service.do","rand="+Math.random(),function(d){
+	    	  //对维保单位进行循环
 	    	  for(var i=0;i<d.length;i++){
-	    		  $("#id_owner").append("<option size='"+50+"' value='"+d[i].idowner+"'>"+d[i].name+"</option>");
+	    		  $("#id_service").append("<option size='"+50+"' value='"+d[i].idservice+"'>"+d[i].name+"</option>");
 	    	  }
 	       });	
-		 $.getJSON("${path}/user/selectId_user.do","rand="+Math.random(),function(d){
-	    	  //对使用单位进行循环
+		 $.getJSON("${path}/test/selectId_test.do","rand="+Math.random(),function(d){
+	    	  //对检验检测单位进行循环
 	    	  for(var i=0;i<d.length;i++){
-	    		  $("#id_user").append("<option size='"+50+"' value='"+d[i].iduser+"'>"+d[i].name+"</option>");
+	    		  $("#id_test").append("<option size='"+50+"' value='"+d[i].idtest+"'>"+d[i].name+"</option>");
 	    	  }
 	       });	
-		 //-----------------------------------------------------------
-		 $.getJSON("${path }/citylist/list.do","rand="+Math.random(),function(d){
-				//将查询到的信息放入表单
-				for(var i=0;i<d.length;i++){
-				  $("#id_city").append("<option size='"+50+"' value='"+d[i].id_city+"'>"+d[i].name_city+"</option>");
-				}
-				//根据第一个城市的id查区域
-				$.getJSON("${path }/distictlist/listByIdCity.do?id_city="+d[0].id_city,"rand="+Math.random(),function(s){
-					for(var i=0;i<s.length;i++){
-						  $("#id_district").append("<option size='"+50+"' value='"+s[i].id_district+"'>"+s[i].name_district+"</option>");
-						}
-				 //根据第一个区域查询乡镇
-				    $.getJSON("${path }/subdistictlist/listById.do?id_city="+d[0].id_city+"&id_distrct="+s[0].id_district,"rand="+Math.random(),function(a){
-				    	for(var i=0;i<a.length;i++){
-				    		$("#id_subdistrict").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
-				    	}
-				    });
-				});
-			});
+		
 	});
-		//选择城市-----------------------------------------------
-	function chooseCity(id_city){
-		//不同的城市选择不同的id
-		$.getJSON("${path }/distictlist/listByIdCity.do?id_city="+id_city,"rand="+Math.random(),function(s){
-			document.getElementById("id_district").innerHTML="";
-			for(var i=0;i<s.length;i++){
-				 $("#id_district").append("<option size='"+50+"' value='"+s[i].id_district+"'>"+s[i].name_district+"</option>");
+	function ifnan(){
+		var censhu=$("#censhu").val();
+		var xuhao=$("#xuhao").val();
+		var date1=$("#date1").val();
+		var date2=$("#date2").val();
+		var date3=$("#date3").val();
+		if(censhu==null||censhu==""){
+			alert("电梯层数不能为空!!!");
+		}else{
+			if(xuhao==null||xuhao==""){
+				alert("电梯序号不能为空!!!");
+			}else{
+				if(isNaN(censhu)){
+					alert("电梯层数必须是数字!!!");
+				}else{
+					if(isNaN(xuhao)){
+						alert("电梯型号必须是数字!!!");
+					}else{
+						if(date1==null||date1==""){
+							alert("请选择申报时间");
+						}else{
+							if(date2==null||date2==""){
+								alert("请选择注册时间");
+							}else{
+								if(date3==null||date3==""){
+									alert("请选择开始使用时间");
+								}else{
+									myform.submit();
+								}
+							}
+						}
+					}
+					
 				}
-		//选择区域下面的像乡镇
-			 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+s[0].id_district,"rand="+Math.random(),function(a){
-				 document.getElementById("id_subdistrict").innerHTML="";	
-				 for(var i=0;i<a.length;i++){
-						$("#id_subdistrict").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
-			    	}
-			    });
-		});
-	}
-	//选择区域来获取乡镇-------------------------------------
-	function choosedistrict(id_district){
-		//去城市的id
-		var id_city=document.getElementById("id_city").value;
-		 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+id_district,"rand="+Math.random(),function(a){
-			 document.getElementById("id_subdistrict").innerHTML="";	
-			 for(var i=0;i<a.length;i++){
-		    		$("#id_subdistrict").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
-		    	}
-		    });
+			}
+		}
+		
+		
 	}
 </script>
 </head>
 <body>
-		<form action="${path }/elevator/insertTo2.do" method="post">
-			     <ul>
-					<li>验收检验机构:
-					<li><input type="text" name="check_construct" size="50"/>
-					<li>验收报告编号:
-					<li><input type="text" name="check_construct_code" size="50"/>
+		<form action="${path }/elevator/insert.do" method="post" name="myform">
+		<table width="100%" border="0" style="margin-top: 20px;">
+		  <tr>
+		     <td>
+		        <ul>
+		               <li>电梯所在位置:
+					    <li><input type="text" name="address" size="50">  
+					    <li>电梯简称:
+				        <li><input type="text" name="desc" size="50"><br><br><br>
+		                <li>电梯层数:
+					    <li><input type="text" name="num_floor_elevator" id="censhu" size="50">
+				        <li>电梯型号顺序:
+				        <li><input type="text" name="id_elevator_model" id="xuhao" size="50">
+				        <li>申报时间:
+					    <li><input type="text" name="date_declare" size="50" id="date1"><br><br><br>
+						<li>验收检验机构:
+						<li><input type="text" name="check_construct" size="50"/>
+						<li>验收报告编号:
+						<li><input type="text" name="check_construct_code" size="50"/>
+					</ul>
+				</td>
+				<td style="text-align: top;">
+				  <ul>
+				   
 					<li>安装单位名称:
-					<li><select name="id_installer" id="id_installer"></select>
-					<li>产权单位名称:
-					<li><select name="id_owner" id="id_owner"></select>
-					<li>使用单位名称:
-					<li><select name="id_user" id="id_user"></select>
-					<li>所属城市:
-					<li><select name="id_city" id="id_city" onchange="chooseCity(this.value)"></select>
-					<li>所属区县:
-					<li><select name="id_district" id="id_district" onchange="choosedistrict(this.value)"></select>
-					<li>所属街道乡镇:
-					<li><select name="id_subdistrict" id="id_subdistrict"></select>
-					<li>电梯所在位置:
-					<li><input type="text" name="address" size="50">
-					 <li>申报时间:
-					<li><input type="text" name="date_declare" size="50" id="date1">
-					<li>注册时间:
-					<li><input type="text" name="date_register" size="50" id="date2"><input type="submit" value="下一页">
-			     </ul>
+					<li><select name="id_installer" id="id_installer"></select><br><br>
+				    <li>注册时间:
+					<li><input type="text" name="date_register" size="50" id="date2"><br><br>
+			        <li>开始使用时间:
+					<li><input type="text" name="date_enable" size="50" id="date3"><br><br>
+					<li>安装项目责任人:
+					<li><input type="text" name="project_duty" size="50"><br><br>
+					<li>维保单位名称:
+					<li><select name="id_service" id="id_service"></select><br><br>
+					<li>检验检测单位名称:
+					<li><select name="id_test" id="id_test"></select><br>
+				    
+				    <input type="hidden" name="register_status" value="0">
 			     
-			  
+				  </ul>
+				</td>
+			</tr>
+			<tr>
+			 <tr>
+		        <td colspan="2" style="padding-left: 450px;"> 
+		        <input type="button" value="电梯申报" onclick="ifnan()"/>
+		        </td>
+		     </tr>
+		</table>	  
 		</form>
 </body>
 </html>
