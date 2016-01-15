@@ -30,6 +30,11 @@
 			height:450,
 			buttons:{
 				"确定":function(fn){
+					var danweiname=$("#danweiname").val();
+					if(danweiname==null||danweiname==""){
+						$("#message").html("<i>单位名称不能为空 !!!</i>");
+					}else{
+						$("#message").html("");
 					var form = $("#insertForm");
 					$.post(form.attr('action'),form.serialize(),function(a){
 						if(a=="ok"){
@@ -38,6 +43,7 @@
 							alert("程序有点问题哟！");
 						}
 					});
+				  }
 				},
 				"关闭":function(){
 					$(this).dialog("close");
@@ -54,6 +60,11 @@
 			height:450,
 			buttons:{
 				"确定":function(){
+					var danweiname=$("#name").val();
+					if(danweiname==null||danweiname==""){
+						$("#message1").html("<i>单位名称不能为空 !!!</i>");
+					}else{
+						$("#message1").html("");
 					var form = $("#updateForm");
 					$.post(form.attr('action'),form.serialize(),function(a){
 						if(a=="ok"){
@@ -62,6 +73,7 @@
 							alert("程序有点问题哟！");
 						}
 					});
+				  }
 				},
 				"关闭":function(){
 					$(this).dialog("close");
@@ -147,9 +159,9 @@
 		<form action="${path }/installer/insert.do" method="post" id="insertForm">
 			<ul>
 				<li>安装单位代码:
-				<li><input type="text" name="code" size="50"/>
+				<li><input type="text" name="code" size="50" maxlength="9"/>
 				<li>单位名称:
-				<li><input type="text" name="name" size="50"/>
+				<li><input type="text" name="name" size="50" id="danweiname"/>*<div id="message" style="float: right;padding-right:220px;"></div>
 				<li>安装许可证编号:
 				<li><input type="text" name="licence" size="50"/>
 				<li>安装许可证:
@@ -161,7 +173,7 @@
 				<li>单位地址:
 				<li><input type="text" name="addr" size="100"/>
 				<li>注册区域:
-				<li><input type="text" name="register_area" size="100"/>
+				<li><input type="text" name="register_area" size="100" maxlength="2"/>
 			</ul>
 		</form>
 	</div>
@@ -169,9 +181,9 @@
 		<form action="${path }/installer/update.do" method="post" id="updateForm">
 			<ul>
 				<li>安装单位代码:
-				<li><input type="text" id="code" name="code" size="50"/>
+				<li><input type="text" id="code" name="code" size="50" maxlength="9"/>
 				<li>单位名称:
-				<li><input type="text" id="name" name="name" size="50"/>
+				<li><input type="text" id="name" name="name" size="50"/>*<div id="message1" style="float: right;padding-right:220px;"></div>
 				<li>安装许可证编号:
 				<li><input type="text" id="licence" name="licence" size="50"/>
 				<li>安装许可证:
@@ -183,7 +195,7 @@
 				<li>单位地址:
 				<li><input type="text" id="addr" name="addr" size="100"/>
 				<li>注册区域:
-				<li><input type="text" id="register_area" name="register_area" size="100"/>
+				<li><input type="text" id="register_area" name="register_area" size="100" maxlength="2"/>
 				<li><input type="hidden" id="idinstaller" name="idinstaller"/>
 			</ul>
 		</form>

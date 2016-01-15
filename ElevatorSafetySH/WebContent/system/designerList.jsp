@@ -41,14 +41,21 @@
 			height:450,
 			buttons:{
 				"确定":function(fn){
-					var form = $("#insertForm");
-					$.post(form.attr('action'),form.serialize(),function(a){
-						if(a=="ok"){
-							location.reload();
-						}else{
-							alert("程序有点问题哟！");
-						}
-					});
+					var danweiname=$("#danweiname").val();
+					if(danweiname==null||danweiname==""){
+						$("#message").html("<i>单位名称不能为空 !!!</i>");
+					}else{
+						$("#message").html("");
+						var form = $("#insertForm");
+							$.post(form.attr('action'),form.serialize(),function(a){
+								if(a=="ok"){
+									location.reload();
+								}else{
+									alert("程序有点问题哟！");
+								}
+							});
+					}
+					
 				},
 				"关闭":function(){
 					$(this).dialog("close");
@@ -65,14 +72,20 @@
 			height:450,
 			buttons:{
 				"确定":function(){
-					var form = $("#updateForm");
-					$.post(form.attr('action'),form.serialize(),function(a){
-						if(a=="ok"){
-							location.reload();
-						}else{
-							alert("程序有点问题哟！");
-						}
+					var danweiname=$("#name").val();
+					if(danweiname==null||danweiname==""){
+						$("#message1").html("<i>单位名称不能为空 !!!</i>");
+					}else{
+						$("#message1").html("");
+						var form = $("#updateForm");
+						$.post(form.attr('action'),form.serialize(),function(a){
+							if(a=="ok"){
+								location.reload();
+							}else{
+								alert("程序有点问题哟！");
+							}
 					});
+				 }
 				},
 				"关闭":function(){
 					$(this).dialog("close");
@@ -95,8 +108,10 @@
 			$("#name").val(d.name);
 			$("#licence").val(d.licence);
 			$("#licename").val(d.licename);
+			$("#manager").val(d.manager);
 			$("#tel").val(d.tel);
 			$("#addr").val(d.addr);
+			$("#register_area").val(d.register_area);
 			$("#iddesigner").val(d.iddesigner);
 			//打开修改对话框
 			$("#updateDialog").dialog("open");
@@ -121,8 +136,10 @@
 			<th>单位名称</th>
 			<th>设计许可证编号</th>
 			<th>设计许可证</th>
+			<th>设计负责人</th>
 			<th>联系电话</th>
 			<th>单位地址</th>
+			<th>注册区域</th>
 			<th>操 作</th>
 		</tr>
 		<c:forEach items="${designerList}" var="d">
@@ -132,8 +149,10 @@
 				<td style="text-align: left">${d.name}</td>
 				<td style="text-align: left">${d.licence }</td>
 				<td style="text-align: left">${d.licename }</td>
+				<td style="text-align: left">${d.manager }</td>
 				<td style="text-align: left">${d.tel }</td>
 				<td style="text-align: left">${d.addr }</td>
+				<td style="text-align: left">${d.register_area }</td>
 				<td><a
 					href="javascript:showUpdate(${d.iddesigner})">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;
 					<a href="${path }/designer/delete.do?iddesigner=${d.iddesigner}">删除</a>
@@ -141,7 +160,7 @@
 			</tr>
 		</c:forEach>
 		<tr>
-			<td colspan="8" style="text-align: left;">${pagination}</td>
+			<td colspan="10" style="text-align: left;">${pagination}</td>
 		</tr>
 	</table>
 	<div align="right">
@@ -151,18 +170,23 @@
 	<div id="insertDialog" style="display: none" title="添加">
 		<form action="${path }/designer/insert.do" method="post" id="insertForm">
 			<ul>
+			
 				<li>设计单位代码:
-				<li><input type="text" name="code" size="50"/>
+				<li><input type="text" name="code" size="50" maxlength="9"/>
 				<li>单位名称:
-				<li><input type="text" name="name" size="50"/>
+				<li><input type="text" id="danweiname" name="name" size="50"/>*<div id="message" style="float: right;padding-right:220px;"></div>
 				<li>设计许可证编号:
 				<li><input type="text" name="licence" size="50"/>
 				<li>设计许可证:
 				<li><input type="text" name="licename" size="50"/>
+				<li>设计负责人:
+				<li><input type="text" name="manager" size="50"/>
 				<li>联系电话:
 				<li><input type="text" name="tel" size="50"/>
 				<li>单位地址:
 				<li><input type="text" name="addr" size="100"/>
+				<li>注册区域:
+				<li><input type="text" name="register_area" size="100" maxlength="2"/>
 			</ul>
 		</form>
 	</div>
@@ -170,17 +194,21 @@
 		<form action="${path }/designer/update.do" method="post" id="updateForm">
 			<ul>
 				<li>设计单位代码:
-				<li><input type="text" id="code" name="code" size="50"/>
+				<li><input type="text" id="code" name="code" size="50" maxlength="9"/>
 				<li>单位名称:
-				<li><input type="text" id="name" name="name" size="50"/>
+				<li><input type="text" id="name" name="name" size="50"/>*<div id="message1" style="float: right;padding-right:220px;"></div>
 				<li>设计许可证编号:
 				<li><input type="text" id="licence" name="licence" size="50"/>
 				<li>设计许可证:
 				<li><input type="text" id="licename" name="licename" size="50"/>
+				<li>设计负责人:
+				<li><input type="text" id="licename" name="licename" size="50"/>
 				<li>联系电话:
-				<li><input type="text" id="tel" name="tel" size="50"/>
+				<li><input type="text" id="manager" name="manager" size="50"/>
 				<li>单位地址:
 				<li><input type="text" id="addr" name="addr" size="100"/>
+				<li>注册区域:
+				<li><input type="text" id="register_area" name="register_area" size="100" maxlength="2"/>
 				<li><input type="hidden" id="iddesigner" name="iddesigner"/>
 			</ul>
 		</form>
