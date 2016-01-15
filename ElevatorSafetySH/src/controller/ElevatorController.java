@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import service.ElevatorService;
 import service.HistoryService;
@@ -92,5 +93,73 @@ public class ElevatorController{
 		el.setDate_register(elevator.getDate_register());
 		request.getSession().setAttribute("el", el);
 		return "/system/insertElevatorDeclaration2";
+	}
+	
+	//技术监督部门统计查询
+	@RequestMapping("search")
+	public ModelAndView search(){
+		//电梯总数
+		int count=elevatorService.getCount();
+		//已注册数量
+		int count_registed=elevatorService.getCount_Registed();
+		//停用数量
+		int count_stop=elevatorService.getCount_Stop();
+		//已注销数量
+		int count_destory=elevatorService.getCount_Destory();
+		//未注册数量
+		int count_noregist=elevatorService.getCount_NoRegist();
+		//年检正常数量
+		int count_rounds_normal=elevatorService.getCount_Rounds_Normal();
+		//年检提示数量
+		int count_rounds_warnning=elevatorService.getCount_Rounds_Warnning();
+		//年检预期数量
+		int count_rounds_overdue=elevatorService.getCount_Rounds_Overdue();
+		//半月维保正常数量
+		int count_15service_normal=elevatorService.getCount_15service_Normal();
+		//半月维保提示数量
+		int count_15service_warnning=elevatorService.getCount_15service_Warnning();
+		//半月维保逾期数量
+		int count_15service_overdue=elevatorService.getCount_15service_Overdue();
+		//季度维保正常数量
+		int count_90service_normal=elevatorService.getCount_90service_Normal();
+		//季度维保提示数量
+		int count_90service_warnning=elevatorService.getCount_90service_Warnning();
+		//季度维保逾期数量
+		int count_90service_overdue=elevatorService.getCount_90service_Overdue();
+		//半年维保正常数量
+		int count_180service_normal=elevatorService.getCount_180service_Normal();
+		//半年维保提示数量
+		int count_180service_warnning=elevatorService.getCount_180service_Warnning();
+		//半年维保逾期数量
+		int count_180service_overdue=elevatorService.getCount_180service_Overdue();
+		//年度维保正常数量
+		int count_360service_normal=elevatorService.getCount_360service_Normal();
+		//年度维保提示数量
+		int count_360service_warnning=elevatorService.getCount_360service_Warnning();
+		//年度维保逾期数量
+		int count_360service_overdue=elevatorService.getCount_360service_Overdue();
+		
+		ModelAndView mav=new ModelAndView("system/elevatorTongji");
+		mav.addObject("count",count);
+		mav.addObject("count_registed",count_registed);
+		mav.addObject("count_stop",count_stop);
+		mav.addObject("count_destory",count_destory);
+		mav.addObject("count_noregist",count_noregist);
+		mav.addObject("count_rounds_normal",count_rounds_normal);
+		mav.addObject("count_rounds_warnning",count_rounds_warnning);
+		mav.addObject("count_rounds_overdue",count_rounds_overdue);
+		mav.addObject("count_15service_normal",count_15service_normal);
+		mav.addObject("count_15service_warnning",count_15service_warnning);
+		mav.addObject("count_15service_overdue",count_15service_overdue);
+		mav.addObject("count_90service_normal",count_90service_normal);
+		mav.addObject("count_90service_warnning",count_90service_warnning);
+		mav.addObject("count_90service_overdue",count_90service_overdue);
+		mav.addObject("count_180service_normal",count_180service_normal);
+		mav.addObject("count_180service_warnning",count_180service_warnning);
+		mav.addObject("count_180service_overdue",count_180service_overdue);
+		mav.addObject("count_360service_normal",count_360service_normal);
+		mav.addObject("count_360service_warnning",count_360service_warnning);
+		mav.addObject("count_360service_overdue",count_360service_overdue);
+		return mav;
 	}
 }

@@ -85,7 +85,7 @@ $(function() {
 			<td colspan="2" id="top">
 				<ul>
 				<li><div style="font-size: 30px;margin-top: 10px;">电梯安全管理平台</div>
-				<li><div style="font-size:14px;text-align: right;margin-right: 30px;">所属单位</div>
+				<li><div style="font-size:14px;text-align: right;margin-right: 30px;">${login. idcity}</div>
 				</ul>
 			</td>
 		</tr>
@@ -100,7 +100,7 @@ $(function() {
 						<li><a href="${path}/system/insertElevatorDeclaration.jsp">电梯资料申报</a></li>
 						<li><a href="#">电梯资料注册</a></li>
 						<li><a href="#">原有电梯资料录入</a></li>
-						<li><a href="#">技术监督部门统计查询</a></li>
+						<li><a href="${path}/elevator/search.do">技术监督部门统计查询</a></li>
 					
 						<li><a href="${path}/system/elevatorTongji.jsp">维保单位任务提醒</a></li>
 						<li><a href="#">维保人员任务量统计</a></li>

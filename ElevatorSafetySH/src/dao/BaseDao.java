@@ -3,6 +3,7 @@ package dao;
 import java.io.Serializable;
 import java.util.List;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,12 @@ public class BaseDao extends HibernateByDCPageUtil{
 	}
 	public <T> T get(Class<T> entityName,Serializable id){
 		return this.getHibernateTemplate().get(entityName, id);
+	}
+	@SuppressWarnings("rawtypes")
+	public List getListBySQL(String sql){
+		Session session=this.getSessionFactory().openSession();
+		List list=session.createSQLQuery(sql).list();
+		session.close();
+		return list;
 	}
 }
