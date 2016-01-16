@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 
 
+
+import vo.Servicer;
 import vo.Servicer_type_def;
 import dao.Servicer_type_defDao;
 
@@ -21,4 +23,8 @@ public class Servicer_type_defService {
 		DetachedCriteria dc=DetachedCriteria.forClass(Servicer_type_def.class);
 		return servicer_type_defDao.getListByDc(dc);
 	} 
+	public Servicer_type_def findById(String id_servicer_type){
+		return servicer_type_defDao.get(Servicer_type_def.class, id_servicer_type);
+	}
 }
+

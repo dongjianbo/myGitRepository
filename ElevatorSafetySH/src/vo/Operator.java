@@ -1,10 +1,13 @@
 package vo;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -20,10 +23,22 @@ public class Operator {
 	private String idcard;	
 	@Column(name = "id_city")
 	private String idcity;
+	@ManyToOne(cascade=CascadeType.REFRESH,optional=true)
+	@JoinColumn(name="id_city",insertable=false,updatable=false)
+	//登录人所在城市
+	private Citylist city;
 	@Column(name = "id_district")
 	private String iddistrict;
+	//登录人所在县区
+	@ManyToOne(cascade=CascadeType.REFRESH,optional=true)
+	@JoinColumn(name="id_district",insertable=false,updatable=false)
+	private Distictlist distict;
 	@Column(name = "id_subdistrict")
 	private String idsubdistrict;
+	//登录人所在街道
+	@ManyToOne(cascade=CascadeType.REFRESH,optional=true)
+	@JoinColumn(name="id_subdistrict",insertable=false,updatable=false)
+	private Subdistictlist subdistict;
 	private String loginname;
 	private String password;
 	@Column(name="id_organization")
@@ -31,6 +46,30 @@ public class Operator {
 	@Column(name = "id_role")
 	private int idprivilege;
 	private String status;
+
+	public Citylist getCity() {
+		return city;
+	}
+
+	public void setCity(Citylist city) {
+		this.city = city;
+	}
+
+	public Distictlist getDistict() {
+		return distict;
+	}
+
+	public void setDistict(Distictlist distict) {
+		this.distict = distict;
+	}
+
+	public Subdistictlist getSubdistict() {
+		return subdistict;
+	}
+
+	public void setSubdistict(Subdistictlist subdistict) {
+		this.subdistict = subdistict;
+	}
 
 	public String getTypeOperator() {
 		return typeOperator;

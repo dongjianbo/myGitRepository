@@ -23,7 +23,8 @@ import vo.History_list;
 import vo.History_listKey;
 import vo.Operator;
 import vo.Servicer;
-import vo.Systemstate;
+
+
 
 @Controller
 @RequestMapping("servicer")
@@ -39,7 +40,8 @@ public class ServicerController {
   @RequestMapping("list")
   public ModelAndView list(String key,HttpServletRequest request){
 		ModelAndView mav=new ModelAndView("system/servicerList");
-		mav.addObject("servicerList",servicerService.list(key, 10, request));
+		List<Servicer> servicerList=servicerService.list(key, 10, request);
+	    mav.addObject("servicerList",servicerList);
 		return mav;
 	}
 	@RequestMapping(value="insert",produces="text/html;charset=utf-8")

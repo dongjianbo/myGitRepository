@@ -21,7 +21,6 @@ public class DistictlistController {
 	@ResponseBody
 	@RequestMapping(value="listByIdCity", produces = "text/html; charset=utf-8")
 	public String getListByIdCity(String id_city){
-		System.out.println(id_city);
 		List<Distictlist> list=distictlistService.getListByCityId(id_city);
 		JSONArray jsonarray=JSONArray.fromObject(list);
 		return jsonarray.toString();

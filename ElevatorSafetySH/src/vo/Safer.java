@@ -1,10 +1,13 @@
 package vo;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -23,6 +26,35 @@ public class Safer {
 	private String status;
 	@Column(name = "id_mifare")
 	private String idMifare;
+
+	
+	
+	//配置一对一关系  用户表
+	
+	@OneToOne(cascade=CascadeType.REFRESH,optional=true)
+	@JoinColumn(name="id_user",insertable=false,updatable=false)
+    private User user;
+	
+	//配置一对一关系  状态表
+	@OneToOne(cascade=CascadeType.REFRESH,optional=true)
+	@JoinColumn(name="status",insertable=false,updatable=false)
+    private Status_def status_def ;
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Status_def getStatus_def() {
+		return status_def;
+	}
+
+	public void setStatus_def(Status_def status_def) {
+		this.status_def = status_def;
+	}
 
 	public String getIdMifare() {
 		return idMifare;
