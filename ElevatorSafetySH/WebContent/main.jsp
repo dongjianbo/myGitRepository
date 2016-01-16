@@ -85,7 +85,7 @@ $(function() {
 			<td colspan="2" id="top">
 				<ul>
 				<li><div style="font-size: 30px;margin-top: 10px;">电梯安全管理平台</div>
-				<li><div style="font-size:14px;text-align: right;margin-right: 30px;">${operator_type.name}</div>
+				<li><div style="font-size:14px;text-align: right;margin-right: 30px;">${login.city.name_city}${login.distict.name_district}${login.subdistict.name_subdistrict}&nbsp;&nbsp;${operator_type.name}</div>
 				</ul>
 			</td>
 		</tr>

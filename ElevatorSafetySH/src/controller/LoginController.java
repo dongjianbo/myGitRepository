@@ -7,8 +7,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import service.CitylistService;
+import service.DistictlistService;
 import service.OperatorService;
 import service.Operator_typeService;
+import service.SubdistictlistService;
 import vo.Operator;
 import vo.Operator_type;
 
@@ -19,6 +22,12 @@ public class LoginController {
 	public OperatorService perService;
 	@Resource 
 	public Operator_typeService operator_typeService;
+	@Resource
+	public CitylistService cityService;
+	@Resource
+	public DistictlistService distictService;
+	@Resource
+	public SubdistictlistService subdistictService;
    @RequestMapping("check")
    public String CheckLogin(Operator operator,HttpServletRequest request,HttpServletResponse response)
 		    {
@@ -33,9 +42,11 @@ public class LoginController {
 			   return "login";
 		   }else{
 			   Operator op=perService.getOper(operator);
-			   //级联查询登录人的单位
+			   //级联查询登录人的类型
 			   Operator_type type= operator_typeService.getOperType(op.getTypeOperator());
 			   request.getSession().setAttribute("operator_type", type);
+			   //级联查询登录人所在的区域
+			   //级联查询登录人所在的单位
 			   request.getSession().setAttribute("login",op);
 				 return "main";
 		   }
