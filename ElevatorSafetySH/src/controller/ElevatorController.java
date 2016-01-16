@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import service.CitylistService;
+import service.DistictlistService;
 import service.ElevatorService;
 import service.HistoryService;
 import service.History_listService;
+import service.SubdistictlistService;
 import service.SystemstateService;
 import vo.Elevator;
 import vo.History;
@@ -35,23 +38,26 @@ public class ElevatorController{
 	public HistoryService historyService;
 	@Resource
 	public History_listService history_listService;
+	@Resource
+	public CitylistService cityService;
+	@Resource
+	public DistictlistService distickService;
+	@Resource
+	public SubdistictlistService subService;
 	@RequestMapping("insert")
 	public String insert(Elevator elevator,HttpServletRequest request,HttpServletResponse response){
 		Elevator el=(Elevator)request.getSession().getAttribute("elevator");//存在第一页的值
-		el.setCheck_construct(elevator.getCheck_construct());//
-		el.setCheck_construct_code(elevator.getCheck_construct_code());//
-		el.setId_installer(elevator.getId_installer());//
-		el.setAddress(elevator.getAddress());//
-		el.setDesc(elevator.getDesc());//
-		el.setDate_declare(elevator.getDate_declare());//
-		el.setNum_floor_elevator(elevator.getNum_floor_elevator());//
-		el.setId_elevator_model(elevator.getId_elevator_model());//
-		el.setDate_register(elevator.getDate_register());//
-		el.setProject_duty(elevator.getProject_duty());//
-		el.setId_service(elevator.getId_service());//
-		el.setId_test(elevator.getId_test());//
-		el.setRegister_status(elevator.getRegister_status());//
-		el.setDate_enable(elevator.getDate_enable());//
+		el.setId_city(elevator.getId_city());
+		el.setId_district(elevator.getId_district());
+		el.setId_subdistrict(elevator.getId_subdistrict());
+		//电梯所在位置加上前面的三个下拉框
+		String city=cityService.listBy_Idcity(elevator.getId_city()).getName_city();
+		String dist=distickService.getListByCityId(elevator.getId_city(),elevator.getId_district()).getName_district();
+		String subs=subService.getListById(elevator.getId_city(), elevator.getId_district(), elevator.getId_subdistrict()).getName_subdistrict();
+		el.setAddress(city+dist+subs+elevator.getAddress());
+		el.setNum_floor_elevator(elevator.getNum_floor_elevator());
+		el.setId_elevator_model(elevator.getId_elevator_model());
+		el.setDate_declare(elevator.getDate_declare());
 		int id_elevator=Integer.parseInt(elevatorService.insert(el).toString());
 		request.getSession().setAttribute("id_elevator",id_elevator);
 		//systemstate修改字段version_elevator +1
@@ -77,10 +83,55 @@ public class ElevatorController{
 		//此时插入成功之后 转到elevator_state界面去插入电梯状态的信息
         return "/system/insertElevator_state";
 	}
+	@RequestMapping("yuaninsert")
+	public String yuaninsert(Elevator elevator,HttpServletRequest request,HttpServletResponse response){
+		Elevator el=(Elevator)request.getSession().getAttribute("yuanelevator");//存在第一页的值
+		el.setRegister_status(elevator.getRegister_status());
+		el.setId_city(elevator.getId_city());
+		el.setId_district(elevator.getId_district());
+		el.setId_subdistrict(elevator.getId_subdistrict());
+		//电梯所在位置加上前面的三个下拉框
+		String city=cityService.listBy_Idcity(elevator.getId_city()).getName_city();
+		String dist=distickService.getListByCityId(elevator.getId_city(),elevator.getId_district()).getName_district();
+		String subs=subService.getListById(elevator.getId_city(), elevator.getId_district(), elevator.getId_subdistrict()).getName_subdistrict();
+		el.setAddress(city+dist+subs+elevator.getAddress());
+		el.setNum_floor_elevator(elevator.getNum_floor_elevator());
+		el.setId_elevator_model(elevator.getId_elevator_model());
+		el.setDate_declare(elevator.getDate_declare());
+		int id_elevator=Integer.parseInt(elevatorService.insert(el).toString());
+		request.getSession().setAttribute("yuanid_elevator",id_elevator);
+		//systemstate修改字段version_elevator +1
+		systemService.update_version_elevator();
+		//插入history信息
+		History history=new History();
+		history.setType(23);//类型
+		Operator op=(Operator)request.getSession().getAttribute("login");
+		history.setOperator(op.getIdoperator());//登录人id
+		Date date=new Date();
+		SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String s=format.format(date);
+		history.setDatetime(s);//当前时间
+		int idhistory=Integer.parseInt(historyService.insert(history).toString());
+		//插入信息到history_list表中
+	    History_list hilist=new History_list();
+	    History_listKey key=new History_listKey();
+	    key.setIdhistory(idhistory);
+	    key.setKey(21);
+        hilist.setKey(key);//key表示复合主键的类
+        hilist.setValue(id_elevator+"");
+        System.out.println( history_listService.insert(hilist).toString());
+		//此时插入成功之后 转到elevator_state界面去插入电梯状态的信息
+        return "/system/yuanElevator_state";
+	}
 	@RequestMapping("insertTo1")
 	public String insert1(Elevator elevator,HttpServletRequest request,HttpServletResponse response){
 		request.getSession().setAttribute("elevator", elevator);
 		return "/system/insertElevatorDeclaration1";
+	}
+	@RequestMapping("insertTo2")
+	public String insert2(Elevator elevator,HttpServletRequest request,HttpServletResponse response){
+		request.getSession().setAttribute("yuanelevator", elevator);
+		return "/system/yuanElevatorDeclaration1";
 	}
 	
 	//技术监督部门统计查询
@@ -163,4 +214,63 @@ public class ElevatorController{
 		mav.addObject("list",list);
 		return mav;
 	}
+	//查询未注册的电梯
+	@RequestMapping("list")
+	public ModelAndView list(HttpServletRequest request){
+		ModelAndView mav=new ModelAndView("system/ElevatorRegist");
+		mav.addObject("elevListRegist", elevatorService.listCount_NoRegist(12, request));
+		return mav;
+	}
+	@RequestMapping("list1")
+	public ModelAndView list(String key,HttpServletRequest request){
+		ModelAndView mav=new ModelAndView("system/ElevatorRegist");
+		System.out.println(key);
+		mav.addObject("elevListRegist", elevatorService.listCount_NoRegist(key,12, request));
+		return mav;
+	}
+	
+	@RequestMapping("regist")
+	public String regist(Elevator e,HttpServletRequest request){
+		//查询该电梯
+		System.out.println(e.getId_test());
+		System.out.println(e.getId_service());
+		request.getSession().setAttribute("id_elevator1", e.getId_elevator());
+		Elevator elevator=elevatorService.getEById(e.getId_elevator());
+		elevator.setRegister_status("1");
+		elevator.setId_service(e.getId_service());
+		elevator.setId_test(e.getId_test());
+		elevator.setCheck_construct_code(e.getCheck_construct_code());
+		//注册时间为当前时间
+		Date time=new Date();
+		SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+		String s=format.format(time);
+		elevator.setDate_register(s);
+		elevator.setDate_enable(e.getDate_enable());
+		//注册
+		elevatorService.update(elevator);//修改
+		//systemstate修改字段version_elevator +1
+		systemService.update_version_elevator();
+		//插入history信息
+		History history=new History();
+		history.setType(22);//类型
+		Operator op=(Operator)request.getSession().getAttribute("login");
+		history.setOperator(op.getIdoperator());//登录人id
+		Date date=new Date();
+		SimpleDateFormat format1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String s2=format1.format(date);
+		history.setDatetime(s2);//当前时间
+		int idhistory=Integer.parseInt(historyService.insert(history).toString());
+		//插入信息到history_list表中
+	    History_list hilist=new History_list();
+	    History_listKey key=new History_listKey();
+	    key.setIdhistory(idhistory);
+	    key.setKey(21);
+        hilist.setKey(key);//key表示复合主键的类
+        hilist.setValue(e.getId_elevator()+"");
+        System.out.println( history_listService.insert(hilist).toString());
+		//少了elevator_tag_init_task表的插入
+        return "/system/insertElevator_stateRegist";//最后
+		
+	}
+	
 }

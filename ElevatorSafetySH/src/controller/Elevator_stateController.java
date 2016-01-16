@@ -62,4 +62,21 @@ public class Elevator_stateController {
 		//添加成功  待电梯详细查询写好后 转向电梯详细查询连接 先转向成功界面
 		return "/system/successElevator";
 	}
+	@RequestMapping("yuanElevator_state")
+	public String yuanElevator_state(Elevator_state elevator_state,HttpServletRequest request,HttpServletResponse response){
+		elevator_state.setIdelevator(Integer.parseInt(request.getSession().getAttribute("yuanid_elevator").toString()));
+		System.out.println(elevator_state.getIdelevator());
+		elevator_state.setLabelwrite("0");
+		elevator_stateService.insert(elevator_state);
+		//添加成功  待电梯详细查询写好后 转向电梯详细查询连接 先转向成功界面
+		return "/system/yuansuccessElevator";
+	}
+	@RequestMapping("insertElevator_state1")
+	public String insertElevator_state1(Elevator_state elevator_state,HttpServletRequest request,HttpServletResponse response){
+		elevator_state.setIdelevator(Integer.parseInt(request.getSession().getAttribute("id_elevator1").toString()));
+		elevator_state.setLabelwrite("0");
+		elevator_stateService.insert(elevator_state);
+		//添加成功
+		return "redirect:/elevator/list.do";
+	}
 }

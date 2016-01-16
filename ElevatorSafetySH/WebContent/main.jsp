@@ -98,8 +98,8 @@ $(function() {
 						<li><a href="${path}/role/list.do">角色定义与配置</a></li>
 						
 						<li><a href="${path}/system/insertElevatorDeclaration.jsp">电梯资料申报</a></li>
-						<li><a href="#">电梯资料注册</a></li>
-						<li><a href="#">原有电梯资料录入</a></li>
+						<li><a href="${path}/elevator/list.do">电梯资料注册</a></li>
+						<li><a href="${path}/system/yuanElevatorDeclaration.jsp">原有电梯资料录入</a></li>
 						<li><a href="${path}/elevator/search.do">技术监督部门统计查询</a></li>
 					
 						<li><a href="${path}/system/elevatorTongji.jsp">维保单位任务提醒</a></li>

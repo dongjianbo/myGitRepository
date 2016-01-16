@@ -25,25 +25,19 @@
 	var dia;
 	$().ready(function(){
 		$("#date1").datepicker({dateFormat:'yy-mm-dd'});//日期控件
-		
-		/*  $.getJSON("${path}/service/selectId_service.do","rand="+Math.random(),function(d){
-	    	  //对维保单位进行循环
-	    	  for(var i=0;i<d.length;i++){
-	    		  $("#id_service").append("<option size='"+50+"' value='"+d[i].idservice+"'>"+d[i].name+"</option>");
-	    	  }
-	       });	
-		 $.getJSON("${path}/test/selectId_test.do","rand="+Math.random(),function(d){
-	    	  //对检验检测单位进行循环
-	    	  for(var i=0;i<d.length;i++){
-	    		  $("#id_test").append("<option size='"+50+"' value='"+d[i].idtest+"'>"+d[i].name+"</option>");
-	    	  }
-	       });	 */
 		 $.getJSON("${path}/elevator_type_def/list_json.do","rand="+Math.random(),function(d){
 	    	  //对电梯型号进行循环
 	    	  for(var i=0;i<d.length;i++){
 	    		  $("#id_elevator_model").append("<option size='"+50+"' value='"+d[i].elevatortype+"'>"+d[i].name+"</option>");
 	    	  }
 	       });	
+		 //对注册状态进行循环
+		  $.getJSON("${path}/register_status_def/list_json.do","rand="+Math.random(),function(d){
+	    	  //对电梯型号进行循环
+	    	  for(var i=0;i<d.length;i++){
+	    		  $("#register_status").append("<option size='"+50+"' value='"+d[i].id_register_status+"'>"+d[i].name+"</option>");
+	    	  }
+	       });
 		 //-----------------------------------------------------------
 		 $.getJSON("${path }/citylist/list.do","rand="+Math.random(),function(d){
 				//将查询到的信息放入表单
@@ -116,11 +110,13 @@
 </script>
 </head>
 <body>
-		<form action="${path }/elevator/insert.do" method="post" name="myform">
+		<form action="${path }/elevator/yuaninsert.do" method="post" name="myform">
 		<table width="100%" border="0" style="margin-top: 20px;">
 		  <tr>
 		     <td>
 		        <ul>
+		                <li>电梯状态:
+						<li><select name="register_status" id="register_status"></select>
 		                <li>所属城市:
 						<li><select name="id_city" id="id_city" onchange="chooseCity(this.value)"></select>
 						<li>所属区县:
@@ -143,7 +139,7 @@
 			<tr>
 			 <tr>
 		        <td style="padding-left: 450px;"> 
-		        <input type="button" value="电梯申报" onclick="ifnan()"/>
+		        <input type="button" value="资料录入" onclick="ifnan()"/>
 		        </td>
 		     </tr>
 		</table>	  

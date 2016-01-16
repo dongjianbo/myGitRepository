@@ -3,7 +3,6 @@ package vo;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -49,7 +48,7 @@ public class Elevator {
    @ManyToOne(cascade=CascadeType.REFRESH,optional=true)
    @JoinColumn(name="id_owner",insertable=false,updatable=false)
    private Owner owner;
-   private int id_user;
+   private Integer id_user;
    private String id_city;
    private String id_district;
    private String id_subdistrict;
@@ -58,12 +57,12 @@ public class Elevator {
    private String date_register;//日期
    private String date_enable;//日期
    private String project_duty;
-   private int id_service;
+   private Integer id_service;
    //维保单位
    @ManyToOne(cascade=CascadeType.REFRESH,optional=true)
    @JoinColumn(name="id_service",insertable=false,updatable=false)
    private Service1 service;
-   private int id_test;
+   private Integer id_test;
    //检测单位
    @ManyToOne(cascade=CascadeType.REFRESH,optional=true)
    @JoinColumn(name="id_test",insertable=false,updatable=false)
@@ -80,11 +79,18 @@ public class Elevator {
    private Float gis_x;
    private Float gis_y;
    private String gis_type;
-
-   
 public int getId_elevator() {
 	return id_elevator;
 }
+
+public String getRegister_status() {
+	return register_status;
+}
+
+public void setRegister_status(String register_status) {
+	this.register_status = register_status;
+}
+
 public void setId_elevator(int id_elevator) {
 	this.id_elevator = id_elevator;
 }
@@ -112,11 +118,23 @@ public int getId_designer() {
 public void setId_designer(int id_designer) {
 	this.id_designer = id_designer;
 }
+public Designer getDesigner() {
+	return designer;
+}
+public void setDesigner(Designer designer) {
+	this.designer = designer;
+}
 public int getId_manufer() {
 	return id_manufer;
 }
 public void setId_manufer(int id_manufer) {
 	this.id_manufer = id_manufer;
+}
+public Manufer getManufer() {
+	return manufer;
+}
+public void setManufer(Manufer manufer) {
+	this.manufer = manufer;
 }
 public String getDate_manufer() {
 	return date_manufer;
@@ -172,16 +190,28 @@ public int getId_installer() {
 public void setId_installer(int id_installer) {
 	this.id_installer = id_installer;
 }
+public Installer getInstaller() {
+	return installer;
+}
+public void setInstaller(Installer installer) {
+	this.installer = installer;
+}
 public int getId_owner() {
 	return id_owner;
 }
 public void setId_owner(int id_owner) {
 	this.id_owner = id_owner;
 }
-public int getId_user() {
+public Owner getOwner() {
+	return owner;
+}
+public void setOwner(Owner owner) {
+	this.owner = owner;
+}
+public Integer getId_user() {
 	return id_user;
 }
-public void setId_user(int id_user) {
+public void setId_user(Integer id_user) {
 	this.id_user = id_user;
 }
 public String getId_city() {
@@ -232,17 +262,29 @@ public String getProject_duty() {
 public void setProject_duty(String project_duty) {
 	this.project_duty = project_duty;
 }
-public int getId_service() {
+public Integer getId_service() {
 	return id_service;
 }
-public void setId_service(int id_service) {
+public void setId_service(Integer id_service) {
 	this.id_service = id_service;
 }
-public int getId_test() {
+public Service1 getService() {
+	return service;
+}
+public void setService(Service1 service) {
+	this.service = service;
+}
+public Integer getId_test() {
 	return id_test;
 }
-public void setId_test(int id_test) {
+public void setId_test(Integer id_test) {
 	this.id_test = id_test;
+}
+public Test getTest() {
+	return test;
+}
+public void setTest(Test test) {
+	this.test = test;
 }
 public int getNum_floor_elevator() {
 	return num_floor_elevator;
@@ -256,11 +298,11 @@ public int getId_elevator_model() {
 public void setId_elevator_model(int id_elevator_model) {
 	this.id_elevator_model = id_elevator_model;
 }
-public String getRegister_status() {
-	return register_status;
+public Elevator_type_def getElevatorType() {
+	return elevatorType;
 }
-public void setRegister_status(String register_status) {
-	this.register_status = register_status;
+public void setElevatorType(Elevator_type_def elevatorType) {
+	this.elevatorType = elevatorType;
 }
 public String getDesc() {
 	return desc;
@@ -286,48 +328,8 @@ public String getGis_type() {
 public void setGis_type(String gis_type) {
 	this.gis_type = gis_type;
 }
-public Designer getDesigner() {
-	return designer;
-}
-public void setDesigner(Designer designer) {
-	this.designer = designer;
-}
-public Manufer getManufer() {
-	return manufer;
-}
-public void setManufer(Manufer manufer) {
-	this.manufer = manufer;
-}
-public Installer getInstaller() {
-	return installer;
-}
-public void setInstaller(Installer installer) {
-	this.installer = installer;
-}
-public Owner getOwner() {
-	return owner;
-}
-public void setOwner(Owner owner) {
-	this.owner = owner;
-}
-public Service1 getService() {
-	return service;
-}
-public void setService(Service1 service) {
-	this.service = service;
-}
-public Test getTest() {
-	return test;
-}
-public void setTest(Test test) {
-	this.test = test;
-}
-public Elevator_type_def getElevatorType() {
-	return elevatorType;
-}
-public void setElevatorType(Elevator_type_def elevatorType) {
-	this.elevatorType = elevatorType;
-}
+
+
  
    
    

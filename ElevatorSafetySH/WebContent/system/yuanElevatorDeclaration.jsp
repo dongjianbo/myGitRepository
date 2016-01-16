@@ -93,7 +93,7 @@
 </script>
 </head>
 <body>
-		<form action="${path }/elevator/insertTo1.do" method="post" name="myform">
+		<form action="${path }/elevator/insertTo2.do" method="post" name="myform">
 		<table width="100%" style="margin-top: 20px;">
 		
 		        <tr>
@@ -138,7 +138,6 @@
 					    <br><br><br>
 				    <li>电梯简称:
 				    <li><input type="text" name="desc" size="50">
-				    <input type="hidden" value="0" name="register_status">
 				      </ul>
 		        </td>
 		        </tr>

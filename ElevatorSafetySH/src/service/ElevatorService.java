@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,16 @@ public class ElevatorService {
 	public ElevatorDao elevatorDao;
 	public Serializable insert(Elevator elevator){
 		return elevatorDao.save(elevator);
+	}
+	//修改电梯
+	public void update(Elevator elevator){
+		elevatorDao.update(elevator);
+	}
+	//通过电梯id查询电梯
+	public Elevator getEById(int id_elevator){
+		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
+		dc.add(Restrictions.eq("id_elevator", id_elevator));
+		return (Elevator)elevatorDao.getListByDc(dc).get(0);
 	}
 	//电梯总数量
 	@SuppressWarnings("unchecked")
@@ -59,6 +70,17 @@ public class ElevatorService {
 		dc.add(Restrictions.eq("register_status", "0"));
 		return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 	}
+	@SuppressWarnings("unchecked")
+	public List<Elevator> listCount_NoRegist(String key,int pageSize,HttpServletRequest request){
+		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
+		if(key!=null&&!"".equals(key.trim())){
+			dc.add(Restrictions.like("address", key,MatchMode.ANYWHERE));
+		}
+		dc.add(Restrictions.eq("register_status", "0"));
+		return elevatorDao.findPageByDcQuery(dc, pageSize, request);
+	}
+	
+	
 	//已注册电梯数量
 	@SuppressWarnings("unchecked")
 	public int getCount_Registed(){
