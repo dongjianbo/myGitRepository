@@ -48,7 +48,7 @@
 		<form action="${path }/elevator/insertTo1.do" method="post">
 			      <ul>
 					<li>登记机构:
-					<li><input type="text" name="register_org" size="50"/>
+					<li><input type="text" placeholder="请填入" name="register_org" size="50"/>
 					<li>特种设备登记代码:
 					<li><input type="text" name="register_code" size="50"/>
 					<li>特种设备代码:

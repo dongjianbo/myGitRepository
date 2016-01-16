@@ -85,7 +85,7 @@ $(function() {
 			<td colspan="2" id="top">
 				<ul>
 				<li><div style="font-size: 30px;margin-top: 10px;">电梯安全管理平台</div>
-				<li><div style="font-size:14px;text-align: right;margin-right: 30px;">${login.city.name_city}${login.distict.name_district}${login.subdistict.name_subdistrict}&nbsp;&nbsp;${operator_type.name}</div>
+				<li><div style="font-size:14px;text-align: right;margin-right: 30px;">${login.city.name_city}${login.distict.name_district}${login.subdistict.name_subdistrict}&nbsp;&nbsp;${deptName}&nbsp;&nbsp;${operator_type.name}</div>
 				</ul>
 			</td>
 		</tr>
@@ -118,8 +118,6 @@ $(function() {
 						<li>登录人：${login.name} </li>
 						<li><%=DateUtils.now() %></li>
 					</ul>
-					
-					
 				</div>
 			</td>
 			<td><div class="div1" id="right">
@@ -128,6 +126,7 @@ $(function() {
 				</div></td>
 		</tr>
 	</table>
+	<input type="text" />
 	<div title="打开或关闭侧边栏" onclick="$('#main_td').toggle();"
 		style="width: 20px; height: 20px; display: block; position: absolute; left: 4px; top: 40px; border: 1px solid #aacccc; background-color: #ddefff; text-align: center; cursor: pointer;">
 		&lt;&gt;</div>

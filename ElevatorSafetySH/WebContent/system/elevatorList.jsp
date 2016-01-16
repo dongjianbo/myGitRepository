@@ -22,11 +22,13 @@
 	<script src="${path}/jquery/ui/jquery.ui.effect.js"></script>
 </head>
 <body>
-	<form action="${path}/installer/list.do" method="post">
+	<form action="${path}/elevator/listForSearch.do" method="post">
 		<table cellpadding="0" cellspacing="1">
 			<tr>
-				<td>按 电梯出厂编号 <input type="text" name="key" size="50"
-					value="" /> <input type="submit" value="搜索" />
+				<td>按 电梯出厂编号 <input type="text" name="search" size="50"
+					value="${search}" /> 
+					<input type="hidden" name="key" value="${key }"/>
+					<input type="submit" value="搜索" />
 				</td>
 			</tr>
 		</table>
