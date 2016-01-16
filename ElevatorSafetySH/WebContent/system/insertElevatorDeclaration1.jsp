@@ -45,6 +45,12 @@
 	    		  $("#id_test").append("<option size='"+50+"' value='"+d[i].idtest+"'>"+d[i].name+"</option>");
 	    	  }
 	       });	
+		 $.getJSON("${path}/elevator_type_def/list_json.do","rand="+Math.random(),function(d){
+	    	  //对电梯型号进行循环
+	    	  for(var i=0;i<d.length;i++){
+	    		  $("#id_elevator_model").append("<option size='"+50+"' value='"+d[i].elevatortype+"'>"+d[i].name+"</option>");
+	    	  }
+	       });	
 		
 	});
 	function ifnan(){
@@ -56,15 +62,9 @@
 		if(censhu==null||censhu==""){
 			alert("电梯层数不能为空!!!");
 		}else{
-			if(xuhao==null||xuhao==""){
-				alert("电梯序号不能为空!!!");
-			}else{
 				if(isNaN(censhu)){
 					alert("电梯层数必须是数字!!!");
 				}else{
-					if(isNaN(xuhao)){
-						alert("电梯型号必须是数字!!!");
-					}else{
 						if(date1==null||date1==""){
 							alert("请选择申报时间");
 						}else{
@@ -78,9 +78,6 @@
 								}
 							}
 						}
-					}
-					
-				}
 			}
 		}
 		
@@ -100,8 +97,9 @@
 				        <li><input type="text" name="desc" size="50"><br><br><br>
 		                <li>电梯层数:
 					    <li><input type="text" name="num_floor_elevator" id="censhu" size="50">
-				        <li>电梯型号顺序:
-				        <li><input type="text" name="id_elevator_model" id="xuhao" size="50">
+				        <li>电梯型号:
+				        <li><select name="id_elevator_model" id="id_elevator_model"></select>
+
 				        <li>申报时间:
 					    <li><input type="text" name="date_declare" size="50" id="date1"><br><br><br>
 						<li>验收检验机构:
