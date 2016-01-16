@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,7 +26,7 @@ public class Role {
 	@Column(name="[desc]")
 	private String desc;
 	private String role_status;
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable(name="role_menu",joinColumns={@JoinColumn(name="id_role",referencedColumnName="id_role")},
 	inverseJoinColumns={@JoinColumn(name="id_menu",referencedColumnName="id_system_menu")})
 	private Set<System_menu> menus=new HashSet<System_menu>();
