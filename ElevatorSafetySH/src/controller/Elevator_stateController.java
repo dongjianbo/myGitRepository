@@ -53,10 +53,11 @@ public class Elevator_stateController {
 	public String delete(Elevator_state elevator_state){
 		elevator_stateService.delete(elevator_state);
 		return "redirect:/elevator_state/list.do";
-	}
+	}          
 	@RequestMapping("insertElevator_state")
 	public String insertElevator_state(Elevator_state elevator_state,HttpServletRequest request,HttpServletResponse response){
 		elevator_state.setIdelevator(Integer.parseInt(request.getSession().getAttribute("id_elevator").toString()));
+		System.out.println(elevator_state.getIdelevator());
 		elevator_state.setLabelwrite("1");
 		elevator_stateService.insert(elevator_state);
 		//添加成功  待电梯详细查询写好后 转向电梯详细查询连接 先转向成功界面

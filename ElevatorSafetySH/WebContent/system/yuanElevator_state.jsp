@@ -41,25 +41,25 @@
 		var date6=$("#date6").val();
 		var date7=$("#date7").val();
 		if(banyue==null||banyue==""){
-			alert("请选择上次半月维保日期");
+			
 		}else{
 			if(date2==null||date2==""){
-				alert("请选择上次季度维保日期");
+				
 			}else{
 				if(date3==null||date3==""){
-					alert("请选择上次半年维保日期");
+					
 				}else{
 					if(date4==null||date4==""){
-						alert("请选择上次年度维保日期");
+						
 					}else{
 						if(date5==null||date5==""){
-							alert("请选择上次安全员巡检日期");
+							
 						}else{
 							if(date6==null||date6==""){
-								alert("请选择上次检验检测日期");
+								
 							}else{
 								if(date7==null||date7==""){
-									alert("请选择最后修改日期时间");
+									
 								}else{
 									myform.submit();
 								}
@@ -76,21 +76,21 @@
 		<form action="${path }/elevator_state/yuanElevator_state.do" method="post" name="myform">
 			     <ul>
 			        <li>上次半月维保日期:
-					<li><input type="text" name="last_15_service" size="50" id="date1">
+					<li><input type="text" name="last_15_service" size="50" id="date1" placeholder="请选择上次半月维保日期">
 					<li>上次季度维保日期:
-					<li><input type="text" name="last_90_service" size="50" id="date2">
+					<li><input type="text" name="last_90_service" size="50" id="date2" placeholder="请选择上次季度维保日期">
 					<li>上次半年维保日期:
-					<li><input type="text" name="last_180_service" size="50" id="date3">
+					<li><input type="text" name="last_180_service" size="50" id="date3" placeholder="请选择上次半年维保日期">
 				    <li>上次年度维保日期:
-				    <li><input type="text" name="last_360_service" size="50" id="date4">
+				    <li><input type="text" name="last_360_service" size="50" id="date4" placeholder="请选择上次年度维保日期">
 				    <li>上次安全员巡检日期:
-				    <li><input type="text" name="lastrounds" size="50" id="date5">
+				    <li><input type="text" name="lastrounds" size="50" id="date5" placeholder="请选择上次安检员巡检日期">
 				    <li>上次检验检测日期:
-				    <li><input type="text" name="lasttest" size="50" id="date6">
+				    <li><input type="text" name="lasttest" size="50" id="date6" placeholder="请选择上次检验检测日期">
 				    <li>标签下载备注项:
 				    <li><input type="text" name="labeldemo" size="50">
 				    <li>最后修改日期时间:
-				    <li><input type="text" name="lastmodified" size="50" id="date7"><input type="button" value="提交" onclick="shijian()">
+				    <li><input type="text" name="lastmodified" size="50" id="date7" placeholder="请选择最后修改日期"><input type="button" value="提交" onclick="shijian()">
 				  </ul>
 			    
 		</form>

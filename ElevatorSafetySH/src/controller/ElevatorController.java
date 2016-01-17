@@ -98,6 +98,12 @@ public class ElevatorController{
 		el.setNum_floor_elevator(elevator.getNum_floor_elevator());
 		el.setId_elevator_model(elevator.getId_elevator_model());
 		el.setDate_declare(elevator.getDate_declare());
+		el.setCheck_construct(elevator.getCheck_construct());
+		el.setId_service(elevator.getId_service());
+		el.setId_test(elevator.getId_test());
+		el.setCheck_construct_code(elevator.getCheck_construct_code());
+		el.setDate_register(elevator.getDate_register());
+		el.setDate_enable(elevator.getDate_enable());
 		int id_elevator=Integer.parseInt(elevatorService.insert(el).toString());
 		request.getSession().setAttribute("yuanid_elevator",id_elevator);
 		//systemstate修改字段version_elevator +1
@@ -232,8 +238,6 @@ public class ElevatorController{
 	@RequestMapping("regist")
 	public String regist(Elevator e,HttpServletRequest request){
 		//查询该电梯
-		System.out.println(e.getId_test());
-		System.out.println(e.getId_service());
 		request.getSession().setAttribute("id_elevator1", e.getId_elevator());
 		Elevator elevator=elevatorService.getEById(e.getId_elevator());
 		elevator.setRegister_status("1");
