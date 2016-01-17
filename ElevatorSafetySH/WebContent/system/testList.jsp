@@ -319,7 +319,7 @@
 		</tr>
 	</table>
 	<div align="right">
-		<input type="button" value="添加一个设计单位"
+		<input type="button" value="添加一个检验检测单位"
 			onclick="showInsert()" />
 	</div>
 	<div id="insertDialog" style="display: none" title="添加">
@@ -385,7 +385,7 @@
 				<li>登录名:
 				<li><input type="text" id="loginname" name="loginname" size="50"/>*<div id="message3" style="float: right;padding-right:220px;"></div>
 				<li>密码:
-				<li><input type="text" id="password" name="password" size="50" maxlength="8"/>*<div id="message4" style="float: right;padding-right:230px;"></div>
+				<li><input type="password" id="password" name="password" size="50" maxlength="8"/>*<div id="message4" style="float: right;padding-right:230px;"></div>
 				<input type="hidden" name="status" value="1">
 				<input type="hidden" name="typeOperator" value="30">
 				<input type="hidden" name="idprivilege" value="1">
@@ -411,7 +411,7 @@
 				<li>登录名:
 				<li><input type="text" id="loginname1" name="loginname" size="50"/>*<div id="message7" style="float: right;padding-right:220px;"></div>
 				<li>密码:
-				<li><input type="text" id="password1" name="password" size="50"/>*<div id="message8" style="float: right;padding-right:220px;"></div>
+				<li><input type="password" id="password1" name="password" size="50"/>*<div id="message8" style="float: right;padding-right:220px;"></div>
 				<input type="hidden" name="status" value="1">
 				<input type="hidden" name="typeOperator" value="31">
 				<input type="hidden" name="idprivilege" value="2">

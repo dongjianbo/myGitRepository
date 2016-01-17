@@ -386,7 +386,7 @@
 				<li>登录名:
 				<li><input type="text" id="loginname" name="loginname" size="50"/>*<div id="message4" style="float: right;padding-right:220px;"></div>
 				<li>密码:
-				<li><input type="text" id="password" name="password" size="50"/>*<div id="message5" style="float: right;padding-right:220px;"></div>
+				<li><input type="password" id="password" name="password" size="50"/>*<div id="message5" style="float: right;padding-right:220px;"></div>
 				<input type="hidden" name="status" value="1">
 				<input type="hidden" name="typeOperator" value="20">
 				<input type="hidden" name="idprivilege" value="1">
@@ -412,7 +412,7 @@
 				<li>登录名:
 				<li><input type="text" id="loginname1" name="loginname" size="50"/>*<div id="message7" style="float: right;padding-right:220px;"></div>
 				<li>密码:
-				<li><input type="text" id="password1" name="password" size="50"/>*<div id="message8" style="float: right;padding-right:220px;"></div>
+				<li><input type="password" id="password1" name="password" size="50"/>*<div id="message8" style="float: right;padding-right:220px;"></div>
 				<input type="hidden" name="status" value="1">
 				<input type="hidden" name="typeOperator" value="21">
 				<input type="hidden" name="idprivilege" value="2">
