@@ -3,6 +3,7 @@ package controller;
 import java.util.List;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.annotation.Resource;
@@ -21,11 +22,13 @@ import service.HistoryService;
 import service.History_listService;
 import service.TestService;
 import vo.Service1;
+import vo.Elevator;
 import vo.History;
 import vo.History_list;
 import vo.History_listKey;
 import vo.Operator;
 import vo.Test;
+import vo.User;
 
 @Controller
 @RequestMapping("test")
@@ -97,5 +100,101 @@ public class TestController {
 		List<Test> list=testService.selectId_test();
 		JSONArray array=JSONArray.fromObject(list);
 		return array.toString();
+	}
+	@RequestMapping("search")
+	public ModelAndView search(HttpServletRequest request) {
+		Operator op=(Operator)request.getSession().getAttribute("login");
+		if(!op.getTypeOperator().equals("30")&&!op.getTypeOperator().equals("31")){
+			ModelAndView mav=new ModelAndView("error");
+			mav.addObject("error","当前登录人非检测单位人员!");
+			return mav;
+		}else{
+			//登录人使用单位
+			int id_test=op.getIdOrganization();
+			Test test=testService.findById(id_test);
+			// 电梯总数
+			int count = testService.getCount(id_test);
+			// 已注册数量
+			int count_registed = testService.getCount_Registed(id_test);
+			// 停用数量
+			int count_stop = testService.getCount_Stop(id_test);
+			// 已注销数量
+			int count_destory = testService.getCount_Destory(id_test);
+			// 未注册数量
+			int count_noregist = testService.getCount_NoRegist(id_test);
+			// 年检正常数量
+			int count_rounds_normal = testService.getCount_Rounds_Normal(id_test);
+			// 年检提示数量
+			int count_rounds_warnning = testService.getCount_Rounds_Warnning(id_test);
+			// 年检逾期数量
+			int count_rounds_overdue = testService.getCount_Rounds_Overdue(id_test);
+		
+
+			ModelAndView mav = new ModelAndView("system/testTongji");
+			mav.addObject("test",test);
+			mav.addObject("count", count);
+			mav.addObject("count_registed", count_registed);
+			mav.addObject("count_stop", count_stop);
+			mav.addObject("count_destory", count_destory);
+			mav.addObject("count_noregist", count_noregist);
+			mav.addObject("count_rounds_normal", count_rounds_normal);
+			mav.addObject("count_rounds_warnning", count_rounds_warnning);
+			mav.addObject("count_rounds_overdue", count_rounds_overdue);
+			
+			return mav;
+		}
+	}
+	// 点击统计中的数字进入电梯列表
+	@RequestMapping("listForSearch")
+	public ModelAndView listForSearch(String key, String search, HttpServletRequest request) {
+		//
+		List<Elevator> list = new ArrayList<Elevator>();
+		//查询关键字
+		if(search==null){
+			search="";
+		}
+		//登录人维保单位
+		Operator op=(Operator)request.getSession().getAttribute("login");
+		int id_test=op.getIdOrganization();
+		Test test=testService.findById(id_test);
+		// 电梯总数量
+		if (key.equals("count")) {
+			list = testService.listCount(search, 10, request,id_test);
+		}
+		// 电梯已注册数量
+		if (key.equals("count_registed")) {
+			list = testService.listCount_Registed(search, 10, request,id_test);
+		}
+		// 电梯未注册数量
+		if (key.equals("count_noregist")) {
+			list = testService.listCount_NoRegist(search, 10, request,id_test);
+		}
+		// 电梯已停用数量
+		if (key.equals("count_stop")) {
+			list = testService.listCount_Stop(search, 10, request,id_test);
+		}
+		// 电梯已注销数量
+		if (key.equals("count_destory")) {
+			list = testService.listCount_Destory(search, 10, request,id_test);
+		}
+		// 电梯年检正常数量
+		if (key.equals("count_rounds_normal")) {
+			list = testService.listCount_Rounds_Normal(search, 10, request,id_test);
+		}
+		// 电梯年检提示数量
+		if (key.equals("count_rounds_warnning")) {
+			list = testService.listCount_Rounds_Warnning(search, 10, request,id_test);
+		}
+		// 电梯年检逾期数量
+		if (key.equals("count_rounds_overdue")) {
+			list = testService.listCount_Rounds_Overdue(search, 10, request,id_test);
+		}
+		ModelAndView mav = new ModelAndView("system/elevatorList");
+		mav.addObject("list", list);
+		mav.addObject("key",key);
+		mav.addObject("search",search);
+		mav.addObject("requestMapping", "test");
+		mav.addObject("test",test);
+		return mav;
 	}
 }

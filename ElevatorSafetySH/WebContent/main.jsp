@@ -108,18 +108,18 @@ $(function() {
 						<li><a href="${path}/system/yuanElevatorDeclaration.jsp">原有电梯资料录入</a></li>
 						<li><a href="${path}/elevator/search.do">技术监督部门统计查询</a></li>
 					
-						<li><a href="${path}/system/elevatorTongji.jsp">维保单位任务提醒</a></li>
+						<li><a href="${path}/service/search.do">维保单位任务提醒</a></li>
 						<li><a href="#">维保人员任务量统计</a></li>
 					
-						<li><a href="#">使用单位年检提醒</a></li>
+						<li><a href="${path}/user/search.do">使用单位年检提醒</a></li>
 						<li><a href="#">安全人员任务量统计</a></li>
 					
-						<li><a href="#">检测单位年检提醒</a></li>
+						<li><a href="${path}/test/search.do">检测单位年检提醒</a></li>
 						<li><a href="#">检测人员任务量统计</a></li>
 						<li><a href="#">检测报告录入</a></li>
 					</ul>
 				</div>
-				<div class="div1" style="height: 9%;margin-top: 1px;">
+				<div class="div1" style="height: 10%;margin-top: -1px;background-color: #ddefff;">
 					<ul style="margin-left: -20px;">
 						<li>登录人：${login.name} </li>
 						<li><%=DateUtils.now() %></li>
@@ -132,9 +132,8 @@ $(function() {
 				</div></td>
 		</tr>
 	</table>
-	<input type="text" />
 	<div title="打开或关闭侧边栏" onclick="$('#main_td').toggle();"
-		style="width: 20px; height: 20px; display: block; position: absolute; left: 4px; top: 40px; border: 1px solid #aacccc; background-color: #ddefff; text-align: center; cursor: pointer;">
+		style="width: 20px; height: 20px; display: block; position: absolute; left: 4px; top: 0px;margin-top:30px; border: 1px solid #aacccc; background-color: #ddefff; text-align: center; cursor: pointer;">
 		&lt;&gt;</div>
 </body>
 </html>

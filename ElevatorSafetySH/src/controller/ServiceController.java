@@ -2,6 +2,7 @@ package controller;
 import java.util.List;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.annotation.Resource;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import service.HistoryService;
 import service.History_listService;
 import service.ServiceService;
+import vo.Elevator;
 import vo.History;
 import vo.History_list;
 import vo.History_listKey;
@@ -98,7 +100,7 @@ public class ServiceController {
 		return array.toString();
 	}
 	//维保单位任务提醒
-	@RequestMapping("serach")
+	@RequestMapping("search")
 	public ModelAndView search(HttpServletRequest request){
 		Operator op=(Operator)request.getSession().getAttribute("login");
 		if(!op.getTypeOperator().equals("10")&&!op.getTypeOperator().equals("11")){
@@ -119,7 +121,6 @@ public class ServiceController {
 			int count_destory = serviceService.getCount_Destory(id_service);
 			// 未注册数量
 			int count_noregist = serviceService.getCount_NoRegist(id_service);
-		
 			// 半月维保正常数量
 			int count_15service_normal = serviceService.getCount_15service_Normal(id_service);
 			// 半月维保提示数量
@@ -168,4 +169,93 @@ public class ServiceController {
 		}
 		
 	}
+	// 点击统计中的数字进入电梯列表
+		@RequestMapping("listForSearch")
+		public ModelAndView listForSearch(String key, String search, HttpServletRequest request) {
+			//
+			List<Elevator> list = new ArrayList<Elevator>();
+			//查询关键字
+			if(search==null){
+				search="";
+			}
+			//登录人维保单位
+			Operator op=(Operator)request.getSession().getAttribute("login");
+			int id_service=op.getIdOrganization();
+			Service1 service=serviceService.findById(id_service);
+			// 电梯总数量
+			if (key.equals("count")) {
+				list = serviceService.listCount(search, 10, request,id_service);
+			}
+			// 电梯已注册数量
+			if (key.equals("count_registed")) {
+				list = serviceService.listCount_Registed(search, 10, request,id_service);
+			}
+			// 电梯未注册数量
+			if (key.equals("count_noregist")) {
+				list = serviceService.listCount_NoRegist(search, 10, request,id_service);
+			}
+			// 电梯已停用数量
+			if (key.equals("count_stop")) {
+				list = serviceService.listCount_Stop(search, 10, request,id_service);
+			}
+			// 电梯已注销数量
+			if (key.equals("count_destory")) {
+				list = serviceService.listCount_Destory(search, 10, request,id_service);
+			}
+			// 电梯半月维保正常数量
+			if (key.equals("count_15service_normal")) {
+				list = serviceService.listCount_15service_Normal(search, 10, request,id_service);
+			}
+			// 电梯半月维保提示数量
+			if (key.equals("count_15service_warnning")) {
+				list = serviceService.listCount_15service_Warnning(search, 10, request,id_service);
+			}
+			// 电梯半月维保逾期数量
+			if (key.equals("count_15service_overdue")) {
+				list = serviceService.listCount_15service_Overdue(search, 10, request,id_service);
+			}
+			// 电梯季度维保正常数量
+			if (key.equals("count_90service_normal")) {
+				list = serviceService.listCount_90service_Normal(search, 10, request,id_service);
+			}
+			// 电梯季度维保提示数量
+			if (key.equals("count_90service_warnning")) {
+				list = serviceService.listCount_90service_Warnning(search, 10, request,id_service);
+			}
+			// 电梯季度维保逾期数量
+			if (key.equals("count_90service_overdue")) {
+				list = serviceService.listCount_90service_Overdue(search, 10, request,id_service);
+			}
+			// 电梯半年维保正常数量
+			if (key.equals("count_180service_normal")) {
+				list = serviceService.listCount_180service_Normal(search, 10, request,id_service);
+			}
+			//电梯半年维保提示数量
+			if (key.equals("count_180service_warnning")) {
+				list = serviceService.listCount_180service_Warnning(search, 10, request,id_service);
+			}
+			//电梯半年维保逾期数量
+			if (key.equals("count_180service_overdue")) {
+				list = serviceService.listCount_180service_Overdue(search, 10, request,id_service);
+			}
+			//电梯年度维保正常数量
+			if (key.equals("count_360service_normal")) {
+				list = serviceService.listCount_360service_Normal(search, 10, request,id_service);
+			}
+			//电梯年度维保提示数量
+			if (key.equals("count_360service_warnning")) {
+				list = serviceService.listCount_360service_Warnning(search, 10, request,id_service);
+			}
+			//电梯年度维保逾期数量
+			if (key.equals("count_360service_overdue")) {
+				list = serviceService.listCount_360service_Overdue(search, 10, request,id_service);
+			}
+
+			ModelAndView mav = new ModelAndView("system/elevatorList");
+			mav.addObject("list", list);
+			mav.addObject("key",key);
+			mav.addObject("search",search);
+			mav.addObject("requestMapping", "service");
+			return mav;
+		}
 }

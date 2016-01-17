@@ -18,7 +18,7 @@
 </head>
 <body>
 <ul>
-	<li><h3>${service.name }单位&nbsp;&nbsp;各状态下的电梯数量</h3>
+	<li><h3>${service.name }&nbsp;&nbsp;各状态下的电梯数量</h3>
 	<li><table cellpadding="0" cellspacing="1">
 	<tr>
 		<th>电梯总数量</th>
@@ -28,11 +28,11 @@
 		<th>已注销数量</th>
 	</tr>
 	<tr>
-		<td><a href="${path }/elevator/listForSearch.do?key=count">${count }</a></td>
-		<td><a href="${path }/elevator/listForSearch.do?key=count_registed">${count_registed}</a></td>
-		<td><a href="${path }/elevator/listForSearch.do?key=count_noregist">${count_noregist }</a></td>
-		<td><a href="${path }/elevator/listForSearch.do?key=count_stop">${count_stop }</a></td>
-		<td><a href="${path }/elevator/listForSearch.do?key=count_destory">${count_destory}</a></td>
+		<td><a href="${path }/service/listForSearch.do?key=count">${count }</a></td>
+		<td><a href="${path }/service/listForSearch.do?key=count_registed">${count_registed}</a></td>
+		<td><a href="${path }/service/listForSearch.do?key=count_noregist">${count_noregist }</a></td>
+		<td><a href="${path }/service/listForSearch.do?key=count_stop">${count_stop }</a></td>
+		<td><a href="${path }/service/listForSearch.do?key=count_destory">${count_destory}</a></td>
 	</tr>
 	</table>
 	<li><h3>已注册电梯统计</h3>
@@ -46,27 +46,27 @@
 		
 		<tr>
 			<td>半月维保</td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_15service_normal">${count_15service_normal }</a></td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_15service_warnning">${count_15service_warnning }</a></td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_15service_overdue">${count_15service_overdue }</a></td>
+			<td><a href="${path }/service/listForSearch.do?key=count_15service_normal">${count_15service_normal }</a></td>
+			<td><a href="${path }/service/listForSearch.do?key=count_15service_warnning">${count_15service_warnning }</a></td>
+			<td><a href="${path }/service/listForSearch.do?key=count_15service_overdue">${count_15service_overdue }</a></td>
 		</tr>
 		<tr>
 			<td>季度维保</td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_90service_normal">${count_90service_normal }</a></td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_90service_warnning">${count_90service_warnning }</a></td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_90service_overdue">${count_90service_overdue }</a></td>
+			<td><a href="${path }/service/listForSearch.do?key=count_90service_normal">${count_90service_normal }</a></td>
+			<td><a href="${path }/service/listForSearch.do?key=count_90service_warnning">${count_90service_warnning }</a></td>
+			<td><a href="${path }/service/listForSearch.do?key=count_90service_overdue">${count_90service_overdue }</a></td>
 		</tr>
 		<tr>
 			<td>半年维保</td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_180service_normal">${count_180service_normal }</a></td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_180service_warnning">${count_180service_warnning }</a></td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_180service_overdue">${count_180service_overdue }</a></td>
+			<td><a href="${path }/service/listForSearch.do?key=count_180service_normal">${count_180service_normal }</a></td>
+			<td><a href="${path }/service/listForSearch.do?key=count_180service_warnning">${count_180service_warnning }</a></td>
+			<td><a href="${path }/service/listForSearch.do?key=count_180service_overdue">${count_180service_overdue }</a></td>
 		</tr>
 		<tr>
 			<td>年度维保</td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_360service_normal">${count_360service_normal }</a></td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_360service_warnning">${count_360service_warnning }</a></td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_360service_overdue">${count_360service_overdue }</a></td>
+			<td><a href="${path }/service/listForSearch.do?key=count_360service_normal">${count_360service_normal }</a></td>
+			<td><a href="${path }/service/listForSearch.do?key=count_360service_warnning">${count_360service_warnning }</a></td>
+			<td><a href="${path }/service/listForSearch.do?key=count_360service_overdue">${count_360service_overdue }</a></td>
 		</tr>
 	</table>
 </ul>

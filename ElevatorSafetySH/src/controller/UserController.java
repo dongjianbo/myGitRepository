@@ -3,6 +3,7 @@ package controller;
 import java.util.List;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.annotation.Resource;
@@ -20,7 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import service.HistoryService;
 import service.History_listService;
 import service.UserService;
-import vo.Service1;
+import vo.Elevator;
 import vo.History;
 import vo.History_list;
 import vo.History_listKey;
@@ -98,4 +99,183 @@ public class UserController {
 		JSONArray array=JSONArray.fromObject(list);
 		return array.toString();
 	}
+	//使用单位年检提醒
+		@RequestMapping("search")
+		public ModelAndView search(HttpServletRequest request) {
+			Operator op=(Operator)request.getSession().getAttribute("login");
+			if(!op.getTypeOperator().equals("20")&&!op.getTypeOperator().equals("21")){
+				ModelAndView mav=new ModelAndView("error");
+				mav.addObject("error","当前登录人非使用单位人员!");
+				return mav;
+			}else{
+				//登录人使用单位
+				int id_user=op.getIdOrganization();
+				User user=userService.findById(id_user);
+				// 电梯总数
+				int count = userService.getCount(id_user);
+				// 已注册数量
+				int count_registed = userService.getCount_Registed(id_user);
+				// 停用数量
+				int count_stop = userService.getCount_Stop(id_user);
+				// 已注销数量
+				int count_destory = userService.getCount_Destory(id_user);
+				// 未注册数量
+				int count_noregist = userService.getCount_NoRegist(id_user);
+				// 年检正常数量
+				int count_rounds_normal = userService.getCount_Rounds_Normal(id_user);
+				// 年检提示数量
+				int count_rounds_warnning = userService.getCount_Rounds_Warnning(id_user);
+				// 年检预期数量
+				int count_rounds_overdue = userService.getCount_Rounds_Overdue(id_user);
+				// 半月维保正常数量
+				int count_15service_normal = userService.getCount_15service_Normal(id_user);
+				// 半月维保提示数量
+				int count_15service_warnning = userService.getCount_15service_Warnning(id_user);
+				// 半月维保逾期数量
+				int count_15service_overdue = userService.getCount_15service_Overdue(id_user);
+				// 季度维保正常数量
+				int count_90service_normal = userService.getCount_90service_Normal(id_user);
+				// 季度维保提示数量
+				int count_90service_warnning = userService.getCount_90service_Warnning(id_user);
+				// 季度维保逾期数量
+				int count_90service_overdue = userService.getCount_90service_Overdue(id_user);
+				// 半年维保正常数量
+				int count_180service_normal = userService.getCount_180service_Normal(id_user);
+				// 半年维保提示数量
+				int count_180service_warnning = userService.getCount_180service_Warnning(id_user);
+				// 半年维保逾期数量
+				int count_180service_overdue = userService.getCount_180service_Overdue(id_user);
+				// 年度维保正常数量
+				int count_360service_normal = userService.getCount_360service_Normal(id_user);
+				// 年度维保提示数量
+				int count_360service_warnning = userService.getCount_360service_Warnning(id_user);
+				// 年度维保逾期数量
+				int count_360service_overdue = userService.getCount_360service_Overdue(id_user);
+	
+				ModelAndView mav = new ModelAndView("system/userTongji");
+				mav.addObject("user",user);
+				mav.addObject("count", count);
+				mav.addObject("count_registed", count_registed);
+				mav.addObject("count_stop", count_stop);
+				mav.addObject("count_destory", count_destory);
+				mav.addObject("count_noregist", count_noregist);
+				mav.addObject("count_rounds_normal", count_rounds_normal);
+				mav.addObject("count_rounds_warnning", count_rounds_warnning);
+				mav.addObject("count_rounds_overdue", count_rounds_overdue);
+				mav.addObject("count_15service_normal", count_15service_normal);
+				mav.addObject("count_15service_warnning", count_15service_warnning);
+				mav.addObject("count_15service_overdue", count_15service_overdue);
+				mav.addObject("count_90service_normal", count_90service_normal);
+				mav.addObject("count_90service_warnning", count_90service_warnning);
+				mav.addObject("count_90service_overdue", count_90service_overdue);
+				mav.addObject("count_180service_normal", count_180service_normal);
+				mav.addObject("count_180service_warnning", count_180service_warnning);
+				mav.addObject("count_180service_overdue", count_180service_overdue);
+				mav.addObject("count_360service_normal", count_360service_normal);
+				mav.addObject("count_360service_warnning", count_360service_warnning);
+				mav.addObject("count_360service_overdue", count_360service_overdue);
+				return mav;
+			}
+		}
+
+		// 点击统计中的数字进入电梯列表
+		@RequestMapping("listForSearch")
+		public ModelAndView listForSearch(String key, String search, HttpServletRequest request) {
+			//
+			List<Elevator> list = new ArrayList<Elevator>();
+			//查询关键字
+			if(search==null){
+				search="";
+			}
+			//登录人维保单位
+			Operator op=(Operator)request.getSession().getAttribute("login");
+			int id_user=op.getIdOrganization();
+			// 电梯总数量
+			if (key.equals("count")) {
+				list = userService.listCount(search, 10, request,id_user);
+			}
+			// 电梯已注册数量
+			if (key.equals("count_registed")) {
+				list = userService.listCount_Registed(search, 10, request,id_user);
+			}
+			// 电梯未注册数量
+			if (key.equals("count_noregist")) {
+				list = userService.listCount_NoRegist(search, 10, request,id_user);
+			}
+			// 电梯已停用数量
+			if (key.equals("count_stop")) {
+				list = userService.listCount_Stop(search, 10, request,id_user);
+			}
+			// 电梯已注销数量
+			if (key.equals("count_destory")) {
+				list = userService.listCount_Destory(search, 10, request,id_user);
+			}
+			// 电梯年检正常数量
+			if (key.equals("count_rounds_normal")) {
+				list = userService.listCount_Rounds_Normal(search, 10, request,id_user);
+			}
+			// 电梯年检提示数量
+			if (key.equals("count_rounds_warnning")) {
+				list = userService.listCount_Rounds_Warnning(search, 10, request,id_user);
+			}
+			// 电梯年检逾期数量
+			if (key.equals("count_rounds_overdue")) {
+				list = userService.listCount_Rounds_Overdue(search, 10, request,id_user);
+			}
+			// 电梯半月维保正常数量
+			if (key.equals("count_15service_normal")) {
+				list = userService.listCount_15service_Normal(search, 10, request,id_user);
+			}
+			// 电梯半月维保提示数量
+			if (key.equals("count_15service_warnning")) {
+				list = userService.listCount_15service_Warnning(search, 10, request,id_user);
+			}
+			// 电梯半月维保逾期数量
+			if (key.equals("count_15service_overdue")) {
+				list = userService.listCount_15service_Overdue(search, 10, request,id_user);
+			}
+			// 电梯季度维保正常数量
+			if (key.equals("count_90service_normal")) {
+				list = userService.listCount_90service_Normal(search, 10, request,id_user);
+			}
+			// 电梯季度维保提示数量
+			if (key.equals("count_90service_warnning")) {
+				list = userService.listCount_90service_Warnning(search, 10, request,id_user);
+			}
+			// 电梯季度维保逾期数量
+			if (key.equals("count_90service_overdue")) {
+				list = userService.listCount_90service_Overdue(search, 10, request,id_user);
+			}
+			// 电梯半年维保正常数量
+			if (key.equals("count_180service_normal")) {
+				list = userService.listCount_180service_Normal(search, 10, request,id_user);
+			}
+			//电梯半年维保提示数量
+			if (key.equals("count_180service_warnning")) {
+				list = userService.listCount_180service_Warnning(search, 10, request,id_user);
+			}
+			//电梯半年维保逾期数量
+			if (key.equals("count_180service_overdue")) {
+				list = userService.listCount_180service_Overdue(search, 10, request,id_user);
+			}
+			//电梯年度维保正常数量
+			if (key.equals("count_360service_normal")) {
+				list = userService.listCount_360service_Normal(search, 10, request,id_user);
+			}
+			//电梯年度维保提示数量
+			if (key.equals("count_360service_warnning")) {
+				list = userService.listCount_360service_Warnning(search, 10, request,id_user);
+			}
+			//电梯年度维保逾期数量
+			if (key.equals("count_360service_overdue")) {
+				list = userService.listCount_360service_Overdue(search, 10, request,id_user);
+			}
+
+			ModelAndView mav = new ModelAndView("system/elevatorList");
+			mav.addObject("list", list);
+			mav.addObject("key",key);
+			mav.addObject("search",search);
+			mav.addObject("requestMapping", "user");
+			return mav;
+		}
 }

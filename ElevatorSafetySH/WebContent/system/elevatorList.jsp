@@ -22,7 +22,7 @@
 	<script src="${path}/jquery/ui/jquery.ui.effect.js"></script>
 </head>
 <body>
-	<form action="${path}/elevator/listForSearch.do" method="post">
+	<form action="${path}/${requestMapping }/listForSearch.do" method="post">
 		<table cellpadding="0" cellspacing="1">
 			<tr>
 				<td>按 电梯出厂编号 <input type="text" name="search" size="50"
