@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import service.CitylistService;
@@ -27,7 +26,7 @@ import vo.History_list;
 import vo.History_listKey;
 import vo.Operator;
 
-@Controller
+@Controller     
 @RequestMapping("elevator")
 public class ElevatorController{
 	@Resource
@@ -216,8 +215,96 @@ public class ElevatorController{
 		if(key.equals("count")){
 			list=elevatorService.listCount(10, request);
 		}
+		//已注册电梯
+		if(key.equals("count_registed")){
+			list=elevatorService.listCount_Registed(10, request);
+		}
+		//未注册电梯
+		if(key.equals("count_noregist")){
+			list=elevatorService.listCount_NoRegist(10, request);
+		}
+		//已停用电梯
+		if(key.equals("count_stop")){
+			list=elevatorService.listCount_Stop(10, request);
+		}
+		//已注销
+		if(key.equals("count_destory")){
+			list=elevatorService.listCount_Destory(10, request);
+		}
+		
+		//年检正常
+		if(key.equals("count_rounds_normal")){
+			list=elevatorService.listCount_Rounds_Normal(10, request);
+		}
+		//年检提示
+		if(key.equals("count_rounds_warnning")){
+			list=elevatorService.listCount_Rounds_Warnning(10, request);
+			
+		}
+		//年检逾期
+		if(key.equals("count_rounds_overdue")){
+			list=elevatorService.listCount_Rounds_Overdue(10, request);
+		}
+		//半月维保正常
+		if(key.equals("count_15service_normal")){
+			list=elevatorService.listCount_15service_Normal(10, request);
+		}
+		//半月维保提示
+		if(key.equals("count_15service_warnning")){
+			list=elevatorService.listCount_15service_Warnning(10, request);
+		}
+		//半月维保逾期
+		if(key.equals("count_15service_overdue")){
+			list=elevatorService.listCount_15service_Overdue(10, request);
+		}
+		//季度维保正常
+		if(key.equals("count_90service_normal")){
+			list=elevatorService.listCount_90service_Normal(10, request);
+		}
+		//季度维保提示
+		if(key.equals("count_90service_warnning")){
+			list=elevatorService.listCount_90service_Warnning(10, request);
+		}
+		//季度维保逾期
+		if(key.equals("count_90service_overdue")){
+			list=elevatorService.listCount_90service_Overdue(10, request);
+		}
+		//半年维保正常
+		if(key.equals("count_180service_normal")){
+			list=elevatorService.getCount_180service_Normal(10, request);
+		}
+		//半年维保提示
+		if(key.equals("count_180service_warnning")){
+			list=elevatorService.listCount_180service_Warnning(10, request);
+		}
+		//半年维保逾期
+		if(key.equals("count_180service_overdue")){
+			list=elevatorService.listCount_180service_Overdue(10, request);
+		}
+		//年度维保正常
+		if(key.equals("count_360service_normal")){
+			list=elevatorService.listCount_360service_Normal(10, request);
+		}
+		//年度维保提示
+		if(key.equals("count_360service_warnning")){
+			list=elevatorService.listCount_360service_Warnning(10, request);
+		}
+		//年度维保逾期
+		if(key.equals("count_360service_overdue")){
+			list=elevatorService.listCount_360service_Overdue(10, request);
+		}
 		ModelAndView mav=new ModelAndView("system/elevatorList");
 		mav.addObject("list",list);
+		return mav;
+	}
+	
+				
+	//通过id查询电梯的详细信息
+	@RequestMapping("selectElevatorByID")
+	public ModelAndView selectElevatorByID(Elevator e){
+		System.out.println(e.getId_elevator());
+		ModelAndView mav=new ModelAndView("system/elevatorinfrom");
+		mav.addObject("eById",elevatorService.getEById(e.getId_elevator()));
 		return mav;
 	}
 	//查询未注册的电梯
