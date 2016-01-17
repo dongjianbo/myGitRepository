@@ -22,6 +22,16 @@ public class ElevatorService {
 	public Serializable insert(Elevator elevator){
 		return elevatorDao.save(elevator);
 	}
+	//修改电梯
+	public void update(Elevator elevator){
+		elevatorDao.update(elevator);
+	}
+	//通过电梯id查询电梯
+	public Elevator getEById(int id_elevator){
+		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
+		dc.add(Restrictions.eq("id_elevator", id_elevator));
+		return (Elevator)elevatorDao.getListByDc(dc).get(0);
+	}
 	//电梯总数量
 	@SuppressWarnings("unchecked")
 	public int getCount(){

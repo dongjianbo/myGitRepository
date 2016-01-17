@@ -85,7 +85,13 @@ $(function() {
 			<td colspan="2" id="top">
 				<ul>
 				<li><div style="font-size: 30px;margin-top: 10px;">电梯安全管理平台</div>
-				<li><div style="font-size:14px;text-align: right;margin-right: 30px;">${login.city.name_city}${login.distict.name_district}${login.subdistict.name_subdistrict}&nbsp;&nbsp;${deptName}&nbsp;&nbsp;${operator_type.name}</div>
+				<li><div style="font-size:14px;text-align: right;margin-right: 30px;">
+				${login.city.name_city}${login.distict.name_district}${login.subdistict.name_subdistrict}&nbsp;&nbsp;
+				${deptName}&nbsp;&nbsp;
+				${operator_type.name}
+				&nbsp;&nbsp;
+				${login.role.name_role }
+				</div>
 				</ul>
 			</td>
 		</tr>
@@ -98,8 +104,8 @@ $(function() {
 						<li><a href="${path}/role/list.do">角色定义与配置</a></li>
 						
 						<li><a href="${path}/system/insertElevatorDeclaration.jsp">电梯资料申报</a></li>
-						<li><a href="#">电梯资料注册</a></li>
-						<li><a href="#">原有电梯资料录入</a></li>
+						<li><a href="${path}/elevator/list.do">电梯资料注册</a></li>
+						<li><a href="${path}/system/yuanElevatorDeclaration.jsp">原有电梯资料录入</a></li>
 						<li><a href="${path}/elevator/search.do">技术监督部门统计查询</a></li>
 					
 						<li><a href="${path}/system/elevatorTongji.jsp">维保单位任务提醒</a></li>

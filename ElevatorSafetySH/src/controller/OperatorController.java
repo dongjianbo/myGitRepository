@@ -110,6 +110,7 @@ public class OperatorController  {
 					    + "'idoperator':"+operator.getIdoperator()+"}";*/
 	  //System.out.println(jsonString);
 		//return jsonString;
+		operator.getRole().setMenus(null);
 		JSONObject   object=JSONObject.fromObject(operator);
 		return object.toString();
 	}

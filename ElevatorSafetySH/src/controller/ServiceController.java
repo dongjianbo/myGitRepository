@@ -97,4 +97,75 @@ public class ServiceController {
 		JSONArray array=JSONArray.fromObject(list);
 		return array.toString();
 	}
+	//维保单位任务提醒
+	@RequestMapping("serach")
+	public ModelAndView search(HttpServletRequest request){
+		Operator op=(Operator)request.getSession().getAttribute("login");
+		if(!op.getTypeOperator().equals("10")&&!op.getTypeOperator().equals("11")){
+			ModelAndView mav=new ModelAndView("error");
+			mav.addObject("error","当前登录人非维保单位人员!");
+			return mav;
+		}else{
+			//登录人维保单位
+			int id_service=op.getIdOrganization();
+			Service1 service=serviceService.findById(id_service);
+			// 电梯总数
+			int count = serviceService.getCount(id_service);
+			// 已注册数量
+			int count_registed = serviceService.getCount_Registed(id_service);
+			// 停用数量
+			int count_stop = serviceService.getCount_Stop(id_service);
+			// 已注销数量
+			int count_destory = serviceService.getCount_Destory(id_service);
+			// 未注册数量
+			int count_noregist = serviceService.getCount_NoRegist(id_service);
+		
+			// 半月维保正常数量
+			int count_15service_normal = serviceService.getCount_15service_Normal(id_service);
+			// 半月维保提示数量
+			int count_15service_warnning = serviceService.getCount_15service_Warnning(id_service);
+			// 半月维保逾期数量
+			int count_15service_overdue = serviceService.getCount_15service_Overdue(id_service);
+			// 季度维保正常数量
+			int count_90service_normal = serviceService.getCount_90service_Normal(id_service);
+			// 季度维保提示数量
+			int count_90service_warnning = serviceService.getCount_90service_Warnning(id_service);
+			// 季度维保逾期数量
+			int count_90service_overdue = serviceService.getCount_90service_Overdue(id_service);
+			// 半年维保正常数量
+			int count_180service_normal = serviceService.getCount_180service_Normal(id_service);
+			// 半年维保提示数量
+			int count_180service_warnning = serviceService.getCount_180service_Warnning(id_service);
+			// 半年维保逾期数量
+			int count_180service_overdue = serviceService.getCount_180service_Overdue(id_service);
+			// 年度维保正常数量
+			int count_360service_normal = serviceService.getCount_360service_Normal(id_service);
+			// 年度维保提示数量
+			int count_360service_warnning = serviceService.getCount_360service_Warnning(id_service);
+			// 年度维保逾期数量
+			int count_360service_overdue = serviceService.getCount_360service_Overdue(id_service);
+
+			ModelAndView mav = new ModelAndView("system/serviceTongji");
+			mav.addObject("service",service);
+			mav.addObject("count", count);
+			mav.addObject("count_registed", count_registed);
+			mav.addObject("count_stop", count_stop);
+			mav.addObject("count_destory", count_destory);
+			mav.addObject("count_noregist", count_noregist);
+			mav.addObject("count_15service_normal", count_15service_normal);
+			mav.addObject("count_15service_warnning", count_15service_warnning);
+			mav.addObject("count_15service_overdue", count_15service_overdue);
+			mav.addObject("count_90service_normal", count_90service_normal);
+			mav.addObject("count_90service_warnning", count_90service_warnning);
+			mav.addObject("count_90service_overdue", count_90service_overdue);
+			mav.addObject("count_180service_normal", count_180service_normal);
+			mav.addObject("count_180service_warnning", count_180service_warnning);
+			mav.addObject("count_180service_overdue", count_180service_overdue);
+			mav.addObject("count_360service_normal", count_360service_normal);
+			mav.addObject("count_360service_warnning", count_360service_warnning);
+			mav.addObject("count_360service_overdue", count_360service_overdue);
+			return mav;
+		}
+		
+	}
 }
