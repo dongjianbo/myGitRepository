@@ -64,13 +64,40 @@
 			buttons:{
 				"确定":function(fn){
 					var form = $("#insertForm");
-					$.post(form.attr('action'),form.serialize(),function(a){
-						if(a=="ok"){
-							location.reload();
+					//=================检查表单中的字段是否为空 ===================================
+					//判断文本框中的值是否为空
+				var name1=$("#name1").val();
+				if(name1==null||name1==""){
+					$("#name2").html("<i>姓名不能为空 !!!</i>");
+				}else{
+					$("#name2").html("");
+					var loginname1=$("#loginname1").val();
+				    if(loginname1==null||loginname1==""){
+					 $("#loginname2").html("<i>登陆名不能为空 !!!</i>");
+					}else{
+						$("#loginname2").html("");
+						var password1=$("#password1").val();
+						if(password1==null||password1==""){
+							$("#password2").html("<i>密码不能为空 !!!</i>");
 						}else{
-							alert("程序有点问题哟！");
-						}
-					});
+							$("#password2").html("");
+							var idOrganization1=$("#idOrganization1").val();
+						    if(idOrganization1==null||idOrganization1==""){
+							  $("#idOrganization2").html("<i>所属单位顺序号不能为空 !!!</i>");
+							 }else{
+							   $("#idOrganization2").html("");
+								//提交表单 
+									$.post(form.attr('action'),form.serialize(),function(a){
+										if(a=="ok"){
+											location.reload();
+										}else{
+											alert("程序有点问题哟！");
+										}
+									});
+							 }
+				        }
+				   }
+				}
 				},
 				"关闭":function(){
 					$(this).dialog("close");
@@ -80,14 +107,36 @@
 				$(this).dialog("close");
 			}
 		});
-		// 查询所有的 权限类别流水号 (下拉框的值 )
-		  $.getJSON("${path }/role/list_json.do","rand="+Math.random(),function(d){
+		// 查询所有的 操作员类别 (下拉框的值 )
+		  $.getJSON("${path }/operator_type_def/list_json.do","rand="+Math.random(),function(d){
 			  //将查询到的信息放入修改表单中--注意隐藏域中的主键
 			for(var i=0;i<d.length;i++){
-				$("#idprivilege").append("<option size='"+50+"' value='"+d[i].idrole+"'>"+d[i].idrole+"</option>");
-				$("#idprivilege1").append("<option size='"+50+"' value='"+d[i].idrole+"'>"+d[i].idrole+"</option>");
+				//放入修改 界面的 类别下拉框中（插入界面有默认 插入的值所以不用放 ）
+				//alert(d[i].name);
+				$("#typeOperator").append("<option size='"+50+"' value='"+d[i].id_operator_type+"'>"+d[i].name+"</option>");
+				
 			}
 		}); 
+		//查询维保人员状态（下拉框 的值 ）
+			$.getJSON("${path }/status_def/list_json.do","rand="+Math.random(),function(d){
+					  //将查询到的信息放入修改表单中--注意隐藏域中的主键
+					for(var i=0;i<d.length;i++){
+						//alert(d[i].name);
+						$("#status").append("<option size='"+50+"' value='"+d[i].idstatus+"'>"+d[i].name+"</option>");
+						$("#status1").append("<option size='"+50+"' value='"+d[i].idstatus+"'>"+d[i].name+"</option>");
+					}
+				}); 
+		//查询 操作员角色 （下拉框的值 ）
+			$.getJSON("${path }/role/list_json.do","rand="+Math.random(),function(d){
+					  //将查询到的信息放入修改表单中--注意隐藏域中的主键
+					for(var i=0;i<d.length;i++){
+						alert(d[i].name);
+						$("#idprivilege").append("<option size='"+50+"' value='"+d[i].idrole+"'>"+d[i].name_role+"</option>");
+						$("#idprivilege1").append("<option size='"+50+"' value='"+d[i].idrole+"'>"+d[i].name_role+"</option>");
+					}
+					
+				}); 
+			
 		$("#updateDialog").dialog({
 			modal:true,
 			autoOpen:false,
@@ -96,14 +145,41 @@
 			buttons:{
 				"确定":function(){
 					var form = $("#updateForm");
-					$.post(form.attr('action'),form.serialize(),function(a){
-						if(a=="ok"){
-							location.reload();
+					//=================检查表单中的字段是否为空 ===================================
+					//判断文本框中的值是否为空
+				var name=$("#name").val();
+				if(name==null||name==""){
+					$("#name0").html("<i>姓名不能为空 !!!</i>");
+				}else{
+					$("#name0").html("");
+					var loginname=$("#loginname").val();
+				    if(loginname==null||loginname==""){
+					 $("#loginname0").html("<i>登陆名不能为空 !!!</i>");
+					}else{
+						$("#loginname0").html("");
+						var password=$("#password").val();
+						if(password==null||password==""){
+							$("#password0").html("<i>密码不能为空 !!!</i>");
 						}else{
-							alert("程序有点问题哟！");
+							$("#password0").html("");
+							var idOrganization=$("#idOrganization").val();
+						    if(idOrganization==null||idOrganization==""){
+							  $("#idOrganization0").html("<i>所属单位顺序号不能为空 !!!</i>");
+							 }else{
+							   $("#idOrganization0").html("");
+								//提交表单 
+									$.post(form.attr('action'),form.serialize(),function(a){
+										if(a=="ok"){
+											location.reload();
+										}else{
+											alert("程序有点问题哟！");
+										}
+									});
 						}
-					});
-				},
+			        }
+			     }
+			   }
+		  },
 				"关闭":function(){
 					$(this).dialog("close");
 				}
@@ -177,8 +253,7 @@
 		
 		$.getJSON("${path }/operator/toUpdate.do?idoperator="+did,"rand="+Math.random(),function(d){
 			//将查询到的信息放入修改表单中--注意隐藏域中的主键
-			
-			$("#idprivilege").val(d.idprivilege);
+			$("#typeOperator").val(d.typeOperator);
 			$("#name").val(d.name);
 			$("#idcard").val(d.idcard);
 			$("#idcity").val(d.idcity);
@@ -187,6 +262,7 @@
 			$("#loginname").val(d.loginname);
 			$("#password").val(d.password);
 			$("#idOrganization").val(d.idOrganization);
+			$("#idprivilege").val(d.idprivilege);
 			$("#status").val(d.status);
 			$("#idoperator").val(d.idoperator);
 			//打开修改对话框
@@ -209,23 +285,25 @@
 	<table cellpadding="0" cellspacing="1">
 		<tr>
 			<th>编号</th>
-			<th>权限类别流水号</th>
+			<th>操作员类别</th>
 			<th>操作员姓名</th>
-			<th>身份证号码</th>
-			<th>所属城市编号</th>
-			<th>所属区县编号</th>
-			<th>所属乡镇街道编码</th>
+			<th>所属城市</th>
+			<th>所属区县</th>
+			<th>所属乡镇街道</th>
+			<th>角色</th>
+			<th>操作员状态</th>
 			<th>操 作</th>
 		</tr>
 		<c:forEach items="${operatorList}" var="d">
 			<tr>
 				<td>${d.idoperator}</td>
-				<td>${d.idprivilege }</td>
+				<td>${d.operator_type_def.name}</td>
 				<td>${d.name}</td>
-				<td>${d.idcard}</td>
-				<td>${d.idcity }</td>
-				<td>${d.iddistrict }</td>
-				<td>${d.idsubdistrict}</td>
+				<td>${d.city.name_city }</td>
+				<td>${d.distict.name_district }</td>
+				<td>${d.subdistict.name_subdistrict}</td>
+				<td>${d.role.name_role}</td>
+				<td>${d.status_def.name}</td>
 				
 				<td><a
 					href="javascript:showUpdate(${d.idoperator})">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -234,7 +312,7 @@
 			</tr>
 		</c:forEach>
 		<tr>
-			<td colspan="8" style="text-align: left;">${pagination}</td>
+			<td colspan="9" style="text-align: left;">${pagination}</td>
 		</tr>
 	</table>
 	<div align="right">
@@ -245,55 +323,56 @@
  <div id="insertDialog" style="display: none" title="添加">
 		<form action="${path }/operator/insert.do" method="post" id="insertForm">
 			<ul>
-			    <li>权限类别流水号:
-				<li><select name="idprivilege" id="idprivilege1"></select>
+			    
 				<li>操作员姓名:
-				<li><input type="text" name="name" size="50"/>
+				<li><input type="text" name="name" id="name1" maxlength="20" size="50"/>*<div id="name2" style="float: right; margin-right:220 " ></div>
 				<li>身份证号码:
-				<li><input type="text" name="idcard" size="50"/>
-				<li>所属城市编号:
+				<li><input type="text" name="idcard" id="idcard1" maxlength="18" size="50"/>
+				<li>所属城市:
 				<li><select name="idcity" id="idcity1" onchange="chooseCity(this.value)"></select>
-				<li>所属区县编号:
+				<li>所属区县:
 				<li><select name="iddistrict" id="iddistrict1" onchange="choosedistrict(this.value)"></select> 
-				<li>所属乡镇街道编码:
+				<li>所属乡镇街道:
 				<li><select id="idsubdistrict1" name="idsubdistrict"></select>
 				<li>登陆名:
-				<li><input type="text" name="loginname" size="50"/>
+				<li><input type="text" name="loginname" id="loginname1" maxlength="20" size="50" />*<div id="loginname2" style="float: right; margin-right:220 " ></div>
 				<li>密码:
-				<li><input type="text" name="password" size="50"/>
+				<li><input type="text" name="password" id="password1" maxlength="32" size="50"/>*<div id="password2" style="float: right; margin-right:220 " ></div>
 				<li>所属单位顺序号:
-				<li><input type="text" name="idOrganization" size="50"/>
-				<li>技术监督局操作员状态:
-				<li><input type="text" name="status" size="50"/>
-				<li><input type="hidden" name="typeOperator" value="00">
+				<li><input type="text" name="idOrganization" id="idOrganization1" maxlength="11" size="50"/>*<div id="idOrganization2" style="float: right; margin-right:220 " ></div>
+				<li>角色:
+				<li><select name="idprivilege" id="idprivilege1"></select>
+				<li><input type="hidden" name="status" id="status1" value="1"/>
+				<li><input type="hidden" name="typeOperator" id="typeOperator1" value="00">
 			</ul>
 		</form>
 	</div>
 	<div id="updateDialog" style="display: none" title="修改">
 		<form action="${path }/operator/update.do" method="post" id="updateForm">
 			<ul>
-			    <li>权限类别流水号:
-				<li><select name="idprivilege" id="idprivilege"></select>
+			    <li>操作员类别：
+			    <li><select  name="typeOperator" id="typeOperator" ></select>
 				<li>操作员姓名:
-				<li><input type="text" name="name" id="name" size="50"/>
+				<li><input type="text" name="name" id="name" maxlength="20" size="50"/>*<div id="name0" style="float: right; margin-right:220 " ></div>
 				<li>身份证号码:
-				<li><input type="text" name="idcard" id="idcard" size="50"/>
-				<li>所属城市编号:
+				<li><input type="text" name="idcard" id="idcard" maxlength="18" size="50"/>
+				<li>所属城市:
 				<li><select name="idcity" id="idcity" onchange="chooseCity(this.value)"></select>
-				<li>所属区县编号:
+				<li>所属区县:
 				<li><select name="iddistrict" id="iddistrict" onchange="choosedistrict(this.value)"></select> 
-				<li>所属乡镇街道编码:
+				<li>所属乡镇街道:
 				<li><select id="idsubdistrict" name="idsubdistrict"></select>
 				<li>登陆名:
-				<li><input type="text" name="loginname" id="loginname" size="50"/>
+				<li><input type="text" name="loginname" id="loginname" maxlength="20" size="50"/>*<div id="loginname0" style="float: right; margin-right:220 " ></div>
 				<li>密码:
-				<li><input type="text" name="password" id="password" size="50"/>
+				<li><input type="text" name="password" id="password" maxlength="32" size="50"/>*<div id="password0" style="float: right; margin-right:220 " ></div>
 				<li>所属单位顺序号:
-				<li><input type="text" name="idOrganization" id="idOrganization" size="50"/>
+				<li><input type="text" name="idOrganization" id="idOrganization" maxlength="11" size="50"/>*<div id="idOrganization0" style="float: right; margin-right:220 " ></div>
+				<li>角色:
+				<li><select name="idprivilege" id="idprivilege"></select>
 				<li>技术监督局操作员状态:
-				<li><input type="text" name="status" id="status" size="50"/>
-				<li><input type="hidden" name="idoperator" id="idoperator" />
-				<li><input type="hidden" name="typeOperator" value="00">
+				<li><select name="status" id="status"></select>
+			    <li><input type="hidden" name="idoperator" id="idoperator" />
 			</ul>
 		</form>
 	</div>

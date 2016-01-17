@@ -194,7 +194,6 @@
 		<tr>
 			<th>安全员顺序号</th>
 			<th>安全员姓名</th>
-			<th>身份证号码</th>
 			<th>所属用户单位</th>
 			<th>从业资格证书编号</th>
 			<th>安全人员状态</th>
@@ -204,7 +203,6 @@
 			<tr>
 				<td>${d.idsafer}</td>
 				<td>${d.name }</td>
-				<td>${d.idcard}</td>
 				<td>${d.user.name}</td>
 				<td>${d.licencecode}</td>
 				<td>${d.status_def.name }</td>

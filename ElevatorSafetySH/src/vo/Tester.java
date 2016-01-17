@@ -1,10 +1,13 @@
 package vo;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -23,7 +26,18 @@ public class Tester {
 	private String status;
 	@Column(name = "id_mifare")
 	private String idMifare;
-
+	
+	//配置一对一     人员状态
+	@OneToOne(cascade=CascadeType.REFRESH,optional=true)
+	@JoinColumn(name="id_test",insertable=false,updatable=false)
+    private Test test ;
+	//配置一对一     人员状态
+	@OneToOne(cascade=CascadeType.REFRESH,optional=true)
+	@JoinColumn(name="status",insertable=false,updatable=false)
+	private Status_def status_def ;
+	
+	
+	
 	public String getIdMifare() {
 		return idMifare;
 	}
@@ -38,6 +52,22 @@ public class Tester {
 
 	public void setIdtester(int idtester) {
 		this.idtester = idtester;
+	}
+
+	public Test getTest() {
+		return test;
+	}
+
+	public void setTest(Test test) {
+		this.test = test;
+	}
+
+	public Status_def getStatus_def() {
+		return status_def;
+	}
+
+	public void setStatus_def(Status_def status_def) {
+		this.status_def = status_def;
 	}
 
 	public String getName() {

@@ -42,6 +42,17 @@
 			buttons:{
 				"确定":function(fn){
 					var form = $("#insertForm");
+					var modelname1=$("#modelname1").val();
+					if(modelname1==null||modelname1==""){
+						$("#modelname2").html("<i>电梯型号不能为空 !!!</i>");
+					}else{
+						$("#modelname2").html("");
+			            var suitplace1=$("#suitplace1").val();
+					    if(suitplace1==null||suitplace1==""){
+						  $("#suitplace2").html("<i>使用场合不能为空 !!!</i>");
+						 }else{
+						   $("#suitplace2").html("");
+							   //提交表单 
 					$.post(form.attr('action'),form.serialize(),function(a){
 						if(a=="ok"){
 							location.reload();
@@ -49,6 +60,8 @@
 							alert("程序有点问题哟！");
 						}
 					});
+				 }
+			    }
 				},
 				"关闭":function(){
 					$(this).dialog("close");
@@ -83,13 +96,26 @@
 			buttons:{
 				"确定":function(){
 					var form = $("#updateForm");
-					$.post(form.attr('action'),form.serialize(),function(a){
-						if(a=="ok"){
-							location.reload();
-						}else{
-							alert("程序有点问题哟！");
-						}
-					});
+					var modelname=$("#modelname").val();
+					if(modelname==null||modelname==""){
+						$("#modelname0").html("<i>电梯型号不能为空 !!!</i>");
+					}else{
+						$("#modelname0").html("");
+			            var suitplace=$("#suitplace").val();
+					    if(suitplace==null||suitplace==""){
+						  $("#suitplace0").html("<i>使用场合不能为空 !!!</i>");
+						 }else{
+						   $("#suitplace0").html("");
+							   //提交表单 
+								$.post(form.attr('action'),form.serialize(),function(a){
+									if(a=="ok"){
+										location.reload();
+									}else{
+										alert("程序有点问题哟！");
+									}
+								});
+						 }
+					    }		   
 				},
 				"关闭":function(){
 					$(this).dialog("close");
@@ -174,9 +200,9 @@
 		<c:forEach items="${modelList}" var="d">
 			<tr>
 				<td>${d.idmodel}</td>
-				<td>${d.idmanufer }</td>
+				<td>${d.manufer.name }</td>
 				<td>${d.modelname}</td>
-				<td>${d.typeElevator}</td>
+				<td>${d.elevator_type_def.name}</td>
 				<td>${d.suitplace}</td>
 				<td><a
 				       href="javascript:showUpdate(${d.idmodel})">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -199,49 +225,49 @@
 				<li>生产厂家:
 				<li><select name="idmanufer" id="idmanufer1"></select>
 				<li>电梯型号:
-				<li><input type="text" name="modelname" size="50"/>
+				<li><input type="text" name="modelname" id="modelname1" maxlength="20" size="50"/>*<div id="modelname2" style="float: right; margin-right:220 " ></div>
 				<li>电梯类型:
 				<li><select name="typeElevator" id="typeElevator1"></select>
 				<li>适用场合:
-				<li><input type="text" name="suitplace" size="50"/>
+				<li><input type="text" name="suitplace" id="suitplace1" maxlength="20" size="50"/>*<div id="suitplace2" style="float: right; margin-right:220 " ></div>
 				<li>1类驱动方式：
-				<li><input type="text" name="parameter11" size="50"/>
+				<li><input type="text" name="parameter11" maxlength="1" size="50"/>
 				<li>1类额定载重量:（单位：千克）
-				<li><input type="text" name="parameter12" size="50"/>
+				<li><input type="text" name="parameter12" maxlength="11" size="50"/>
 				<li>1类额定速度:（单位：m/s）
-				<li><input type="text" name="parameter13" size="50"/>
+				<li><input type="text" name="parameter13" maxlength="5" size="50"/>
 				<li>1类层站数:
-				<li><input type="text" name="parameter14" size="50"/>
+				<li><input type="text" name="parameter14" maxlength="11" size="50"/>
 				<li>2类额定载重量 （单位：千克）
-				<li><input type="text" name="parameter21" size="50"/>
+				<li><input type="text" name="parameter21" maxlength="11" size="50"/>
 				<li>2类额定速度  （单位：m/s）
-				<li><input type="text" name="parameter22" size="50"/>
+				<li><input type="text" name="parameter22" maxlength="5" size="50"/>
 				<li>2类层站数
-				<li><input type="text" name="parameter23" size="50"/>
+				<li><input type="text" name="parameter23" maxlength="11" size="50"/>
 				<li>2类油缸数量
-				<li><input type="text" name="parameter24" size="50"/>
+				<li><input type="text" name="parameter24" maxlength="11" size="50"/>
 				<li>2类顶升方式 
-				<li><input type="text" name="parameter25" size="50"/>
+				<li><input type="text" name="parameter25" maxlength="1" size="50"/>
 				<li>3类驱动方式
-				<li><input type="text" name="parameter31" size="50"/>
+				<li><input type="text" name="parameter31" maxlength="1" size="50"/>
 				<li>3类额定载重量 （单位=kg）
-				<li><input type="text" name="parameter32" size="50"/>
+				<li><input type="text" name="parameter32" maxlength="11" size="50"/>
 				<li>3类额定速度 （单位=m/s）
-				<li><input type="text" name="parameter33" size="50"/>
+				<li><input type="text" name="parameter33" maxlength="5" size="50"/>
 				<li>3类层站数
-				<li><input type="text" name="parameter34" size="50"/>
+				<li><input type="text" name="parameter34" maxlength="11" size="50"/>
 				<li>4类倾斜角度
-				<li><input type="text" name="parameter41" size="50"/>
+				<li><input type="text" name="parameter41" maxlength="11" size="50"/>
 				<li>4类额定速度（单位=m/s）
-				<li><input type="text" name="parameter42" size="50"/>
+				<li><input type="text" name="parameter42" maxlength="5" size="50"/>
 				<li>4类提升高度（单位=m）
-				<li><input type="text" name="parameter43" size="50"/>
+				<li><input type="text" name="parameter43" maxlength="5" size="50"/>
 				<li>4类梯级宽度（单位=m）
-				<li><input type="text" name="parameter44" size="50"/>
+				<li><input type="text" name="parameter44" maxlength="5" size="50"/>
 				<li>4类主机功率（单位=kw）
-				<li><input type="text" name="parameter45" size="50"/>
+				<li><input type="text" name="parameter45" maxlength="5" size="50"/>
 				<li>4类使用区长度（单位=m）
-				<li><input type="text" name="parameter46" size="50"/>
+				<li><input type="text" name="parameter46" maxlength="5" size="50"/>
 	
 			</ul>
 		</form>
@@ -252,49 +278,49 @@
 				<li>生产厂家:
 				<li><select name="idmanufer" id="idmanufer"></select>
 				<li>电梯型号:
-				<li><input type="text" name="modelname" id="modelname" size="50"/>
+				<li><input type="text" name="modelname" id="modelname" maxlength="20" size="50"/>*<div id="modelname0" style="float: right; margin-right:220 " ></div>
 				<li>电梯类型:
 				<li><select name="typeElevator" id="typeElevator"></select>
 				<li>适用场合:
-				<li><input type="text" name="suitplace" id="suitplace" size="50"/>
+				<li><input type="text" name="suitplace" id="suitplace" maxlength="20" size="50"/>*<div id="suitplace0" style="float: right; margin-right:220 " ></div>
 				<li>1类驱动方式：
-				<li><input type="text" name="parameter11" id="parameter11" size="50"/>
+				<li><input type="text" name="parameter11" id="parameter11" maxlength="1" size="50"/>
 				<li>1类额定载重量:（单位：千克）
-				<li><input type="text" name="parameter12" id="parameter12" size="50"/>
+				<li><input type="text" name="parameter12" id="parameter12" maxlength="11" size="50"/>
 				<li>1类额定速度:（单位：m/s）
-				<li><input type="text" name="parameter13" id="parameter13" size="50"/>
+				<li><input type="text" name="parameter13" id="parameter13" maxlength="5" size="50"/>
 				<li>1类层站数:
-				<li><input type="text" name="parameter14" id="parameter14" size="50"/>
+				<li><input type="text" name="parameter14" id="parameter14" maxlength="11" size="50"/>
 				<li>2类额定载重量 （单位：千克）
-				<li><input type="text" name="parameter21" id="parameter21" size="50"/>
+				<li><input type="text" name="parameter21" id="parameter21" maxlength="11" size="50"/>
 				<li>2类额定速度  （单位：m/s）
-				<li><input type="text" name="parameter22" id="parameter22" size="50"/>
+				<li><input type="text" name="parameter22" id="parameter22" maxlength="5" size="50"/>
 				<li>2类层站数
-				<li><input type="text" name="parameter23" id="parameter23" size="50"/>
+				<li><input type="text" name="parameter23" id="parameter23" maxlength="11" size="50"/>
 				<li>2类油缸数量
-				<li><input type="text" name="parameter24" id="parameter24" size="50"/>
+				<li><input type="text" name="parameter24" id="parameter24" maxlength="11" size="50"/>
 				<li>2类顶升方式 
-				<li><input type="text" name="parameter25"  id="parameter25" size="50"/>
+				<li><input type="text" name="parameter25"  id="parameter25" maxlength="1" size="50"/>
 				<li>3类驱动方式
-				<li><input type="text" name="parameter31" id="parameter31" size="50"/>
+				<li><input type="text" name="parameter31" id="parameter31" maxlength="1" size="50"/>
 				<li>3类额定载重量 （单位=kg）
-				<li><input type="text" name="parameter32" id="parameter32" size="50"/>
+				<li><input type="text" name="parameter32" id="parameter32" maxlength="11" size="50"/>
 				<li>3类额定速度 （单位=m/s）
-				<li><input type="text" name="parameter33" id="parameter33" size="50"/>
+				<li><input type="text" name="parameter33" id="parameter33" maxlength="5" size="50"/>
 				<li>3类层站数
-				<li><input type="text" name="parameter34" id="parameter34" size="50"/>
+				<li><input type="text" name="parameter34" id="parameter34" maxlength="11" size="50"/>
 				<li>4类倾斜角度
-				<li><input type="text" name="parameter41" id="parameter41" size="50"/>
+				<li><input type="text" name="parameter41" id="parameter41" maxlength="11" size="50"/>
 				<li>4类额定速度（单位=m/s）
-				<li><input type="text" name="parameter42" id="parameter42" size="50"/>
+				<li><input type="text" name="parameter42" id="parameter42" maxlength="5" size="50"/>
 				<li>4类提升高度（单位=m）
-				<li><input type="text" name="parameter43"  id="parameter43" size="50"/>
+				<li><input type="text" name="parameter43"  id="parameter43" maxlength="5" size="50"/>
 				<li>4类梯级宽度（单位=m）
-				<li><input type="text" name="parameter44" id="parameter44" size="50"/>
+				<li><input type="text" name="parameter44" id="parameter44" maxlength="5" size="50"/>
 				<li>4类主机功率（单位=kw）
-				<li><input type="text" name="parameter45" id="parameter45" size="50"/>
+				<li><input type="text" name="parameter45" id="parameter45" maxlength="5" size="50"/>
 				<li>4类使用区长度（单位=m）
-				<li><input type="text" name="parameter46" id="parameter46" size="50"/>
+				<li><input type="text" name="parameter46" id="parameter46" maxlength="5" size="50"/>
 				<li><input type="hidden" name="idmodel" id="idmodel" />
 			</ul>
 		</form>

@@ -51,6 +51,10 @@ public class RoleCotroller {
     @ResponseBody
     public String list_json(){
     	List<Role> roleList=roleService.list();
+    	for(Role r:roleList){
+    		System.out.println("½ÇÉ«111111111111111£º"+r.getName_role());
+    	}
+    	
     	JSONArray array=JSONArray.fromObject(roleList);
     	return array.toString();
     }

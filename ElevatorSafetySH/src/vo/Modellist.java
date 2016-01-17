@@ -1,10 +1,13 @@
 package vo;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -16,11 +19,34 @@ public class Modellist {
   private int idmodel;
   @Column(name="id_manufer")
   private int idmanufer;
+  //配置 多对一 生产厂家
+  @ManyToOne(cascade=CascadeType.REFRESH,optional=true)
+  @JoinColumn(name="id_manufer",insertable=false,updatable=false)
+  private Manufer manufer;
+  
+  
   @Column(name="model_name")
   private String modelname;
   @Column(name="type_elevator")
   private String typeElevator;
-  private String suitplace;
+//配置 多对一电梯类型
+  @ManyToOne(cascade=CascadeType.REFRESH,optional=true)
+  @JoinColumn(name="type_elevator",insertable=false,updatable=false)
+  private Elevator_type_def elevator_type_def ;
+  
+  public Manufer getManufer() {
+	return manufer;
+}
+public void setManufer(Manufer manufer) {
+	this.manufer = manufer;
+}
+public Elevator_type_def getElevator_type_def() {
+	return elevator_type_def;
+}
+public void setElevator_type_def(Elevator_type_def elevator_type_def) {
+	this.elevator_type_def = elevator_type_def;
+}
+private String suitplace;
   private String parameter11;
   private int parameter12;
   private Double parameter13;//小数类型封装

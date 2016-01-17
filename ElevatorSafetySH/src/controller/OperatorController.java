@@ -3,6 +3,7 @@ package controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,7 +26,7 @@ import vo.Safer;
 
 @Controller
 @RequestMapping("operator")
-public class OperatorController {
+public class OperatorController  {
   @Resource
   public OperatorService operatorService;
   @Resource
@@ -95,7 +96,21 @@ public class OperatorController {
 	@ResponseBody
 	public String toUpdate(Operator operator){
 		operator=operatorService.findById(operator.getIdoperator());
-		JSONObject object=JSONObject.fromObject(operator);
+		/*String jsonString ="{'typeOperator':'"+operator.getOperator_type_def().getName()+"',"
+					    + "'name':'"+operator.getName()+"',"
+						+ "'idcard':'"+operator.getIdcard()+"',"
+					    + "'idcity':'"+operator.getCity().getName_city()+"',"
+						+ "'iddistrict':'"+operator.getDistict().getName_district()+"',"
+						+ "'idsubdistrict':'"+operator.getSubdistict().getName_subdistrict()+"',"
+						+ "'loginname':'"+operator.getLoginname()+"',"
+						+ "'password':'"+operator.getPassword()+"',"
+						+ "'idOrganization':"+operator.getIdOrganization()+","
+					    + "''idprivilege':'"+operator.getRole().getName_role()+"',':'"+operator.getOperator_type_def().getName()+"',"
+					    + "'status':'"+operator.getStatus_def().getName()+"',"
+					    + "'idoperator':"+operator.getIdoperator()+"}";*/
+	  //System.out.println(jsonString);
+		//return jsonString;
+		JSONObject   object=JSONObject.fromObject(operator);
 		return object.toString();
 	}
 	@RequestMapping(value="update",produces="text/html;charset=utf-8")
