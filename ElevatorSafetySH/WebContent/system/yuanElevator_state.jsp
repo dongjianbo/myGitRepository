@@ -73,7 +73,7 @@
 </script>
 </head>
 <body>
-		<form action="${path }/elevator_state/insertElevator_state.do" method="post" name="myform">
+		<form action="${path }/elevator_state/yuanElevator_state.do" method="post" name="myform">
 			     <ul>
 			        <li>上次半月维保日期:
 					<li><input type="text" name="last_15_service" size="50" id="date1" placeholder="请选择上次半月维保日期">
@@ -84,13 +84,13 @@
 				    <li>上次年度维保日期:
 				    <li><input type="text" name="last_360_service" size="50" id="date4" placeholder="请选择上次年度维保日期">
 				    <li>上次安全员巡检日期:
-				    <li><input type="text" name="lastrounds" size="50" id="date5" placeholder="请选择上次安全员巡检日期">
+				    <li><input type="text" name="lastrounds" size="50" id="date5" placeholder="请选择上次安检员巡检日期">
 				    <li>上次检验检测日期:
 				    <li><input type="text" name="lasttest" size="50" id="date6" placeholder="请选择上次检验检测日期">
 				    <li>标签下载备注项:
 				    <li><input type="text" name="labeldemo" size="50">
 				    <li>最后修改日期时间:
-				    <li><input type="text" name="lastmodified" size="50" id="date7" placeholder="请选择最后修改日期时间"><input type="button" value="提交" onclick="shijian()">
+				    <li><input type="text" name="lastmodified" size="50" id="date7" placeholder="请选择最后修改日期"><input type="button" value="提交" onclick="shijian()">
 				  </ul>
 			    
 		</form>

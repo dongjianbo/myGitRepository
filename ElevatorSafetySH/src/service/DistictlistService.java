@@ -22,4 +22,10 @@ public class DistictlistService {
 		dc.add(Restrictions.eq("id_city", id_city));
 		return distictlistDao.getListByDc(dc);
 	}
+	public Distictlist getListByCityId(String id_city,String dis){
+		DetachedCriteria dc=DetachedCriteria.forClass(Distictlist.class);
+		dc.add(Restrictions.eq("id_city", id_city));
+		dc.add(Restrictions.eq("id_district", dis));
+		return (Distictlist)distictlistDao.getListByDc(dc).get(0);
+	}
 }

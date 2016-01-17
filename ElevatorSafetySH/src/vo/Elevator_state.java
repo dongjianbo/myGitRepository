@@ -11,7 +11,6 @@ import javax.persistence.Table;
 @Table(name="elevator_state")
 public class Elevator_state {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_elevator")
 	private int idelevator;
 	private String last_15_service;

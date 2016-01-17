@@ -22,6 +22,7 @@ public class ElevatorService {
 	public Serializable insert(Elevator elevator){
 		return elevatorDao.save(elevator);
 	}
+
 	//修改电梯
 	public void update(Elevator elevator){
 		elevatorDao.update(elevator);
@@ -77,6 +78,8 @@ public class ElevatorService {
 		}
 		return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 	}
+	
+	
 	//已注册电梯数量
 	@SuppressWarnings("unchecked")
 	public int getCount_Registed(){

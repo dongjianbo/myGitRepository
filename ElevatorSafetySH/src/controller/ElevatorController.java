@@ -98,6 +98,12 @@ public class ElevatorController{
 		el.setNum_floor_elevator(elevator.getNum_floor_elevator());
 		el.setId_elevator_model(elevator.getId_elevator_model());
 		el.setDate_declare(elevator.getDate_declare());
+		el.setCheck_construct(elevator.getCheck_construct());
+		el.setId_service(elevator.getId_service());
+		el.setId_test(elevator.getId_test());
+		el.setCheck_construct_code(elevator.getCheck_construct_code());
+		el.setDate_register(elevator.getDate_register());
+		el.setDate_enable(elevator.getDate_enable());
 		int id_elevator=Integer.parseInt(elevatorService.insert(el).toString());
 		request.getSession().setAttribute("yuanid_elevator",id_elevator);
 		//systemstateÐÞ¸Ä×Ö¶Îversion_elevator +1
@@ -302,7 +308,7 @@ public class ElevatorController{
 	@RequestMapping("list")
 	public ModelAndView list(HttpServletRequest request){
 		ModelAndView mav=new ModelAndView("system/ElevatorRegist");
-		mav.addObject("elevListRegist", elevatorService.listCount_NoRegist(12, request));
+		mav.addObject("elevListRegist", elevatorService.listCount_NoRegist("",12, request));
 		return mav;
 	}
 	@RequestMapping("list1")

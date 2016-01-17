@@ -53,6 +53,11 @@
 			height:450,
 			buttons:{
 				"确定":function(fn){
+					var name=$("#serviceName").val();
+					if(name==""||name==null){
+						$("#message1").html("<i>名字不能为空!!!</i>");
+					}else{
+						$("#message1").html("");
 					var form = $("#insertForm");
 					$.post(form.attr('action'),form.serialize(),function(a){
 						if(a=="ok"){
@@ -64,6 +69,7 @@
 							alert("程序有点问题哟！");
 						}
 					});
+				 }
 				},
 				"关闭":function(){
 					$(this).dialog("close");
@@ -81,6 +87,11 @@
 			height:450,
 			buttons:{
 				"确定":function(){
+					var name=$("#name").val();
+					if(name==""||name==null){
+						$("#message2").html("<i>名字不能为空!!!</i>");
+					}else{
+						$("#message2").html("");
 					var form = $("#updateForm");
 					$.post(form.attr('action'),form.serialize(),function(a){
 						if(a=="ok"){
@@ -89,6 +100,7 @@
 							alert("程序有点问题哟！");
 						}
 					});
+				  }
 				},
 				"关闭":function(){
 					$(this).dialog("close");
@@ -106,6 +118,21 @@
 			height:450,
 			buttons:{
 				"确定":function(){
+					var name=$("#insertname").val();
+					var loginname=$("#loginname").val();
+					var password=$("#password").val();
+					if(name==null||name==""){
+						$("#message3").html("<i>姓名不能为空!!!</i>");
+					}else{
+						$("#message3").html("");
+						if(loginname==null||loginname==""){
+							$("#message4").html("<i>登录名不能为空</i>");
+						}else{
+							$("#message4").html("");
+							if(password==null||password==""){
+								$("#message5").html("<i>密码不能为空</i>");
+							}else{
+								$("#message5").html("");
 					var form = $("#insertweibaoForm");
 					$.post(form.attr('action'),form.serialize(),function(a){
 						if(a=="ok"){
@@ -117,7 +144,10 @@
 							alert("程序有点问题哟！");
 						}
 					});
-				},
+				}
+			}
+		}
+	},
 				"关闭":function(){
 					$(this).dialog("close");
 				}
@@ -134,6 +164,21 @@
 			height:450,
 			buttons:{
 				"确定":function(){
+					var name=$("#insert1name").val();
+					var loginname=$("#loginname1").val();
+					var password=$("#password1").val();
+					if(name==null||name==""){
+						$("#message6").html("<i>姓名不能为空!!!</i>");
+					}else{
+						$("#message6").html("");
+						if(loginname==null||loginname==""){
+							$("#message7").html("<i>登录名不能为空</i>");
+						}else{
+							$("#message7").html("");
+							if(password==null||password==""){
+								$("#message8").html("<i>密码不能为空</i>");
+							}else{
+								$("#message8").html("");
 					var form = $("#insertyewuForm");
 					$.post(form.attr('action'),form.serialize(),function(a){
 						if(a=="ok"){
@@ -142,7 +187,10 @@
 							alert("程序有点问题哟！");
 						}
 					});
-				},
+				}
+			}
+		}
+	},
 				"关闭":function(){
 					$(this).dialog("close");
 				}
@@ -281,9 +329,9 @@
 		<form action="${path }/service/insert.do" method="post" id="insertForm">
 			<ul>
 				<li>维保单位代码:
-				<li><input type="text" name="code" size="50"/>
+				<li><input type="text" name="code" size="50" maxlength="9"/>
 				<li>单位名称:
-				<li><input type="text" name="name" size="50"/>
+				<li><input type="text" id="serviceName" name="name" size="50"/>*<div id="message1" style="float: right;padding-right:220px;"></div>
 				<li>维保许可证编号:
 				<li><input type="text" name="licence" size="50"/>
 				<li>维保许可证:
@@ -295,7 +343,7 @@
 				<li>单位地址:
 				<li><input type="text" name="addr" size="100"/>
 				<li>注册区域:
-				<li><input type="text" name="registerArea" size="100"/>
+				<li><input type="text" name="registerArea" size="100" maxlength="2"/>
 			</ul>
 		</form>
 	</div>
@@ -303,9 +351,9 @@
 		<form action="${path }/service/update.do" method="post" id="updateForm">
 			<ul>
 				<li>维保单位代码:
-				<li><input type="text" id="code" name="code" size="50"/>
+				<li><input type="text" id="code" name="code" size="50" maxlength="9"/>
 				<li>单位名称:
-				<li><input type="text" id="name" name="name" size="50"/>
+				<li><input type="text" id="name" name="name" size="50"/>*<div id="message2" style="float: right;padding-right:220px;"></div>
 				<li>维保许可证编号:
 				<li><input type="text" id="licence" name="licence" size="50"/>
 				<li>维保许可证:
@@ -317,7 +365,7 @@
 				<li>单位地址:
 				<li><input type="text" id="addr" name="addr" size="100"/>
 				<li>注册区域:
-				<li><input type="text" id="registerArea" name="registerArea" size="100"/>
+				<li><input type="text" id="registerArea" name="registerArea" size="100" maxlength="2"/>
 				<li><input type="hidden" id="idservice" name="idservice"/>
 			</ul>
 		</form>
@@ -327,7 +375,7 @@
 		<form action="${path }/operator/insert1.do" method="post" id="insertweibaoForm">
 			<ul>
 				<li>姓名:
-				<li><input type="text" id="name" name="name" size="50"/>
+				<li><input type="text" id="insertname" name="name" size="50"/>*<div id="message3" style="float: right;padding-right:220px;"></div>
 				<li>身份证号码:
 				<li><input type="text" id="idcard" name="idcard" size="50"/>
 				<li>城市:
@@ -338,11 +386,10 @@
 				<li>街道:
 				<li><select id="idsubdistrict" name="idsubdistrict"></select>
 				<li>登录名:
-				<li><input type="text" id="loginname" name="loginname" size="50"/>
+				<li><input type="text" id="loginname" name="loginname" size="50"/>*<div id="message4" style="float: right;padding-right:220px;"></div>
 				<li>密码:
-				<li><input type="text" id="password" name="password" size="50"/>
-				<li>状态:
-				<li><input type="text" id="status" name="status" size="50"/>
+				<li><input type="text" id="password" name="password" size="50"/>*<div id="message5" style="float: right;padding-right:220px;"></div>
+				<input type="hidden" name="status" value="1">
 				<input type="hidden" name="typeOperator" value="10">
 				<input type="hidden" name="idprivilege" value="1">
 				 <input type="hidden" name="idOrganization" value="${idservice }">
@@ -354,7 +401,7 @@
 		<form action="${path }/operator/insert1.do" method="post" id="insertyewuForm">
 			<ul>
 				<li>姓名:
-				<li><input type="text" id="name" name="name" size="50"/>
+				<li><input type="text" id="insert1name" name="name" size="50"/>*<div id="message6" style="float: right;padding-right:220px;"></div>
 				<li>身份证号码:
 				<li><input type="text" id="idcard" name="idcard" size="50"/>
 				<li>城市:
@@ -365,11 +412,10 @@
 				<li>街道:
 				<li><select id="idsubdistrict1" name="idsubdistrict"></select>
 				<li>登录名:
-				<li><input type="text" id="loginname" name="loginname" size="50"/>
+				<li><input type="text" id="loginname1" name="loginname" size="50"/>*<div id="message7" style="float: right;padding-right:220px;"></div>
 				<li>密码:
-				<li><input type="text" id="password" name="password" size="50"/>
-				<li>状态:
-				<li><input type="text" id="status" name="status" size="50"/>
+				<li><input type="text" id="password1" name="password" size="50"/>*<div id="message8" style="float: right;padding-right:220px;"></div>
+				<input type="hidden" name="status" value="1">
 				<input type="hidden" name="typeOperator" value="11">
 				<input type="hidden" name="idprivilege" value="2">
 				 <input type="hidden" name="idOrganization" value="${idservice }">
