@@ -9,8 +9,11 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import service.CitylistService;
@@ -362,6 +365,14 @@ public class ElevatorController{
 		//少了elevator_tag_init_task表的插入
         return "/system/insertElevator_stateRegist";//最后
 		
+	}
+	//查询所有的电梯
+	@RequestMapping(value="elevatorIdList",produces="text/html;charset=utf-8")
+	@ResponseBody
+	public String elevatorIdList(HttpServletRequest request){
+	List<Elevator> e=elevatorService.listCount1(request);
+	JSONArray array=JSONArray.fromObject(e);
+	return array.toString();
 	}
 	
 }

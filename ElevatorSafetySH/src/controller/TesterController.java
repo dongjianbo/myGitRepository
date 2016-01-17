@@ -92,6 +92,13 @@ public class TesterController {
 		testerService.update(tester);
 		return "ok";
 	}
+	@RequestMapping(value="id_tester",produces="text/html;charset=utf-8")
+	@ResponseBody
+	public String id_tester(){
+		List<Tester> list=testerService.getid_tester();
+		JSONArray array=JSONArray.fromObject(list);
+		return array.toString();
+	}
 	@RequestMapping("delete")
 	public String delete(Tester tester){
 		testerService.delete(tester);

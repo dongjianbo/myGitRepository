@@ -41,4 +41,8 @@ public class TesterService {
 	public void delete(Tester tester){
 		testerDao.delete(tester);
 	}
+	public List<Tester> getid_tester(){
+		DetachedCriteria dc=DetachedCriteria.forClass(Tester.class);
+		return testerDao.getListByDc(dc);
+	}
 }
