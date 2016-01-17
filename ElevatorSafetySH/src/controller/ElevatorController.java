@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import service.CitylistService;
@@ -26,9 +25,8 @@ import vo.History;
 import vo.History_list;
 import vo.History_listKey;
 import vo.Operator;
-import vo.Test;
 
-@Controller
+@Controller     
 @RequestMapping("elevator")
 public class ElevatorController{
 	@Resource
@@ -321,6 +319,16 @@ public class ElevatorController{
 		mav.addObject("key",key);
 		mav.addObject("search",search);
 		mav.addObject("requestMapping", "elevator");
+		return mav;
+	}
+	
+				
+	//通过id查询电梯的详细信息
+	@RequestMapping("selectElevatorByID")
+	public ModelAndView selectElevatorByID(Elevator e){
+		System.out.println(e.getId_elevator());
+		ModelAndView mav=new ModelAndView("system/elevatorinfrom");
+		mav.addObject("eById",elevatorService.getEById(e.getId_elevator()));
 		return mav;
 	}
 	//查询未注册的电梯
