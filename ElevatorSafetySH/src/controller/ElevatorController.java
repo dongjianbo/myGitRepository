@@ -321,7 +321,6 @@ public class ElevatorController{
 		mav.addObject("requestMapping", "elevator");
 		return mav;
 	}
-	
 				
 	//通过id查询电梯的详细信息
 	@RequestMapping("selectElevatorByID")
