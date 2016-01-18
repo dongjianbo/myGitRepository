@@ -19,11 +19,13 @@ import org.springframework.web.servlet.ModelAndView;
 import service.CitylistService;
 import service.DistictlistService;
 import service.ElevatorService;
+import service.Elevator_tag_init_taskService;
 import service.HistoryService;
 import service.History_listService;
 import service.SubdistictlistService;
 import service.SystemstateService;
 import vo.Elevator;
+import vo.Elevator_tag_init_task;
 import vo.History;
 import vo.History_list;
 import vo.History_listKey;
@@ -46,6 +48,8 @@ public class ElevatorController{
 	public DistictlistService distickService;
 	@Resource
 	public SubdistictlistService subService;
+	@Resource
+	public Elevator_tag_init_taskService elevator_tag_init_taskService;
 	@RequestMapping("insert")
 	public String insert(Elevator elevator,HttpServletRequest request,HttpServletResponse response){
 		Elevator el=(Elevator)request.getSession().getAttribute("elevator");//存在第一页的值
@@ -128,7 +132,18 @@ public class ElevatorController{
         hilist.setKey(key);//key表示复合主键的类
         hilist.setValue(id_elevator+"");
         System.out.println( history_listService.insert(hilist).toString());
-		//此时插入成功之后 转到elevator_state界面去插入电梯状态的信息
+        //elevator_tag_init_task表的插入
+        Elevator_tag_init_task elevator_tag_init_task=new Elevator_tag_init_task();
+        elevator_tag_init_task.setTitle(el.getDesc());
+        elevator_tag_init_task.setElevator_id(el.getId_elevator());
+        //插入之后 查询类型
+        Elevator leix=elevatorService.getEById(id_elevator);
+        elevator_tag_init_task.setElevator_type(leix.getElevatorType().getElevatortype());
+        elevator_tag_init_task.setElevator_code(el.getDevice_code());
+        elevator_tag_init_task.setElevator_address(el.getAddress());
+        elevator_tag_init_task.setElevator_layer_number(el.getNum_floor_elevator());
+        elevator_tag_init_taskService.insert(elevator_tag_init_task);
+        //此时插入成功之后 转到elevator_state界面去插入电梯状态的信息
         return "/system/yuanElevator_state";
 	}
 	@RequestMapping("insertTo1")
@@ -362,7 +377,15 @@ public class ElevatorController{
         hilist.setKey(key);//key表示复合主键的类
         hilist.setValue(e.getId_elevator()+"");
         System.out.println( history_listService.insert(hilist).toString());
-		//少了elevator_tag_init_task表的插入
+		//elevator_tag_init_task表的插入
+        Elevator_tag_init_task elevator_tag_init_task=new Elevator_tag_init_task();
+        elevator_tag_init_task.setTitle(elevator.getDesc());
+        elevator_tag_init_task.setElevator_id(e.getId_elevator());
+        elevator_tag_init_task.setElevator_type(elevator.getElevatorType().getElevatortype());
+        elevator_tag_init_task.setElevator_code(elevator.getDevice_code());
+        elevator_tag_init_task.setElevator_address(elevator.getAddress());
+        elevator_tag_init_task.setElevator_layer_number(elevator.getNum_floor_elevator());
+        elevator_tag_init_taskService.insert(elevator_tag_init_task);
         return "/system/insertElevator_stateRegist";//最后
 		
 	}

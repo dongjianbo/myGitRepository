@@ -66,6 +66,7 @@
 		var date1=$("#date1").val();
 		var date2=$("#date2").val();
 		var date3=$("#date3").val();
+		var desc=$("#desc").val();
 		if(code==null||code==""){
  
 		}else{
@@ -81,10 +82,15 @@
 						if(date3==null||date3==""){
 							
 						}else{
-							myform.submit();
+							if(desc==null||desc==""){
+								
+							}else{
+								myform.submit();
+							}
 						}
 					}
-				}
+				  }
+				
 				
 			}
 			
@@ -137,7 +143,7 @@
 				    <li><input type="text" name="project_duty" size="50">
 					    <br><br><br>
 				    <li>电梯简称:
-				    <li><input type="text" name="desc" size="50">
+				    <li><input type="text" name="desc" id="desc" size="50" placeholder="请输入电梯简称"/>*
 				    <input type="hidden" value="0" name="register_status">
 				      </ul>
 		        </td>
