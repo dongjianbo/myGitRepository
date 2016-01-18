@@ -51,7 +51,7 @@
 				<td>${e.manufer.idmanufer }</td>
 				<td>${e.address}</td>
 				<td>${e.project_duty }</td>
-				<td><a href="#">查看详细</a></td>
+				<td><a href="${path }/elevator/selectElevatorByID.do?id_elevator=${e.id_elevator}">查看详细</a></td>
 			</tr>
 		</c:forEach>
 		<tr>

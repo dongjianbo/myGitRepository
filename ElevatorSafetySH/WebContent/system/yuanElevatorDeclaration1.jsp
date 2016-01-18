@@ -25,6 +25,8 @@
 	var dia;
 	$().ready(function(){
 		$("#date1").datepicker({dateFormat:'yy-mm-dd'});//日期控件
+		$("#date_register").datepicker({dateFormat:'yy-mm-dd'});//日期控件
+		$("#date_enable").datepicker({dateFormat:'yy-mm-dd'});//日期控件
 		 $.getJSON("${path}/elevator_type_def/list_json.do","rand="+Math.random(),function(d){
 	    	  //对电梯型号进行循环
 	    	  for(var i=0;i<d.length;i++){
@@ -57,6 +59,18 @@
 				    });
 				});
 			});
+		 $.getJSON("${path}/service/list_json.do","rand="+Math.random(),function(d){
+	    	  //对维保单位进行循环
+	    	  for(var i=0;i<d.length;i++){
+	    		  $("#id_service").append("<option size='"+15+"' value='"+d[i].idservice+"'>"+d[i].name+"</option>");
+	    	  }
+	       });
+		$.getJSON("${path}/test/list_json.do","rand="+Math.random(),function(d){
+		    	  //对检验检测单位进行循环
+		    	  for(var i=0;i<d.length;i++){
+		    		  $("#id_test").append("<option size='"+15+"' value='"+d[i].idtest+"'>"+d[i].name+"</option>");
+		    	  }
+		       });
 	});
 	//选择城市-----------------------------------------------
 	function chooseCity(id_city){
@@ -90,6 +104,8 @@
 		var censhu=$("#censhu").val();
 		var xuhao=$("#xuhao").val();
 		var date1=$("#date1").val();
+		var shangci=$("#date_register").val();//上次注册时间
+		var start=$("#date_enable").val();
 		if(censhu==null||censhu==""){
 			
 		}else{
@@ -100,7 +116,16 @@
 						if(date1==null||date1==""){
 						
 						}else{
-							myform.submit();
+							if(shangci==null||shangci==""){
+								
+							}else{
+								if(start==null||start==""){
+									
+								}else{
+									myform.submit();
+								}
+							}
+							
 						}
 			}
 		}
@@ -135,10 +160,26 @@
 					    <li><input type="text" name="date_declare" size="50" id="date1" placeholder="请选择申报时间">*<br><br><br>
 					</ul>
 				</td>
+				<td style="text-align: top;">
+				<ul>
+				<li>验收检验机构:
+				<li><input type="text" name="check_construct" size="50"><br><br><br>
+				<li>维保单位名称:
+				<li><select name="id_service" id="id_service"></select><br>
+				<li>检验检测单位名称:
+				<li><select name="id_test" id="id_test"></select><br>
+				<li>验收报告编号:
+				<li><input type="text" id="check_construct_code" name="check_construct_code" size="50"/><br><br><br>
+				<li>上次注册时间:
+				<li><input type="text" id="date_register" name="date_register" size="30" placeholder="请选择上次注册时间"/>*<br>
+				<li>开始使用时间:
+				<li><input type="text" id="date_enable" name="date_enable" size="30" placeholder="请选择开始使用时间"/>*<br><br><br><br><br>
+				</ul>
+				</td>
 			</tr>
 			<tr>
 			 <tr>
-		        <td style="padding-left: 450px;"> 
+		        <td style="padding-left: 450px;" colspan="2"> 
 		        <input type="button" value="资料录入" onclick="ifnan()"/>
 		        </td>
 		     </tr>

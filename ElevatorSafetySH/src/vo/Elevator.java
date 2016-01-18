@@ -67,12 +67,20 @@ public class Elevator {
    @ManyToOne(cascade=CascadeType.REFRESH,optional=true)
    @JoinColumn(name="id_test",insertable=false,updatable=false)
    private Test test;
+   //使用单位 
+   @ManyToOne(cascade=CascadeType.REFRESH,optional=true)
+   @JoinColumn(name="id_user",insertable=false,updatable=false)
+   private User user;
    private int num_floor_elevator;
    private int id_elevator_model;
    //电梯型号
    @ManyToOne(cascade=CascadeType.REFRESH,optional=true)
    @JoinColumn(name="id_elevator_model",insertable=false,updatable=false)
    private Elevator_type_def elevatorType;
+   //注册状态
+   @ManyToOne(cascade=CascadeType.REFRESH,optional=true)
+   @JoinColumn(name="register_status",insertable=false,updatable=false)
+   private Register_status_def regist_status;
    private String register_status;
    @Column(name="[desc]")
    private String desc;
@@ -89,6 +97,14 @@ public String getRegister_status() {
 
 public void setRegister_status(String register_status) {
 	this.register_status = register_status;
+}
+
+public Register_status_def getRegist_status() {
+	return regist_status;
+}
+
+public void setRegist_status(Register_status_def regist_status) {
+	this.regist_status = regist_status;
 }
 
 public void setId_elevator(int id_elevator) {
@@ -327,6 +343,14 @@ public String getGis_type() {
 }
 public void setGis_type(String gis_type) {
 	this.gis_type = gis_type;
+}
+
+public User getUser() {
+	return user;
+}
+
+public void setUser(User user) {
+	this.user = user;
 }
 
 

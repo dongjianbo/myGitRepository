@@ -50,6 +50,12 @@ public class ElevatorService {
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 		return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 	}
+	//电梯总数量列表
+		@SuppressWarnings("unchecked")
+		public List<Elevator> listCount1(HttpServletRequest request){
+			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
+			return elevatorDao.getListByDc(dc);
+		}
 	//未注册电梯数量
 	@SuppressWarnings("unchecked")
 	public int getCount_NoRegist(){
