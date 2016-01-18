@@ -89,7 +89,7 @@ public class OperatorController  {
 	}
  //查询密码
    @RequestMapping(value="selectById",produces="text/html;charset=utf-8")
-	@ResponseBody
+   @ResponseBody
 	public String selectById(String password,HttpServletRequest request){
 	   //将前台密码进行转码
 	   MD5 md=new MD5();
@@ -116,7 +116,7 @@ public class OperatorController  {
   	 int i=operatorService.updatePassword(op.getIdoperator(), pwd);
   	     if(i==1){
   	    	 //===================大boss解决===========================================
-  	    	return "redirect:ElevatorSafetySH/login.jsp";
+  	    	return "login";
   	     }else
   	    	return "system/shibai";
   	}

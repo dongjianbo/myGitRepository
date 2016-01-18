@@ -24,13 +24,13 @@
 	
 	function mima(){
 		
-		
-		//var pwd=$("#password").val();
-		//$.getJSON("${path }/operator/selectById.do?password="+pwd+"","rand="+Math.random(),function(d){
-			//alert(d);
-	  //查询操作员密码 
-	  alert("pppp");
-	   	var pwd1=$("#password1").val();
+		var pwd=$("#password").val();
+		alert(pwd);
+		//查询数据库中的密码
+		$.post("${path }/operator/selectById.do?password="+pwd+"","rand="+Math.random(),function(d){
+			if(d=="yes"){//输入原来的密码正确 
+				$("#password0").html("");
+				var pwd1=$("#password1").val();
 				if(pwd1==null||pwd1==""){
 					$("#password10").html("<i>密码不能为空!!!</i>");
 				}else{
@@ -47,7 +47,11 @@
 							}
 						}
 				}
-		//});
+			}else{
+				$("#password0").html("密码输入不正确！！ ");
+			}
+	   	
+		});
 	}
 	</script>
 </head>
