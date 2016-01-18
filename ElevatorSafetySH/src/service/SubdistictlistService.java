@@ -21,6 +21,7 @@ public class SubdistictlistService {
 		DetachedCriteria dc=DetachedCriteria.forClass(Subdistictlist.class);
 		dc.add(Restrictions.eq("id_district", id_distictlist));
 		dc.add(Restrictions.eq("id_city", id_city));
+		dc.add(Restrictions.ne("name_subdistrict", "ÇøÖ±"));
 		return subdistictlistDao.getListByDc(dc); 
 	}
 	public Subdistictlist getListById(String id_city,String id_distictlist,String sub){

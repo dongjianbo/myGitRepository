@@ -2,6 +2,7 @@
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	String basePath=pageContext.getServletContext().getContextPath();
 	session.setAttribute("path", basePath);
@@ -149,7 +150,20 @@ $().ready(function(){
 		<tr height="6%">
 			<td colspan="2" id="top">
 				<ul>
-				<li><div style="font-size: 30px;margin-top: 10px;">电梯安全管理平台</div>
+				<li><div style="font-size: 30px;margin-top: 10px;">
+				 <c:if test="${operator_type.id_operator_type=='00'||operator_type.id_operator_type=='01'}">
+				   河南省电梯安全监督管理中心
+				   </c:if>
+				   <c:if test="${operator_type.id_operator_type=='10'||operator_type.id_operator_type=='11'}">
+				   河南省电梯安全监督维保中心
+				   </c:if>
+				   <c:if test="${operator_type.id_operator_type=='20'||operator_type.id_operator_type=='21'}">
+				   河南省电梯安全监督用户中心
+				   </c:if>
+				   <c:if test="${operator_type.id_operator_type=='30'||operator_type.id_operator_type=='31'}">
+				   河南省电梯安全监督检验检测中心
+				   </c:if>
+				</div>
 				<li><div style="font-size:14px;text-align: right;margin-right: 30px;">${login.city.name_city}${login.distict.name_district}${login.subdistict.name_subdistrict}&nbsp;&nbsp;${operator_type.name}</div>
 				</ul>
 			</td>
