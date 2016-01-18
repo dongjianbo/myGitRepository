@@ -58,6 +58,7 @@ public class RoleCotroller {
     	JSONArray array=JSONArray.fromObject(roleList);
     	return array.toString();
     }
+    
 	@RequestMapping(value="insert",produces="text/html;charset=utf-8")
 	@ResponseBody
 	public String insert(Role role,int menus_id[],HttpServletRequest request){
@@ -77,6 +78,7 @@ public class RoleCotroller {
 	public String toUpdate(Role role){
 		role=roleService.findById(role.getIdrole());
 		JSONObject object=JSONObject.fromObject(role);
+		System.out.println("000mhjmhjmhj");
 		return object.toString();
 	}
 	@RequestMapping(value="update",produces="text/html;charset=utf-8")

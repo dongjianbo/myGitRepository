@@ -31,6 +31,7 @@ public class LoginController {
    @RequestMapping("check")
    public String CheckLogin(Operator operator,HttpServletRequest request,HttpServletResponse response)
 		    {
+	   
 	   int i=perService.check(operator);//判断是否可以登陆 
 	   request.setAttribute("op", operator);
 	   if(i==1){
@@ -48,6 +49,10 @@ public class LoginController {
 			   //级联查询登录人所在的区域
 			   //级联查询登录人所在的单位
 			   request.getSession().setAttribute("login",op);
+			   //查询登陆人所对应的角色
+			    int role=op.getIdprivilege();
+			    //把登陆人的角色存在session中，然后在main.jsp页面取值
+			    request.getSession().setAttribute("role", role);
 				 return "main";
 		   }
 	   }
