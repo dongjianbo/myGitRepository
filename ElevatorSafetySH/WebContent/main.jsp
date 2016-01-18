@@ -82,11 +82,11 @@ $().ready(function(){
 	var role= '<%=session.getAttribute("role")%>';
 	$.getJSON("${path }/role/toUpdate.do?idrole="+role,"rand="+Math.random(),function(d){
 		var a=d.menus;
-		alert(a);
+		//alert(a);
 		 $("#menu").html("");
 		for(var i=0;i<a.length;i++){
 			var id_system_menu=a[i].id_system_menu;
-			alert(id_system_menu);
+			//alert(id_system_menu);
 			if(id_system_menu==21){
 				  $("#menu").append("<li><a href='${path}/system/system.jsp'>单位信息维护</a>");
 			}
