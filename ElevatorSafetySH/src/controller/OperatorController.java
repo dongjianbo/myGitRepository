@@ -3,6 +3,7 @@ package controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,7 +26,7 @@ import vo.Safer;
 
 @Controller
 @RequestMapping("operator")
-public class OperatorController {
+public class OperatorController  {
   @Resource
   public OperatorService operatorService;
   @Resource
@@ -38,6 +39,13 @@ public class OperatorController {
 		mav.addObject("operatorList",operatorService.list(key, 10, request));
 		return mav;
 	}
+  @RequestMapping("list1")
+  public ModelAndView list1(String key,HttpServletRequest request){
+		ModelAndView mav=new ModelAndView("system/operatorListRole");
+		mav.addObject("operatorList",operatorService.list(key, 10, request));
+		return mav;
+	}
+//  
    @RequestMapping(value="insert",produces="text/html;charset=utf-8")
 	@ResponseBody
 	public String insert(Operator operator,HttpServletRequest request){
@@ -79,6 +87,47 @@ public class OperatorController {
 			
 		return "ok";
 	}
+ //查询密码
+   @RequestMapping(value="selectById",produces="text/html;charset=utf-8")
+	@ResponseBody
+	public String selectById(String password,HttpServletRequest request){
+	   //将前台密码进行转码
+	   MD5 md=new MD5();
+		String pd=md.getMD5ofStr(password);
+	   Operator op=(Operator)request.getSession().getAttribute("login");
+	   if(!pd.equals(op.getPassword())){
+		  return "no";
+		 
+	   }else{
+		  return "yes";
+	   }
+	   
+		
+	}
+   //修改密码
+   @RequestMapping(value="updatePassword",produces="text/html;charset=utf-8")
+  	
+  	public String  updatePassword(String password,HttpServletRequest request){
+  	   Operator op=(Operator)request.getSession().getAttribute("login");
+  	   System.out.println(op.getIdoperator()+"ooooo");
+  	   //转码
+  	   MD5 md=new MD5();
+  	   String pwd=md.getMD5ofStr(password);
+  	 int i=operatorService.updatePassword(op.getIdoperator(), pwd);
+  	     if(i==1){
+  	    	 //===================大boss解决===========================================
+  	    	return "redirect:ElevatorSafetySH/login.jsp";
+  	     }else
+  	    	return "system/shibai";
+  	}
+  //修改角色
+   @RequestMapping(value="updateRole",produces="text/html;charset=utf-8")
+	@ResponseBody
+	public String updateRole(Operator operator){
+		operatorService.updateRole(operator);
+		return "ok";
+	}
+   
    @RequestMapping(value="insert1",produces="text/html;charset=utf-8")
   	@ResponseBody
   	public String insert1(Operator operator,HttpServletRequest request){
@@ -95,8 +144,20 @@ public class OperatorController {
 	@ResponseBody
 	public String toUpdate(Operator operator){
 		operator=operatorService.findById(operator.getIdoperator());
-		JSONObject object=JSONObject.fromObject(operator);
+		//因为role类下配置多对多关系 下的menus没有级联查询，导致转json的时候需要获取menus（就会一直报懒加载错误） ，但是我们并不需要这个menus附属对象，所以直接给menus赋予一个控制就可以了
+		operator.getRole().setMenus(null);
+		JSONObject   object=JSONObject.fromObject(operator);
 		return object.toString();
+	}
+	@RequestMapping(value="UpdateStatus",produces="text/html;charset=utf-8")
+	public String UpdateStatus(int idoperator){
+		operatorService.updateStatus(idoperator);;
+		return "redirect:/operator/list.do";
+	}
+	@RequestMapping(value="UpdateStatus1",produces="text/html;charset=utf-8")
+	public String UpdateStatus1(int idoperator){
+		operatorService.updateStatus1(idoperator);;
+		return "redirect:/operator/list.do";
 	}
 	@RequestMapping(value="update",produces="text/html;charset=utf-8")
 	@ResponseBody
@@ -109,4 +170,5 @@ public class OperatorController {
 		operatorService.delete(operator);
 		return "redirect:/operator/list.do";
 	}
+	
 }

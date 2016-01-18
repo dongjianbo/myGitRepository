@@ -1,13 +1,10 @@
 package service;
 
+import java.util.List;
 import javax.annotation.Resource;
-
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
-
 import vo.Operator_type;
-
 import dao.Operator_typeDao;
 
 @Service
@@ -19,4 +16,9 @@ public class Operator_typeService {
 	   dc.add(Restrictions.eq("id_operator_type", id_operator_type));*/
 	   return operator_typeDao.get(Operator_type.class, id_operator_type);
    }
+   @SuppressWarnings("unchecked")
+	public List<Operator_type> list(){
+		DetachedCriteria dc=DetachedCriteria.forClass(Operator_type.class);
+		return operator_typeDao.getListByDc(dc);
+	}
 }

@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -19,6 +20,19 @@ public class Operator {
 	private int idoperator;
 	@Column(name = "type_operator")
 	private String typeOperator;
+	//配置一对一  人员类型
+	@OneToOne(cascade=CascadeType.REFRESH,optional=true)
+	@JoinColumn(name="type_operator",insertable=false,updatable=false)
+    private Operator_type operator_type_def;
+		
+	public Operator_type getOperator_type_def() {
+		return operator_type_def;
+	}
+
+	public void setOperator_type_def(Operator_type operator_type_def) {
+		this.operator_type_def = operator_type_def;
+	}
+
 	private String name;
 	private String idcard;	
 	@Column(name = "id_city")
@@ -45,7 +59,31 @@ public class Operator {
 	private int idOrganization;
 	@Column(name = "id_role")
 	private int idprivilege;
+	//角色
+	@ManyToOne(cascade=CascadeType.REFRESH,optional=true)
+	@JoinColumn(name="id_role",insertable=false,updatable=false)
+	private Role role;
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	public Status_def getStatus_def() {
+		return status_def;
+	}
+
+	public void setStatus_def(Status_def status_def) {
+		this.status_def = status_def;
+	}
+
 	private String status;
+	//配置一对一     人员状态
+	@OneToOne(cascade=CascadeType.REFRESH,optional=true)
+	@JoinColumn(name="status",insertable=false,updatable=false)
+    private Status_def status_def ;
 
 	public Citylist getCity() {
 		return city;

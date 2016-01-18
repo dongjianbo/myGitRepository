@@ -42,13 +42,129 @@
 			buttons:{
 				"确定":function(fn){
 					var form = $("#insertForm");
-					$.post(form.attr('action'),form.serialize(),function(a){
-						if(a=="ok"){
-							location.reload();
-						}else{
-							alert("程序有点问题哟！");
-						}
-					});
+					var modelname1=$("#modelname1").val();
+					if(modelname1==null||modelname1==""){
+						$("#modelname2").html("<i>电梯型号不能为空 !!!</i>");
+					}else{
+						$("#modelname2").html("");
+			            var suitplace1=$("#suitplace1").val();
+					    if(suitplace1==null||suitplace1==""){
+						  $("#suitplace2").html("<i>使用场合不能为空 !!!</i>");
+						 }else{
+						   $("#suitplace2").html("");
+						   //=========判断表单中的 有些文本框是否输入的是数字 ============== 
+						      var parameter12_1=$("#parameter12_1").val();
+						    if(isNaN(parameter12_1)){
+						    	$("#parameter12_2").html("<i>请输入数字!!!</i>");
+						   }else{
+							   $("#parameter12_2").html("");
+							   
+							   var parameter13_1=$("#parameter13_1").val();
+							    if(isNaN(parameter13_1)){
+							    	$("#parameter13_2").html("<i>请输入数字!!!</i>");
+							   }else{
+								   $("#parameter13_2").html("");
+								   var parameter14_1=$("#parameter14_1").val();
+								    if(isNaN(parameter14_1)){
+								    	$("#parameter14_2").html("<i>请输入数字!!!</i>");
+								   }else{
+									   $("#parameter14_2").html("");
+								   
+								    var parameter21_1=$("#parameter21_1").val();
+								    if(isNaN(parameter21_1)){
+								    	$("#parameter21_2").html("<i>请输入数字!!!</i>");
+								    }else{
+									   $("#parameter21_2").html("");
+									   var parameter22_1=$("#parameter22_1").val();
+									    if(isNaN(parameter22_1)){
+									    	$("#parameter22_2").html("<i>请输入数字!!!</i>");
+									   }else{
+										   $("#parameter22_2").html("");
+										   
+										   var parameter23_1=$("#parameter23_1").val();
+										    if(isNaN(parameter23_1)){
+										    	$("#parameter23_2").html("<i>请输入数字!!!</i>");
+										   }else{
+											   $("#parameter23_2").html("");
+											   var parameter24_1=$("#parameter24_1").val();
+											    if(isNaN(parameter24_1)){
+											    	$("#parameter24_2").html("<i>请输入数字!!!</i>");
+											   }else{
+												   $("#parameter24_2").html("");
+												   var parameter32_1=$("#parameter32_1").val();
+												    if(isNaN(parameter32_1)){
+												    	$("#parameter32_2").html("<i>请输入数字!!!</i>");
+												   }else{
+													   $("#parameter32_2").html("");
+													   var parameter33_1=$("#parameter33_1").val();
+													    if(isNaN(parameter33_1)){
+													    	$("#parameter33_2").html("<i>请输入数字!!!</i>");
+													   }else{
+														   $("#parameter33_2").html("");
+														   var parameter34_1=$("#parameter34_1").val();
+														    if(isNaN(parameter34_1)){
+														    	$("#parameter34_2").html("<i>请输入数字!!!</i>");
+														   }else{
+															   $("#parameter34_2").html("");
+															   var parameter41_1=$("#parameter41_1").val();
+															    if(isNaN(parameter41_1)){
+															    	$("#parameter41_2").html("<i>请输入数字!!!</i>");
+															   }else{
+																   $("#parameter41_2").html("");
+																   var parameter42_1=$("#parameter42_1").val();
+																    if(isNaN(parameter42_1)){
+																    	$("#parameter42_2").html("<i>请输入数字!!!</i>");
+																   }else{
+																	   $("#parameter42_2").html("");
+																	   var parameter43_1=$("#parameter43_1").val();
+																	    if(isNaN(parameter43_1)){
+																	    	$("#parameter43_2").html("<i>请输入数字!!!</i>");
+																	   }else{
+																		   $("#parameter43_2").html("");
+																		   var parameter44_1=$("#parameter44_1").val();
+																		    if(isNaN(parameter44_1)){
+																		    	$("#parameter44_2").html("<i>请输入数字!!!</i>");
+																		   }else{
+																			   $("#parameter44_2").html("");
+																			   var parameter45_1=$("#parameter45_1").val();
+																			    if(isNaN(parameter45_1)){
+																			    	$("#parameter45_2").html("<i>请输入数字!!!</i>");
+																			   }else{
+																				   $("#parameter45_2").html("");
+																				   var parameter46_1=$("#parameter46_1").val();
+																				    if(isNaN(parameter46_1)){
+																				    	$("#parameter46_2").html("<i>请输入数字!!!</i>");
+																				   }else{
+																					   $("#parameter46_2").html("");
+																					   
+																					    //提交表单 
+																						$.post(form.attr('action'),form.serialize(),function(a){
+																							if(a=="ok"){
+																								location.reload();
+																							}else{
+																								alert("程序有点问题哟！");
+																							}
+																						});
+																				   }
+																			   }
+																		   }
+																	   }
+																   }
+															   }
+														   }
+													   }
+												   }
+											   }
+										   }
+									   }
+								   }
+							   }
+						   }
+						   }  
+						   
+						 
+				 }
+			    }
 				},
 				"关闭":function(){
 					$(this).dialog("close");
@@ -83,13 +199,128 @@
 			buttons:{
 				"确定":function(){
 					var form = $("#updateForm");
-					$.post(form.attr('action'),form.serialize(),function(a){
-						if(a=="ok"){
-							location.reload();
-						}else{
-							alert("程序有点问题哟！");
-						}
-					});
+					var modelname=$("#modelname").val();
+					if(modelname==null||modelname==""){
+						$("#modelname0").html("<i>电梯型号不能为空 !!!</i>");
+					}else{
+						$("#modelname0").html("");
+			            var suitplace=$("#suitplace").val();
+					    if(suitplace==null||suitplace==""){
+						  $("#suitplace0").html("<i>使用场合不能为空 !!!</i>");
+						 }else{
+						   $("#suitplace0").html("");
+						   
+						   //=========判断表单中的 有些文本框是否输入的是数字 ============== 
+						      var parameter12=$("#parameter12").val();
+						    if(isNaN(parameter12)){
+						    	$("#parameter12_0").html("<i>请输入数字!!!</i>");
+						   }else{
+							   $("#parameter12_0").html("");
+							   
+							   var parameter13=$("#parameter13").val();
+							    if(isNaN(parameter13)){
+							    	$("#parameter13_0").html("<i>请输入数字!!!</i>");
+							   }else{
+								   $("#parameter13_0").html("");
+								   var parameter14=$("#parameter14").val();
+								    if(isNaN(parameter14)){
+								    	$("#parameter14_0").html("<i>请输入数字!!!</i>");
+								   }else{
+									   $("#parameter14_0").html("");
+								   
+								    var parameter21=$("#parameter21").val();
+								    if(isNaN(parameter21)){
+								    	$("#parameter21_0").html("<i>请输入数字!!!</i>");
+								    }else{
+									   $("#parameter21_0").html("");
+									   var parameter22=$("#parameter22").val();
+									    if(isNaN(parameter22)){
+									    	$("#parameter22_0").html("<i>请输入数字!!!</i>");
+									   }else{
+										   $("#parameter22_0").html("");
+										   
+										   var parameter23=$("#parameter23").val();
+										    if(isNaN(parameter23)){
+										    	$("#parameter23_0").html("<i>请输入数字!!!</i>");
+										   }else{
+											   $("#parameter23_0").html("");
+											   var parameter24=$("#parameter24").val();
+											    if(isNaN(parameter24)){
+											    	$("#parameter24_0").html("<i>请输入数字!!!</i>");
+											   }else{
+												   $("#parameter24_0").html("");
+												   var parameter32=$("#parameter32").val();
+												    if(isNaN(parameter32)){
+												    	$("#parameter32_0").html("<i>请输入数字!!!</i>");
+												   }else{
+													   $("#parameter32_0").html("");
+													   var parameter33=$("#parameter33").val();
+													    if(isNaN(parameter33)){
+													    	$("#parameter33_0").html("<i>请输入数字!!!</i>");
+													   }else{
+														   $("#parameter33_0").html("");
+														   var parameter34=$("#parameter34").val();
+														    if(isNaN(parameter34)){
+														    	$("#parameter34_0").html("<i>请输入数字!!!</i>");
+														   }else{
+															   $("#parameter34_0").html("");
+															   var parameter41=$("#parameter41").val();
+															    if(isNaN(parameter41)){
+															    	$("#parameter41_0").html("<i>请输入数字!!!</i>");
+															   }else{
+																   $("#parameter41_0").html("");
+																   var parameter42=$("#parameter42").val();
+																    if(isNaN(parameter42)){
+																    	$("#parameter42_0").html("<i>请输入数字!!!</i>");
+																   }else{
+																	   $("#parameter42_0").html("");
+																	   var parameter43=$("#parameter43").val();
+																	    if(isNaN(parameter43)){
+																	    	$("#parameter43_0").html("<i>请输入数字!!!</i>");
+																	   }else{
+																		   $("#parameter43_0").html("");
+																		   var parameter44=$("#parameter44").val();
+																		    if(isNaN(parameter44)){
+																		    	$("#parameter44_0").html("<i>请输入数字!!!</i>");
+																		   }else{
+																			   $("#parameter44_0").html("");
+																			   var parameter45=$("#parameter45").val();
+																			    if(isNaN(parameter45)){
+																			    	$("#parameter45_0").html("<i>请输入数字!!!</i>");
+																			   }else{
+																				   $("#parameter45_0").html("");
+																				   var parameter46=$("#parameter46").val();
+																				    if(isNaN(parameter46)){
+																				    	$("#parameter46_0").html("<i>请输入数字!!!</i>");
+																				   }else{
+																					   $("#parameter46_0").html("");
+																					
+																					   //提交表单 
+																						$.post(form.attr('action'),form.serialize(),function(a){
+																							if(a=="ok"){
+																								location.reload();
+																							}else{
+																								alert("程序有点问题哟！");
+																							}
+																						});
+																				   }
+																			   }
+																		   }
+																	   }
+																   }
+															   }
+														   }
+													   }
+												   }
+											   }
+										   }
+									   }
+								   }
+							   }
+						   }
+						   }  
+				 }
+			    }	   
 				},
 				"关闭":function(){
 					$(this).dialog("close");
@@ -174,9 +405,9 @@
 		<c:forEach items="${modelList}" var="d">
 			<tr>
 				<td>${d.idmodel}</td>
-				<td>${d.idmanufer }</td>
+				<td>${d.manufer.name }</td>
 				<td>${d.modelname}</td>
-				<td>${d.typeElevator}</td>
+				<td>${d.elevator_type_def.name}</td>
 				<td>${d.suitplace}</td>
 				<td><a
 				       href="javascript:showUpdate(${d.idmodel})">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -199,49 +430,49 @@
 				<li>生产厂家:
 				<li><select name="idmanufer" id="idmanufer1"></select>
 				<li>电梯型号:
-				<li><input type="text" name="modelname" size="50"/>
+				<li><input type="text" name="modelname" id="modelname1" maxlength="20" size="50"/>*<div id="modelname2" style="float: right; margin-right:220 " ></div>
 				<li>电梯类型:
 				<li><select name="typeElevator" id="typeElevator1"></select>
 				<li>适用场合:
-				<li><input type="text" name="suitplace" size="50"/>
+				<li><input type="text" name="suitplace" id="suitplace1" maxlength="20" size="50"/>*<div id="suitplace2" style="float: right; margin-right:220 " ></div>
 				<li>1类驱动方式：
-				<li><input type="text" name="parameter11" size="50"/>
+				<li><input type="text" name="parameter11" maxlength="1" size="50"/>
 				<li>1类额定载重量:（单位：千克）
-				<li><input type="text" name="parameter12" size="50"/>
+				<li><input type="text" name="parameter12" id="parameter12_1" maxlength="11" size="50"/><div id="parameter12_2" style="float: right; margin-right:220 " ></div>
 				<li>1类额定速度:（单位：m/s）
-				<li><input type="text" name="parameter13" size="50"/>
+				<li><input type="text" name="parameter13" id="parameter13_1" maxlength="5" size="50"/><div id="parameter13_2" style="float: right; margin-right:220 " ></div>
 				<li>1类层站数:
-				<li><input type="text" name="parameter14" size="50"/>
+				<li><input type="text" name="parameter14" id="parameter14_1" maxlength="11" size="50"/><div id="parameter14_2" style="float: right; margin-right:220 " ></div>
 				<li>2类额定载重量 （单位：千克）
-				<li><input type="text" name="parameter21" size="50"/>
+				<li><input type="text" name="parameter21" id="parameter21_1"  maxlength="11" size="50"/><div id="parameter21_2" style="float: right; margin-right:220 " ></div>
 				<li>2类额定速度  （单位：m/s）
-				<li><input type="text" name="parameter22" size="50"/>
+				<li><input type="text" name="parameter22" id="parameter22_1" maxlength="5" size="50"/><div id="parameter22_2" style="float: right; margin-right:220 " ></div>
 				<li>2类层站数
-				<li><input type="text" name="parameter23" size="50"/>
+				<li><input type="text" name="parameter23" id="parameter23_1" maxlength="11"  size="50"/><div id="parameter23_2" style="float: right; margin-right:220 " ></div>
 				<li>2类油缸数量
-				<li><input type="text" name="parameter24" size="50"/>
+				<li><input type="text" name="parameter24" id="parameter24_1" maxlength="11"  size="50"/><div id="parameter24_2" style="float: right; margin-right:220 " ></div>
 				<li>2类顶升方式 
-				<li><input type="text" name="parameter25" size="50"/>
+				<li><input type="text" name="parameter25" maxlength="1" size="50"/>
 				<li>3类驱动方式
-				<li><input type="text" name="parameter31" size="50"/>
+				<li><input type="text" name="parameter31" maxlength="1" size="50"/>
 				<li>3类额定载重量 （单位=kg）
-				<li><input type="text" name="parameter32" size="50"/>
+				<li><input type="text" name="parameter32" id="parameter32_1" maxlength="11"  size="50"/><div id="parameter32_2" style="float: right; margin-right:220 " ></div>
 				<li>3类额定速度 （单位=m/s）
-				<li><input type="text" name="parameter33" size="50"/>
+				<li><input type="text" name="parameter33" id="parameter33_1" maxlength="5" size="50"/><div id="parameter33_2" style="float: right; margin-right:220 " ></div>
 				<li>3类层站数
-				<li><input type="text" name="parameter34" size="50"/>
+				<li><input type="text" name="parameter34" id="parameter34_1" maxlength="11" size="50"/><div id="parameter34_2" style="float: right; margin-right:220 " ></div>
 				<li>4类倾斜角度
-				<li><input type="text" name="parameter41" size="50"/>
+				<li><input type="text" name="parameter41" id="parameter41_1" maxlength="11"  size="50"/><div id="parameter42_2" style="float: right; margin-right:220 " ></div>
 				<li>4类额定速度（单位=m/s）
-				<li><input type="text" name="parameter42" size="50"/>
+				<li><input type="text" name="parameter42" id="parameter42_1" maxlength="5" size="50"/><div id="parameter42_2" style="float: right; margin-right:220 " ></div>
 				<li>4类提升高度（单位=m）
-				<li><input type="text" name="parameter43" size="50"/>
+				<li><input type="text" name="parameter43" id="parameter43_1" maxlength="5" size="50"/><div id="parameter43_2" style="float: right; margin-right:220 " ></div>
 				<li>4类梯级宽度（单位=m）
-				<li><input type="text" name="parameter44" size="50"/>
+				<li><input type="text" name="parameter44" id="parameter44_1" maxlength="5" size="50"/><div id="parameter44_2" style="float: right; margin-right:220 " ></div>
 				<li>4类主机功率（单位=kw）
-				<li><input type="text" name="parameter45" size="50"/>
+				<li><input type="text" name="parameter45" id="parameter45_1" maxlength="5" size="50"/><div id="parameter45_2" style="float: right; margin-right:220 " ></div>
 				<li>4类使用区长度（单位=m）
-				<li><input type="text" name="parameter46" size="50"/>
+				<li><input type="text" name="parameter46" id="parameter46_1" maxlength="5" size="50"/><div id="parameter46_2" style="float: right; margin-right:220 " ></div>
 	
 			</ul>
 		</form>
@@ -252,49 +483,49 @@
 				<li>生产厂家:
 				<li><select name="idmanufer" id="idmanufer"></select>
 				<li>电梯型号:
-				<li><input type="text" name="modelname" id="modelname" size="50"/>
+				<li><input type="text" name="modelname" id="modelname" maxlength="20" size="50"/>*<div id="modelname0" style="float: right; margin-right:220 " ></div>
 				<li>电梯类型:
 				<li><select name="typeElevator" id="typeElevator"></select>
 				<li>适用场合:
-				<li><input type="text" name="suitplace" id="suitplace" size="50"/>
+				<li><input type="text" name="suitplace" id="suitplace" maxlength="20" size="50"/>*<div id="suitplace0" style="float: right; margin-right:220 " ></div>
 				<li>1类驱动方式：
-				<li><input type="text" name="parameter11" id="parameter11" size="50"/>
+				<li><input type="text" name="parameter11" id="parameter11" maxlength="1" size="50"/>
 				<li>1类额定载重量:（单位：千克）
-				<li><input type="text" name="parameter12" id="parameter12" size="50"/>
+				<li><input type="text" name="parameter12" id="parameter12" maxlength="11" size="50"/><div id="parameter12_0" style="float: right; margin-right:220 " ></div>
 				<li>1类额定速度:（单位：m/s）
-				<li><input type="text" name="parameter13" id="parameter13" size="50"/>
+				<li><input type="text" name="parameter13" id="parameter13" maxlength="5" size="50"/><div id="parameter13_0" style="float: right; margin-right:220 " ></div>
 				<li>1类层站数:
-				<li><input type="text" name="parameter14" id="parameter14" size="50"/>
+				<li><input type="text" name="parameter14" id="parameter14" maxlength="11" size="50"/><div id="parameter14_0" style="float: right; margin-right:220 " ></div>
 				<li>2类额定载重量 （单位：千克）
-				<li><input type="text" name="parameter21" id="parameter21" size="50"/>
+				<li><input type="text" name="parameter21" id="parameter21" maxlength="11" size="50"/><div id="parameter21_0" style="float: right; margin-right:220 " ></div>
 				<li>2类额定速度  （单位：m/s）
-				<li><input type="text" name="parameter22" id="parameter22" size="50"/>
+				<li><input type="text" name="parameter22" id="parameter22" maxlength="5" size="50"/><div id="parameter22_0" style="float: right; margin-right:220 " ></div>
 				<li>2类层站数
-				<li><input type="text" name="parameter23" id="parameter23" size="50"/>
+				<li><input type="text" name="parameter23" id="parameter23" maxlength="11" size="50"/><div id="parameter23_0" style="float: right; margin-right:220 " ></div>
 				<li>2类油缸数量
-				<li><input type="text" name="parameter24" id="parameter24" size="50"/>
+				<li><input type="text" name="parameter24" id="parameter24" maxlength="11" size="50"/><div id="parameter24_0" style="float: right; margin-right:220 " ></div>
 				<li>2类顶升方式 
-				<li><input type="text" name="parameter25"  id="parameter25" size="50"/>
+				<li><input type="text" name="parameter25"  id="parameter25" maxlength="1" size="50"/>
 				<li>3类驱动方式
-				<li><input type="text" name="parameter31" id="parameter31" size="50"/>
+				<li><input type="text" name="parameter31" id="parameter31" maxlength="1" size="50"/>
 				<li>3类额定载重量 （单位=kg）
-				<li><input type="text" name="parameter32" id="parameter32" size="50"/>
+				<li><input type="text" name="parameter32" id="parameter32" maxlength="11" size="50"/><div id="parameter32_0" style="float: right; margin-right:220 " ></div>
 				<li>3类额定速度 （单位=m/s）
-				<li><input type="text" name="parameter33" id="parameter33" size="50"/>
+				<li><input type="text" name="parameter33" id="parameter33" maxlength="5" size="50"/><div id="parameter33_0" style="float: right; margin-right:220 " ></div>
 				<li>3类层站数
-				<li><input type="text" name="parameter34" id="parameter34" size="50"/>
+				<li><input type="text" name="parameter34" id="parameter34" maxlength="11" size="50"/><div id="parameter34_0" style="float: right; margin-right:220 " ></div>
 				<li>4类倾斜角度
-				<li><input type="text" name="parameter41" id="parameter41" size="50"/>
+				<li><input type="text" name="parameter41" id="parameter41" maxlength="11" size="50"/><div id="parameter41_0" style="float: right; margin-right:220 " ></div>
 				<li>4类额定速度（单位=m/s）
-				<li><input type="text" name="parameter42" id="parameter42" size="50"/>
+				<li><input type="text" name="parameter42" id="parameter42" maxlength="5" size="50"/><div id="parameter42_0" style="float: right; margin-right:220 " ></div>
 				<li>4类提升高度（单位=m）
-				<li><input type="text" name="parameter43"  id="parameter43" size="50"/>
+				<li><input type="text" name="parameter43"  id="parameter43" maxlength="5" size="50"/><div id="parameter43_0" style="float: right; margin-right:220 " ></div>
 				<li>4类梯级宽度（单位=m）
-				<li><input type="text" name="parameter44" id="parameter44" size="50"/>
+				<li><input type="text" name="parameter44" id="parameter44" maxlength="5" size="50"/><div id="parameter44_0" style="float: right; margin-right:220 " ></div>
 				<li>4类主机功率（单位=kw）
-				<li><input type="text" name="parameter45" id="parameter45" size="50"/>
+				<li><input type="text" name="parameter45" id="parameter45" maxlength="5" size="50"/><div id="parameter45_0" style="float: right; margin-right:220 " ></div>
 				<li>4类使用区长度（单位=m）
-				<li><input type="text" name="parameter46" id="parameter46" size="50"/>
+				<li><input type="text" name="parameter46" id="parameter46" maxlength="5" size="50"/><div id="parameter46_0" style="float: right; margin-right:220 " ></div>
 				<li><input type="hidden" name="idmodel" id="idmodel" />
 			</ul>
 		</form>
