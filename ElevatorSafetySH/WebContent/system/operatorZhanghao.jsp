@@ -29,6 +29,7 @@
 		//$.getJSON("${path }/operator/selectById.do?password="+pwd+"","rand="+Math.random(),function(d){
 			//alert(d);
 	  //查询操作员密码 
+	  alert("pppp");
 	   	var pwd1=$("#password1").val();
 				if(pwd1==null||pwd1==""){
 					$("#password10").html("<i>密码不能为空!!!</i>");
@@ -47,7 +48,7 @@
 						}
 				}
 		//});
-
+	}
 	</script>
 </head>
 <body>

@@ -111,10 +111,8 @@ $(function() {
 						<li><a href="#">检测单位年检提醒</a></li>
 						<li><a href="#">检测人员任务量统计</a></li>
 						<li><a href="${path }/system/insertTestReport.jsp">检测报告录入</a></li>
-<<<<<<< HEAD
-						<li><a href="${path}/system/operatorZhanghao.jsp">账号信息设置</a></li>
-=======
->>>>>>> branch 'master' of https://github.com/dongjianbo/myGitRepository.git
+                        <li><a href="${path}/system/operatorZhanghao.jsp">账号信息设置</a></li>
+
 					</ul>
 				</div>
 				<div class="div1" style="height: 9%;margin-top: 1px;">
