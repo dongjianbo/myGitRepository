@@ -87,10 +87,16 @@ $().ready(function(){
 		for(var i=0;i<a.length;i++){
 			var id_system_menu=a[i].id_system_menu;
 			//alert(id_system_menu);
+			if(id_system_menu==1){
+				  $("#menu").append("<li><a href='${path}/role/list.do'>新增操作人员角色定义</a>");
+			}
+			if(id_system_menu==23){
+				  $("#menu").append("<li><a href='${path}/modellist/list.do'>电梯型号维护</a>");
+			}
 			if(id_system_menu==21){
 				  $("#menu").append("<li><a href='${path}/system/system.jsp'>单位信息维护</a>");
 			}
-			if(id_system_menu==1||id_system_menu==2||id_system_menu==22||id_system_menu==23){
+			if(id_system_menu==22){
 				
 				  $("#menu").append("<li><a href='${path}/system/person.jsp'>人员信息维护</a>");
 			}

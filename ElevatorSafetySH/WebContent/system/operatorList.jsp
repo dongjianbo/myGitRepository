@@ -355,11 +355,17 @@
 				<li>身份证号码:
 				<li><input type="text" name="idcard" id="idcard1" maxlength="18" size="50"/>
 				<li>所属城市:
-				<li><select name="idcity" id="idcity1" onchange="chooseCity(this.value)"></select>
+				<li><select name="idcity" id="idcity1" onchange="chooseCity(this.value)">
+				    <option value="99" size="50">省外</option>
+				    </select>
 				<li>所属区县:
-				<li><select name="iddistrict" id="iddistrict1" onchange="choosedistrict(this.value)"></select> 
+				<li><select name="iddistrict" id="iddistrict1" onchange="choosedistrict(this.value)">
+				    <option value="00" size="50">无</option>
+				</select> 
 				<li>所属乡镇街道:
-				<li><select id="idsubdistrict1" name="idsubdistrict"></select>
+				<li><select id="idsubdistrict1" name="idsubdistrict">
+				    <option value="00" size="50">无</option>
+				</select>
 				<li>登陆名:
 				<li><input type="text" name="loginname" id="loginname1" maxlength="20" size="50" />*<div id="loginname2" style="float: right; margin-right:220 " ></div>
 				<li>密码:
@@ -383,11 +389,17 @@
 				<li>身份证号码:
 				<li><input type="text" name="idcard" id="idcard" maxlength="18" size="50"/>
 				<li>所属城市:
-				<li><select name="idcity" id="idcity" onchange="chooseCity(this.value)"></select>
+				<li><select name="idcity" id="idcity" onchange="chooseCity(this.value)">
+				   <option value="99" size="50">省外</option>
+				</select>
 				<li>所属区县:
-				<li><select name="iddistrict" id="iddistrict" onchange="choosedistrict(this.value)"></select> 
+				<li><select name="iddistrict" id="iddistrict" onchange="choosedistrict(this.value)">
+				   <option value="00" size="50">无</option>
+				</select> 
 				<li>所属乡镇街道:
-				<li><select id="idsubdistrict" name="idsubdistrict"></select>
+				<li><select id="idsubdistrict" name="idsubdistrict">
+				   <option value="00" size="50">无</option>
+				</select>
 				<li>登陆名:
 				<li><input type="text" name="loginname" id="loginname" maxlength="20" size="50"/>*<div id="loginname0" style="float: right; margin-right:220 " ></div>
 				<li><input type="hidden" name="password" id="password" maxlength="32" size="50"/>*<div id="password0" style="float: right; margin-right:220 " ></div>
