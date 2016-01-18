@@ -195,12 +195,14 @@
 		//不同的城市选择不同的id
 		$.getJSON("${path }/distictlist/listByIdCity.do?id_city="+id_city,"rand="+Math.random(),function(s){
 			document.getElementById("iddistrict").innerHTML="";
+			 $("#iddistrict").append("<option size='"+50+"' value='"+00+"'>无</option>");
 			for(var i=0;i<s.length;i++){
 				 $("#iddistrict").append("<option size='"+50+"' value='"+s[i].id_district+"'>"+s[i].name_district+"</option>");
 				}
 		//选择区域下面的像乡镇
 			 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+s[0].id_district,"rand="+Math.random(),function(a){
 				 document.getElementById("idsubdistrict").innerHTML="";	
+				 $("#iddistrict").append("<option size='"+50+"' value='"+00+"'>无</option>");
 				 for(var i=0;i<a.length;i++){
 						$("#idsubdistrict").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
 			    	}
@@ -211,12 +213,14 @@
 		//不同的城市选择不同的id
 		$.getJSON("${path }/distictlist/listByIdCity.do?id_city="+id_city,"rand="+Math.random(),function(s){
 			document.getElementById("iddistrict1").innerHTML="";
+			$("#iddistrict").append("<option size='"+50+"' value='"+00+"'>无</option>");
 			for(var i=0;i<s.length;i++){
 				 $("#iddistrict1").append("<option size='"+50+"' value='"+s[i].id_district+"'>"+s[i].name_district+"</option>");
 				}
 		//选择区域下面的像乡镇
 			 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+s[0].id_district,"rand="+Math.random(),function(a){
 				 document.getElementById("idsubdistrict1").innerHTML="";	
+				 $("#iddistrict").append("<option size='"+50+"' value='"+00+"'>无</option>");
 				 for(var i=0;i<a.length;i++){
 						$("#idsubdistrict1").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
 			    	}
@@ -229,6 +233,7 @@
 		var id_city=document.getElementById("idcity").value;
 		 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+id_district,"rand="+Math.random(),function(a){
 			 document.getElementById("idsubdistrict").innerHTML="";	
+			 $("#iddistrict").append("<option size='"+50+"' value='"+00+"'>无</option>");
 			 for(var i=0;i<a.length;i++){
 		    		$("#idsubdistrict").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
 		    	}
@@ -238,7 +243,8 @@
 		//去城市的id
 		var id_city=document.getElementById("idcity1").value;
 		 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+id_district,"rand="+Math.random(),function(a){
-			 document.getElementById("idsubdistrict1").innerHTML="";	
+			 document.getElementById("idsubdistrict1").innerHTML="";
+			 $("#iddistrict").append("<option size='"+50+"' value='"+00+"'>无</option>");
 			 for(var i=0;i<a.length;i++){
 		    		$("#idsubdistrict1").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
 		    	}
@@ -356,7 +362,7 @@
 				<li><input type="text" name="idcard" id="idcard1" maxlength="18" size="50"/>
 				<li>所属城市:
 				<li><select name="idcity" id="idcity1" onchange="chooseCity(this.value)">
-				    <option value="99" size="50">省外</option>
+				    
 				    </select>
 				<li>所属区县:
 				<li><select name="iddistrict" id="iddistrict1" onchange="choosedistrict(this.value)">
@@ -390,7 +396,7 @@
 				<li><input type="text" name="idcard" id="idcard" maxlength="18" size="50"/>
 				<li>所属城市:
 				<li><select name="idcity" id="idcity" onchange="chooseCity(this.value)">
-				   <option value="99" size="50">省外</option>
+				   
 				</select>
 				<li>所属区县:
 				<li><select name="iddistrict" id="iddistrict" onchange="choosedistrict(this.value)">
@@ -402,7 +408,7 @@
 				</select>
 				<li>登陆名:
 				<li><input type="text" name="loginname" id="loginname" maxlength="20" size="50"/>*<div id="loginname0" style="float: right; margin-right:220 " ></div>
-				<li><input type="hidden" name="password" id="password" maxlength="32" size="50"/>*<div id="password0" style="float: right; margin-right:220 " ></div>
+				<li><input type="hidden" name="password" id="password" maxlength="32" size="50"/><div id="password0" style="float: right; margin-right:220 " ></div>
 				<li>所属单位顺序号:
 				<li><input type="text" name="idOrganization" id="idOrganization" maxlength="11" size="50"/>*<div id="idOrganization0" style="float: right; margin-right:220 " ></div>
 				<li>角色:
