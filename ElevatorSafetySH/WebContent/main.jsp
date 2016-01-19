@@ -86,65 +86,9 @@ $().ready(function(){
 		//alert(a);
 		 $("#menu").html("");
 		for(var i=0;i<a.length;i++){
-			var id_system_menu=a[i].id_system_menu;
-			//alert(id_system_menu);
-			if(id_system_menu==1){
-				  $("#menu").append("<li><a href='${path}/role/list.do'>新增操作人员角色定义</a>");
-			}
-			if(id_system_menu==23){
-				  $("#menu").append("<li><a href='${path}/modellist/list.do'>电梯型号维护</a>");
-			}
-			if(id_system_menu==21){
-				  $("#menu").append("<li><a href='${path}/system/system.jsp'>单位信息维护</a>");
-			}
-			if(id_system_menu==22){
-				
-				  $("#menu").append("<li><a href='${path}/system/person.jsp'>人员信息维护</a>");
-			}
-			if(id_system_menu==92){
-				  $("#menu").append("<li><a href='${path}/role/list.do'>角色定义与配置</a>");
-			}
-			
-			if(id_system_menu==24){
-				  $("#menu").append("<li><a href='${path}/system/insertElevatorDeclaration.jsp'>电梯资料申报</a>");
-			}
-			if(id_system_menu==25){
-				  $("#menu").append("<li><a href='${path}/elevator/list.do'>电梯资料注册</a>");
-			}
-			if(id_system_menu==26){
-				  $("#menu").append("<li><a href='${path}/system/yuanElevatorDeclaration.jsp'>原有电梯资料录入</a>");
-			}
-			if(id_system_menu==93){
-				  $("#menu").append("<li><a href='${path}/elevator/search.do'>技术监督部门统计查询</a>");
-			}
-			
-			if(id_system_menu==41){
-				  $("#menu").append("<li><a href='${path}/system/elevatorTongji.jsp'>维保单位任务提醒</a>");
-			}
-			if(id_system_menu==42){
-				  $("#menu").append("<li><a href='#'>维保人员任务量统计</a>");
-			}
-			if(id_system_menu==61){
-				  $("#menu").append("<li><a href='#'>使用单位年检提醒</a>");
-			}
-			if(id_system_menu==94){
-				  $("#menu").append("<li><a href='#'>安全人员任务量统计</a>");
-			}
-			
-			if(id_system_menu==81){
-				  $("#menu").append("<li><a href='#'>检测单位年检提醒</a>");
-			}
-			if(id_system_menu==95){
-				  $("#menu").append("<li><a href='#'>检测人员任务量统计</a>");
-			}
-			
-			if(id_system_menu==83){
-				  $("#menu").append("<li><a href='${path }/system/insertTestReport.jsp'>检测报告录入</a>");
-			}
-			if(id_system_menu==91){
-				  $("#menu").append("<li><a href='${path}/system/operatorZhanghao.jsp'>账号信息设置</a>");
-			}
-		}
+			 //var id_system_menu=a[i].id_system_menu;
+			 $("#menu").append("<li><a href='../"+a[i].url+"'>"+a[i].name_item+"</a>");
+	}
 	});
 	
 });
