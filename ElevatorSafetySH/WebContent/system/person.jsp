@@ -65,6 +65,7 @@ ul li {
 			<li><span class="title" onclick="toManage(4,this)">新增操作人员角色</span>
 			<li><span class="title" onclick="toManage(5,this)">监管部门人员维护</span>
 			<li><span class="title" onclick="toManage(6,this)">电梯型号维护</span>
+			<li><span class="title" onclick="toManage(4,this)">监管部门人员维护</span>
 		</ul>
 	</div>
 	<iframe id="_sFrame" width="100%" height="100%" frameborder="0" scrolling="no"

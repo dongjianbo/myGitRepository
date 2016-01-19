@@ -51,7 +51,6 @@ public class ElevatorController {
 	@Resource
 	public Elevator_tag_init_taskService elevator_tag_init_taskService;
 	@RequestMapping("insert")
-	@RequestMapping("insert")
 	public String insert(Elevator elevator,HttpServletRequest request,HttpServletResponse response){
 		Elevator el=(Elevator)request.getSession().getAttribute("elevator");//存在第一页的值
 		el.setId_city(elevator.getId_city());
