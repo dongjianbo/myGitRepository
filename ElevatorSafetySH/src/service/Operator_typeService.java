@@ -1,10 +1,14 @@
 package service;
 
 import java.util.List;
+
 import javax.annotation.Resource;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 import vo.Operator_type;
+
+import vo.Register_status_def;
 import dao.Operator_typeDao;
 
 @Service

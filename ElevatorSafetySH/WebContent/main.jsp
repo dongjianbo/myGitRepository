@@ -164,7 +164,13 @@ $().ready(function(){
 				   河南省电梯安全监督检验检测中心
 				   </c:if>
 				</div>
-				<li><div style="font-size:14px;text-align: right;margin-right: 30px;">${login.city.name_city}${login.distict.name_district}${login.subdistict.name_subdistrict}&nbsp;&nbsp;${operator_type.name}</div>
+				<li><div style="font-size:14px;text-align: right;margin-right: 30px;">
+				${login.city.name_city}${login.distict.name_district}${login.subdistict.name_subdistrict}&nbsp;&nbsp;
+				${deptName}&nbsp;&nbsp;
+				${operator_type.name}
+				&nbsp;&nbsp;
+				${login.role.name_role }
+				</div>
 				</ul>
 			</td>
 		</tr>
