@@ -79,11 +79,14 @@ $(function() {
 */
 $().ready(function(){
 	//取login界面 传过来的角色 值 
+
 	$.getJSON("${path }/role/getMenus.do?roleid=${role}","rand="+Math.random(),function(a){
 		 $("#menu").html("");
 		for(var i=0;i<a.length;i++){
+
 			 $("#menu").append("<li><a href='${path }/"+a[i][1]+"'>"+a[i][0]+"</a>");
 		}
+
 	});
 });
 </script>
