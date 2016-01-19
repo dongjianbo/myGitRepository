@@ -22,7 +22,6 @@ import vo.History;
 import vo.History_list;
 import vo.History_listKey;
 import vo.Operator;
-import vo.Safer;
 
 @Controller
 @RequestMapping("operator")
@@ -113,10 +112,9 @@ public class OperatorController  {
   	   //转码
   	   MD5 md=new MD5();
   	   String pwd=md.getMD5ofStr(password);
-  	 int i=operatorService.updatePassword(op.getIdoperator(), pwd);
+  	   int i=operatorService.updatePassword(op.getIdoperator(), pwd);
   	     if(i==1){
-  	    	 //===================大boss解决===========================================
-  	    	return "login";
+  	    	return "nologin";
   	     }else
   	    	return "system/shibai";
   	}
@@ -144,14 +142,14 @@ public class OperatorController  {
 	@ResponseBody
 	public String toUpdate(Operator operator){
 		operator=operatorService.findById(operator.getIdoperator());
-		//因为role类下配置多对多关系 下的menus没有级联查询，导致转json的时候需要获取menus（就会一直报懒加载错误） ，但是我们并不需要这个menus附属对象，所以直接给menus赋予一个控制就可以了
+		//因为role类下配置多对多关系 下的menus没有级联查询，导致转json的时候需要获取menus（就会一直报懒加载错误） ，但是我们并不需要这个menus附属对象，所以直接给menus赋予一个空值就可以了
 		operator.getRole().setMenus(null);
-		JSONObject   object=JSONObject.fromObject(operator);
+		JSONObject object=JSONObject.fromObject(operator);
 		return object.toString();
 	}
 	@RequestMapping(value="UpdateStatus",produces="text/html;charset=utf-8")
 	public String UpdateStatus(int idoperator){
-		operatorService.updateStatus(idoperator);;
+		operatorService.updateStatus(idoperator);
 		return "redirect:/operator/list.do";
 	}
 	@RequestMapping(value="UpdateStatus1",produces="text/html;charset=utf-8")

@@ -22,8 +22,9 @@
 	
 </head>
 <body>
-<form action="${path}/elevator/search.do" method="post">
-  <h2>${eById.id_elevator }号${eById.elevatorType.name}详细信息</h2>
+  <ul>
+  <li><h2>${eById.id_elevator }号${eById.elevatorType.name}详细信息</h2>
+  </ul>
 	<table width="100%" height="100%" id="table">	
 		        <tr>
 		           <td>
@@ -97,9 +98,13 @@
 		      </td>
       </tr>
       <tr>
-       <td colspan="3"><input type="submit" value="返回"></td>
+       <td colspan="3">
+       <ul>
+       <li><input type="button" onclick="history.back();" value="返回上一页">
+       </ul>
+       </td>
       </tr>
       </table>
-   </form>
+
 </body>
 </html>

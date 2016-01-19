@@ -1,11 +1,13 @@
 package service;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
@@ -16,6 +18,7 @@ import vo.Elevator;
 import vo.Service1;
 import dao.ElevatorDao;
 import dao.ServiceDao;
+import util.DateUtils;
 
 @Service
 public class ServiceService {
@@ -33,6 +36,7 @@ public class ServiceService {
 		}
 		return serviceDao.findPageByDcQuery(dc, pageSize, request);
 	}
+	@SuppressWarnings("unchecked")
 	public List<Service1> select_Idservice(){
 		DetachedCriteria dc=DetachedCriteria.forClass(Service1.class);
 		return serviceDao.getListByDc(dc);
@@ -542,5 +546,27 @@ public class ServiceService {
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
+		//维保单位任务量统计
+		@SuppressWarnings("unchecked")
+		public Map<String, Integer> getTask(String start,String end){
+			String sql="select mt.name,count(mr.maint_id) from "
+					+ "maint_report_id mr right join maint_type_def mt "
+					+ "on mr.maint_type=mt.maint_type "
+					+ "where mt.maint_type!=0 ";
+			if(start!=null&&end!=null){
+				sql+=" and  (mr.maint_date between '"+start+"' and '"+end+"')";
+			}
+			sql+= "group by (mt.name) ";
+			List<Object[]> list=serviceDao.getListBySQL(sql);
+			Map<String, Integer> map=new HashMap<String, Integer>();
+			for(Object[] objs:list){
+				if((objs!=null)&&objs[0]!=null&&objs[1]!=null){
+					map.put(objs[0].toString(), Integer.parseInt(objs[1].toString()));
+				}
+				
+			}
+			return map;
+		} 
+		
   
 }

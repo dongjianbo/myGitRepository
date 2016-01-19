@@ -60,9 +60,11 @@
 			<tx:method name="*" propagation="SUPPORTS" read-only="true" />
 		</tx:attributes>
 	</tx:advice>
+	<bean id="loginAdvice" class="interceptor.LoginInterceptor"></bean>
 	<aop:config>
 		<aop:advisor pointcut="execution(* service.*Service.*(..))"
 			advice-ref="txAdvice" />
+		<aop:advisor advice-ref="loginAdvice" pointcut="execution(* controller.*Controller.*(..))"/>
 	</aop:config>
 	<!-- springMVC -->
 	<bean

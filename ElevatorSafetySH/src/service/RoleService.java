@@ -50,4 +50,11 @@ public class RoleService {
 	public void delete(Role role){
 		roleDao.delete(role);
 	}
+	@SuppressWarnings("rawtypes")
+	public List getMenus(int roleid){
+		String sql="select m.name_item,m.url from system_menu m left join role_menu rm "
+				+ "on m.id_system_menu=rm.id_menu left join role r on r.id_role=rm.id_role "
+				+ "where r.id_role="+roleid+" order by m.id_system_menu asc";
+		return roleDao.listBySQLQuery(sql);
+	}
 }

@@ -25,7 +25,6 @@
 	function mima(){
 		
 		var pwd=$("#password").val();
-		alert(pwd);
 		//查询数据库中的密码
 		$.post("${path }/operator/selectById.do?password="+pwd+"","rand="+Math.random(),function(d){
 			if(d=="yes"){//输入原来的密码正确 
@@ -60,11 +59,11 @@
 			<ul>
 			   
 				<li>输入原来密码：
-				<li><input type="text" name="password1"  id="password"  maxlength="32" size="50"/>*<div id="password0" style="float:right; margin-right:700px; " >${result}</div>
+				<li><input type="password" name="password1"  id="password"  maxlength="32" size="50"/>*<div id="password0" style="float:right; margin-right:700px; " >${result}</div>
 				<li>输入新密码：
-				<li><input type="text" name="password2" id="password1" maxlength="32" size="50"/>*<div id="password10" style="float: right; margin-right:700px; " ></div>
+				<li><input type="password" name="password2" id="password1" maxlength="32" size="50"/>*<div id="password10" style="float: right; margin-right:700px; " ></div>
 				<li>再次输入新密码：
-				<li><input type="text" name="password" id="password2"  maxlength="32" size="50"/>*<div id="password20" style="float: right; margin-right:700px; " ></div>
+				<li><input type="password" name="password" id="password2"  maxlength="32" size="50"/>*<div id="password20" style="float: right; margin-right:700px; " ></div>
 			    <li><input type="button" value="确定" onclick="mima()" maxlength="32" size="50"/>
 			</ul>
 		</form>

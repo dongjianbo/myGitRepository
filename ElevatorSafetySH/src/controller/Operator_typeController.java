@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import service.Operator_typeService;
-import service.Register_status_defService;
 import vo.Operator_type;
-import vo.Register_status_def;
 
 
 @Controller
