@@ -83,12 +83,11 @@ $().ready(function(){
 	var role= '<%=session.getAttribute("role")%>';
 	$.getJSON("${path }/role/toUpdate.do?idrole="+role,"rand="+Math.random(),function(d){
 		var a=d.menus;
-		//alert(a);
 		 $("#menu").html("");
 		for(var i=0;i<a.length;i++){
-			 //var id_system_menu=a[i].id_system_menu;
-			 $("#menu").append("<li><a href='../"+a[i].url+"'>"+a[i].name_item+"</a>");
+	    $("#menu").append("<li><a href='../"+a[i].url+"'>"+a[i].name_item+"</a>");
 	}
+
 	});
 	
 });
@@ -133,13 +132,11 @@ $().ready(function(){
 
 					</ul>
 				</div>
-				<div class="div1" style="height: 9%;margin-top: 1px;">
+				<div class="div1" style="height: 10%;margin-top: -1px;background-color: #ddefff;">
 					<ul style="margin-left: -20px;">
 						<li>登录人：${login.name} </li>
 						<li><%=DateUtils.now() %></li>
 					</ul>
-					
-					
 				</div>
 			</td>
 			<td><div class="div1" id="right">
@@ -149,7 +146,7 @@ $().ready(function(){
 		</tr>
 	</table>
 	<div title="打开或关闭侧边栏" onclick="$('#main_td').toggle();"
-		style="width: 20px; height: 20px; display: block; position: absolute; left: 4px; top: 40px; border: 1px solid #aacccc; background-color: #ddefff; text-align: center; cursor: pointer;">
+		style="width: 20px; height: 20px; display: block; position: absolute; left: 4px; top: 0px;margin-top:30px; border: 1px solid #aacccc; background-color: #ddefff; text-align: center; cursor: pointer;">
 		&lt;&gt;</div>
 </body>
 </html>

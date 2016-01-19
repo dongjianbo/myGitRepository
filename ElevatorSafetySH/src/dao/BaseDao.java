@@ -1,6 +1,7 @@
 package dao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -32,11 +33,31 @@ public class BaseDao extends HibernateByDCPageUtil{
 	public <T> T get(Class<T> entityName,Serializable id){
 		return this.getHibernateTemplate().get(entityName, id);
 	}
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List getListBySQL(String sql){
 		Session session=this.getSessionFactory().openSession();
 		List list=session.createSQLQuery(sql).list();
 		session.close();
+		if(list.isEmpty()){
+			list.add(null);
+		}
 		return list;
+	}
+	@SuppressWarnings({ "rawtypes"})
+	public List listBySQLQuery(String sql){
+		Session session=this.getSessionFactory().openSession();
+		List list=session.createSQLQuery(sql).list();
+		session.close();
+		return list;
+	}
+	@SuppressWarnings({ "rawtypes" })
+	public Object getObjectBySQL(String sql){
+		Session session=this.getSessionFactory().openSession();
+		List list=session.createSQLQuery(sql).list();
+		session.close();
+		if(list!=null&&!list.isEmpty()){
+			return list.get(0);
+		}
+		return null;
 	}
 }

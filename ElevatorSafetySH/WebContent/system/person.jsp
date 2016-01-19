@@ -33,7 +33,6 @@ ul li {
 		if(v==4){
 			$('#_sFrame').attr("src","${path}/operator/list.do");
 		} 
-		
 		$('span.title').each(function(index){
 			if(s==this){
 				this.style.backgroundColor='#accccc';
@@ -58,8 +57,6 @@ ul li {
 			<li><span class="title" onclick="toManage(2,this)">安全人员维护</span>
 			<li><span class="title" onclick="toManage(3,this)">检验检测人员维护</span>
 			<li><span class="title" onclick="toManage(4,this)">监管部门人员维护</span>
-			
-			
 		</ul>
 	</div>
 	<iframe id="_sFrame" width="100%" height="100%" frameborder="0" scrolling="no"

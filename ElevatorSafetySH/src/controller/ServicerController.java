@@ -47,7 +47,6 @@ public class ServicerController {
 	@RequestMapping(value="insert",produces="text/html;charset=utf-8")
 	@ResponseBody
 	public String insert(Servicer servicer,HttpServletRequest request){
-		
 		//插入维保人员信息
 		int idservicer=Integer.parseInt(servicerService.insert(servicer).toString());//返回表的主键
 		//修改systemstate信息

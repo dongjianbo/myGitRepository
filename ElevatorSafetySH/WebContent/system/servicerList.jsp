@@ -208,7 +208,6 @@
 		<tr>
 			<th>编号</th>
 			<th>维保人员姓名</th>
-			<th>身份证号码</th>
 			<th>所属维保公司</th>
 			<th>从业资格证书编号</th>
 			<th>维保人员类别</th>
@@ -219,7 +218,6 @@
 			<tr>
 				<td>${d.idservicer}</td>
 				<td>${d.name }</td>
-				<td>${d.idcard}</td>
 				<td>${d.idservice}</td>
 				<td>${d.licencecode}</td>
 				<td>${d.servicer_type_def.name }</td>

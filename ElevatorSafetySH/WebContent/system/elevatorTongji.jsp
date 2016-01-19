@@ -18,7 +18,7 @@
 </head>
 <body>
 <ul>
-	<li><h3>各状态下的电梯数量</h3>
+	<li><h3>${login.city.name_city}${login.distict.name_district}${login.subdistict.name_subdistrict}&nbsp;&nbsp;各状态下的电梯数量</h3>
 	<li><table cellpadding="0" cellspacing="1">
 	<tr>
 		<th>电梯总数量</th>
