@@ -30,7 +30,7 @@
 <body>
 
 <ul>
-	<li><form action="${path}/service/task.do" method="post">
+	<li><form action="${path}/user/task.do" method="post">
 		<table cellpadding="0" cellspacing="1">
 			<tr>
 				<td>从<input readonly="readonly" type="text" id="start" name="start" size="35" value="${param.start }"/>
@@ -42,20 +42,17 @@
 		</table>
 	</form>
 	
-	<li><h3>${deptName}&nbsp;&nbsp;维保人员完成工作量</h3>
+	<li><h3>${deptName}&nbsp;&nbsp;安全人员完成工作量</h3>
 	<li>
 	<table cellpadding="0" cellspacing="1">
 	<tr>
-		<th>半月维保</th>
-		<th>季度维保</th>
-		<th>半年维保</th>
-		<th>年度维保</th>
+		<th>巡检次数</th>
+		<th>配合维保次数</th>
 	</tr>
 	<tr>
-		<td><a href="${path }/service/listForTask.do?type=1&start=${param.start }&end=${param.end}">${data["半月"] eq null?0:data["半月"]}</a></td>
-		<td><a href="${path }/service/listForTask.do?type=2&start=${param.start }&end=${param.end}">${data["季度"] eq null?0:data["季度"]}</a></td>
-		<td><a href="${path }/service/listForTask.do?type=3&start=${param.start }&end=${param.end}">${data["半年"] eq null?0:data["半年"]}</a></td>
-		<td><a href="${path }/service/listForTask.do?type=4&start=${param.start }&end=${param.end}">${data["年检"] eq null?0:data["年检"]}</a></td>
+		<td><a href="${path }/user/listForTask.do?type=0&start=${param.start }&end=${param.end}">${countType0 }</a></td>
+		<td><a href="${path }/user/listForTask.do?type=-1&start=${param.start }&end=${param.end}">${countType}</a></td>
+		
 	</tr>
 	</table>
 </ul>

@@ -15,8 +15,10 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
 import vo.Elevator;
+import vo.Maint_report_id;
 import vo.Service1;
 import dao.ElevatorDao;
+import dao.Maint_report_idDao;
 import dao.ServiceDao;
 import util.DateUtils;
 
@@ -548,14 +550,16 @@ public class ServiceService {
 		}
 		//维保单位任务量统计
 		@SuppressWarnings("unchecked")
-		public Map<String, Integer> getTask(String start,String end){
+		public Map<String, Integer> getTask(int id_service,String start,String end){
 			String sql="select mt.name,count(mr.maint_id) from "
 					+ "maint_report_id mr right join maint_type_def mt "
 					+ "on mr.maint_type=mt.maint_type "
-					+ "where mt.maint_type!=0 ";
+					+ "where mt.maint_type!=0 and mr.elevator_id in"
+					+ "(select id_elevator from elevator where id_service="+id_service+")";
 			if(start!=null&&end!=null){
 				sql+=" and  (mr.maint_date between '"+start+"' and '"+end+"')";
 			}
+			
 			sql+= "group by (mt.name) ";
 			List<Object[]> list=serviceDao.getListBySQL(sql);
 			Map<String, Integer> map=new HashMap<String, Integer>();
@@ -567,6 +571,26 @@ public class ServiceService {
 			}
 			return map;
 		} 
-		
+		@Resource
+		public Maint_report_idDao mriDao;
+		@SuppressWarnings("unchecked")
+		public List<Maint_report_id> listByTaskType(int id_service,int maint_type,String start,String end,HttpServletRequest request){
+			String sql="select id_elevator from elevator where id_service="+id_service;
+			List ids=mriDao.getListBySQL(sql);
+			DetachedCriteria dc=DetachedCriteria.forClass(Maint_report_id.class);
+			if(maint_type!=-1){
+				dc.add(Restrictions.eq("maint_type", maint_type));
+			}
+			if(!ids.isEmpty()){
+				dc.add(Restrictions.in("elevator_id", ids));
+			}
+			if(!"".equals(start)&&!"".equals(end)){
+				Date startTime=new Date(DateUtils.parse(start).getTime());
+				Date endTime=new Date(DateUtils.parse(end).getTime());
+				dc.add(Restrictions.between("maint_date", startTime, endTime));
+			}
+			
+			return mriDao.findPageByDcQuery(dc, 10, request);
+		}	
   
 }

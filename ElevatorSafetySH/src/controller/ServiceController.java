@@ -19,12 +19,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import service.HistoryService;
 import service.History_listService;
+import service.Maint_report_idService;
 import service.ServiceService;
-import util.DateUtils;
 import vo.Elevator;
 import vo.History;
 import vo.History_list;
 import vo.History_listKey;
+import vo.Maint_report_id;
 import vo.Operator;
 import vo.Service1;
 
@@ -37,6 +38,8 @@ public class ServiceController {
 	public HistoryService historyService;
 	@Resource
 	public History_listService history_listService;
+	@Resource
+	public Maint_report_idService mriService;
     @RequestMapping("list")
     public ModelAndView list(String key,HttpServletRequest request){
 		ModelAndView mav=new ModelAndView("system/serviceList");
@@ -267,10 +270,25 @@ public class ServiceController {
 				mav.addObject("error","当前登录人非维保单位人员!");
 				return mav;
 			}else{
-				Map<String, Integer> data=serviceService.getTask(start, end);
+				//得到当前登录人的单位编号
+				int id_service=op.getIdOrganization();
+				Map<String, Integer> data=serviceService.getTask(id_service,start, end);
 				ModelAndView mav=new ModelAndView("system/serviceTask");
 				mav.addObject("data",data);
 				return mav;
 			}
+		}
+		//任务量列表
+		@RequestMapping("listForTask")
+		public ModelAndView listForTask(int type,String start,String end,HttpServletRequest request){
+			Operator op=(Operator)request.getSession().getAttribute("login");
+			//得到当前登录人的单位编号
+			int id_service=op.getIdOrganization();
+			List<Maint_report_id> list=serviceService.listByTaskType(id_service,type, start, end,request);
+			ModelAndView mav=new ModelAndView("system/serviceListForTask");
+			String typeName=mriService.getTypeNameById(type);
+			mav.addObject("list",list);
+			mav.addObject("typeName",typeName);
+			return mav;
 		}
 }

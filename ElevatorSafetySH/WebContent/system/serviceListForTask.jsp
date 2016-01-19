@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -21,41 +22,40 @@
 	<script src="${path}/jquery/ui/jquery.ui.effect.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.datepicker.js"></script><!-- 日期控件的js -->
 	<script type="text/javascript">
-		$().ready(function(){
-			$("#start").datepicker({dateFormat:'yy-mm-dd'});
-			$("#end").datepicker({dateFormat:'yy-mm-dd'});
-		});
+		
 	</script>
 </head>
 <body>
 
 <ul>
-	<li><form action="${path}/service/task.do" method="post">
-		<table cellpadding="0" cellspacing="1">
-			<tr>
-				<td>从<input readonly="readonly" type="text" id="start" name="start" size="35" value="${param.start }"/>
-				到
-				<input readonly="readonly" type="text" id="end" name="end" size="35" value="${param.end }"/>
-				<input type="submit" value="搜索">
-				</td>
-			</tr>
-		</table>
-	</form>
 	
-	<li><h3>${deptName}&nbsp;&nbsp;维保人员完成工作量</h3>
+	<li><h3>${deptName}&nbsp;&nbsp;${typeName }&nbsp;&nbsp;维保记录列表</h3>
 	<li>
 	<table cellpadding="0" cellspacing="1">
 	<tr>
-		<th>半月维保</th>
-		<th>季度维保</th>
-		<th>半年维保</th>
-		<th>年度维保</th>
+		<th>记录编号</th>
+		<th>电梯简称</th>
+		<th>操作员1</th>
+		<th>操作员2</th>
+		<th>操作员3</th>
+		<th>维保时间</th>
+		<th>记录上传时间</th>
+		<th>操作</th>
 	</tr>
+	<c:forEach items="${list }" var="l">
+		<tr>
+			<td>${l.maint_id }</td>
+			<td>${l.elevator.desc }</td>
+			<td>${l.servicer1.name }</td>
+			<td>${l.servicer2.name }</td>
+			<td>${l.servicer3.name }</td>
+			<td>${l.maint_date }</td>
+			<td>${l.maint_upload }</td>
+			<td><a href="#">查看记录明细</a></td>
+		</tr>
+	</c:forEach>
 	<tr>
-		<td><a href="${path }/service/listForTask.do?type=1&start=${param.start }&end=${param.end}">${data["半月"] eq null?0:data["半月"]}</a></td>
-		<td><a href="${path }/service/listForTask.do?type=2&start=${param.start }&end=${param.end}">${data["季度"] eq null?0:data["季度"]}</a></td>
-		<td><a href="${path }/service/listForTask.do?type=3&start=${param.start }&end=${param.end}">${data["半年"] eq null?0:data["半年"]}</a></td>
-		<td><a href="${path }/service/listForTask.do?type=4&start=${param.start }&end=${param.end}">${data["年检"] eq null?0:data["年检"]}</a></td>
+		<td colspan="8" style="text-align: left;">${pagination}</td>
 	</tr>
 	</table>
 </ul>

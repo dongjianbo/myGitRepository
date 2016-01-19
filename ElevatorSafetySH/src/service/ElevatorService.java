@@ -38,13 +38,13 @@ public class ElevatorService {
 	public int getCount(String id_city,String id_district,String id_subdistrict){
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 		dc.setProjection(Projections.count("id_elevator"));
-		if(id_city!=null&&!"".equals(id_city)){
+		if(id_city!=null&&!"00".equals(id_city)){
 			dc.add(Restrictions.eq("id_city", id_city));
 		}
-		if(id_district!=null&&!"".equals(id_district)){
+		if(id_district!=null&&!"00".equals(id_district)){
 			dc.add(Restrictions.eq("id_district", id_district));
 		}
-		if(id_subdistrict!=null&&!"".equals(id_subdistrict)){
+		if(id_subdistrict!=null&&!"00".equals(id_subdistrict)){
 			dc.add(Restrictions.eq("id_subdistrict", id_subdistrict));
 		}
 		List<Long> list=elevatorDao.getListByDc(dc);

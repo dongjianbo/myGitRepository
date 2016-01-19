@@ -20,15 +20,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import service.HistoryService;
 import service.History_listService;
+import service.Maint_report_idService;
 import service.TestService;
-import vo.Service1;
 import vo.Elevator;
 import vo.History;
 import vo.History_list;
 import vo.History_listKey;
+import vo.Maint_report_id;
 import vo.Operator;
 import vo.Test;
-import vo.User;
 
 @Controller
 @RequestMapping("test")
@@ -39,6 +39,8 @@ public class TestController {
 	public HistoryService historyService;
 	@Resource
 	public History_listService history_listService;
+	@Resource
+	public Maint_report_idService mriService;
 	@RequestMapping("list")
 	public ModelAndView list(String key,HttpServletRequest request){
 		ModelAndView mav=new ModelAndView("system/testList");
@@ -195,6 +197,43 @@ public class TestController {
 		mav.addObject("search",search);
 		mav.addObject("requestMapping", "test");
 		mav.addObject("test",test);
+		return mav;
+	}
+	//安全员任务量统计
+	@RequestMapping("task")
+	public ModelAndView task(String start,String end,HttpServletRequest request){
+		Operator op=(Operator)request.getSession().getAttribute("login");
+		if(!op.getTypeOperator().equals("30")&&!op.getTypeOperator().equals("31")){
+			ModelAndView mav=new ModelAndView("error");
+			mav.addObject("error","当前登录人非检验检测单位人员!");
+			return mav;
+		}else{
+			//查询本使用单位的巡检任务量
+			int countType0=testService.getCountMaintType0(op.getIdOrganization(), start, end);
+			int countType=testService.getCountMaint(op.getIdOrganization(), start, end);
+			ModelAndView mav=new ModelAndView("system/testTask");
+			mav.addObject("countType0", countType0);
+			mav.addObject("countType",countType);
+			return mav;
+		}
+	}
+	//任务量列表
+	@RequestMapping("listForTask")
+	public ModelAndView listForTask(int type,String start,String end,HttpServletRequest request){
+		Operator op=(Operator)request.getSession().getAttribute("login");
+		//获取当前登录人的单位编号
+		int id_test=op.getIdOrganization();
+		List<Maint_report_id> list=testService.listByType(id_test,type, start, end,request);
+		ModelAndView mav=new ModelAndView("system/serviceListForTask");
+		String typeName="";
+		if(type!=-1){
+			typeName=mriService.getTypeNameById(type);
+		}else{
+			typeName="配合维保";
+		}
+		
+		mav.addObject("list",list);
+		mav.addObject("typeName",typeName);
 		return mav;
 	}
 }

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import service.HistoryService;
 import service.History_listService;
@@ -27,6 +28,19 @@ public class TestreportController {
   public HistoryService historyService;
   @Resource
   public History_listService history_listService;
+  @RequestMapping("toInsert")
+  public ModelAndView toInsert(HttpServletRequest request){
+	  Operator op=(Operator)request.getSession().getAttribute("login");
+		if(!op.getTypeOperator().equals("30")&&!op.getTypeOperator().equals("31")){
+			ModelAndView mav=new ModelAndView("error");
+			mav.addObject("error","当前登录人非检测单位人员!");
+			return mav;
+		}else{
+			ModelAndView mav=new ModelAndView("system/insertTestReport");
+			return mav;
+		}
+	  
+  }
   @RequestMapping("insert")
   public String insert(Testreport testreport,HttpServletRequest request){
 	  int id_testreport=Integer.parseInt(testreportService.insert(testreport).toString());

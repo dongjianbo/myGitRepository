@@ -1,6 +1,7 @@
 package service;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -13,9 +14,12 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
 import vo.Elevator;
+import vo.Maint_report_id;
 import vo.Test;
 import vo.User;
+import dao.Maint_report_idDao;
 import dao.TestDao;
+import util.DateUtils;
 
 @Service
 public class TestService {
@@ -267,5 +271,54 @@ public class TestService {
 				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
 			}
 			return testDao.findPageByDcQuery(dc, pageSize, request);
+		}
+		//本检测单位巡检次数
+		public int getCountMaintType0(int id_test,String start,String end){
+			String sql="select count(*) from maint_report_id where maint_type=0 and elevator_id in(select id_elevator from elevator where id_test="+id_test+")";
+			if(start!=null&&end!=null){
+				sql+=" and  (maint_date between '"+start+"' and '"+end+"')";
+			}
+			Object obj=testDao.getObjectBySQL(sql);
+			if(obj!=null){
+				return Integer.parseInt(obj.toString());
+			}else{
+				return 0;
+			}
+		}
+		//本检测单位共配合维保次数
+		public int getCountMaint(int id_test,String start,String end){
+			String sql="select count(*) from maint_report_id where elevator_id in(select id_elevator from elevator where id_test="+id_test+")";
+			if(start!=null&&end!=null){
+				sql+=" and  (maint_date between '"+start+"' and '"+end+"')";
+			}
+			Object obj=testDao.getObjectBySQL(sql);
+			if(obj!=null){
+				return Integer.parseInt(obj.toString());
+			}else{
+				return 0;
+			}
+		}
+		
+		@Resource
+		public Maint_report_idDao mriDao;
+		//获得维保记录列表，传入检测单位ID
+		@SuppressWarnings("unchecked")
+		public List<Maint_report_id> listByType(int id_test,int maint_type,String start,String end,HttpServletRequest request){
+			String sql="select id_elevator from elevator where id_test="+id_test;
+			List ids=mriDao.getListBySQL(sql);
+			DetachedCriteria dc=DetachedCriteria.forClass(Maint_report_id.class);
+			if(maint_type!=-1){
+				dc.add(Restrictions.eq("maint_type", maint_type));
+			}
+			if(!ids.isEmpty()){
+				dc.add(Restrictions.in("elevator_id", ids));
+			}
+			if(start!=null&&end!=null&&!"".equals(start)&&!"".equals(end)){
+				Date startTime=new Date(DateUtils.parse(start).getTime());
+				Date endTime=new Date(DateUtils.parse(end).getTime());
+				dc.add(Restrictions.between("maint_date", startTime, endTime));
+			}
+			
+			return mriDao.findPageByDcQuery(dc, 10, request);
 		}
 }

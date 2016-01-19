@@ -1,7 +1,6 @@
 package controller;
 
 import java.util.List;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,11 +19,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import service.HistoryService;
 import service.History_listService;
+import service.Maint_report_idService;
 import service.UserService;
 import vo.Elevator;
 import vo.History;
 import vo.History_list;
 import vo.History_listKey;
+import vo.Maint_report_id;
 import vo.Operator;
 import vo.User;
 
@@ -37,6 +38,8 @@ public class UserController {
    public HistoryService historyService;
    @Resource
    public History_listService history_listService;
+   @Resource
+   public Maint_report_idService mriService;
    @RequestMapping("list")
    public ModelAndView list(String key,HttpServletRequest request){
 		ModelAndView mav=new ModelAndView("system/userList");
@@ -276,6 +279,43 @@ public class UserController {
 			mav.addObject("key",key);
 			mav.addObject("search",search);
 			mav.addObject("requestMapping", "user");
+			return mav;
+		}
+		//安全员任务量统计
+		@RequestMapping("task")
+		public ModelAndView task(String start,String end,HttpServletRequest request){
+			Operator op=(Operator)request.getSession().getAttribute("login");
+			if(!op.getTypeOperator().equals("20")&&!op.getTypeOperator().equals("21")){
+				ModelAndView mav=new ModelAndView("error");
+				mav.addObject("error","当前登录人非使用单位人员!");
+				return mav;
+			}else{
+				//查询本使用单位的巡检任务量
+				int countType0=userService.getCountMaintType0(op.getIdOrganization(), start, end);
+				int countType=userService.getCountMaint(op.getIdOrganization(), start, end);
+				ModelAndView mav=new ModelAndView("system/userTask");
+				mav.addObject("countType0", countType0);
+				mav.addObject("countType",countType);
+				return mav;
+			}
+		}
+		//任务量列表
+		@RequestMapping("listForTask")
+		public ModelAndView listForTask(int type,String start,String end,HttpServletRequest request){
+			Operator op=(Operator)request.getSession().getAttribute("login");
+			//获取当前登录人的单位编号
+			int id_user=op.getIdOrganization();
+			List<Maint_report_id> list=userService.listByType(id_user,type, start, end,request);
+			ModelAndView mav=new ModelAndView("system/serviceListForTask");
+			String typeName="";
+			if(type!=-1){
+				typeName=mriService.getTypeNameById(type);
+			}else{
+				typeName="配合维保";
+			}
+			
+			mav.addObject("list",list);
+			mav.addObject("typeName",typeName);
 			return mav;
 		}
 }
