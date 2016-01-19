@@ -22,7 +22,7 @@
 <body bgcolor="#accccc">
 
 	<div class="formDiv">
-		<h1 align="center">河南省电梯安全监督管理信息平台</h1>
+		<h1 align="center">河南省电梯安全监督管理信息平台</h1>${massage3 }
 		<form action="${pageContext.servletContext.contextPath }/login/check.do"
 		method="post">
 		登录名：<input type="text" name="loginname" value="${op.loginname }" style="height: 24px;width: 260px;"/>${massage1 }<br> 

@@ -97,7 +97,13 @@ public class OperatorService {
  				System.out.println(code);
  					return 2;//表示密码不正确
  			}else{
- 				return 3;//用户密码都正确
+ 				if(operlist.get(0).getStatus().equals("0")){
+ 					//禁用
+ 					return 4;
+ 				}else{
+ 					return 3;//用户状态正常
+ 				}
+ 				
  			}
  		}
  	}

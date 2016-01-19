@@ -49,12 +49,13 @@ public class LoginController {
 	   if(i==1){
 		   request.setAttribute("massage1","<font color='red'>用户名不存在</font>");
 		   return "login";
-	   }else{
-		   if(i==2){
+	   }
+		if(i==2){
 			   request.setAttribute("massage2","<font color='red'>密码不正确</font>");
 			   return "login";
-		   }else{
-			   Operator op=perService.getOper(operator);
+		}
+		if(i==3){
+			  Operator op=perService.getOper(operator);
 			   //级联查询登录人的类型
 			   Operator_type type= operator_typeService.getOperType(op.getTypeOperator());
 			   request.getSession().setAttribute("operator_type", type);
@@ -96,7 +97,10 @@ public class LoginController {
 			    //把登陆人的角色存在session中，然后在main.jsp页面取值
 			    request.getSession().setAttribute("role", role);
 				 return "main";
-		   }
-	   }
-   }
-}
+		}else{
+			request.setAttribute("massage3","<font color='red'>该用户被禁用，无法登陆</font>");
+			return "login";
+		}
+			 
+	 }
+ }
