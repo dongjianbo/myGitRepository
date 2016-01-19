@@ -25,7 +25,6 @@
 	function mima(){
 		
 		var pwd=$("#password").val();
-		alert(pwd);
 		//查询数据库中的密码
 		$.post("${path }/operator/selectById.do?password="+pwd+"","rand="+Math.random(),function(d){
 			if(d=="yes"){//输入原来的密码正确 
