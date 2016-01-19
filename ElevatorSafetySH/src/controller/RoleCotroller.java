@@ -51,13 +51,14 @@ public class RoleCotroller {
     @ResponseBody
     public String list_json(){
     	List<Role> roleList=roleService.list();
-    	for(Role r:roleList){
-    		System.out.println("角色111111111111111："+r.getName_role());
+    	for(Role role:roleList){
+    		//因为role类下配置多对多关系 下的menus没有级联查询，导致转json的时候需要获取menus（就会一直报懒加载错误） ，但是我们并不需要这个menus附属对象，所以直接给menus赋予一个控制就可以了
+			role.setMenus(null);
     	}
-    	
     	JSONArray array=JSONArray.fromObject(roleList);
     	return array.toString();
     }
+    
 	@RequestMapping(value="insert",produces="text/html;charset=utf-8")
 	@ResponseBody
 	public String insert(Role role,int menus_id[],HttpServletRequest request){
@@ -77,6 +78,7 @@ public class RoleCotroller {
 	public String toUpdate(Role role){
 		role=roleService.findById(role.getIdrole());
 		JSONObject object=JSONObject.fromObject(role);
+		System.out.println("000mhjmhjmhj");
 		return object.toString();
 	}
 	@RequestMapping(value="update",produces="text/html;charset=utf-8")

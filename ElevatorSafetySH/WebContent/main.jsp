@@ -2,6 +2,7 @@
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	String basePath=pageContext.getServletContext().getContextPath();
 	session.setAttribute("path", basePath);
@@ -76,6 +77,71 @@ $(function() {
 
 });
 */
+
+$().ready(function(){
+	//取login界面 传过来的角色 值 
+	var role= '<%=session.getAttribute("role")%>';
+	$.getJSON("${path }/role/toUpdate.do?idrole="+role,"rand="+Math.random(),function(d){
+		var a=d.menus;
+		//alert(a);
+		 $("#menu").html("");
+		for(var i=0;i<a.length;i++){
+			var id_system_menu=a[i].id_system_menu;
+			//alert(id_system_menu);
+			if(id_system_menu==21){
+				  $("#menu").append("<li><a href='${path}/system/system.jsp'>单位信息维护</a>");
+			}
+			if(id_system_menu==1||id_system_menu==2||id_system_menu==22||id_system_menu==23){
+				
+				  $("#menu").append("<li><a href='${path}/system/person.jsp'>人员信息维护</a>");
+			}
+			if(id_system_menu==92){
+				  $("#menu").append("<li><a href='${path}/role/list.do'>角色定义与配置</a>");
+			}
+			
+			if(id_system_menu==24){
+				  $("#menu").append("<li><a href='${path}/system/insertElevatorDeclaration.jsp'>电梯资料申报</a>");
+			}
+			if(id_system_menu==25){
+				  $("#menu").append("<li><a href='${path}/elevator/list.do'>电梯资料注册</a>");
+			}
+			if(id_system_menu==26){
+				  $("#menu").append("<li><a href='${path}/system/yuanElevatorDeclaration.jsp'>原有电梯资料录入</a>");
+			}
+			if(id_system_menu==93){
+				  $("#menu").append("<li><a href='${path}/elevator/search.do'>技术监督部门统计查询</a>");
+			}
+			
+			if(id_system_menu==41){
+				  $("#menu").append("<li><a href='${path}/system/elevatorTongji.jsp'>维保单位任务提醒</a>");
+			}
+			if(id_system_menu==42){
+				  $("#menu").append("<li><a href='#'>维保人员任务量统计</a>");
+			}
+			if(id_system_menu==61){
+				  $("#menu").append("<li><a href='#'>使用单位年检提醒</a>");
+			}
+			if(id_system_menu==94){
+				  $("#menu").append("<li><a href='#'>安全人员任务量统计</a>");
+			}
+			
+			if(id_system_menu==81){
+				  $("#menu").append("<li><a href='#'>检测单位年检提醒</a>");
+			}
+			if(id_system_menu==95){
+				  $("#menu").append("<li><a href='#'>检测人员任务量统计</a>");
+			}
+			
+			if(id_system_menu==83){
+				  $("#menu").append("<li><a href='${path }/system/insertTestReport.jsp'>检测报告录入</a>");
+			}
+			if(id_system_menu==91){
+				  $("#menu").append("<li><a href='${path}/system/operatorZhanghao.jsp'>账号信息设置</a>");
+			}
+		}
+	});
+	
+});
 </script>
 
 </head>
@@ -84,7 +150,20 @@ $(function() {
 		<tr height="6%">
 			<td colspan="2" id="top">
 				<ul>
-				<li><div style="font-size: 30px;margin-top: 10px;">电梯安全管理平台</div>
+				<li><div style="font-size: 30px;margin-top: 10px;">
+				 <c:if test="${operator_type.id_operator_type=='00'||operator_type.id_operator_type=='01'}">
+				   河南省电梯安全监督管理中心
+				   </c:if>
+				   <c:if test="${operator_type.id_operator_type=='10'||operator_type.id_operator_type=='11'}">
+				   河南省电梯安全监督维保中心
+				   </c:if>
+				   <c:if test="${operator_type.id_operator_type=='20'||operator_type.id_operator_type=='21'}">
+				   河南省电梯安全监督用户中心
+				   </c:if>
+				   <c:if test="${operator_type.id_operator_type=='30'||operator_type.id_operator_type=='31'}">
+				   河南省电梯安全监督检验检测中心
+				   </c:if>
+				</div>
 				<li><div style="font-size:14px;text-align: right;margin-right: 30px;">
 				${login.city.name_city}${login.distict.name_district}${login.subdistict.name_subdistrict}&nbsp;&nbsp;
 				${deptName}&nbsp;&nbsp;
@@ -98,25 +177,10 @@ $(function() {
 		<tr>
 			<td width="10%" valign="top" id="main_td">
 				<div id="main" class="div1" style="height: 90%">
-					<ul>
-						<li><a href="${path}/system/system.jsp">单位信息维护</a></li>
-						<li><a href="${path}/system/person.jsp">人员信息维护</a></li>
-						<li><a href="${path}/role/list.do">角色定义与配置</a></li>
+					<ul id="menu">
 						
-						<li><a href="${path}/system/insertElevatorDeclaration.jsp">电梯资料申报</a></li>
-						<li><a href="${path}/elevator/list.do">电梯资料注册</a></li>
-						<li><a href="${path}/system/yuanElevatorDeclaration.jsp">原有电梯资料录入</a></li>
-						<li><a href="${path}/elevator/search.do">技术监督部门统计查询</a></li>
-					
-						<li><a href="${path}/service/search.do">维保单位任务提醒</a></li>
-						<li><a href="#">维保人员任务量统计</a></li>
-					
-						<li><a href="${path}/user/search.do">使用单位年检提醒</a></li>
-						<li><a href="#">安全人员任务量统计</a></li>
-					
-						<li><a href="${path}/test/search.do">检测单位年检提醒</a></li>
-						<li><a href="#">检测人员任务量统计</a></li>
-						<li><a href="#">检测报告录入</a></li>
+				
+
 					</ul>
 				</div>
 				<div class="div1" style="height: 10%;margin-top: -1px;background-color: #ddefff;">

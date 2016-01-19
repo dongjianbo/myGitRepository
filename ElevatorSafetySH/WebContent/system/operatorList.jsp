@@ -112,7 +112,7 @@
 			  //将查询到的信息放入修改表单中--注意隐藏域中的主键
 			for(var i=0;i<d.length;i++){
 				//放入修改 界面的 类别下拉框中（插入界面有默认 插入的值所以不用放 ）
-				//alert(d[i].name);
+				//alert("操作人员类别："+d[i].name);
 				$("#typeOperator").append("<option size='"+50+"' value='"+d[i].id_operator_type+"'>"+d[i].name+"</option>");
 				
 			}
@@ -121,7 +121,7 @@
 			$.getJSON("${path }/status_def/list_json.do","rand="+Math.random(),function(d){
 					  //将查询到的信息放入修改表单中--注意隐藏域中的主键
 					for(var i=0;i<d.length;i++){
-						//alert(d[i].name);
+						//alert("维保人员状态："+d[i].name);
 						$("#status").append("<option size='"+50+"' value='"+d[i].idstatus+"'>"+d[i].name+"</option>");
 						$("#status1").append("<option size='"+50+"' value='"+d[i].idstatus+"'>"+d[i].name+"</option>");
 					}
@@ -130,7 +130,7 @@
 			$.getJSON("${path }/role/list_json.do","rand="+Math.random(),function(d){
 					  //将查询到的信息放入修改表单中--注意隐藏域中的主键
 					for(var i=0;i<d.length;i++){
-						alert(d[i].name);
+						//alert("维保人员角色 ："+d[i].name);
 						$("#idprivilege").append("<option size='"+50+"' value='"+d[i].idrole+"'>"+d[i].name_role+"</option>");
 						$("#idprivilege1").append("<option size='"+50+"' value='"+d[i].idrole+"'>"+d[i].name_role+"</option>");
 					}
@@ -195,12 +195,14 @@
 		//不同的城市选择不同的id
 		$.getJSON("${path }/distictlist/listByIdCity.do?id_city="+id_city,"rand="+Math.random(),function(s){
 			document.getElementById("iddistrict").innerHTML="";
+			 $("#iddistrict").append("<option size='"+50+"' value='"+00+"'>无</option>");
 			for(var i=0;i<s.length;i++){
 				 $("#iddistrict").append("<option size='"+50+"' value='"+s[i].id_district+"'>"+s[i].name_district+"</option>");
 				}
 		//选择区域下面的像乡镇
 			 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+s[0].id_district,"rand="+Math.random(),function(a){
 				 document.getElementById("idsubdistrict").innerHTML="";	
+				 $("#iddistrict").append("<option size='"+50+"' value='"+00+"'>无</option>");
 				 for(var i=0;i<a.length;i++){
 						$("#idsubdistrict").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
 			    	}
@@ -211,12 +213,14 @@
 		//不同的城市选择不同的id
 		$.getJSON("${path }/distictlist/listByIdCity.do?id_city="+id_city,"rand="+Math.random(),function(s){
 			document.getElementById("iddistrict1").innerHTML="";
+			$("#iddistrict").append("<option size='"+50+"' value='"+00+"'>无</option>");
 			for(var i=0;i<s.length;i++){
 				 $("#iddistrict1").append("<option size='"+50+"' value='"+s[i].id_district+"'>"+s[i].name_district+"</option>");
 				}
 		//选择区域下面的像乡镇
 			 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+s[0].id_district,"rand="+Math.random(),function(a){
 				 document.getElementById("idsubdistrict1").innerHTML="";	
+				 $("#iddistrict").append("<option size='"+50+"' value='"+00+"'>无</option>");
 				 for(var i=0;i<a.length;i++){
 						$("#idsubdistrict1").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
 			    	}
@@ -229,6 +233,7 @@
 		var id_city=document.getElementById("idcity").value;
 		 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+id_district,"rand="+Math.random(),function(a){
 			 document.getElementById("idsubdistrict").innerHTML="";	
+			 $("#iddistrict").append("<option size='"+50+"' value='"+00+"'>无</option>");
 			 for(var i=0;i<a.length;i++){
 		    		$("#idsubdistrict").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
 		    	}
@@ -238,7 +243,8 @@
 		//去城市的id
 		var id_city=document.getElementById("idcity1").value;
 		 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+id_district,"rand="+Math.random(),function(a){
-			 document.getElementById("idsubdistrict1").innerHTML="";	
+			 document.getElementById("idsubdistrict1").innerHTML="";
+			 $("#iddistrict").append("<option size='"+50+"' value='"+00+"'>无</option>");
 			 for(var i=0;i<a.length;i++){
 		    		$("#idsubdistrict1").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
 		    	}
@@ -270,13 +276,38 @@
 			
 		});
 	}
+	
+	//按照id查询操作人员状态 
+	function zhuangtai(did){
+		$.getJSON("${path }/operator/toUpdate.do?idoperator="+did,"rand="+Math.random(),function(d){
+				var status=d.status;
+				var idoperator=d.idoperator;
+				if(status=="1"){
+					a=confirm("你确定要禁用吗？");
+					if(a==true){
+						//alert("禁用 ");
+						//修改 该操作员的状态 ，把状态改为 0（非正常）
+						window.location.href="${path }/operator/UpdateStatus.do?idoperator="+did;
+					}
+					
+				}else{
+					a=confirm("你确定要启用吗？");
+					if(a==true){
+						//alert("启用 ");
+						//修改该操作员的状态 ，把状态改为 1（正常）
+						window.location.href="${path }/operator/UpdateStatus1.do?idoperator="+did;
+					}
+				}
+			
+		});
+	}
 </script>
 </head>
 <body>
 	<form action="${path}/operator/list.do" method="post">
 		<table cellpadding="0" cellspacing="1">
 			<tr>
-				<td>按 姓名/身份证号 <input type="text" name="key" size="50"
+				<td>按 姓名 <input type="text" name="key" size="50"
 					value="${param.key}" /> <input type="submit" value="搜索" />
 				</td>
 			</tr>
@@ -308,6 +339,7 @@
 				<td><a
 					href="javascript:showUpdate(${d.idoperator})">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;
 					<a href="${path }/operator/delete.do?idoperator=${d.idoperator}">删除</a>
+					<a href="javascript:zhuangtai(${d.idoperator})">启用/禁用</a>
 				</td>
 			</tr>
 		</c:forEach>
@@ -329,11 +361,17 @@
 				<li>身份证号码:
 				<li><input type="text" name="idcard" id="idcard1" maxlength="18" size="50"/>
 				<li>所属城市:
-				<li><select name="idcity" id="idcity1" onchange="chooseCity(this.value)"></select>
+				<li><select name="idcity" id="idcity1" onchange="chooseCity(this.value)">
+				    
+				    </select>
 				<li>所属区县:
-				<li><select name="iddistrict" id="iddistrict1" onchange="choosedistrict(this.value)"></select> 
+				<li><select name="iddistrict" id="iddistrict1" onchange="choosedistrict(this.value)">
+				    <option value="00" size="50">无</option>
+				</select> 
 				<li>所属乡镇街道:
-				<li><select id="idsubdistrict1" name="idsubdistrict"></select>
+				<li><select id="idsubdistrict1" name="idsubdistrict">
+				    <option value="00" size="50">无</option>
+				</select>
 				<li>登陆名:
 				<li><input type="text" name="loginname" id="loginname1" maxlength="20" size="50" />*<div id="loginname2" style="float: right; margin-right:220 " ></div>
 				<li>密码:
@@ -357,21 +395,25 @@
 				<li>身份证号码:
 				<li><input type="text" name="idcard" id="idcard" maxlength="18" size="50"/>
 				<li>所属城市:
-				<li><select name="idcity" id="idcity" onchange="chooseCity(this.value)"></select>
+				<li><select name="idcity" id="idcity" onchange="chooseCity(this.value)">
+				   
+				</select>
 				<li>所属区县:
-				<li><select name="iddistrict" id="iddistrict" onchange="choosedistrict(this.value)"></select> 
+				<li><select name="iddistrict" id="iddistrict" onchange="choosedistrict(this.value)">
+				   <option value="00" size="50">无</option>
+				</select> 
 				<li>所属乡镇街道:
-				<li><select id="idsubdistrict" name="idsubdistrict"></select>
+				<li><select id="idsubdistrict" name="idsubdistrict">
+				   <option value="00" size="50">无</option>
+				</select>
 				<li>登陆名:
 				<li><input type="text" name="loginname" id="loginname" maxlength="20" size="50"/>*<div id="loginname0" style="float: right; margin-right:220 " ></div>
-				<li>密码:
-				<li><input type="text" name="password" id="password" maxlength="32" size="50"/>*<div id="password0" style="float: right; margin-right:220 " ></div>
+				<li><input type="hidden" name="password" id="password" maxlength="32" size="50"/><div id="password0" style="float: right; margin-right:220 " ></div>
 				<li>所属单位顺序号:
 				<li><input type="text" name="idOrganization" id="idOrganization" maxlength="11" size="50"/>*<div id="idOrganization0" style="float: right; margin-right:220 " ></div>
 				<li>角色:
 				<li><select name="idprivilege" id="idprivilege"></select>
-				<li>技术监督局操作员状态:
-				<li><select name="status" id="status"></select>
+				<li><input type="hidden" name="status" id="status">
 			    <li><input type="hidden" name="idoperator" id="idoperator" />
 			</ul>
 		</form>
