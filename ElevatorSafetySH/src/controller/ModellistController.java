@@ -43,8 +43,42 @@ public class ModellistController {
 	}
 	@RequestMapping(value="insert",produces="text/html;charset=utf-8")
 	@ResponseBody
-	public String insert(Modellist modellist,HttpServletRequest request,HttpServletResponse response){
-		//插入电梯型号modellist表
+	public String insert(Modellist modellist,String parameter12,String parameter14,String parameter21,String parameter23,String parameter24,String parameter32,String parameter34,String parameter41,HttpServletRequest request,HttpServletResponse response){
+		//把前台文本框中的 类型转换成Integer类型
+		if(parameter12.length()!=0){
+			Integer parameter12_a=Integer.parseInt(parameter12);
+			modellist.setParameter12(parameter12_a);
+		}
+		if(parameter14.length()!=0){
+			Integer parameter14_a=Integer.parseInt(parameter14);
+			modellist.setParameter14(parameter14_a);
+		}
+		if(parameter21.length()!=0){
+			Integer parameter21_a=Integer.parseInt(parameter21);
+			modellist.setParameter21(parameter21_a);
+		}
+		if(parameter23.length()!=0){
+			Integer parameter23_a=Integer.parseInt(parameter23);
+			modellist.setParameter23(parameter23_a);
+		}
+		if(parameter24.length()!=0){
+			Integer parameter24_a=Integer.parseInt(parameter24);
+			modellist.setParameter24(parameter24_a);
+		}
+		if(parameter32.length()!=0){
+			Integer parameter32_a=Integer.parseInt(parameter32);
+			modellist.setParameter32(parameter32_a);
+		}
+		if(parameter34.length()!=0){
+			Integer parameter34_a=Integer.parseInt(parameter34);
+			modellist.setParameter34(parameter34_a);
+		}
+		if(parameter41.length()!=0){
+			Integer parameter41_a=Integer.parseInt(parameter41);
+			modellist.setParameter41(parameter41_a);
+		}
+		
+	//插入电梯型号modellist表
 		int idmodel=Integer.parseInt(modellistService.insert(modellist).toString());
 		//插入history信息
 		History history=new History();
@@ -78,7 +112,40 @@ public class ModellistController {
 	}
 	@RequestMapping(value="update",produces="text/html;charset=utf-8")
 	@ResponseBody
-	public String update(Modellist modellist){
+	public String update(Modellist modellist,String parameter12,String parameter14,String parameter21,String parameter23,String parameter24,String parameter32,String parameter34,String parameter41){
+		//把前台文本框中的 类型转换成Integer类型
+		if(parameter12.length()!=0){
+			Integer parameter12_a=Integer.parseInt(parameter12);
+			modellist.setParameter12(parameter12_a);
+		}
+		if(parameter14.length()!=0){
+			Integer parameter14_a=Integer.parseInt(parameter14);
+			modellist.setParameter14(parameter14_a);
+		}
+		if(parameter21.length()!=0){
+			Integer parameter21_a=Integer.parseInt(parameter21);
+			modellist.setParameter21(parameter21_a);
+		}
+		if(parameter23.length()!=0){
+			Integer parameter23_a=Integer.parseInt(parameter23);
+			modellist.setParameter23(parameter23_a);
+		}
+		if(parameter24.length()!=0){
+			Integer parameter24_a=Integer.parseInt(parameter24);
+			modellist.setParameter24(parameter24_a);
+		}
+		if(parameter32.length()!=0){
+			Integer parameter32_a=Integer.parseInt(parameter32);
+			modellist.setParameter32(parameter32_a);
+		}
+		if(parameter34.length()!=0){
+			Integer parameter34_a=Integer.parseInt(parameter34);
+			modellist.setParameter34(parameter34_a);
+		}
+		if(parameter41.length()!=0){
+			Integer parameter41_a=Integer.parseInt(parameter41);
+			modellist.setParameter41(parameter41_a);
+		}
 		modellistService.update(modellist);
 		return "ok";
 	}

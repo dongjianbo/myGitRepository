@@ -6,6 +6,9 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
@@ -13,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import util.MD5;
 import vo.Operator;
-
 import dao.OperatorDao;
 
 @Service
@@ -38,6 +40,44 @@ public class OperatorService {
  	}
  	public void update(Operator operator){
  		operatorDao.update(operator);
+ 	}
+ 	public void updateStatus(int idoperator){
+ 		String sql="update operator set status='0' where id_operator="+idoperator;
+ 		Session session=operatorDao.getSessionFactory().openSession();
+ 		Transaction  tran=session.beginTransaction();
+ 		SQLQuery sqlquery=session.createSQLQuery(sql);
+ 		sqlquery.executeUpdate();
+ 		tran.commit();
+ 		session.close();
+ 		}
+ 	public void updateStatus1(int idoperator){
+ 		String sql="update operator set status='1' where id_operator="+idoperator;
+ 		Session session=operatorDao.getSessionFactory().openSession();
+ 		Transaction  tran=session.beginTransaction();
+ 		SQLQuery sqlquery=session.createSQLQuery(sql);
+ 		sqlquery.executeUpdate();
+ 		tran.commit();
+ 		session.close();
+ 	}
+ 	public int updatePassword(int idoperator,String password){
+ 		String sql="update operator set password='"+password+"' where id_operator="+idoperator;
+ 		Session session=operatorDao.getSessionFactory().openSession();
+ 		Transaction  tran=session.beginTransaction();
+ 		SQLQuery sqlquery=session.createSQLQuery(sql);
+ 		int i=sqlquery.executeUpdate();
+ 		tran.commit();
+ 		session.close();
+ 		return i;
+ 	}
+ 	//ÐÞ¸Ä½ÇÉ«
+ 	public void updateRole(Operator operator){
+ 		String sql="update operator set id_role='"+operator.getIdprivilege()+"' where id_operator="+operator.getIdoperator();
+ 		Session session=operatorDao.getSessionFactory().openSession();
+ 		Transaction  tran=session.beginTransaction();
+ 		SQLQuery sqlquery=session.createSQLQuery(sql);
+ 		int i=sqlquery.executeUpdate();
+ 		tran.commit();
+ 		session.close();
  	}
  	public void delete(Operator operator){
  		operatorDao.delete(operator);

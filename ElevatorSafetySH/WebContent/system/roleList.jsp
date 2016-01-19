@@ -135,7 +135,7 @@
 						onclick="showInsert()" />
 				</div>
 		</li>
-		<li><h3><a href="#">为操作员分配角色</a></h3>
+		<li><h3><a href="${path}/operator/list1.do">为操作员分配角色</a></h3>
 	</ul>
 	<div id="insertDialog" style="display: none" title="添加">
 		<form action="${path }/role/insert.do" method="post" id="insertForm">

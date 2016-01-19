@@ -19,6 +19,7 @@ public class CitylistService {
 	@SuppressWarnings("unchecked")
 	public List<Citylist> list(){
 		DetachedCriteria dc=DetachedCriteria.forClass(Citylist.class);
+		dc.add(Restrictions.ne("name_city", "ʡֱ"));
 		return citylistDao.getListByDc(dc);
 	}
 	public Citylist listBy_Idcity(String id_city){

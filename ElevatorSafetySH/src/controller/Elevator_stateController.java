@@ -76,7 +76,7 @@ public class Elevator_stateController {
 	public String insertElevator_state1(Elevator_state elevator_state,HttpServletRequest request,HttpServletResponse response){
 		elevator_state.setIdelevator(Integer.parseInt(request.getSession().getAttribute("id_elevator1").toString()));
 		elevator_state.setLabelwrite("0");
-		elevator_stateService.insert(elevator_state);
+		elevator_stateService.update(elevator_state);
 		//Ìí¼Ó³É¹¦
 		return "redirect:/elevator/list.do";
 	}

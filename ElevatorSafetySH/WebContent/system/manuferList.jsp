@@ -23,6 +23,13 @@
 	<script type="text/javascript">
 	var dia;
 	$().ready(function(){
+		//查询城市id
+		$.getJSON("${path }/citylist/list.do","rand="+Math.random(),function(d){
+			for(var i=0;i<d.length;i++){
+			  $("#register_area1").append("<option size='"+50+"' value='"+d[i].id_city+"'>"+d[i].name_city+"</option>");
+			  $("#register_area2").append("<option size='"+50+"' value='"+d[i].id_city+"'>"+d[i].name_city+"</option>");
+			}
+		});
 		$("#insertDialog").dialog({
 			modal:true,
 			autoOpen:false,
@@ -99,7 +106,7 @@
 			$("#tel").val(d.tel);
 			$("#manager").val(d.manager);
 			$("#addr").val(d.addr);
-			$("#register_area").val(d.register_area);
+			//$("#register_area2").val(d.register_area);
 			$("#idmanufer").val(d.idmanufer);
 			//打开修改对话框
 			$("#updateDialog").dialog("open");
@@ -171,9 +178,11 @@
 				<li>联系电话:
 				<li><input type="text" name="tel" size="50"/>
 				<li>单位地址:
-				<li><input type="text" name="addr" size="100"/>
+				<li><input type="text" name="addr" size="50"/>
 				<li>注册区域:
-				<li><input type="text" name="register_area" size="100" maxlength="2"/>
+				<li><select name="register_area" id="register_area1">
+				 
+				</select>
 			</ul>
 		</form>
 	</div>
@@ -193,9 +202,11 @@
 				<li>联系电话:
 				<li><input type="text" id="tel" name="tel" size="50"/>
 				<li>单位地址:
-				<li><input type="text" id="addr" name="addr" size="100"/>
+				<li><input type="text" id="addr" name="addr" size="50"/>
 				<li>注册区域:
-				<li><input type="text" id="register_area" name="register_area" size="100" maxlength="2"/>
+				<li><select name="register_area" id="register_area2">
+				
+				</select>
 				<li><input type="hidden" id="idmanufer" name="idmanufer"/>
 			</ul>
 		</form>

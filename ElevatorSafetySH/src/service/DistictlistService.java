@@ -20,6 +20,7 @@ public class DistictlistService {
 	public List<Distictlist> getListByCityId(String id_city){
 		DetachedCriteria dc=DetachedCriteria.forClass(Distictlist.class);
 		dc.add(Restrictions.eq("id_city", id_city));
+		dc.add(Restrictions.ne("name_district", "ÊÐÖ±"));
 		return distictlistDao.getListByDc(dc);
 	}
 	public Distictlist getListByCityId(String id_city,String dis){
