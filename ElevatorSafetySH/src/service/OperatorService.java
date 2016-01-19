@@ -75,15 +75,14 @@ public class OperatorService {
  		Session session=operatorDao.getSessionFactory().openSession();
  		Transaction  tran=session.beginTransaction();
  		SQLQuery sqlquery=session.createSQLQuery(sql);
- 		sqlquery.executeUpdate();
+ 		int i=sqlquery.executeUpdate();
  		tran.commit();
  		session.close();
  	}
  	public void delete(Operator operator){
  		operatorDao.delete(operator);
  	}
- 	@SuppressWarnings("unchecked")
-	public int check(Operator operator){
+ 	public int check(Operator operator){
  		//先将登陆的密码加密再和数据库中的比对
  		MD5 md5=new MD5();
  		String code=md5.getMD5ofStr(operator.getPassword());//将密码加密
@@ -98,12 +97,17 @@ public class OperatorService {
  				System.out.println(code);
  					return 2;//表示密码不正确
  			}else{
- 				return 3;//用户密码都正确
+ 				if(operlist.get(0).getStatus().equals("0")){
+ 					//禁用
+ 					return 4;
+ 				}else{
+ 					return 3;//用户状态正常
+ 				}
+ 				
  			}
  		}
  	}
- 	@SuppressWarnings("unchecked")
-	public Operator getOper(Operator operator){
+ 	public Operator getOper(Operator operator){
  		DetachedCriteria dc=DetachedCriteria.forClass(Operator.class);
  		dc.add(Restrictions.eq("loginname", operator.getLoginname().trim()));
  		List<Operator> operlist=operatorDao.getListByDc(dc);

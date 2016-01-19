@@ -113,6 +113,31 @@
 	}
 	
 	
+	//按照id查询操作人员状态 
+	function zhuangtai(did){
+		$.getJSON("${path }/operator/toUpdate.do?idoperator="+did,"rand="+Math.random(),function(d){
+				var status=d.status;
+				var idoperator=d.idoperator;
+				if(status=="1"){
+					a=confirm("你确定要禁用吗？");
+					if(a==true){
+						//alert("禁用 ");
+						//修改 该操作员的状态 ，把状态改为 0（非正常）
+						window.location.href="${path }/operator/UpdateStatus.do?idoperator="+did;
+					}
+					
+				}else{
+					a=confirm("你确定要启用吗？");
+					if(a==true){
+						//alert("启用 ");
+						//修改该操作员的状态 ，把状态改为 1（正常）
+						window.location.href="${path }/operator/UpdateStatus1.do?idoperator="+did;
+					}
+				}
+			
+		});
+	}
+	
 </script>
 </head>
 <body>
@@ -149,6 +174,7 @@
 				<td>${d.status_def.name}</td>
 				
 				<td><input type="button" onclick="fenpei(${d.idoperator})" value="重新分配角色">
+				<input type="button" onclick="zhuangtai(${d.idoperator})" value="启用/禁用">
 				</td>
 			</tr>
 		</c:forEach>
