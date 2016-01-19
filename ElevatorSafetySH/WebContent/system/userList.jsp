@@ -29,6 +29,8 @@
 			for(var i=0;i<d.length;i++){
 			  $("#idcity").append("<option size='"+50+"' value='"+d[i].id_city+"'>"+d[i].name_city+"</option>");
 			  $("#idcity1").append("<option size='"+50+"' value='"+d[i].id_city+"'>"+d[i].name_city+"</option>");
+			  $("#registerArea1").append("<option size='"+50+"' value='"+d[i].id_city+"'>"+d[i].name_city+"</option>");
+			  $("#registerArea2").append("<option size='"+50+"' value='"+d[i].id_city+"'>"+d[i].name_city+"</option>");
 			}
 			//根据第一个城市的id查区域
 			$.getJSON("${path }/distictlist/listByIdCity.do?id_city="+d[0].id_city,"rand="+Math.random(),function(s){
@@ -204,12 +206,14 @@
 		//不同的城市选择不同的id
 		$.getJSON("${path }/distictlist/listByIdCity.do?id_city="+id_city,"rand="+Math.random(),function(s){
 			document.getElementById("iddistrict").innerHTML="";
+			$("#iddistrict").append("<option size='"+50+"' value='"+00+"'>无</option>");
 			for(var i=0;i<s.length;i++){
 				 $("#iddistrict").append("<option size='"+50+"' value='"+s[i].id_district+"'>"+s[i].name_district+"</option>");
 				}
 		//选择区域下面的像乡镇
 			 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+s[0].id_district,"rand="+Math.random(),function(a){
-				 document.getElementById("idsubdistrict").innerHTML="";	
+				 document.getElementById("idsubdistrict").innerHTML="";
+				 $("#idsubdistrict").append("<option size='"+50+"' value='"+00+"'>无</option>");
 				 for(var i=0;i<a.length;i++){
 						$("#idsubdistrict").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
 			    	}
@@ -220,12 +224,14 @@
 		//不同的城市选择不同的id
 		$.getJSON("${path }/distictlist/listByIdCity.do?id_city="+id_city,"rand="+Math.random(),function(s){
 			document.getElementById("iddistrict1").innerHTML="";
+			$("#iddistrict1").append("<option size='"+50+"' value='"+00+"'>无</option>");
 			for(var i=0;i<s.length;i++){
 				 $("#iddistrict1").append("<option size='"+50+"' value='"+s[i].id_district+"'>"+s[i].name_district+"</option>");
 				}
 		//选择区域下面的像乡镇
 			 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+s[0].id_district,"rand="+Math.random(),function(a){
 				 document.getElementById("idsubdistrict1").innerHTML="";	
+				 $("#idsubdistrict1").append("<option size='"+50+"' value='"+00+"'>无</option>");
 				 for(var i=0;i<a.length;i++){
 						$("#idsubdistrict1").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
 			    	}
@@ -238,6 +244,7 @@
 		var id_city=document.getElementById("idcity").value;
 		 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+id_district,"rand="+Math.random(),function(a){
 			 document.getElementById("idsubdistrict").innerHTML="";	
+			 $("#idsubdistrict").append("<option size='"+50+"' value='"+00+"'>无</option>");
 			 for(var i=0;i<a.length;i++){
 		    		$("#idsubdistrict").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
 		    	}
@@ -248,6 +255,7 @@
 		var id_city=document.getElementById("idcity1").value;
 		 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+id_district,"rand="+Math.random(),function(a){
 			 document.getElementById("idsubdistrict1").innerHTML="";	
+			 $("#idsubdistrict1").append("<option size='"+50+"' value='"+00+"'>无</option>");
 			 for(var i=0;i<a.length;i++){
 		    		$("#idsubdistrict1").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
 		    	}
@@ -267,7 +275,7 @@
 			$("#manager").val(d.manager);
 			$("#tel").val(d.tel);
 			$("#addr").val(d.addr);			
-			$("#registerArea").val(d.registerArea);
+			//$("#registerArea2").val(d.registerArea);
 			$("#iduser").val(d.iduser);
 			//打开修改对话框
 			$("#updateDialog").dialog("open");
@@ -339,9 +347,11 @@
 				<li>联系电话:
 				<li><input type="text" name="tel" size="50"/>
 				<li>单位地址:
-				<li><input type="text" name="addr" size="100"/>
+				<li><input type="text" name="addr" size="50"/>
 				<li>注册区域:
-				<li><input type="text" name="registerArea" size="100" maxlength="2"/>
+				<li><select name="registerArea" id="registerArea1">
+				 
+				</select>
 			</ul>
 		</form>
 	</div>
@@ -361,9 +371,11 @@
 				<li>联系电话:
 				<li><input type="text" id="tel" name="tel" size="50"/>
 				<li>单位地址:
-				<li><input type="text" id="addr" name="addr" size="100"/>
+				<li><input type="text" id="addr" name="addr" size="50"/>
 				<li>注册区域:
-				<li><input type="text" id="registerArea" name="registerArea" size="100" maxlength="2"/>
+				<li><select name="registerArea" id="registerArea2">
+				
+				</select>
 				<li><input type="hidden" id="iduser" name="iduser"/>
 			</ul>
 		</form>
@@ -378,11 +390,16 @@
 				<li><input type="text" id="idcard" name="idcard" size="50"/>
 				<li>城市:
 				<li><select name="idcity" id="idcity" onchange="chooseCity(this.value)">
+				    
 				</select> 
 				<li>区:
-				<li><select name="iddistrict" id="iddistrict" onchange="choosedistrict(this.value)"></select> 
+				<li><select name="iddistrict" id="iddistrict" onchange="choosedistrict(this.value)">
+				   <option size="50" value="00">无</option>
+				</select> 
 				<li>街道:
-				<li><select id="idsubdistrict" name="idsubdistrict"></select>
+				<li><select id="idsubdistrict" name="idsubdistrict">
+				   <option size="50" value="00">无</option>
+				</select>
 				<li>登录名:
 				<li><input type="text" id="loginname" name="loginname" size="50"/>*<div id="message4" style="float: right;padding-right:220px;"></div>
 				<li>密码:
@@ -404,11 +421,16 @@
 				<li><input type="text" id="idcard" name="idcard" size="50"/>
 				<li>城市:
 				<li><select name="idcity" id="idcity1" onchange="chooseCity1(this.value)">
+				    
 				</select> 
 				<li>区:
-				<li><select name="iddistrict" id="iddistrict1" onchange="choosedistrict1(this.value)"></select> 
+				<li><select name="iddistrict" id="iddistrict1" onchange="choosedistrict1(this.value)">
+				    <option size="50" value="00">无</option>
+				</select> 
 				<li>街道:
-				<li><select id="idsubdistrict1" name="idsubdistrict"></select>
+				<li><select id="idsubdistrict1" name="idsubdistrict">
+				   <option size="50" value="00">无</option>
+				</select>
 				<li>登录名:
 				<li><input type="text" id="loginname1" name="loginname" size="50"/>*<div id="message7" style="float: right;padding-right:220px;"></div>
 				<li>密码:

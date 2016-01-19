@@ -11,9 +11,15 @@ import service.CitylistService;
 import service.DistictlistService;
 import service.OperatorService;
 import service.Operator_typeService;
+import service.ServiceService;
 import service.SubdistictlistService;
+import service.TestService;
+import service.UserService;
 import vo.Operator;
 import vo.Operator_type;
+import vo.Service1;
+import vo.Test;
+import vo.User;
 
 @Controller
 @RequestMapping("login")
@@ -28,6 +34,12 @@ public class LoginController {
 	public DistictlistService distictService;
 	@Resource
 	public SubdistictlistService subdistictService;
+	@Resource
+	public ServiceService serviceService;
+	@Resource
+	public UserService userService;
+	@Resource
+	public TestService testService;
    @RequestMapping("check")
    public String CheckLogin(Operator operator,HttpServletRequest request,HttpServletResponse response)
 		    {
@@ -48,6 +60,36 @@ public class LoginController {
 			   request.getSession().setAttribute("operator_type", type);
 			   //级联查询登录人所在的区域
 			   //级联查询登录人所在的单位
+			   String optype=op.getTypeOperator();
+			   int deptid=op.getIdOrganization();
+			   String deptName="";
+			   if(optype.equals("00")){
+				   //技术监督部门
+				   deptName="技术监督局";
+			   }
+			   if(optype.equals("10")||optype.equals("11")){
+				   //维保单位
+				   Service1 s=serviceService.findById(deptid);
+				   if(s!=null){
+					   deptName=s.getName();
+				   }
+			   }
+			   if(optype.equals("20")||optype.equals("21")){
+				   //用户单位
+				   User u=userService.findById(deptid);
+				   if(u!=null){
+					   deptName=u.getName();
+				   }
+			   }
+			   if(optype.equals("30")||optype.equals("31")){
+				   //检验单位
+				   Test test=testService.findById(deptid);
+				   if(test!=null){
+					   deptName=test.getName();
+				   }
+			   }
+			  
+			   request.getSession().setAttribute("deptName", deptName);
 			   request.getSession().setAttribute("login",op);
 			   //查询登陆人所对应的角色
 			    int role=op.getIdprivilege();

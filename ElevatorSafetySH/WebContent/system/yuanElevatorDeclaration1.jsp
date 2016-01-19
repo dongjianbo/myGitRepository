@@ -77,12 +77,14 @@
 		//不同的城市选择不同的id
 		$.getJSON("${path }/distictlist/listByIdCity.do?id_city="+id_city,"rand="+Math.random(),function(s){
 			document.getElementById("id_district").innerHTML="";
+			$("#id_district").append("<option size='"+50+"' value='"+00+"'>无</option>");
 			for(var i=0;i<s.length;i++){
 				 $("#id_district").append("<option size='"+50+"' value='"+s[i].id_district+"'>"+s[i].name_district+"</option>");
 				}
 		//选择区域下面的像乡镇
 			 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+s[0].id_district,"rand="+Math.random(),function(a){
-				 document.getElementById("id_subdistrict").innerHTML="";	
+				 document.getElementById("id_subdistrict").innerHTML="";
+				 $("#id_subdistrict").append("<option size='"+50+"' value='"+00+"'>无</option>");
 				 for(var i=0;i<a.length;i++){
 						$("#id_subdistrict").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
 			    	}
@@ -94,7 +96,8 @@
 		//去城市的id
 		var id_city=document.getElementById("id_city").value;
 		 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+id_district,"rand="+Math.random(),function(a){
-			 document.getElementById("id_subdistrict").innerHTML="";	
+			 document.getElementById("id_subdistrict").innerHTML="";
+			 $("#id_subdistrict").append("<option size='"+50+"' value='"+00+"'>无</option>");
 			 for(var i=0;i<a.length;i++){
 		    		$("#id_subdistrict").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
 		    	}
@@ -145,9 +148,9 @@
 		                <li>所属城市:
 						<li><select name="id_city" id="id_city" onchange="chooseCity(this.value)"></select>
 						<li>所属区县:
-						<li><select name="id_district" id="id_district" onchange="choosedistrict(this.value)"></select>
+						<li><select name="id_district" id="id_district" onchange="choosedistrict(this.value)"> <option size="50" value="00">无</option></select>
 						<li>所属街道乡镇:
-						<li><select name="id_subdistrict" id="id_subdistrict"></select>
+						<li><select name="id_subdistrict" id="id_subdistrict"> <option size="50" value="00">无</option></select>
 						<li>电梯所在位置:
 					    <li><input type="text" name="address" size="50">  
 				        <br><br><br>
