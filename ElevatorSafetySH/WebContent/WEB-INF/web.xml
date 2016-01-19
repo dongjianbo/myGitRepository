@@ -22,6 +22,9 @@
       <error-code>500</error-code>
       <location>/error_500.jsp</location>
   </error-page>
+  <session-config>
+  	<session-timeout>0</session-timeout>
+  </session-config>
   <filter>
     <filter-name>encoding</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>

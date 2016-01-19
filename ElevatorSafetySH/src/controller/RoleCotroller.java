@@ -78,8 +78,15 @@ public class RoleCotroller {
 	public String toUpdate(Role role){
 		role=roleService.findById(role.getIdrole());
 		JSONObject object=JSONObject.fromObject(role);
-		System.out.println("000mhjmhjmhj");
 		return object.toString();
+	}
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value="getMenus",produces="text/html;charset=utf-8")
+	@ResponseBody
+	public String getMenus(int roleid){
+		List menus=roleService.getMenus(roleid);
+		JSONArray array=JSONArray.fromObject(menus);
+		return array.toString();
 	}
 	@RequestMapping(value="update",produces="text/html;charset=utf-8")
 	@ResponseBody

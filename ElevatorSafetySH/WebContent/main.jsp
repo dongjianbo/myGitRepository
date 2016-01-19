@@ -77,19 +77,17 @@ $(function() {
 
 });
 */
-
 $().ready(function(){
 	//取login界面 传过来的角色 值 
-	var role= '<%=session.getAttribute("role")%>';
-	$.getJSON("${path }/role/toUpdate.do?idrole="+role,"rand="+Math.random(),function(d){
-		var a=d.menus;
+
+	$.getJSON("${path }/role/getMenus.do?roleid=${role}","rand="+Math.random(),function(a){
 		 $("#menu").html("");
 		for(var i=0;i<a.length;i++){
-	    $("#menu").append("<li><a href='../"+a[i].url+"'>"+a[i].name_item+"</a>");
-	}
+
+			 $("#menu").append("<li><a href='${path }/"+a[i][1]+"'>"+a[i][0]+"</a>");
+		}
 
 	});
-	
 });
 </script>
 
@@ -113,12 +111,15 @@ $().ready(function(){
 				   河南省电梯安全监督检验检测中心
 				   </c:if>
 				</div>
-				<li><div style="font-size:14px;text-align: right;margin-right: 30px;">
-				${login.city.name_city}${login.distict.name_district}${login.subdistict.name_subdistrict}&nbsp;&nbsp;
-				${deptName}&nbsp;&nbsp;
+				<li><div style="font-size:14px;text-align: left;margin-left: 100px;">
+				<div style="width: 40%;display: inline-block;">
 				${operator_type.name}
-				&nbsp;&nbsp;
-				${login.role.name_role }
+				</div>
+				<div style="width: 55%;display: inline-block;text-align: right">
+				${login.city.name_city}${login.distict.name_district}${login.subdistict.name_subdistrict}&nbsp;&nbsp;&nbsp;&nbsp;
+				${deptName}&nbsp;&nbsp;
+<%-- 				${login.role.name_role } --%>
+				</div>
 				</div>
 				</ul>
 			</td>
@@ -127,13 +128,25 @@ $().ready(function(){
 			<td width="10%" valign="top" id="main_td">
 				<div id="main" class="div1" style="height: 90%">
 					<ul id="menu">
-						
-				
-
+<%-- 						<li><a href='${path}/system/system.jsp'>单位信息维护</a> --%>
+<%-- 						<li><a href='${path}/system/person.jsp'>人员信息维护</a> --%>
+<%-- 						<li><a href='${path}/role/list.do'>角色定义与配置</a> --%>
+<%-- 						<li><a href='${path}/system/insertElevatorDeclaration.jsp'>电梯资料申报</a> --%>
+<%-- 						<li><a href='${path}/elevator/list.do'>电梯资料注册</a> --%>
+<%-- 						<li><a href='${path}/system/yuanElevatorDeclaration.jsp'>原有电梯资料录入</a> --%>
+<%-- 						<li><a href='${path}/elevator/search.do'>技术监督部门统计查询</a> --%>
+<%-- 						<li><a href='${path}/service/search.do'>维保单位任务提醒</a> --%>
+<%-- 						<li><a href='${path}/service/task.do'>维保人员任务量统计</a> --%>
+<%-- 						<li><a href='${path}/user/search.do'>使用单位年检提醒</a> --%>
+<!-- 						<li><a href='#'>安全人员任务量统计</a> -->
+<%-- 						<li><a href='${path}/test/search.do'>检测单位年检提醒</a> --%>
+<!-- 						<li><a href='#'>检测人员任务量统计</a> -->
+<%-- 						<li><a href='${path }/system/insertTestReport.jsp'>检测报告录入</a> --%>
+<%-- 						<li><a href='${path}/system/operatorZhanghao.jsp'>账号信息设置</a> --%>
 					</ul>
 				</div>
 				<div class="div1" style="height: 10%;margin-top: -1px;background-color: #ddefff;">
-					<ul style="margin-left: -20px;">
+					<ul style="margin-left: -30px;">
 						<li>登录人：${login.name} </li>
 						<li><%=DateUtils.now() %></li>
 					</ul>

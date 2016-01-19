@@ -1,6 +1,6 @@
 package controller;
 import java.util.List;
-
+import java.util.Map;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import service.HistoryService;
 import service.History_listService;
 import service.ServiceService;
+import util.DateUtils;
 import vo.Elevator;
 import vo.History;
 import vo.History_list;
@@ -181,7 +182,6 @@ public class ServiceController {
 			//登录人维保单位
 			Operator op=(Operator)request.getSession().getAttribute("login");
 			int id_service=op.getIdOrganization();
-			Service1 service=serviceService.findById(id_service);
 			// 电梯总数量
 			if (key.equals("count")) {
 				list = serviceService.listCount(search, 10, request,id_service);
@@ -257,5 +257,20 @@ public class ServiceController {
 			mav.addObject("search",search);
 			mav.addObject("requestMapping", "service");
 			return mav;
+		}
+		//维保单位任务量统计
+		@RequestMapping("task")
+		public ModelAndView task(String start,String end,HttpServletRequest request){
+			Operator op=(Operator)request.getSession().getAttribute("login");
+			if(!op.getTypeOperator().equals("10")&&!op.getTypeOperator().equals("11")){
+				ModelAndView mav=new ModelAndView("error");
+				mav.addObject("error","当前登录人非维保单位人员!");
+				return mav;
+			}else{
+				Map<String, Integer> data=serviceService.getTask(start, end);
+				ModelAndView mav=new ModelAndView("system/serviceTask");
+				mav.addObject("data",data);
+				return mav;
+			}
 		}
 }
