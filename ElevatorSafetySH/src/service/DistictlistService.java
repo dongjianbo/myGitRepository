@@ -23,10 +23,17 @@ public class DistictlistService {
 		dc.add(Restrictions.ne("name_district", "ÊÐÖ±"));
 		return distictlistDao.getListByDc(dc);
 	}
-	public Distictlist getListByCityId(String id_city,String dis){
-		DetachedCriteria dc=DetachedCriteria.forClass(Distictlist.class);
-		dc.add(Restrictions.eq("id_city", id_city));
-		dc.add(Restrictions.eq("id_district", dis));
-		return (Distictlist)distictlistDao.getListByDc(dc).get(0);
+	public String getListByCityId(String id_city,String dis){
+		if(!dis.equals("00")){
+			DetachedCriteria dc=DetachedCriteria.forClass(Distictlist.class);
+			dc.add(Restrictions.eq("id_city", id_city));
+			dc.add(Restrictions.eq("id_district", dis));
+			return ((Distictlist)distictlistDao.getListByDc(dc).get(0)).getName_district();
+		}else{
+			return "";
+		}
+		
+		
+		
 	}
 }

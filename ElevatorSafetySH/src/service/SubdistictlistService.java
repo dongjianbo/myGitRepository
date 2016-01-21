@@ -24,11 +24,17 @@ public class SubdistictlistService {
 		dc.add(Restrictions.ne("name_subdistrict", "ÇøÖ±"));
 		return subdistictlistDao.getListByDc(dc); 
 	}
-	public Subdistictlist getListById(String id_city,String id_distictlist,String sub){
-		DetachedCriteria dc=DetachedCriteria.forClass(Subdistictlist.class);
-		dc.add(Restrictions.eq("id_district", id_distictlist));
-		dc.add(Restrictions.eq("id_city", id_city));
-		dc.add(Restrictions.eq("id_subdistrict", sub));
-		return (Subdistictlist)subdistictlistDao.getListByDc(dc).get(0); 
+	public String getListById(String id_city,String id_distictlist,String sub){
+		System.out.println(sub+"----------------------sub");
+		if(!id_distictlist.equals("00")&&!sub.equals("00")&&!sub.equals("0")){
+			DetachedCriteria dc=DetachedCriteria.forClass(Subdistictlist.class);
+			dc.add(Restrictions.eq("id_district", id_distictlist));
+			dc.add(Restrictions.eq("id_city", id_city));
+			dc.add(Restrictions.eq("id_subdistrict", sub));
+			return ((Subdistictlist)subdistictlistDao.getListByDc(dc).get(0)).getName_subdistrict(); 
+		}else{
+			return "";
+		}
+		
 	}
 }

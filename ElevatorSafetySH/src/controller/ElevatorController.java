@@ -55,11 +55,20 @@ public class ElevatorController {
 		Elevator el=(Elevator)request.getSession().getAttribute("elevator");//存在第一页的值
 		el.setId_city(elevator.getId_city());
 		el.setId_district(elevator.getId_district());
-		el.setId_subdistrict(elevator.getId_subdistrict());
+		if(elevator.getId_district().equals("00")){
+			el.setId_subdistrict("00");
+		}else{
+			if(elevator.getId_subdistrict().equals("0")||elevator.getId_subdistrict().equals("00")){
+				el.setId_subdistrict("00");
+			}else{
+				el.setId_subdistrict(elevator.getId_subdistrict());
+			}
+			
+		}
 		//电梯所在位置加上前面的三个下拉框
 		String city=cityService.listBy_Idcity(elevator.getId_city()).getName_city();
-		String dist=distickService.getListByCityId(elevator.getId_city(),elevator.getId_district()).getName_district();
-		String subs=subService.getListById(elevator.getId_city(), elevator.getId_district(), elevator.getId_subdistrict()).getName_subdistrict();
+		String dist=distickService.getListByCityId(elevator.getId_city(),elevator.getId_district());
+		String subs=subService.getListById(elevator.getId_city(), elevator.getId_district(), elevator.getId_subdistrict());
 		el.setAddress(city+dist+subs+elevator.getAddress());
 		el.setNum_floor_elevator(elevator.getNum_floor_elevator());
 		el.setId_elevator_model(elevator.getId_elevator_model());
@@ -95,11 +104,20 @@ public class ElevatorController {
 		el.setRegister_status(elevator.getRegister_status());
 		el.setId_city(elevator.getId_city());
 		el.setId_district(elevator.getId_district());
-		el.setId_subdistrict(elevator.getId_subdistrict());
+		if(elevator.getId_district().equals("00")){
+			el.setId_subdistrict("00");
+		}else{
+			if(elevator.getId_subdistrict().equals("0")||elevator.getId_subdistrict().equals("00")){
+				el.setId_subdistrict("00");
+			}else{
+				el.setId_subdistrict(elevator.getId_subdistrict());
+			}
+		}
+		
 		//电梯所在位置加上前面的三个下拉框
 		String city=cityService.listBy_Idcity(elevator.getId_city()).getName_city();
-		String dist=distickService.getListByCityId(elevator.getId_city(),elevator.getId_district()).getName_district();
-		String subs=subService.getListById(elevator.getId_city(), elevator.getId_district(), elevator.getId_subdistrict()).getName_subdistrict();
+		String dist=distickService.getListByCityId(elevator.getId_city(),elevator.getId_district());
+		String subs=subService.getListById(elevator.getId_city(), elevator.getId_district(), elevator.getId_subdistrict());
 		el.setAddress(city+dist+subs+elevator.getAddress());
 		el.setNum_floor_elevator(elevator.getNum_floor_elevator());
 		el.setId_elevator_model(elevator.getId_elevator_model());
