@@ -58,6 +58,7 @@ public class UserController {
 	public String insert(User user,HttpServletRequest request){
 		int iduser=Integer.parseInt(userService.insert(user).toString());
 		request.getSession().setAttribute("iduser", iduser);
+		System.out.println(request.getSession().getAttribute("iduser"));
 		History history=new History();
 		history.setType(7);//¿‡–Õ
 		Operator op=(Operator)request.getSession().getAttribute("login");

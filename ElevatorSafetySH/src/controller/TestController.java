@@ -59,6 +59,7 @@ public class TestController {
 	public String insert(Test test,HttpServletRequest request){
 		int idtest=Integer.parseInt(testService.insert(test).toString());
 		request.getSession().setAttribute("idtest",idtest);
+		System.out.println(request.getSession().getAttribute("idtest"));
 		History history=new History();
 		history.setType(4);//¿‡–Õ
 		Operator op=(Operator)request.getSession().getAttribute("login");

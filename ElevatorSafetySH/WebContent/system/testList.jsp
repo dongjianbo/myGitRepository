@@ -406,7 +406,7 @@
 				<input type="hidden" name="status" value="1">
 				<input type="hidden" name="typeOperator" value="30">
 				<input type="hidden" name="idprivilege" value="1">
-				 <input type="hidden" name="idOrganization" value="${idtest }">
+				<input type="hidden" name="idOrganization1" value="${idtest }">
 			</ul>
 		</form>
 	</div>
@@ -437,7 +437,7 @@
 				<input type="hidden" name="status" value="1">
 				<input type="hidden" name="typeOperator" value="31">
 				<input type="hidden" name="idprivilege" value="2">
-				 <input type="hidden" name="idOrganization" value="${idtest }">
+				<input type="hidden" name="idOrganization1" value="${idtest }">
 			</ul>
 		</form>
 	</div>

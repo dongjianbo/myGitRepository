@@ -59,6 +59,7 @@ public class ServiceController {
 	public String insert(Service1 service,HttpServletRequest request){
 		int idservice=Integer.parseInt(serviceService.insert(service).toString());
 		request.getSession().setAttribute("idservice",idservice);
+		System.out.println(request.getSession().getAttribute("idservice"));
 		History history=new History();
 		history.setType(5);//¿‡–Õ
 		Operator op=(Operator)request.getSession().getAttribute("login");
