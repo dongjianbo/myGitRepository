@@ -69,8 +69,7 @@ public class ServiceController {
 		if(ser!=null){
 			idservice=Integer.parseInt(ser.toString());
 		}
-		
-		System.out.println(request.getSession().getAttribute("idservice"));
+
 		History history=new History();
 		history.setType(5);//¿‡–Õ
 		Operator op=(Operator)request.getSession().getAttribute("login");
