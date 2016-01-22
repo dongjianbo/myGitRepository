@@ -149,10 +149,17 @@ public class ModellistController {
 		modellistService.update(modellist);
 		return "ok";
 	}
-	@RequestMapping("delete")
+	@RequestMapping(value="delete",produces="text/html;charset=utf-8")
+	@ResponseBody
 	public String delete(Modellist modellist){
-		modellistService.delete(modellist);
-		return "redirect:/modellist/list.do";
+		try {
+			modellistService.delete(modellist);
+			return "yes";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "no";
 	}
 
 }

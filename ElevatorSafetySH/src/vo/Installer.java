@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="installer")
@@ -25,7 +26,15 @@ public class Installer {
 	@Column(name="address")
 	private String addr;
 	private String register_area;
+	@Transient
+	private Citylist registCity;
 	
+	public Citylist getRegistCity() {
+		return registCity;
+	}
+	public void setRegistCity(Citylist registCity) {
+		this.registCity = registCity;
+	}
 	public String getManager() {
 		return manager;
 	}

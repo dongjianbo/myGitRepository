@@ -70,6 +70,17 @@
 				$(this).dialog("close");
 			}
 		});
+		$("#delDiv").dialog({
+			modal:true,
+			autoOpen:false,
+			width:250,
+			height:150,
+			buttons:{
+				"确定":function(){
+					$(this).dialog("close");
+				}
+			}
+		});
 	});
 	function showInsert(){
 		$("#insertDialog").dialog("open");
@@ -93,13 +104,27 @@
 					}
 				});
 				if(b){
-					alert($(this).val());
-					$(this).attr("checked","checked");
+					$(this)[0].checked=true;
 				}
 			});
 			//打开修改对话框
 			$("#updateDialog").dialog("open");
 			
+		});
+	}
+	function deleteRole(idrole){
+		$.post("${path }/role/delete.do?idrole="+idrole,"",function(r){
+			if(r=="yes"){
+				location.reload();
+			}
+			if(r=="no"){
+				$("#delDiv").dialog("open");
+			}
+		});
+	}
+	function changeStatus(idrole){
+		$.post("${path }/role/changeStatus.do?idrole="+idrole,"",function(r){
+			location.reload();
 		});
 	}
 </script>
@@ -121,9 +146,11 @@
 							<td style="text-align: left">${r.name_role }</td>
 							<td style="text-align: left">${r.desc }</td>
 							<td style="text-align: left">${r.role_status eq '1'?'启用':'禁用'}</td>
-							<td><a
-								href="javascript:showUpdate(${r.idrole })">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;
-								<a href="${path }/role/delete.do?idrole=${r.idrole}">删除</a>
+							<td>
+								<input type="button" value="&nbsp;&nbsp;&nbsp;&nbsp;修改&nbsp;&nbsp;&nbsp;&nbsp;" onclick="showUpdate(${r.idrole})"/>
+								<input type="button" value="&nbsp;&nbsp;&nbsp;&nbsp;启用/禁用&nbsp;&nbsp;&nbsp;&nbsp;" onclick="changeStatus(${d.idmanufer})"/>
+
+<%-- 								<a href="javascript:deleteRole(${r.idrole })">删除</a> --%>
 							</td>
 						</tr>
 					</c:forEach>
@@ -171,6 +198,8 @@
 			</ul>
 		</form>
 	</div>
-	
+	<div title="删除警告" id="delDiv">
+		该项已经被使用，不能删除！
+	</div>
 </body>
 </html>

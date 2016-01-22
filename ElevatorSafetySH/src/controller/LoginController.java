@@ -47,11 +47,11 @@ public class LoginController {
 	   int i=perService.check(operator);//判断是否可以登陆 
 	   request.setAttribute("op", operator);
 	   if(i==1){
-		   request.setAttribute("massage1","<font color='red'>用户名不存在</font>");
+		   request.setAttribute("massage1","<font color='black' size='-1'>用户名不存在</font>");
 		   return "login";
 	   }
 		if(i==2){
-			   request.setAttribute("massage2","<font color='red'>密码不正确</font>");
+			   request.setAttribute("massage2","<font color='black' size='-1'>密码不正确</font>");
 			   return "login";
 		}
 		if(i==3){

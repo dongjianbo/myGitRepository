@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import service.CitylistService;
 import service.DesignerService;
 import service.HistoryService;
 import service.History_listService;
+import vo.Citylist;
 import vo.Designer;
 import vo.History;
 import vo.History_list;
@@ -34,10 +36,18 @@ public class DesignerController {
 	public HistoryService historyService;
 	@Resource
 	public History_listService history_listService;
+	@Resource
+	public CitylistService cityService;
 	@RequestMapping("list")
 	public ModelAndView list(String key,HttpServletRequest request){
 		ModelAndView mav=new ModelAndView("system/designerList");
-		mav.addObject("designerList", designerService.list(key,12,request));
+		List<Designer> dlist=designerService.list(key,12,request);
+		for(Designer d:dlist){
+			String code=d.getRegister_area();
+			Citylist city=cityService.listBy_Idcity(code);
+			d.setRegistCity(city);
+		}
+		mav.addObject("designerList", dlist);
 		return mav;
 	}
 	@RequestMapping(value="insert",produces="text/html;charset=utf-8")

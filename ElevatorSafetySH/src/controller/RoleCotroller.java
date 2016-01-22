@@ -102,9 +102,22 @@ public class RoleCotroller {
 		roleService.update(role);
 		return "ok";
 	}
-	@RequestMapping("delete")
+	@RequestMapping(value="delete",produces="text/html;charset=utf-8")
+	@ResponseBody
 	public String delete(Role role){
-		roleService.delete(role);
-		return "redirect:/role/list.do";
+		try {
+			roleService.delete(role);
+			return "yes";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "no";
+	}
+	@RequestMapping(value="changeStatus",produces="text/html;charset=utf-8")
+	@ResponseBody
+	public String changeStatus(int idrole){
+		roleService.changeStatus(idrole);
+		return "ok";
 	}
 }

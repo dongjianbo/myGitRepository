@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import vo.Elevator;
 import vo.Maint_report_id;
+import vo.Service1;
 import vo.User;
 import dao.ElevatorDao;
 import dao.Maint_report_idDao;
@@ -682,5 +683,10 @@ public class UserService {
 			}
 			
 			return mriDao.findPageByDcQuery(dc, 10, request);
+		}
+		public boolean haveOperator(User user){
+			String sql="select 1 from operator where type_operator in('20','21') and id_organization="+user.getIduser();
+			Object obj=userDao.getObjectBySQL(sql);
+			return obj==null;
 		}
 }

@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "manufer")
@@ -25,6 +26,19 @@ public class Manufer {
 	private String addr;
 	private String manager;
 	private String register_area;
+	//×¢²áÇøÓò
+	@Transient
+	private Citylist registCity;
+	
+
+	
+	public Citylist getRegistCity() {
+		return registCity;
+	}
+
+	public void setRegistCity(Citylist registCity) {
+		this.registCity = registCity;
+	}
 
 	public String getManager() {
 		return manager;

@@ -91,6 +91,17 @@
 				$(this).dialog("close");
 			}
 		});
+		$("#delDiv").dialog({
+			modal:true,
+			autoOpen:false,
+			width:250,
+			height:150,
+			buttons:{
+				"确定":function(){
+					$(this).dialog("close");
+				}
+			}
+		});
 	});
 
 	function showInsert(){
@@ -107,10 +118,20 @@
 			$("#tel").val(d.tel);
 			$("#manager").val(d.manager);
 			$("#addr").val(d.addr);
-			//$("#registerArea2").val(d.registerArea);
+			$("#registerArea2").val(d.registerArea);
 			$("#idowner").val(d.idowner);
 			//打开修改对话框
 			$("#updateDialog").dialog("open");
+		});
+	}
+	function deleteOwner(id){
+		$.post("${path }/owner/delete.do?idowner="+id,"",function(r){
+			if(r=="yes"){
+				location.reload();
+			}
+			if(r=="no"){
+				$("#delDiv").dialog("open");
+			}
 		});
 	}
 </script>
@@ -131,7 +152,7 @@
 			<th>产权单位代码</th>
 			<th>单位名称</th>
 			<th>单位法人代表</th>
-			<th>管理负责人</th>
+			<th>单位负责人</th>
 			<th>邮政编码</th>
 			<th>联系电话</th>
 			<th>单位地址</th>
@@ -148,10 +169,11 @@
 				<td style="text-align: left">${d.postcode }</td>
 				<td style="text-align: left">${d.tel }</td>
 				<td style="text-align: left">${d.addr }</td>
-				<td style="text-align: left">${d.registerArea }</td>
-				<td><a
-					href="javascript:showUpdate(${d.idowner})">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;
-					<a href="${path }/owner/delete.do?idowner=${d.idowner}">删除</a>
+				<td style="text-align: left">${d.registCity.name_city }</td>
+				<td>
+				<input type="button" value="&nbsp;&nbsp;&nbsp;&nbsp;修改&nbsp;&nbsp;&nbsp;&nbsp;" onclick="showUpdate(${d.idowner})"/>
+<!-- 					&nbsp;&nbsp;&nbsp;&nbsp; -->
+<%-- 					<a href="javascript:deleteOwner(${d.idowner})">删除</a> --%>
 				</td>
 			</tr>
 		</c:forEach>
@@ -172,7 +194,7 @@
 				<li><input type="text" name="name" id="danweiname" size="50"/>*<div id="message1" style="float: right;padding-right:190px;"></div>
 				<li>单位法人代表:
 			    <li><input type="text" name="legalrep" size="50"/>
-				<li>管理负责人:
+				<li>单位负责人:
 				<li><input type="text" name="manager" size="50"/>
 				<li>邮政编码:
 				<li><input type="text" name="postcode" size="50" maxlength="6"/>
@@ -196,7 +218,7 @@
 				<li><input type="text" id="name" name="name" size="50"/>*<div id="message2" style="float: right;padding-right:190px;"></div>
 				<li>单位法人代表:
 				<li><input type="text" id="legalrep" name="legalrep" size="50"/>
-				<li>管理负责人:
+				<li>单位负责人:
 				<li><input type="text" id="manager" name="manager" size="50"/>
 				<li>邮政编码:
 				<li><input type="text" id="postcode" name="postcode" size="50" maxlength="6"/>
@@ -211,6 +233,9 @@
 				<li><input type="hidden" id="idowner" name="idowner"/>
 			</ul>
 		</form>
+	</div>
+	<div title="删除警告" id="delDiv">
+		该项已经被使用，不能删除！
 	</div>
 </body>
 </html>

@@ -58,7 +58,7 @@ ul li {
 			<li><span class="title" style="background-color: #accccc;" onclick="toManage(1,this)">维保人员维护</span>
 			<li><span class="title" onclick="toManage(2,this)">安全人员维护</span>
 			<li><span class="title" onclick="toManage(3,this)">检验检测人员维护</span>
-			<li><span class="title" onclick="toManage(4,this)">监管部门人员维护</span>
+<!-- 			<li><span class="title" onclick="toManage(4,this)">监管部门人员维护</span> -->
 
 		</ul>
 	</div>

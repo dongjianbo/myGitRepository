@@ -90,6 +90,17 @@
 				$(this).dialog("close");
 			}
 		});
+		$("#delDiv").dialog({
+			modal:true,
+			autoOpen:false,
+			width:250,
+			height:150,
+			buttons:{
+				"确定":function(){
+					$(this).dialog("close");
+				}
+			}
+		});
 	});
 
 	function showInsert(){
@@ -106,10 +117,20 @@
 			$("#tel").val(d.tel);
 			$("#manager").val(d.manager);
 			$("#addr").val(d.addr);
-			//$("#register_area2").val(d.register_area);
+			$("#register_area2").val(d.register_area);
 			$("#idmanufer").val(d.idmanufer);
 			//打开修改对话框
 			$("#updateDialog").dialog("open");
+		});
+	}
+	function deleteManufer(id){
+		$.post("${path }/manufer/delete.do?idmanufer="+id,"",function(r){
+			if(r=="yes"){
+				location.reload();
+			}
+			if(r=="no"){
+				$("#delDiv").dialog("open");
+			}
 		});
 	}
 </script>
@@ -130,8 +151,8 @@
 			<th>制造单位代码</th>
 			<th>制造单位名称</th>
 			<th>制造许可证编号</th>
-			<th>制造许可证</th>
-			<th>制造负责人</th>
+			<th>制造许可证名称</th>
+			<th>单位负责人</th>
 			<th>联系电话</th>
 			<th>制造单位地址</th>
 			<th>注册区域</th>
@@ -147,10 +168,11 @@
 				<td>${d.manager }</td>
 				<td>${d.tel }</td>
 				<td>${d.addr }</td>
-				<td>${d.register_area }</td>
-				<td><a
-					href="javascript:showUpdate(${d.idmanufer})">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;
-					<a href="${path }/manufer/delete.do?idmanufer=${d.idmanufer}">删除</a>
+				<td>${d.registCity.name_city }</td>
+				<td>
+					<input type="button" value="&nbsp;&nbsp;&nbsp;&nbsp;修改&nbsp;&nbsp;&nbsp;&nbsp;" onclick="showUpdate(${d.idmanufer})"/>
+<!-- 					&nbsp;&nbsp;&nbsp;&nbsp; -->
+<%-- 					<a href="javascript:deleteManufer(${d.idmanufer})">删除</a> --%>
 				</td>
 			</tr>
 		</c:forEach>
@@ -171,9 +193,9 @@
 				<li><input type="text" name="name" id="danweiname" size="50"/>*<div id="message" style="float: right;padding-right:220px;"></div>
 				<li>制造许可证编号:
 				<li><input type="text" name="licence" size="50"/>
-				<li>制造许可证:
+				<li>制造许可证名称:
 				<li><input type="text" name="licename" size="50"/>
-				<li>制造负责人:
+				<li>单位负责人:
 				<li><input type="text" name="manager" size="50"/>
 				<li>联系电话:
 				<li><input type="text" name="tel" size="50"/>
@@ -195,9 +217,9 @@
 				<li><input type="text" id="name" name="name" size="50"/>*<div id="message1" style="float: right;padding-right:220px;"></div>
 				<li>制造许可证编号:
 				<li><input type="text" id="licence" name="licence" size="50"/>
-				<li>制造许可证:
+				<li>制造许可证名称:
 				<li><input type="text" id="licename" name="licename" size="50"/>
-				<li>制造负责人:
+				<li>单位负责人:
 				<li><input type="text" id="manager" name="manager" size="50"/>
 				<li>联系电话:
 				<li><input type="text" id="tel" name="tel" size="50"/>
@@ -210,6 +232,9 @@
 				<li><input type="hidden" id="idmanufer" name="idmanufer"/>
 			</ul>
 		</form>
+	</div>
+	<div title="删除警告" id="delDiv">
+		该项已经被使用，不能删除！
 	</div>
 </body>
 </html>

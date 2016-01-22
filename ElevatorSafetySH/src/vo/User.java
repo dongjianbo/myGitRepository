@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="user")
@@ -27,6 +28,15 @@ public class User {
 	private String addr;
 	@Column(name="register_area")
 	private String registerArea;
+	@Transient
+	private Citylist registCity;
+	
+	public Citylist getRegistCity() {
+		return registCity;
+	}
+	public void setRegistCity(Citylist registCity) {
+		this.registCity = registCity;
+	}
 	public String getRegisterArea() {
 		return registerArea;
 	}

@@ -1,7 +1,7 @@
 package controller;
 
 import java.util.List;
-
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,14 +13,18 @@ import net.sf.json.JSONArray;
 
 import net.sf.json.JSONObject;
 
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import service.CitylistService;
 import service.HistoryService;
 import service.History_listService;
 import service.Maint_report_idService;
+import service.OperatorService;
 import service.TestService;
 import vo.Elevator;
 import vo.History;
@@ -41,10 +45,18 @@ public class TestController {
 	public History_listService history_listService;
 	@Resource
 	public Maint_report_idService mriService;
+	@Resource
+	public CitylistService cityService;
+	@Resource
+	public OperatorService operatorService;
 	@RequestMapping("list")
 	public ModelAndView list(String key,HttpServletRequest request){
 		ModelAndView mav=new ModelAndView("system/testList");
-		mav.addObject("testList", testService.list(key,12,request));
+		List<Test> tlist=testService.list(key,12,request);
+		for(Test t:tlist){
+			t.setRegistCity(cityService.listBy_Idcity(t.getRegisterArea()));
+		}
+		mav.addObject("testList", tlist);
 		return mav;
 	}
 	 @RequestMapping(value="list_json",produces="text/html;charset=utf-8")
@@ -57,8 +69,11 @@ public class TestController {
 	@RequestMapping(value="insert",produces="text/html;charset=utf-8")
 	@ResponseBody
 	public String insert(Test test,HttpServletRequest request){
-		int idtest=Integer.parseInt(testService.insert(test).toString());
-		request.getSession().setAttribute("idtest",idtest);
+		Serializable res=testService.insert(test);
+		int idtest=-1;
+		if(res!=null){
+			idtest=Integer.parseInt(res.toString());
+		}
 		History history=new History();
 		history.setType(4);//类型
 		Operator op=(Operator)request.getSession().getAttribute("login");
@@ -75,8 +90,8 @@ public class TestController {
 	    key.setKey(4);
         hilist.setKey(key);//key表示复合主键的类
         hilist.setValue(idtest+"");
-        System.out.println( history_listService.insert(hilist).toString());
-		return "ok";
+        history_listService.insert(hilist);
+        return idtest+"";
 	}
 	@RequestMapping(value="toUpdate",produces="text/html;charset=utf-8")
 	@ResponseBody
@@ -91,10 +106,26 @@ public class TestController {
 		testService.update(test);
 		return "ok";
 	}
-	@RequestMapping("delete")
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value="delete",produces="text/html;charset=utf-8")
+	@ResponseBody
 	public String delete(Test test){
-		testService.delete(test);
-		return "redirect:/test/list.do";
+		//查询该单位下是否有操作员
+		DetachedCriteria dc=DetachedCriteria.forClass(Operator.class);
+		dc.add(Restrictions.in("typeOperator",new String[]{"30","31"}));
+		dc.add(Restrictions.eq("idOrganization", test.getIdtest()));
+		List list=operatorService.listOperatorByDc(dc);
+		if(list!=null&&!list.isEmpty()){
+			return "no";
+		}else{
+			try {
+				testService.delete(test);
+				return "yes";
+			} catch (Exception e) {
+				return "no";
+			}
+			
+		}
 	}
 	@RequestMapping(value="selectId_test",produces="text/html;charset=utf-8")
 	@ResponseBody

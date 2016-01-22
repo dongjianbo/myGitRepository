@@ -62,9 +62,9 @@
 						$("#message1").html("");
 					var form = $("#insertForm");
 					$.post(form.attr('action'),form.serialize(),function(a){
-						if(a=="ok"){
-							//location.reload();
-							//维保单位插入成功后  插入维保管理员信息 打开
+						if(a!="-1"){
+							$("#idOrganization1").val(a);
+							$("#idOrganization2").val(a);
 							$("#insertDialog").dialog("close");
 							$("#insertweibaoDialog").dialog("open");
 						}else{
@@ -201,6 +201,17 @@
 				$(this).dialog("close");
 			}
 		});
+		$("#delDiv").dialog({
+			modal:true,
+			autoOpen:false,
+			width:250,
+			height:150,
+			buttons:{
+				"确定":function(){
+					$(this).dialog("close");
+				}
+			}
+		});
 	});
 	
 	//选择城市-----------------------------------------------
@@ -208,14 +219,12 @@
 		//不同的城市选择不同的id
 		$.getJSON("${path }/distictlist/listByIdCity.do?id_city="+id_city,"rand="+Math.random(),function(s){
 			document.getElementById("iddistrict").innerHTML="";
-			$("#iddistrict").append("<option size='"+50+"' value='"+00+"'>无</option>");
 			for(var i=0;i<s.length;i++){
 				 $("#iddistrict").append("<option size='"+50+"' value='"+s[i].id_district+"'>"+s[i].name_district+"</option>");
 				}
 		//选择区域下面的像乡镇
 			 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+s[0].id_district,"rand="+Math.random(),function(a){
 				 document.getElementById("idsubdistrict").innerHTML="";	
-				 $("#idsubdistrict").append("<option size='"+50+"' value='"+00+"'>无</option>");
 				 for(var i=0;i<a.length;i++){
 						$("#idsubdistrict").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
 			    	}
@@ -226,14 +235,12 @@
 		//不同的城市选择不同的id
 		$.getJSON("${path }/distictlist/listByIdCity.do?id_city="+id_city,"rand="+Math.random(),function(s){
 			document.getElementById("iddistrict1").innerHTML="";
-			$("#iddistrict1").append("<option size='"+50+"' value='"+00+"'>无</option>");
 			for(var i=0;i<s.length;i++){
 				 $("#iddistrict1").append("<option size='"+50+"' value='"+s[i].id_district+"'>"+s[i].name_district+"</option>");
 				}
 		//选择区域下面的像乡镇
 			 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+s[0].id_district,"rand="+Math.random(),function(a){
 				 document.getElementById("idsubdistrict1").innerHTML="";
-				 $("#idsubdistrict1").append("<option size='"+50+"' value='"+00+"'>无</option>");
 				 for(var i=0;i<a.length;i++){
 						$("#idsubdistrict1").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
 			    	}
@@ -277,10 +284,20 @@
 			$("#tel").val(d.tel);
 			$("#manager").val(d.manager);
 			$("#addr").val(d.addr);
-			//$("#registerArea2").val(d.registerArea);
+			$("#registerArea2").val(d.registerArea);
 			$("#idservice").val(d.idservice);
 			//打开修改对话框
 			$("#updateDialog").dialog("open");
+		});
+	}
+	function deleteService(id){
+		$.post("${path }/service/delete.do?idservice="+id,"",function(r){
+			if(r=="yes"){
+				location.reload();
+			}
+			if(r=="no"){
+				$("#delDiv").dialog("open");
+			}
 		});
 	}
 </script>
@@ -301,8 +318,8 @@
 			<th>维保单位代码</th>
 			<th>单位名称</th>
 			<th>维保许可证编号</th>
-			<th>维保许可证</th>
-			<th>维保负责人</th>
+			<th>维保许可证名称</th>
+			<th>单位负责人</th>
 			<th>联系电话</th>
 			<th>单位地址</th>
 			<th>注册区域</th>
@@ -318,10 +335,11 @@
 				<td style="text-align: left">${d.manager }</td>
 				<td style="text-align: left">${d.tel }</td>
 				<td style="text-align: left">${d.addr }</td>
-				<td style="text-align: left">${d.registerArea }</td>
-				<td><a
-					href="javascript:showUpdate(${d.idservice})">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;
-					<a href="${path }/service/delete.do?idservice=${d.idservice}">删除</a>
+				<td style="text-align: left">${d.registCity.name_city }</td>
+				<td>
+					<input type="button" value="&nbsp;&nbsp;&nbsp;&nbsp;修改&nbsp;&nbsp;&nbsp;&nbsp;" onclick="showUpdate(${d.idservice})"/>
+<!-- 					&nbsp;&nbsp;&nbsp;&nbsp; -->
+<%-- 					<a href="javascript:deleteService(${d.idservice})">删除</a> --%>
 				</td>
 			</tr>
 		</c:forEach>
@@ -342,9 +360,9 @@
 				<li><input type="text" id="serviceName" name="name" size="50"/>*<div id="message1" style="float: right;padding-right:220px;"></div>
 				<li>维保许可证编号:
 				<li><input type="text" name="licence" size="50"/>
-				<li>维保许可证:
+				<li>维保许可证名称:
 				<li><input type="text" name="licename" size="50"/>
-				<li>维保负责人:
+				<li>单位负责人:
 				<li><input type="text" name="manager" size="50"/>
 				<li>联系电话:
 				<li><input type="text" name="tel" size="50"/>
@@ -366,9 +384,9 @@
 				<li><input type="text" id="name" name="name" size="50"/>*<div id="message2" style="float: right;padding-right:220px;"></div>
 				<li>维保许可证编号:
 				<li><input type="text" id="licence" name="licence" size="50"/>
-				<li>维保许可证:
+				<li>维保许可证名称:
 				<li><input type="text" id="licename" name="licename" size="50"/>
-				<li>维保负责人:
+				<li>单位负责人:
 				<li><input type="text" id="manager" name="manager" size="50"/>
 				<li>联系电话:
 				<li><input type="text" id="tel" name="tel" size="50"/>
@@ -383,25 +401,23 @@
 		</form>
 	</div>
 	<!--  添加维保管理员-->
-	<div id="insertweibaoDialog" style="display: none" title="添加维保管理员">
+	<div id="insertweibaoDialog" style="display: none" title="添加维保单位管理员">
 		<form action="${path }/operator/insert1.do" method="post" id="insertweibaoForm">
 			<ul>
 				<li>姓名:
 				<li><input type="text" id="insertname" name="name" size="50"/>*<div id="message3" style="float: right;padding-right:220px;"></div>
 				<li>身份证号码:
 				<li><input type="text" id="idcard" name="idcard" size="50"/>
-				<li>城市:
-				<li><select name="idcity" id="idcity" onchange="chooseCity(this.value)">
+<!-- 				<li>城市: -->
+<!-- 				<li><select name="idcity" id="idcity" onchange="chooseCity(this.value)"> -->
 				    
-				</select> 
-				<li>区:
-				<li><select name="iddistrict" id="iddistrict" onchange="choosedistrict(this.value)">
-				   <option size="50" value="00">无</option>
-				</select> 
-				<li>街道:
-				<li><select id="idsubdistrict" name="idsubdistrict">
-				    <option size="50" value="00">无</option>
-				</select>
+<!-- 				</select>  -->
+<!-- 				<li>区: -->
+<!-- 				<li><select name="iddistrict" id="iddistrict" onchange="choosedistrict(this.value)"> -->
+<!-- 				</select>  -->
+<!-- 				<li>街道: -->
+<!-- 				<li><select id="idsubdistrict" name="idsubdistrict"> -->
+<!-- 				</select> -->
 				<li>登录名:
 				<li><input type="text" id="loginname" name="loginname" size="50"/>*<div id="message4" style="float: right;padding-right:220px;"></div>
 				<li>密码:
@@ -409,25 +425,25 @@
 				<input type="hidden" name="status" value="1">
 				<input type="hidden" name="typeOperator" value="10">
 				<input type="hidden" name="idprivilege" value="1">
-				 <input type="hidden" name="idOrganization" value="${idservice }">
+				 <input type="hidden" name="idOrganization1" id="idOrganization1">
 			</ul>
 		</form>
 	</div>
-	<!--  添加业务管理员-->
-	<div id="insertyewuDialog" style="display: none" title="添加业务管理员">
+	<!--  添加维保业务员-->
+	<div id="insertyewuDialog" style="display: none" title="添加维保单位业务员">
 		<form action="${path }/operator/insert1.do" method="post" id="insertyewuForm">
 			<ul>
 				<li>姓名:
 				<li><input type="text" id="insert1name" name="name" size="50"/>*<div id="message6" style="float: right;padding-right:220px;"></div>
 				<li>身份证号码:
 				<li><input type="text" id="idcard" name="idcard" size="50"/>
-				<li>城市:
-				<li><select name="idcity" id="idcity1" onchange="chooseCity1(this.value)">
-				</select> 
-				<li>区:
-				<li><select name="iddistrict" id="iddistrict1" onchange="choosedistrict1(this.value)"><option size="50" value="00">无</option></select> 
-				<li>街道:
-				<li><select id="idsubdistrict1" name="idsubdistrict"><option size="50" value="00">无</option></select>
+<!-- 				<li>城市: -->
+<!-- 				<li><select name="idcity" id="idcity1" onchange="chooseCity1(this.value)"> -->
+<!-- 				</select>  -->
+<!-- 				<li>区: -->
+<!-- 				<li><select name="iddistrict" id="iddistrict1" onchange="choosedistrict1(this.value)"></select>  -->
+<!-- 				<li>街道: -->
+<!-- 				<li><select id="idsubdistrict1" name="idsubdistrict"></select> -->
 				<li>登录名:
 				<li><input type="text" id="loginname1" name="loginname" size="50"/>*<div id="message7" style="float: right;padding-right:220px;"></div>
 				<li>密码:
@@ -435,9 +451,12 @@
 				<input type="hidden" name="status" value="1">
 				<input type="hidden" name="typeOperator" value="11">
 				<input type="hidden" name="idprivilege" value="2">
-				 <input type="hidden" name="idOrganization" value="${idservice }">
+				 <input type="hidden" name="idOrganization1" id="idOrganization2">
 			</ul>
 		</form>
+	</div>
+	<div title="删除警告" id="delDiv">
+		该项已经被使用，不能删除！
 	</div>
 </body>
 </html>

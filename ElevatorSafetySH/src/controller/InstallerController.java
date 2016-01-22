@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import service.CitylistService;
 import service.HistoryService;
 import service.History_listService;
 import service.InstallerService;
@@ -32,10 +33,16 @@ public class InstallerController {
 	public HistoryService historyService;
 	@Resource
 	public History_listService history_listService;
+	@Resource
+	public CitylistService cityService;
     @RequestMapping("list")
     public ModelAndView list(String key,HttpServletRequest request){
 		ModelAndView mav=new ModelAndView("system/installerList");
-		mav.addObject("installerList",installerService.list(key, 12, request));
+		List<Installer> list=installerService.list(key, 12, request);
+		for(Installer i:list){
+			i.setRegistCity(cityService.listBy_Idcity(i.getRegister_area()));
+		}
+		mav.addObject("installerList",list);
 		return mav;
 	}
 	@RequestMapping(value="insert",produces="text/html;charset=utf-8")
@@ -74,10 +81,17 @@ public class InstallerController {
 		installerService.update(installer);
 		return "ok";
 	}
-	@RequestMapping("delete")
+	@RequestMapping(value="delete",produces="text/html;charset=utf-8")
+	@ResponseBody
 	public String delete(Installer installer){
-		installerService.delete(installer);
-		return "redirect:/installer/list.do";
+		try {
+			installerService.delete(installer);
+			return "yes";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "no";
 	}
 	@RequestMapping(value="selectId_installer",produces="text/html;charset=utf-8")
 	@ResponseBody

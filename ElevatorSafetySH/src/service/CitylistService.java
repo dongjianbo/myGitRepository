@@ -22,10 +22,17 @@ public class CitylistService {
 		dc.add(Restrictions.ne("name_city", "ʡֱ"));
 		return citylistDao.getListByDc(dc);
 	}
+	@SuppressWarnings("unchecked")
 	public Citylist listBy_Idcity(String id_city){
 		DetachedCriteria dc=DetachedCriteria.forClass(Citylist.class);
 		dc.add(Restrictions.eq("id_city", id_city));
-		return (Citylist)citylistDao.getListByDc(dc).get(0);
+		List<Citylist> list=citylistDao.getListByDc(dc);
+		if(list!=null&&!list.isEmpty()){
+			return list.get(0);
+		}else{
+			return null;
+		}
+		
 	}
 	
 }

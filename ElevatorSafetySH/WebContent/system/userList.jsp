@@ -62,8 +62,9 @@
 						$("#message1").html("");
 					var form = $("#insertForm");
 					$.post(form.attr('action'),form.serialize(),function(a){
-						if(a=="ok"){
-							//location.reload();
+						if(a!="-1"){
+							$("#idOrganization1").val(a);
+							$("#idOrganization2").val(a);
 							$("#insertDialog").dialog("close");
 							$("#insertweibaoDialog").dialog("open");
 						}else{
@@ -200,20 +201,29 @@
 				$(this).dialog("close");
 			}
 		});
+		$("#delDiv").dialog({
+			modal:true,
+			autoOpen:false,
+			width:250,
+			height:150,
+			buttons:{
+				"确定":function(){
+					$(this).dialog("close");
+				}
+			}
+		});
 	});
 	//选择城市-----------------------------------------------
 	function chooseCity(id_city){
 		//不同的城市选择不同的id
 		$.getJSON("${path }/distictlist/listByIdCity.do?id_city="+id_city,"rand="+Math.random(),function(s){
 			document.getElementById("iddistrict").innerHTML="";
-			$("#iddistrict").append("<option size='"+50+"' value='"+00+"'>无</option>");
 			for(var i=0;i<s.length;i++){
 				 $("#iddistrict").append("<option size='"+50+"' value='"+s[i].id_district+"'>"+s[i].name_district+"</option>");
 				}
 		//选择区域下面的像乡镇
 			 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+s[0].id_district,"rand="+Math.random(),function(a){
 				 document.getElementById("idsubdistrict").innerHTML="";
-				 $("#idsubdistrict").append("<option size='"+50+"' value='"+00+"'>无</option>");
 				 for(var i=0;i<a.length;i++){
 						$("#idsubdistrict").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
 			    	}
@@ -224,14 +234,12 @@
 		//不同的城市选择不同的id
 		$.getJSON("${path }/distictlist/listByIdCity.do?id_city="+id_city,"rand="+Math.random(),function(s){
 			document.getElementById("iddistrict1").innerHTML="";
-			$("#iddistrict1").append("<option size='"+50+"' value='"+00+"'>无</option>");
 			for(var i=0;i<s.length;i++){
 				 $("#iddistrict1").append("<option size='"+50+"' value='"+s[i].id_district+"'>"+s[i].name_district+"</option>");
 				}
 		//选择区域下面的像乡镇
 			 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+s[0].id_district,"rand="+Math.random(),function(a){
-				 document.getElementById("idsubdistrict1").innerHTML="";	
-				 $("#idsubdistrict1").append("<option size='"+50+"' value='"+00+"'>无</option>");
+				 document.getElementById("idsubdistrict1").innerHTML="";
 				 for(var i=0;i<a.length;i++){
 						$("#idsubdistrict1").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
 			    	}
@@ -243,8 +251,7 @@
 		//去城市的id
 		var id_city=document.getElementById("idcity").value;
 		 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+id_district,"rand="+Math.random(),function(a){
-			 document.getElementById("idsubdistrict").innerHTML="";	
-			 $("#idsubdistrict").append("<option size='"+50+"' value='"+00+"'>无</option>");
+			 document.getElementById("idsubdistrict").innerHTML="";
 			 for(var i=0;i<a.length;i++){
 		    		$("#idsubdistrict").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
 		    	}
@@ -254,8 +261,7 @@
 		//去城市的id
 		var id_city=document.getElementById("idcity1").value;
 		 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+id_district,"rand="+Math.random(),function(a){
-			 document.getElementById("idsubdistrict1").innerHTML="";	
-			 $("#idsubdistrict1").append("<option size='"+50+"' value='"+00+"'>无</option>");
+			 document.getElementById("idsubdistrict1").innerHTML="";
 			 for(var i=0;i<a.length;i++){
 		    		$("#idsubdistrict1").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
 		    	}
@@ -275,10 +281,20 @@
 			$("#manager").val(d.manager);
 			$("#tel").val(d.tel);
 			$("#addr").val(d.addr);			
-			//$("#registerArea2").val(d.registerArea);
+			$("#registerArea2").val(d.registerArea);
 			$("#iduser").val(d.iduser);
 			//打开修改对话框
 			$("#updateDialog").dialog("open");
+		});
+	}
+	function deleteUser(id){
+		$.post("${path }/user/delete.do?iduser="+id,"",function(r){
+			if(r=="yes"){
+				location.reload();
+			}
+			if(r=="no"){
+				$("#delDiv").dialog("open");
+			}
 		});
 	}
 </script>
@@ -316,10 +332,11 @@
 				<td style="text-align: left">${d.manager}</td>
 				<td style="text-align: left">${d.tel }</td>
 				<td style="text-align: left">${d.addr }</td>
-				<td style="text-align: left">${d.registerArea }</td>
-				<td><a
-					href="javascript:showUpdate(${d.iduser})">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;
-					<a href="${path }/user/delete.do?iduser=${d.iduser}">删除</a>
+				<td style="text-align: left">${d.registCity.name_city }</td>
+				<td>
+					<input type="button" value="&nbsp;&nbsp;&nbsp;&nbsp;修改&nbsp;&nbsp;&nbsp;&nbsp;" onclick="showUpdate(${d.iduser})"/>
+<!-- 					&nbsp;&nbsp;&nbsp;&nbsp; -->
+<%-- 					<a href="javascript:deleteUser(${d.iduser})">删除</a> --%>
 				</td>
 			</tr>
 		</c:forEach>
@@ -381,25 +398,23 @@
 		</form>
 	</div>
 	<!--  添加维保管理员-->
-	<div id="insertweibaoDialog" style="display: none" title="添加维保管理员">
+	<div id="insertweibaoDialog" style="display: none" title="添加使用单位管理员">
 		<form action="${path }/operator/insert1.do" method="post" id="insertweibaoForm">
 			<ul>
 				<li>姓名:
 				<li><input type="text" id="insertname" name="name" size="50"/>*<div id="message3" style="float: right;padding-right:220px;"></div>
 				<li>身份证号码:
 				<li><input type="text" id="idcard" name="idcard" size="50"/>
-				<li>城市:
-				<li><select name="idcity" id="idcity" onchange="chooseCity(this.value)">
+<!-- 				<li>城市: -->
+<!-- 				<li><select name="idcity" id="idcity" onchange="chooseCity(this.value)"> -->
 				    
-				</select> 
-				<li>区:
-				<li><select name="iddistrict" id="iddistrict" onchange="choosedistrict(this.value)">
-				   <option size="50" value="00">无</option>
-				</select> 
-				<li>街道:
-				<li><select id="idsubdistrict" name="idsubdistrict">
-				   <option size="50" value="00">无</option>
-				</select>
+<!-- 				</select>  -->
+<!-- 				<li>区: -->
+<!-- 				<li><select name="iddistrict" id="iddistrict" onchange="choosedistrict(this.value)"> -->
+<!-- 				</select>  -->
+<!-- 				<li>街道: -->
+<!-- 				<li><select id="idsubdistrict" name="idsubdistrict"> -->
+<!-- 				</select> -->
 				<li>登录名:
 				<li><input type="text" id="loginname" name="loginname" size="50"/>*<div id="message4" style="float: right;padding-right:220px;"></div>
 				<li>密码:
@@ -407,30 +422,28 @@
 				<input type="hidden" name="status" value="1">
 				<input type="hidden" name="typeOperator" value="20">
 				<input type="hidden" name="idprivilege" value="1">
-				 <input type="hidden" name="idOrganization" value="${iduser }">
+				 <input type="hidden" name="idOrganization1" id="idOrganization1">
 			</ul>
 		</form>
 	</div>
 	<!--  添加业务管理员-->
-	<div id="insertyewuDialog" style="display: none" title="添加业务管理员">
+	<div id="insertyewuDialog" style="display: none" title="添加使用单位业务员">
 		<form action="${path }/operator/insert1.do" method="post" id="insertyewuForm">
 			<ul>
 				<li>姓名:
 				<li><input type="text" id="insert1name" name="name" size="50"/>*<div id="message6" style="float: right;padding-right:220px;"></div>
 				<li>身份证号码:
 				<li><input type="text" id="idcard" name="idcard" size="50"/>
-				<li>城市:
-				<li><select name="idcity" id="idcity1" onchange="chooseCity1(this.value)">
+<!-- 				<li>城市: -->
+<!-- 				<li><select name="idcity" id="idcity1" onchange="chooseCity1(this.value)"> -->
 				    
-				</select> 
-				<li>区:
-				<li><select name="iddistrict" id="iddistrict1" onchange="choosedistrict1(this.value)">
-				    <option size="50" value="00">无</option>
-				</select> 
-				<li>街道:
-				<li><select id="idsubdistrict1" name="idsubdistrict">
-				   <option size="50" value="00">无</option>
-				</select>
+<!-- 				</select>  -->
+<!-- 				<li>区: -->
+<!-- 				<li><select name="iddistrict" id="iddistrict1" onchange="choosedistrict1(this.value)"> -->
+<!-- 				</select>  -->
+<!-- 				<li>街道: -->
+<!-- 				<li><select id="idsubdistrict1" name="idsubdistrict"> -->
+<!-- 				</select> -->
 				<li>登录名:
 				<li><input type="text" id="loginname1" name="loginname" size="50"/>*<div id="message7" style="float: right;padding-right:220px;"></div>
 				<li>密码:
@@ -438,9 +451,12 @@
 				<input type="hidden" name="status" value="1">
 				<input type="hidden" name="typeOperator" value="21">
 				<input type="hidden" name="idprivilege" value="2">
-				 <input type="hidden" name="idOrganization" value="${iduser }">
+				 <input type="hidden" name="idOrganization1" id="idOrganization2">
 			</ul>
 		</form>
+	</div>
+	<div title="删除警告" id="delDiv">
+		该项已经被使用，不能删除！
 	</div>
 </body>
 </html>

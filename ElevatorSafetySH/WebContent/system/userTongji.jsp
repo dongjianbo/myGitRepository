@@ -51,27 +51,27 @@
 		</tr>
 		<tr>
 			<td>半月维保</td>
-			<td><a href="${path }/user/listForSearch.do?key=count_15user_normal">${count_15user_normal }</a></td>
-			<td><a href="${path }/user/listForSearch.do?key=count_15user_warnning">${count_15user_warnning }</a></td>
-			<td><a href="${path }/user/listForSearch.do?key=count_15user_overdue">${count_15user_overdue }</a></td>
+			<td><a href="${path }/user/listForSearch.do?key=count_15service_normal">${count_15service_normal }</a></td>
+			<td><a href="${path }/user/listForSearch.do?key=count_15service_warnning">${count_15service_warnning }</a></td>
+			<td><a href="${path }/user/listForSearch.do?key=count_15service_overdue">${count_15service_overdue }</a></td>
 		</tr>
 		<tr>
 			<td>季度维保</td>
-			<td><a href="${path }/user/listForSearch.do?key=count_90user_normal">${count_90user_normal }</a></td>
-			<td><a href="${path }/user/listForSearch.do?key=count_90user_warnning">${count_90user_warnning }</a></td>
-			<td><a href="${path }/user/listForSearch.do?key=count_90user_overdue">${count_90user_overdue }</a></td>
+			<td><a href="${path }/user/listForSearch.do?key=count_90service_normal">${count_90service_normal }</a></td>
+			<td><a href="${path }/user/listForSearch.do?key=count_90service_warnning">${count_90service_warnning }</a></td>
+			<td><a href="${path }/user/listForSearch.do?key=count_90service_overdue">${count_90service_overdue }</a></td>
 		</tr>
 		<tr>
 			<td>半年维保</td>
-			<td><a href="${path }/user/listForSearch.do?key=count_180user_normal">${count_180user_normal }</a></td>
-			<td><a href="${path }/user/listForSearch.do?key=count_180user_warnning">${count_180user_warnning }</a></td>
-			<td><a href="${path }/user/listForSearch.do?key=count_180user_overdue">${count_180user_overdue }</a></td>
+			<td><a href="${path }/user/listForSearch.do?key=count_180service_normal">${count_180service_normal }</a></td>
+			<td><a href="${path }/user/listForSearch.do?key=count_180service_warnning">${count_180service_warnning }</a></td>
+			<td><a href="${path }/user/listForSearch.do?key=count_180service_overdue">${count_180service_overdue }</a></td>
 		</tr>
 		<tr>
 			<td>年度维保</td>
-			<td><a href="${path }/user/listForSearch.do?key=count_360user_normal">${count_360user_normal }</a></td>
-			<td><a href="${path }/user/listForSearch.do?key=count_360user_warnning">${count_360user_warnning }</a></td>
-			<td><a href="${path }/user/listForSearch.do?key=count_360user_overdue">${count_360user_overdue }</a></td>
+			<td><a href="${path }/user/listForSearch.do?key=count_360service_normal">${count_360service_normal }</a></td>
+			<td><a href="${path }/user/listForSearch.do?key=count_360service_warnning">${count_360service_warnning }</a></td>
+			<td><a href="${path }/user/listForSearch.do?key=count_360service_overdue">${count_360service_overdue }</a></td>
 		</tr>
 	</table>
 </ul>

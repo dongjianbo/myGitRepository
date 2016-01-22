@@ -91,6 +91,8 @@ public class ServicerController {
 	}
 	@RequestMapping("delete")
 	public String delete(Servicer servicer){
+		//查询该单位是否有操作员
+		
 		servicerService.delete(servicer);
 		return "redirect:/servicer/list.do";
 	}

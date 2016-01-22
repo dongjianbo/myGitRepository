@@ -169,7 +169,20 @@ $().ready(function(){
 			</td>
 			<td><div class="div1" id="right">
 					<iframe width="100%" height="100%" frameborder="0" marginheight="0" scrolling="no"
-						marginwidth="0" id="_root" name="_root"></iframe>
+						marginwidth="0" id="_root" name="_root" src="
+						<c:if test="${operator_type.id_operator_type=='00'||operator_type.id_operator_type=='01'}">
+				   ${path }/elevator/search.do
+				   </c:if>
+				   <c:if test="${operator_type.id_operator_type=='10'||operator_type.id_operator_type=='11'}">
+				    ${path }/service/search.do
+				   </c:if>
+				   <c:if test="${operator_type.id_operator_type=='20'||operator_type.id_operator_type=='21'}">
+				    ${path }/user/search.do
+				   </c:if>
+				   <c:if test="${operator_type.id_operator_type=='30'||operator_type.id_operator_type=='31'}">
+				    ${path }/test/search.do
+				   </c:if>
+						"></iframe>
 				</div></td>
 		</tr>
 	</table>

@@ -592,5 +592,11 @@ public class ServiceService {
 			
 			return mriDao.findPageByDcQuery(dc, 10, request);
 		}	
+		
+	public boolean haveOperator(Service1 service){
+		String sql="select 1 from operator where type_operator in('10','11') and id_organization="+service.getIdservice();
+		Object obj=serviceDao.getObjectBySQL(sql);
+		return obj==null;
+	}
   
 }

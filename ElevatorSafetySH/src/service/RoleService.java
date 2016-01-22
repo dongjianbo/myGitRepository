@@ -33,6 +33,7 @@ public class RoleService {
 	@SuppressWarnings("unchecked")
 	public List<Role> list(){
 		DetachedCriteria dc=DetachedCriteria.forClass(Role.class);
+		dc.add(Restrictions.eq("role_status", "1"));
 		return roleDao.getListByDc(dc);
 	}
 	public Serializable insert(Role role){
@@ -56,5 +57,9 @@ public class RoleService {
 				+ "on m.id_system_menu=rm.id_menu left join role r on r.id_role=rm.id_role "
 				+ "where r.id_role="+roleid+" order by m.id_system_menu asc";
 		return roleDao.listBySQLQuery(sql);
+	}
+	public void changeStatus(int idrole){
+		String sql="update role set role_status=(case role_status when 1 then 0 else 1 end) where id_role="+idrole; 
+		roleDao.executeSQL(sql);
 	}
 }

@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -59,5 +61,13 @@ public class BaseDao extends HibernateByDCPageUtil{
 			return list.get(0);
 		}
 		return null;
+	}
+	public void executeSQL(String sql){
+		Session session=this.getSessionFactory().openSession();
+		Transaction tran=session.beginTransaction();
+		session.createSQLQuery(sql).executeUpdate();
+		tran.commit();
+		session.close();
+		
 	}
 }

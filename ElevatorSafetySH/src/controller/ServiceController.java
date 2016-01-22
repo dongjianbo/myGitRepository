@@ -1,6 +1,7 @@
 package controller;
 import java.util.List;
 import java.util.Map;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import service.CitylistService;
 import service.HistoryService;
 import service.History_listService;
 import service.Maint_report_idService;
@@ -40,11 +42,16 @@ public class ServiceController {
 	public History_listService history_listService;
 	@Resource
 	public Maint_report_idService mriService;
+	@Resource
+	public CitylistService cityService;
     @RequestMapping("list")
     public ModelAndView list(String key,HttpServletRequest request){
 		ModelAndView mav=new ModelAndView("system/serviceList");
-		System.out.println(key);
-		mav.addObject("serviceList",serviceService.list(key, 12, request));
+		List<Service1> slist=serviceService.list(key, 12, request);
+		for(Service1 s:slist){
+			s.setRegistCity(cityService.listBy_Idcity(s.getRegisterArea()));
+		}
+		mav.addObject("serviceList",slist);
 		return mav;
 	}
     @RequestMapping(value="list_json",produces="text/html;charset=utf-8")
@@ -57,8 +64,12 @@ public class ServiceController {
 	@RequestMapping(value="insert",produces="text/html;charset=utf-8")
 	@ResponseBody
 	public String insert(Service1 service,HttpServletRequest request){
-		int idservice=Integer.parseInt(serviceService.insert(service).toString());
-		request.getSession().setAttribute("idservice",idservice);
+		int idservice=-1;
+		Serializable ser=serviceService.insert(service);
+		if(ser!=null){
+			idservice=Integer.parseInt(ser.toString());
+		}
+		
 		System.out.println(request.getSession().getAttribute("idservice"));
 		History history=new History();
 		history.setType(5);//类型
@@ -77,7 +88,7 @@ public class ServiceController {
         hilist.setKey(key);//key表示复合主键的类
         hilist.setValue(idservice+"");
 		System.out.println(history_listService.insert(hilist).toString());
-		return "ok";
+		return idservice+"";
 	}
 	@RequestMapping(value="toUpdate",produces="text/html;charset=utf-8")
 	@ResponseBody
@@ -92,10 +103,20 @@ public class ServiceController {
 		serviceService.update(service);
 		return "ok";
 	}
-	@RequestMapping("delete")
+	@RequestMapping(value="delete",produces="text/html;charset=utf-8")
+	@ResponseBody
 	public String delete(Service1 service){
-		serviceService.delete(service);
-		return "redirect:/service/list.do";
+		if(!serviceService.haveOperator(service)){
+			return "no";
+		}else{
+			try {
+				serviceService.delete(service);
+				return "yes";
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				return "no";
+			}
+		}
 	}
 	@ResponseBody
     @RequestMapping(value="selectId_service",produces="text/html;charset=utf-8")

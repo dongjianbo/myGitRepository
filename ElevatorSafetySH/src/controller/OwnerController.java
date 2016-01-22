@@ -11,11 +11,11 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import service.CitylistService;
 import service.HistoryService;
 import service.History_listService;
 import service.OwnerService;
@@ -34,10 +34,16 @@ public class OwnerController {
   public HistoryService historyService;
   @Resource
   public History_listService history_listService;
+  @Resource
+  public CitylistService cityService;
   @RequestMapping("list")
   public ModelAndView list(String key,HttpServletRequest request){
 		ModelAndView mav=new ModelAndView("system/ownerList");
-		mav.addObject("ownerList",ownerService.list(key, 12, request));
+		List<Owner> olist=ownerService.list(key, 12, request);
+		for(Owner o:olist){
+			o.setRegistCity(cityService.listBy_Idcity(o.getRegisterArea()));
+		}
+		mav.addObject("ownerList",olist);
 		return mav;
 	}
 	@RequestMapping(value="insert",produces="text/html;charset=utf-8")
@@ -76,10 +82,17 @@ public class OwnerController {
 		ownerService.update(owner);
 		return "ok";
 	}
-	@RequestMapping("delete")
+	@RequestMapping(value="delete",produces="text/html;charset=utf-8")
+	@ResponseBody
 	public String delete(Owner owner){
-		ownerService.delete(owner);
-		return "redirect:/owner/list.do";
+		try {
+			ownerService.delete(owner);
+			return "yes";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "no";
 	}
 	@ResponseBody
 	@RequestMapping(value="selectId_owner",produces="text/html;charset=utf-8")

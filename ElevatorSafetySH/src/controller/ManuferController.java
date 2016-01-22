@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import service.CitylistService;
 import service.HistoryService;
 import service.History_listService;
 import service.ManuferService;
@@ -34,10 +35,16 @@ public class ManuferController {
 	public HistoryService historyService;
 	@Resource
 	public History_listService history_listService;
+	@Resource
+	public CitylistService cityService;
 	@RequestMapping("list")
 	public ModelAndView list(String key,HttpServletRequest request){
 		ModelAndView mav=new ModelAndView("system/manuferList");
-		mav.addObject("manuferList",manuferService.list(key, 12, request));
+		List<Manufer> list=manuferService.list(key, 12, request);
+		for(Manufer m:list){
+			m.setRegistCity(cityService.listBy_Idcity(m.getRegister_area()));
+		}
+		mav.addObject("manuferList",list);
 		return mav;
 	}
 	
@@ -85,10 +92,17 @@ public class ManuferController {
 		manuferService.update(manufer);
 		return "ok";
 	}
-	@RequestMapping("delete")
+	@RequestMapping(value="delete",produces="text/html;charset=utf-8")
+	@ResponseBody
 	public String delete(Manufer manufer){
-		manuferService.delete(manufer);
-		return "redirect:/manufer/list.do";
+		try {
+			manuferService.delete(manufer);
+			return "yes";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "no";
 	}
 	
 	@RequestMapping(value="selectId_manufer",produces="text/html;charset=utf-8")

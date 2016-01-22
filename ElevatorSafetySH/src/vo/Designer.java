@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="designer")
@@ -29,6 +30,16 @@ public class Designer {
 	@Column(name="address")
 	private String addr;
 	private String register_area;
+	//表示该字段不需要和数据表进行映射
+	@Transient
+	private Citylist registCity;
+	
+	public Citylist getRegistCity() {
+		return registCity;
+	}
+	public void setRegistCity(Citylist registCity) {
+		this.registCity = registCity;
+	}
 	public String getRegister_area() {
 		return register_area;
 	}

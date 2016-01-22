@@ -12,6 +12,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
+import vo.Service1;
 import vo.Servicer;
 import dao.ServicerDao;
 
@@ -41,4 +42,5 @@ public class ServicerService {
 	public void delete(Servicer servicer){
 		servicerDao.delete(servicer);
 	}
+	
 }

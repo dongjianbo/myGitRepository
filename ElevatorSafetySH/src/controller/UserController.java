@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.List;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import service.CitylistService;
 import service.HistoryService;
 import service.History_listService;
 import service.Maint_report_idService;
@@ -40,10 +42,16 @@ public class UserController {
    public History_listService history_listService;
    @Resource
    public Maint_report_idService mriService;
+   @Resource
+   public CitylistService cityService;
    @RequestMapping("list")
    public ModelAndView list(String key,HttpServletRequest request){
 		ModelAndView mav=new ModelAndView("system/userList");
-		mav.addObject("userList",userService.list(key, 12, request));
+		List<User> ulist=userService.list(key, 12, request);
+		for(User u:ulist){
+			u.setRegistCity(cityService.listBy_Idcity(u.getRegisterArea()));
+		}
+		mav.addObject("userList",ulist);
 		return mav;
 	}
    @RequestMapping(value="list_json",produces="text/html;charset=utf-8")
@@ -56,8 +64,11 @@ public class UserController {
 	@RequestMapping(value="insert",produces="text/html;charset=utf-8")
 	@ResponseBody
 	public String insert(User user,HttpServletRequest request){
-		int iduser=Integer.parseInt(userService.insert(user).toString());
-		request.getSession().setAttribute("iduser", iduser);
+		Serializable ser=userService.insert(user);
+		int iduser=-1;
+		if(ser!=null){
+			iduser=Integer.parseInt(ser.toString());
+		}
 		History history=new History();
 		history.setType(7);//类型
 		Operator op=(Operator)request.getSession().getAttribute("login");
@@ -75,7 +86,7 @@ public class UserController {
         hilist.setKey(key);//key表示复合主键的类
         hilist.setValue(iduser+"");
 		System.out.println( history_listService.insert(hilist).toString());
-		return "ok";
+		return iduser+"";
 	}
 	@RequestMapping(value="toUpdate",produces="text/html;charset=utf-8")
 	@ResponseBody
@@ -90,10 +101,20 @@ public class UserController {
 		userService.update(user);
 		return "ok";
 	}
-	@RequestMapping("delete")
+	@RequestMapping(value="delete",produces="text/html;charset=utf-8")
+	@ResponseBody
 	public String delete(User user){
-		userService.delete(user);
-		return "redirect:/user/list.do";
+		if(!userService.haveOperator(user)){
+			return "no";
+		}else{
+			try {
+				userService.delete(user);
+				return "yes";
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				return "no";
+			}
+		}
 	}
 	@ResponseBody
 	@RequestMapping(value="selectId_user",produces="text/html;charset=utf-8")
