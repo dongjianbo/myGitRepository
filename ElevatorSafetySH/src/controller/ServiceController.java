@@ -65,11 +65,13 @@ public class ServiceController {
 	@RequestMapping(value="insert",produces="text/html;charset=utf-8")
 	@ResponseBody
 	public String insert(Service1 service,HttpServletRequest request){
+
 		int idservice=-1;
 		Serializable ser=serviceService.insert(service);
 		if(ser!=null){
 			idservice=Integer.parseInt(ser.toString());
 		}
+
 
 		History history=new History();
 		history.setType(5);//类型
@@ -88,7 +90,9 @@ public class ServiceController {
         hilist.setKey(key);//key表示复合主键的类
         hilist.setValue(idservice+"");
 		System.out.println(history_listService.insert(hilist).toString());
+
 		return idservice+"";
+
 	}
 	@RequestMapping(value="toUpdate",produces="text/html;charset=utf-8")
 	@ResponseBody

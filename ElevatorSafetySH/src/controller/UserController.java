@@ -65,11 +65,13 @@ public class UserController {
 	@RequestMapping(value="insert",produces="text/html;charset=utf-8")
 	@ResponseBody
 	public String insert(User user,HttpServletRequest request){
+
 		Serializable ser=userService.insert(user);
 		int iduser=-1;
 		if(ser!=null){
 			iduser=Integer.parseInt(ser.toString());
 		}
+
 		History history=new History();
 		history.setType(7);//¿‡–Õ
 		Operator op=(Operator)request.getSession().getAttribute("login");

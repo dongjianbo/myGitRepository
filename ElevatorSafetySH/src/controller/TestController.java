@@ -70,11 +70,13 @@ public class TestController {
 	@RequestMapping(value="insert",produces="text/html;charset=utf-8")
 	@ResponseBody
 	public String insert(Test test,HttpServletRequest request){
+
 		Serializable res=testService.insert(test);
 		int idtest=-1;
 		if(res!=null){
 			idtest=Integer.parseInt(res.toString());
 		}
+
 		History history=new History();
 		history.setType(4);//¿‡–Õ
 		Operator op=(Operator)request.getSession().getAttribute("login");
