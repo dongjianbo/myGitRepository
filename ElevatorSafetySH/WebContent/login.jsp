@@ -9,7 +9,7 @@
 <link href="${pageContext.servletContext.contextPath}/css/table.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 .formDiv{
-	width: 260px;
+	width: 360px;
 	height: 200px;
 	position: absolute;
 	top: 50%;
@@ -22,17 +22,20 @@
 <body bgcolor="#accccc">
 
 	<div class="formDiv">
-		<h1 align="center">河南省电梯安全监督管理信息平台</h1>${massage3 }
+		<h1 align="center">河南省电梯安全监督管理信息平台</h1>
+		<div style="margin-left: 20px;">
 		<form action="${pageContext.servletContext.contextPath }/login/check.do"
 		method="post">
-		登录名：<input type="text" name="loginname" value="${op.loginname }" style="height: 24px;width: 260px;"/>${massage1 }<br> 
-		密    码：<input type="password" value="${op.password }" style="height: 24px;width: 260px;"
-			name="password" /> ${massage2 }<br> 
-			<div style="text-align: right;">
-				<input type="submit" value="登       录"/>
-			</div>
-			
-	</form>
+			登录名：<br>
+			<input type="text" name="loginname" value="${op.loginname }" style="height: 24px;width: 260px;"/>${massage1 }<br> 
+			密&nbsp;&nbsp;码：<br>
+			<input type="password" value="${op.password }" style="height: 24px;width: 260px;"
+				name="password" /> ${massage2 }<br> 
+				<div style="text-align: right;">
+					<input type="submit" value="登       录"/>
+				</div>
+		</form>
+	</div>
 	</div>
 	
 </body>

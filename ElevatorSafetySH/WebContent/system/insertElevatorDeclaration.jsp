@@ -28,30 +28,35 @@
 		$("#date2").datepicker({dateFormat:'yy-mm-dd'});//日期控件
 		$("#date3").datepicker({dateFormat:'yy-mm-dd'});//日期控件
 		 $.getJSON("${path}/owner/selectId_owner.do","rand="+Math.random(),function(d){
+			 $("#id_owner").append("<option size='"+15+"' value=''>-请选择</option>");
 	    	  //对产权单位进行循环
 	    	  for(var i=0;i<d.length;i++){
 	    		  $("#id_owner").append("<option size='"+15+"' value='"+d[i].idowner+"'>"+d[i].name+"</option>");
 	    	  }
 	       });	
 		 $.getJSON("${path}/user/selectId_user.do","rand="+Math.random(),function(d){
+			 $("#id_user").append("<option size='"+15+"' value=''>-请选择</option>");
 	    	  //对使用单位进行循环
 	    	  for(var i=0;i<d.length;i++){
 	    		  $("#id_user").append("<option size='"+15+"' value='"+d[i].iduser+"'>"+d[i].name+"</option>");
 	    	  }
 	       });	
-		  $.getJSON("${path}/designer/selectId_designer.do","rand="+Math.random(),function(d){
+		$.getJSON("${path}/designer/selectId_designer.do","rand="+Math.random(),function(d){
+			$("#id_designer").append("<option size='"+15+"' value=''>-请选择</option>");
     	 //对设计单位进行循环
     	  for(var i=0;i<d.length;i++){
     		  $("#id_designer").append("<option size='"+15+"' value='"+d[i].iddesigner+"'>"+d[i].name+"</option>");
     	  }
        });
        $.getJSON("${path}/manufer/selectId_manufer.do","rand="+Math.random(),function(d){
+    	   $("#id_manufer").append("<option size='"+15+"' value=''>-请选择</option>");
      	  //对生产单位进行循环
      	  for(var i=0;i<d.length;i++){
      		  $("#id_manufer").append("<option size='"+15+"' value='"+d[i].idmanufer+"'>"+d[i].name+"</option>");
      	  }
         }); 
        $.getJSON("${path}/installer/selectId_installer.do","rand="+Math.random(),function(d){
+    	   $("#id_installer").append("<option size='"+15+"' value=''>-请选择</option>");
 	    	  //对安装单位进行循环
 	    	  for(var i=0;i<d.length;i++){
 	    		  $("#id_installer").append("<option size='"+15+"' value='"+d[i].idinstaller+"'>"+d[i].name+"</option>");
@@ -106,21 +111,21 @@
 		           <td>
 		           <ul>
 		           <li>登记机构:
-		           <li><input type="text" name="register_org" size="50"/>
+		           <li><input type="text" name="register_org" size="50" readonly="readonly" value="${deptName}"/>
 		           <li>特种设备登记代码:
 		           <li><input type="text" name="register_code" id="register_code" size="50" placeholder="请输入特种设备登记代码"/>*
 		           <li>特种设备代码:
 		           <li><input type="text" name="device_code" id="device_code" size="50" placeholder="请输入特种设备代码"/>*
 			       <li>产权单位名称:
-			       <li><select name="id_owner" id="id_owner"></select>
+			       <li><select name="id_owner" id="id_owner"></select><span id="id_owner_error"></span>
 		           <li>使用单位名称:
-		           <li><select name="id_user" id="id_user"></select> <br><br><br>
+		           <li><select name="id_user" id="id_user"></select><span id="id_user_error"></span> <br><br><br>
 		           
 		           
 		            <li>设计单位名称:
-					<li><select id="id_designer" name="id_designer"></select>
+					<li><select id="id_designer" name="id_designer"></select><span id="id_designer_error"></span>
 					<li>生产单位名称:
-					<li><select id="id_manufer" name="id_manufer"></select>
+					<li><select id="id_manufer" name="id_manufer"></select><span id="id_manufer_error"></span>
 		            <li>出厂编号:
 					<li><input type="text" name="code_manufer" size="50"/>
 					</ul>
@@ -143,13 +148,16 @@
 				    <li><input type="text" name="project_duty" size="50">
 					    <br><br><br>
 				    <li>电梯简称:
-				    <li><input type="text" name="desc" id="desc" size="50" placeholder="请输入电梯简称"/>*
+				    <li><input type="text" name="desc" id="desc" size="50" maxlength="16" placeholder="请输入电梯简称,不能超过16字"/>*
 				    <input type="hidden" value="0" name="register_status">
 				      </ul>
 		        </td>
 		        </tr>
-		            <tr>
-		              <td colspan="2" style="padding-left: 450px;">  <input type="button" value="下一页" onclick="ifNull()"/></td>
+		            
+		        </table>
+		        <table width="90%">
+		        <tr>
+		              <td align="right"><hr>  <input type="button" value="&nbsp;下一页&nbsp;" onclick="ifNull()"/></td>
 		             </tr>
 		        </table>
 		  </form>

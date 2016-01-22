@@ -59,6 +59,7 @@ public class ServiceController {
 	public String insert(Service1 service,HttpServletRequest request){
 		int idservice=Integer.parseInt(serviceService.insert(service).toString());
 		request.getSession().setAttribute("idservice",idservice);
+		System.out.println(request.getSession().getAttribute("idservice"));
 		History history=new History();
 		history.setType(5);//类型
 		Operator op=(Operator)request.getSession().getAttribute("login");
@@ -75,7 +76,7 @@ public class ServiceController {
 	    key.setKey(5);
         hilist.setKey(key);//key表示复合主键的类
         hilist.setValue(idservice+"");
-		System.out.println( history_listService.insert(hilist).toString());
+		System.out.println(history_listService.insert(hilist).toString());
 		return "ok";
 	}
 	@RequestMapping(value="toUpdate",produces="text/html;charset=utf-8")

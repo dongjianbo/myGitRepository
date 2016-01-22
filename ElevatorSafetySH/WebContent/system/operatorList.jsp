@@ -276,30 +276,22 @@
 			
 		});
 	}
-	
-	//按照id查询操作人员状态 
-	function zhuangtai(did){
-		$.getJSON("${path }/operator/toUpdate.do?idoperator="+did,"rand="+Math.random(),function(d){
-				var status=d.status;
-				var idoperator=d.idoperator;
-				if(status=="1"){
-					a=confirm("你确定要禁用吗？");
-					if(a==true){
-						//alert("禁用 ");
-						//修改 该操作员的状态 ，把状态改为 0（非正常）
-						window.location.href="${path }/operator/UpdateStatus.do?idoperator="+did;
-					}
-					
-				}else{
-					a=confirm("你确定要启用吗？");
-					if(a==true){
-						//alert("启用 ");
-						//修改该操作员的状态 ，把状态改为 1（正常）
-						window.location.href="${path }/operator/UpdateStatus1.do?idoperator="+did;
-					}
+	//启用禁用
+	function updateStatus(did,status){
+		if(status==1){
+			$.post("${path }/operator/UpdateStatus.do?idoperator="+did,"rand="+Math.random(),function(d){
+				if(d=="ok"){
+					location.reload();
 				}
-			
-		});
+			});
+		}
+		if(status==0){
+			$.post("${path }/operator/UpdateStatus1.do?idoperator="+did,"rand="+Math.random(),function(d){
+				if(d=="ok"){
+					location.reload();
+				}
+			});
+		}
 	}
 </script>
 </head>
@@ -338,8 +330,8 @@
 				
 				<td><a
 					href="javascript:showUpdate(${d.idoperator})">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;
-					<a href="${path }/operator/delete.do?idoperator=${d.idoperator}">删除</a>
-					<a href="javascript:zhuangtai(${d.idoperator})">启用/禁用</a>
+					<a href="${path }/operator/delete.do?idoperator=${d.idoperator}">删除</a>&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="javascript:updateStatus(${d.idoperator},${d.status })">启用/禁用</a>
 				</td>
 			</tr>
 		</c:forEach>
@@ -372,7 +364,7 @@
 				<li><select id="idsubdistrict1" name="idsubdistrict">
 				    <option value="00" size="50">无</option>
 				</select>
-				<li>登陆名:
+				<li>登录名:
 				<li><input type="text" name="loginname" id="loginname1" maxlength="20" size="50" />*<div id="loginname2" style="float: right; margin-right:220 " ></div>
 				<li>密码:
 				<li><input type="text" name="password" id="password1" maxlength="32" size="50"/>*<div id="password2" style="float: right; margin-right:220 " ></div>
@@ -406,7 +398,7 @@
 				<li><select id="idsubdistrict" name="idsubdistrict">
 				   <option value="00" size="50">无</option>
 				</select>
-				<li>登陆名:
+				<li>登录名:
 				<li><input type="text" name="loginname" id="loginname" maxlength="20" size="50"/>*<div id="loginname0" style="float: right; margin-right:220 " ></div>
 				<li><input type="hidden" name="password" id="password" maxlength="32" size="50"/><div id="password0" style="float: right; margin-right:220 " ></div>
 				<li>所属单位顺序号:

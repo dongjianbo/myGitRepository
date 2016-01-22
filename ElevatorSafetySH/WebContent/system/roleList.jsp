@@ -93,6 +93,7 @@
 					}
 				});
 				if(b){
+					alert($(this).val());
 					$(this).attr("checked","checked");
 				}
 			});

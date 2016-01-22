@@ -23,6 +23,7 @@
 </head>
 <body>
   <ul>
+  <li><button onclick="history.back();">返回上一页</button>
   <li><h2>${eById.id_elevator }号${eById.elevatorType.name}详细信息</h2>
   </ul>
 	<table width="100%" height="100%" id="table">	

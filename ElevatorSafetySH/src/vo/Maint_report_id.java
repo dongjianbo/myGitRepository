@@ -35,7 +35,7 @@ public class Maint_report_id {
 	private Integer user3_id;
 	@ManyToOne(cascade=CascadeType.REFRESH)
 	@JoinColumn(name="user3_id",insertable=false,updatable=false)
-	private Servicer servicer3;
+	private Tester servicer3;
 	private int maint_type;
 	private Date maint_date;
 	private Date maint_upload;
@@ -60,10 +60,11 @@ public class Maint_report_id {
 	public void setServicer2(Servicer servicer2) {
 		this.servicer2 = servicer2;
 	}
-	public Servicer getServicer3() {
+	
+	public Tester getServicer3() {
 		return servicer3;
 	}
-	public void setServicer3(Servicer servicer3) {
+	public void setServicer3(Tester servicer3) {
 		this.servicer3 = servicer3;
 	}
 	public Integer getMaint_id() {

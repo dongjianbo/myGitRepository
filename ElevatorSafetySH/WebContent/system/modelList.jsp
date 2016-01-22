@@ -23,6 +23,7 @@
 	<script type="text/javascript">
 	var dia;
 	$().ready(function(){
+		
 // 		var $doc;         
 // 		if(window.location!=window.top.location){          
 // 			// <SPAN style="COLOR: #ff0000">页面在iframe中</SPAN>            
@@ -177,6 +178,8 @@
 		
 		//查询生产厂家（下拉框中的值 ）
 			$.getJSON("${path }/manufer/list_json.do","rand="+Math.random(),function(d){
+				$("#idmanufer").append("<option size='"+50+"' value=''>-请选择</option>");
+				$("#idmanufer1").append("<option size='"+50+"' value=''>-请选择</option>");
 				  //将查询到的信息放入修改表单中--注意隐藏域中的主键
 				for(var i=0;i<d.length;i++){
 					$("#idmanufer").append("<option size='"+50+"' value='"+d[i].idmanufer+"'>"+d[i].name+"</option>");
@@ -185,6 +188,8 @@
 			}); 
 		 //查询电梯类型 （下拉框 的值 ）
 		$.getJSON("${path }/elevator_type_def/list_json.do","rand="+Math.random(),function(d){
+			$("#typeElevator").append("<option size='"+50+"' value=''>-请选择</option>");
+			$("#typeElevator1").append("<option size='"+50+"' value=''>-请选择</option>");
 				  //将查询到的信息放入修改表单中--注意隐藏域中的主键
 				for(var i=0;i<d.length;i++){
 					$("#typeElevator").append("<option size='"+50+"' value='"+d[i].elevatortype+"'>"+d[i].name+"</option>");
@@ -330,6 +335,26 @@
 				$(this).dialog("close");
 			}
 		});
+		//根据电梯型号，显示不同的层
+		$("#typeElevator1").change(function(){
+			for(i=1;i<=4;i++){
+				if(i==$(this).val()){
+					$("#insertType"+i)[0].style.display='block';
+				}else{
+					$("#insertType"+i)[0].style.display='none';
+				}
+			}
+		});
+		//根据电梯型号，显示不同的层
+		$("#typeElevator").change(function(){
+			for(i=1;i<=4;i++){
+				if(i==$(this).val()){
+					$("#updateType"+i)[0].style.display='block';
+				}else{
+					$("#updateType"+i)[0].style.display='none';
+				}
+			}
+		});
 	});
 
 	function showInsert(){
@@ -346,6 +371,14 @@
 			$("#idmanufer").val(d.idmanufer);
 			$("#modelname").val(d.modelname);
 			$("#typeElevator").val(d.typeElevator);
+			//相应的类别显示
+			for(i=1;i<=4;i++){
+				if(i==d.typeElevator){
+					$("#updateType"+i)[0].style.display='block';
+				}else{
+					$("#updateType"+i)[0].style.display='none';
+				}
+			}
 			$("#suitplace").val(d.suitplace);
 			$("#idmodel").val(d.idmodel);
 			
@@ -433,47 +466,65 @@
 				<li><input type="text" name="modelname" id="modelname1" maxlength="20" size="50"/>*<div id="modelname2" style="float: right; margin-right:220 " ></div>
 				<li>电梯类型:
 				<li><select name="typeElevator" id="typeElevator1"></select>
+				
+				<div id="insertType1" style="display: none">
+				<ul>
+					<li>1类驱动方式：
+					<li><input type="text" name="parameter11" maxlength="1" size="50"/>
+					<li>1类额定载重量:（单位：千克）
+					<li><input type="text" name="parameter12" id="parameter12_1" maxlength="11" size="50"/><div id="parameter12_2" style="float: right; margin-right:220 " ></div>
+					<li>1类额定速度:（单位：m/s）
+					<li><input type="text" name="parameter13" id="parameter13_1" maxlength="5" size="50"/><div id="parameter13_2" style="float: right; margin-right:220 " ></div>
+					<li>1类层站数:
+					<li><input type="text" name="parameter14" id="parameter14_1" maxlength="11" size="50"/><div id="parameter14_2" style="float: right; margin-right:220 " ></div>
+				</ul>
+				</div>
+				<div id="insertType2" style="display: none">
+				<ul>
+					<li>2类额定载重量 （单位：千克）
+					<li><input type="text" name="parameter21" id="parameter21_1"  maxlength="11" size="50"/><div id="parameter21_2" style="float: right; margin-right:220 " ></div>
+					<li>2类额定速度  （单位：m/s）
+					<li><input type="text" name="parameter22" id="parameter22_1" maxlength="5" size="50"/><div id="parameter22_2" style="float: right; margin-right:220 " ></div>
+					<li>2类层站数
+					<li><input type="text" name="parameter23" id="parameter23_1" maxlength="11"  size="50"/><div id="parameter23_2" style="float: right; margin-right:220 " ></div>
+					<li>2类油缸数量
+					<li><input type="text" name="parameter24" id="parameter24_1" maxlength="11"  size="50"/><div id="parameter24_2" style="float: right; margin-right:220 " ></div>
+					<li>2类顶升方式 
+					<li><input type="text" name="parameter25" maxlength="1" size="50"/>
+				</ul>
+				</div>
+				<div id="insertType3" style="display: none">
+				<ul>
+				
+					<li>3类驱动方式
+					<li><input type="text" name="parameter31" maxlength="1" size="50"/>
+					<li>3类额定载重量 （单位=kg）
+					<li><input type="text" name="parameter32" id="parameter32_1" maxlength="11"  size="50"/><div id="parameter32_2" style="float: right; margin-right:220 " ></div>
+					<li>3类额定速度 （单位=m/s）
+					<li><input type="text" name="parameter33" id="parameter33_1" maxlength="5" size="50"/><div id="parameter33_2" style="float: right; margin-right:220 " ></div>
+					<li>3类层站数
+					<li><input type="text" name="parameter34" id="parameter34_1" maxlength="11" size="50"/><div id="parameter34_2" style="float: right; margin-right:220 " ></div>
+				</ul>
+				</div>
+				<div id="insertType4" style="display: none">
+				<ul>
+				
+					<li>4类倾斜角度
+					<li><input type="text" name="parameter41" id="parameter41_1" maxlength="11"  size="50"/><div id="parameter42_2" style="float: right; margin-right:220 " ></div>
+					<li>4类额定速度（单位=m/s）
+					<li><input type="text" name="parameter42" id="parameter42_1" maxlength="5" size="50"/><div id="parameter42_2" style="float: right; margin-right:220 " ></div>
+					<li>4类提升高度（单位=m）
+					<li><input type="text" name="parameter43" id="parameter43_1" maxlength="5" size="50"/><div id="parameter43_2" style="float: right; margin-right:220 " ></div>
+					<li>4类梯级宽度（单位=m）
+					<li><input type="text" name="parameter44" id="parameter44_1" maxlength="5" size="50"/><div id="parameter44_2" style="float: right; margin-right:220 " ></div>
+					<li>4类主机功率（单位=kw）
+					<li><input type="text" name="parameter45" id="parameter45_1" maxlength="5" size="50"/><div id="parameter45_2" style="float: right; margin-right:220 " ></div>
+					<li>4类使用区长度（单位=m）
+					<li><input type="text" name="parameter46" id="parameter46_1" maxlength="5" size="50"/><div id="parameter46_2" style="float: right; margin-right:220 " ></div>
+				</ul>
+				</div>
 				<li>适用场合:
 				<li><input type="text" name="suitplace" id="suitplace1" maxlength="20" size="50"/>*<div id="suitplace2" style="float: right; margin-right:220 " ></div>
-				<li>1类驱动方式：
-				<li><input type="text" name="parameter11" maxlength="1" size="50"/>
-				<li>1类额定载重量:（单位：千克）
-				<li><input type="text" name="parameter12" id="parameter12_1" maxlength="11" size="50"/><div id="parameter12_2" style="float: right; margin-right:220 " ></div>
-				<li>1类额定速度:（单位：m/s）
-				<li><input type="text" name="parameter13" id="parameter13_1" maxlength="5" size="50"/><div id="parameter13_2" style="float: right; margin-right:220 " ></div>
-				<li>1类层站数:
-				<li><input type="text" name="parameter14" id="parameter14_1" maxlength="11" size="50"/><div id="parameter14_2" style="float: right; margin-right:220 " ></div>
-				<li>2类额定载重量 （单位：千克）
-				<li><input type="text" name="parameter21" id="parameter21_1"  maxlength="11" size="50"/><div id="parameter21_2" style="float: right; margin-right:220 " ></div>
-				<li>2类额定速度  （单位：m/s）
-				<li><input type="text" name="parameter22" id="parameter22_1" maxlength="5" size="50"/><div id="parameter22_2" style="float: right; margin-right:220 " ></div>
-				<li>2类层站数
-				<li><input type="text" name="parameter23" id="parameter23_1" maxlength="11"  size="50"/><div id="parameter23_2" style="float: right; margin-right:220 " ></div>
-				<li>2类油缸数量
-				<li><input type="text" name="parameter24" id="parameter24_1" maxlength="11"  size="50"/><div id="parameter24_2" style="float: right; margin-right:220 " ></div>
-				<li>2类顶升方式 
-				<li><input type="text" name="parameter25" maxlength="1" size="50"/>
-				<li>3类驱动方式
-				<li><input type="text" name="parameter31" maxlength="1" size="50"/>
-				<li>3类额定载重量 （单位=kg）
-				<li><input type="text" name="parameter32" id="parameter32_1" maxlength="11"  size="50"/><div id="parameter32_2" style="float: right; margin-right:220 " ></div>
-				<li>3类额定速度 （单位=m/s）
-				<li><input type="text" name="parameter33" id="parameter33_1" maxlength="5" size="50"/><div id="parameter33_2" style="float: right; margin-right:220 " ></div>
-				<li>3类层站数
-				<li><input type="text" name="parameter34" id="parameter34_1" maxlength="11" size="50"/><div id="parameter34_2" style="float: right; margin-right:220 " ></div>
-				<li>4类倾斜角度
-				<li><input type="text" name="parameter41" id="parameter41_1" maxlength="11"  size="50"/><div id="parameter42_2" style="float: right; margin-right:220 " ></div>
-				<li>4类额定速度（单位=m/s）
-				<li><input type="text" name="parameter42" id="parameter42_1" maxlength="5" size="50"/><div id="parameter42_2" style="float: right; margin-right:220 " ></div>
-				<li>4类提升高度（单位=m）
-				<li><input type="text" name="parameter43" id="parameter43_1" maxlength="5" size="50"/><div id="parameter43_2" style="float: right; margin-right:220 " ></div>
-				<li>4类梯级宽度（单位=m）
-				<li><input type="text" name="parameter44" id="parameter44_1" maxlength="5" size="50"/><div id="parameter44_2" style="float: right; margin-right:220 " ></div>
-				<li>4类主机功率（单位=kw）
-				<li><input type="text" name="parameter45" id="parameter45_1" maxlength="5" size="50"/><div id="parameter45_2" style="float: right; margin-right:220 " ></div>
-				<li>4类使用区长度（单位=m）
-				<li><input type="text" name="parameter46" id="parameter46_1" maxlength="5" size="50"/><div id="parameter46_2" style="float: right; margin-right:220 " ></div>
-	
 			</ul>
 		</form>
 	</div>
@@ -486,8 +537,8 @@
 				<li><input type="text" name="modelname" id="modelname" maxlength="20" size="50"/>*<div id="modelname0" style="float: right; margin-right:220 " ></div>
 				<li>电梯类型:
 				<li><select name="typeElevator" id="typeElevator"></select>
-				<li>适用场合:
-				<li><input type="text" name="suitplace" id="suitplace" maxlength="20" size="50"/>*<div id="suitplace0" style="float: right; margin-right:220 " ></div>
+				<div id="updateType1" style="display: none">
+				<ul>
 				<li>1类驱动方式：
 				<li><input type="text" name="parameter11" id="parameter11" maxlength="1" size="50"/>
 				<li>1类额定载重量:（单位：千克）
@@ -496,6 +547,10 @@
 				<li><input type="text" name="parameter13" id="parameter13" maxlength="5" size="50"/><div id="parameter13_0" style="float: right; margin-right:220 " ></div>
 				<li>1类层站数:
 				<li><input type="text" name="parameter14" id="parameter14" maxlength="11" size="50"/><div id="parameter14_0" style="float: right; margin-right:220 " ></div>
+				</ul>
+				</div>
+				<div id="updateType2" style="display: none">
+				<ul>
 				<li>2类额定载重量 （单位：千克）
 				<li><input type="text" name="parameter21" id="parameter21" maxlength="11" size="50"/><div id="parameter21_0" style="float: right; margin-right:220 " ></div>
 				<li>2类额定速度  （单位：m/s）
@@ -506,6 +561,10 @@
 				<li><input type="text" name="parameter24" id="parameter24" maxlength="11" size="50"/><div id="parameter24_0" style="float: right; margin-right:220 " ></div>
 				<li>2类顶升方式 
 				<li><input type="text" name="parameter25"  id="parameter25" maxlength="1" size="50"/>
+				</ul>
+				</div>
+				<div id="updateType3" style="display: none">
+				<ul>
 				<li>3类驱动方式
 				<li><input type="text" name="parameter31" id="parameter31" maxlength="1" size="50"/>
 				<li>3类额定载重量 （单位=kg）
@@ -514,6 +573,10 @@
 				<li><input type="text" name="parameter33" id="parameter33" maxlength="5" size="50"/><div id="parameter33_0" style="float: right; margin-right:220 " ></div>
 				<li>3类层站数
 				<li><input type="text" name="parameter34" id="parameter34" maxlength="11" size="50"/><div id="parameter34_0" style="float: right; margin-right:220 " ></div>
+				</ul>
+				</div>
+				<div id="updateType4" style="display: none">
+				<ul>
 				<li>4类倾斜角度
 				<li><input type="text" name="parameter41" id="parameter41" maxlength="11" size="50"/><div id="parameter41_0" style="float: right; margin-right:220 " ></div>
 				<li>4类额定速度（单位=m/s）
@@ -526,7 +589,12 @@
 				<li><input type="text" name="parameter45" id="parameter45" maxlength="5" size="50"/><div id="parameter45_0" style="float: right; margin-right:220 " ></div>
 				<li>4类使用区长度（单位=m）
 				<li><input type="text" name="parameter46" id="parameter46" maxlength="5" size="50"/><div id="parameter46_0" style="float: right; margin-right:220 " ></div>
+				</ul>
+				</div>
 				<li><input type="hidden" name="idmodel" id="idmodel" />
+				<li>适用场合:
+				<li><input type="text" name="suitplace" id="suitplace" maxlength="20" size="50"/>*<div id="suitplace0" style="float: right; margin-right:220 " ></div>
+				
 			</ul>
 		</form>
 	</div>

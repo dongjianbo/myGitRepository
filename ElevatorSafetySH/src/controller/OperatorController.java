@@ -6,10 +6,13 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
 
 import net.sf.json.JSONObject;
 
+import org.hibernate.annotations.Parameter;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -128,11 +131,13 @@ public class OperatorController  {
    
    @RequestMapping(value="insert1",produces="text/html;charset=utf-8")
   	@ResponseBody
-  	public String insert1(Operator operator,HttpServletRequest request){
+  	public String insert1(String idOrganization1,Operator operator,HttpServletRequest request){
   	    //插入技术监督局操作员信息
+	   System.out.println(idOrganization1+"-----");
 	   MD5 md5=new MD5();//将密码转码之后存在数据库中
 	   String psd=md5.getMD5ofStr(operator.getPassword());
 	   operator.setPassword(psd);
+	   operator.setIdOrganization(Integer.parseInt(idOrganization1));
 	   System.out.println(operator.getPassword());
   		operatorService.insert(operator);//返回表的主键  		
   		return "ok";
@@ -148,14 +153,16 @@ public class OperatorController  {
 		return object.toString();
 	}
 	@RequestMapping(value="UpdateStatus",produces="text/html;charset=utf-8")
+	@ResponseBody
 	public String UpdateStatus(int idoperator){
 		operatorService.updateStatus(idoperator);
-		return "redirect:/operator/list.do";
+		return "ok";
 	}
 	@RequestMapping(value="UpdateStatus1",produces="text/html;charset=utf-8")
+	@ResponseBody
 	public String UpdateStatus1(int idoperator){
-		operatorService.updateStatus1(idoperator);;
-		return "redirect:/operator/list.do";
+		operatorService.updateStatus1(idoperator);
+		return "ok";
 	}
 	@RequestMapping(value="update",produces="text/html;charset=utf-8")
 	@ResponseBody

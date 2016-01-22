@@ -12,7 +12,20 @@
 <head>
 <base target="_root">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>
+ <c:if test="${operator_type.id_operator_type=='00'||operator_type.id_operator_type=='01'}">
+				   河南省电梯安全监督管理中心
+				   </c:if>
+				   <c:if test="${operator_type.id_operator_type=='10'||operator_type.id_operator_type=='11'}">
+				   河南省电梯安全监督维保中心
+				   </c:if>
+				   <c:if test="${operator_type.id_operator_type=='20'||operator_type.id_operator_type=='21'}">
+				   河南省电梯安全监督用户中心
+				   </c:if>
+				   <c:if test="${operator_type.id_operator_type=='30'||operator_type.id_operator_type=='31'}">
+				   河南省电梯安全监督检验检测中心
+				   </c:if>
+</title>
 <link href="${path}/css/system.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="${path}/jquery/themes/base/jquery.ui.all.css">
 <style type="text/css">
@@ -86,7 +99,8 @@ $().ready(function(){
 
 			 $("#menu").append("<li><a href='${path }/"+a[i][1]+"'>"+a[i][0]+"</a>");
 		}
-
+		$("#menu").append("<li><a href=\"${path}/system/writeICCard.jsp\">读卡测试</a>");
+		
 	});
 });
 </script>
@@ -143,6 +157,7 @@ $().ready(function(){
 <!-- 						<li><a href='#'>检测人员任务量统计</a> -->
 <%-- 						<li><a href='${path }/system/insertTestReport.jsp'>检测报告录入</a> --%>
 <%-- 						<li><a href='${path}/system/operatorZhanghao.jsp'>账号信息设置</a> --%>
+							
 					</ul>
 				</div>
 				<div class="div1" style="height: 10%;margin-top: -1px;background-color: #ddefff;">
