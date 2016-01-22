@@ -76,7 +76,7 @@ public class ServiceController {
 	    key.setKey(5);
         hilist.setKey(key);//key表示复合主键的类
         hilist.setValue(idservice+"");
-		System.out.println( history_listService.insert(hilist).toString());
+		System.out.println(history_listService.insert(hilist).toString());
 		return "ok";
 	}
 	@RequestMapping(value="toUpdate",produces="text/html;charset=utf-8")

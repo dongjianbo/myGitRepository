@@ -6,13 +6,10 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.websocket.server.PathParam;
 
 import net.sf.json.JSONObject;
 
-import org.hibernate.annotations.Parameter;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -153,14 +150,16 @@ public class OperatorController  {
 		return object.toString();
 	}
 	@RequestMapping(value="UpdateStatus",produces="text/html;charset=utf-8")
+	@ResponseBody
 	public String UpdateStatus(int idoperator){
 		operatorService.updateStatus(idoperator);
-		return "redirect:/operator/list.do";
+		return "ok";
 	}
 	@RequestMapping(value="UpdateStatus1",produces="text/html;charset=utf-8")
+	@ResponseBody
 	public String UpdateStatus1(int idoperator){
-		operatorService.updateStatus1(idoperator);;
-		return "redirect:/operator/list.do";
+		operatorService.updateStatus1(idoperator);
+		return "ok";
 	}
 	@RequestMapping(value="update",produces="text/html;charset=utf-8")
 	@ResponseBody
