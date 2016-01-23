@@ -60,6 +60,7 @@ public class OperatorController  {
 	    System.out.println("密码："+operator.getPassword());
 	    System.out.println("状态："+operator.getStatus());
 	    System.out.println("类型："+operator.getTypeOperator());
+	    operator.setPassword(new MD5().getMD5ofStr(operator.getPassword()));
 	   //插入技术监督局操作员信息
 		int idoperator=Integer.parseInt( operatorService.insert(operator).toString());//返回表的主键
 		//插入history信息

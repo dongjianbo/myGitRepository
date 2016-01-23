@@ -9,7 +9,7 @@
 <link href="${path}/css/system.css" rel="stylesheet" type="text/css">
 <link href="${path}/css/table.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="${path}/jquery/themes/base/jquery.ui.all.css">
-	<script src="${path}/jquery/jquery-1.10.2.js"></script>
+		<script src="${path}/jquery/jquery-1.10.2.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.core.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.widget.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.mouse.js"></script>
@@ -20,6 +20,31 @@
 	<script src="${path}/jquery/ui/jquery.ui.button.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.dialog.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.effect.js"></script>
+	<script type="text/javascript">
+		$().ready(function(){
+			$("#ElevatorDetail").dialog({
+				modal:true,
+				autoOpen:false,
+				width:850,
+				height:600,
+				buttons:{
+					"确定":function(){
+						$(this).dialog("close");
+					}
+				},
+				close:function(){
+					$(this).dialog("close");
+				}
+			});
+		});
+		function toDetail(id_elevator){
+			
+			$.post("${path }/elevator/selectElevatorByID.do?id_elevator="+id_elevator,"",function(h){
+				$("#ElevatorDetail").html(h);
+				$("#ElevatorDetail").dialog("open");
+			});
+		}
+	</script>
 </head>
 <body>
 	<form action="${path}/${requestMapping }/listForSearch.do" method="post">
@@ -47,18 +72,19 @@
 		<c:forEach items="${list }" var="e">
 			<tr>
 				<td>${e.id_elevator}</td>
-				<td>${e.elevatorType.name}</td>
+				<td>${e.model.modelname}</td>
 				<td>${e.code_manufer }</td>
 				<td>${e.designer.iddesigner}</td>
 				<td>${e.manufer.idmanufer }</td>
 				<td>${e.address}</td>
 				<td>${e.project_duty }</td>
-				<td><a href="${path }/elevator/selectElevatorByID.do?id_elevator=${e.id_elevator}">查看详细</a></td>
+				<td><a href="javascript:toDetail(${e.id_elevator})">查看详细</a></td>
 			</tr>
 		</c:forEach>
 		<tr>
 			<td colspan="10" style="text-align: left;">${pagination}</td>
 		</tr>
 	</table>
+	<div title="电梯详细内容" id="ElevatorDetail"></div>
 </body>
 </html>

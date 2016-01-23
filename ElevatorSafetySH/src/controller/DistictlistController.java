@@ -18,11 +18,13 @@ import vo.Distictlist;
 public class DistictlistController {
 	@Resource
 	public DistictlistService distictlistService;
-	@ResponseBody
+	
 	@RequestMapping(value="listByIdCity", produces = "text/html; charset=utf-8")
+	@ResponseBody
 	public String getListByIdCity(String id_city){
 		List<Distictlist> list=distictlistService.getListByCityId(id_city);
 		JSONArray jsonarray=JSONArray.fromObject(list);
+		System.out.println(jsonarray.toString());
 		return jsonarray.toString();
 	}
 }

@@ -123,13 +123,22 @@
 		});
 	}
 	function changeStatus(idrole){
-		$.post("${path }/role/changeStatus.do?idrole="+idrole,"",function(r){
+		$.post("${path }/role/changeStatus.do?idrole="+idrole,"rand="+Math.random(),function(r){
 			location.reload();
 		});
 	}
 </script>
 </head>
 <body>
+<form action="${path}/role/list.do" method="post">
+		<table cellpadding="0" cellspacing="1">
+			<tr>
+				<td>按 角色名称 <input type="text" name="key" size="50"
+					value="${param.key}" /> <input type="submit" value="搜索" />
+				</td>
+			</tr>
+		</table>
+	</form>
 	<ul>
 		<li><h3>角色定义</h3>
 		<li><table id="list" cellpadding="0" cellspacing="1">
@@ -148,7 +157,7 @@
 							<td style="text-align: left">${r.role_status eq '1'?'启用':'禁用'}</td>
 							<td>
 								<input type="button" value="&nbsp;&nbsp;&nbsp;&nbsp;修改&nbsp;&nbsp;&nbsp;&nbsp;" onclick="showUpdate(${r.idrole})"/>
-								<input type="button" value="&nbsp;&nbsp;&nbsp;&nbsp;启用/禁用&nbsp;&nbsp;&nbsp;&nbsp;" onclick="changeStatus(${d.idmanufer})"/>
+								<input type="button" value="&nbsp;&nbsp;&nbsp;&nbsp;启用/禁用&nbsp;&nbsp;&nbsp;&nbsp;" onclick="changeStatus(${r.idrole})"/>
 
 <%-- 								<a href="javascript:deleteRole(${r.idrole })">删除</a> --%>
 							</td>

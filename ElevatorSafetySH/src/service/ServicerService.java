@@ -6,13 +6,11 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.hibernate.FetchMode;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
-import vo.Service1;
 import vo.Servicer;
 import dao.ServicerDao;
 
@@ -30,6 +28,12 @@ public class ServicerService {
 		}
 		return servicerDao.findPageByDcQuery(dc, pageSize, request);
 	}
+	@SuppressWarnings("unchecked")
+	public List<Servicer> listByIdService(int idService){
+		DetachedCriteria dc=DetachedCriteria.forClass(Servicer.class);
+		dc.add(Restrictions.eq("idservice", idService));
+		return servicerDao.getListByDc(dc);
+	}
 	public Serializable insert(Servicer servicer){
 		return servicerDao.save(servicer);
 	}
@@ -42,5 +46,9 @@ public class ServicerService {
 	public void delete(Servicer servicer){
 		servicerDao.delete(servicer);
 	}
-	
+	public void updateCard(String idMifare,int idservicer){
+		Servicer s=servicerDao.get(Servicer.class, idservicer);
+		s.setIdMifare(idMifare);
+		servicerDao.update(s);
+	}
 }

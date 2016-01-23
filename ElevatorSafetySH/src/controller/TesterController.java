@@ -76,7 +76,7 @@ public class TesterController {
 		
 		//≤Â»ÎICø®–≈œ¢
 			
-		return "ok";
+		return idtester+"";
 	}
 	@RequestMapping(value="toUpdate",produces="text/html;charset=utf-8")
 	@ResponseBody
@@ -103,5 +103,11 @@ public class TesterController {
 	public String delete(Tester tester){
 		testerService.delete(tester);
 		return "redirect:/tester/list.do";
+	}
+	@RequestMapping(value="getCard",produces="text/html;charset=utf-8")
+	@ResponseBody
+	public String getCard(String idMifare,int idservicer){
+		testerService.updateCard(idMifare, idservicer);
+		return "ok";
 	}
 }

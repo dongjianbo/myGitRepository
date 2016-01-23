@@ -22,9 +22,61 @@
 	<script src="${path}/jquery/ui/jquery.ui.effect.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.datepicker.js"></script><!-- 日期控件的js -->
 	<script type="text/javascript">
-	var dia;
 	$().ready(function(){
+		
+		 $("#date_enable1").datepicker({dateFormat:'yy-mm-dd'});//日期控件 
+		 $.getJSON("${path}/service/list_json.do","rand="+Math.random(),function(d){
+	    	  //对维保单位进行循环
+	    	  for(var i=0;i<d.length;i++){
+	    		  $("#id_service").append("<option size='"+15+"' value='"+d[i].idservice+"'>"+d[i].name+"</option>");
+	    	  }
+	       });
+		$.getJSON("${path}/test/list_json.do","rand="+Math.random(),function(d){
+		    	  //对检验检测单位进行循环
+		    	  for(var i=0;i<d.length;i++){
+		    		  $("#id_test").append("<option size='"+15+"' value='"+d[i].idtest+"'>"+d[i].name+"</option>");
+		    	  }
+		       });
+		$("#regist").dialog({
+			modal:true,
+			autoOpen:false,
+			width:750,
+			height:500,
+			buttons:{
+				"确定":function(){
+					edate=$("#date_enable1").val();
+					if(edate==null||edate==""){
+						$("#date_enable_error").html("必须选择使用时间");
+					}else{
+						$("#date_enable_error").html("");
+						var form=$("#updateForm");
+						$.post(form.attr('action'),form.serialize(),function(a){
+							if(a=="ok"){
+								location.reload();
+							}else{
+								alert("程序有点问题哟！");
+							}
+						});
+					}
+				}
+			},
+			close:function(){
+				$(this).dialog("close");
+			}
+		});
 	});
+	function zhuc(){
+		var start=$("#date_enable").val();
+		if(start==null||start==""){
+			
+		}else{
+			myform.submit();
+		}
+	}
+	function toRegist(id_elevator){
+		$("#id_elevator").val(id_elevator);
+		$("#regist").dialog("open");
+	}
 </script>
 </head>
 <body>
@@ -51,14 +103,14 @@
 		<c:forEach items="${elevListRegist}" var="d">
 			<tr>
 				<td style="text-align: right">${d.id_elevator}</td>
-				<td style="text-align: left">${d.elevatorType.name }</td>
+				<td style="text-align: left">${d.model.modelname }</td>
 				<td style="text-align: left">${d.code_manufer}</td>
 				<td style="text-align: left">${d.designer.name }</td>
 				<td style="text-align: left">${d.manufer.name }</td>
 				<td style="text-align: left">${d.address }</td>
 				<td style="text-align: left">${d.project_duty }</td>
 				<td>
-				<a href="${path }/system/Elevatorzhuce.jsp?id_elevator=${d.id_elevator}">注册</a>
+				<a href="javascript:toRegist(${d.id_elevator})">&nbsp;&nbsp;&nbsp;&nbsp;注册&nbsp;&nbsp;&nbsp;&nbsp;</a>
 				</td>
 			</tr>
 		</c:forEach>
@@ -66,6 +118,23 @@
 			<td colspan="8" style="text-align: left;">${pagination}</td>
 		</tr>
 	</table>
-
+	<div title="电梯注册" id="regist">
+	<form action="${path }/elevator/regist.do" method="post" id="updateForm" name="myform">
+			<ul>
+				<li>维保单位名称:
+				<li><select name="id_service" id="id_service"></select><br>
+				<li>检验检测单位名称:
+				<li><select name="id_test" id="id_test"></select><br>
+				<li>验收报告编号:
+				<li><input type="text" id="check_construct_code" name="check_construct_code" size="50"/><br>
+				<li>开始使用时间:
+				<li><input type="text" id="date_enable1" name="date_enable" size="30" placeholder="请选择开始使用时间"/>*
+				<span id="date_enable_error"></span>
+				<br>
+				
+				<li><input type="hidden" id="id_elevator" name="id_elevator" value=""/>
+			</ul>
+		</form>
+	</div>
 </body>
 </html>

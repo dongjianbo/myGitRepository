@@ -19,12 +19,15 @@ import org.springframework.web.servlet.ModelAndView;
 import service.CitylistService;
 import service.DistictlistService;
 import service.ElevatorService;
+import service.Elevator_stateService;
 import service.Elevator_tag_init_taskService;
 import service.HistoryService;
 import service.History_listService;
 import service.SubdistictlistService;
 import service.SystemstateService;
+import util.DateUtils;
 import vo.Elevator;
+import vo.Elevator_state;
 import vo.Elevator_tag_init_task;
 import vo.History;
 import vo.History_list;
@@ -50,6 +53,8 @@ public class ElevatorController {
 	public SubdistictlistService subService;
 	@Resource
 	public Elevator_tag_init_taskService elevator_tag_init_taskService;
+	@Resource
+	public Elevator_stateService esService;
 	@RequestMapping("insert")
 	public String insert(Elevator elevator,HttpServletRequest request,HttpServletResponse response){
 		Elevator el=(Elevator)request.getSession().getAttribute("elevator");//存在第一页的值
@@ -96,7 +101,14 @@ public class ElevatorController {
         hilist.setValue(id_elevator+"");
         System.out.println( history_listService.insert(hilist).toString());
 		//此时插入成功之后 转到elevator_state界面去插入电梯状态的信息
-        return "/system/insertElevator_state";
+      //根据新需求,插入elevator_state空记录
+        Elevator_state es=new Elevator_state();
+        es.setIdelevator(el.getId_elevator());
+        es.setLabelwrite("0");
+        es.setLabeldemo(el.getDesc());
+        es.setLastmodified(DateUtils.format(new Date()));
+        esService.insert(es);
+        return "/system/insertElevatorDeclaration";
 	}
 	@RequestMapping("yuaninsert")
 	public String yuaninsert(Elevator elevator,HttpServletRequest request,HttpServletResponse response){
@@ -156,13 +168,15 @@ public class ElevatorController {
         elevator_tag_init_task.setElevator_id(el.getId_elevator());
         //插入之后 查询类型
         Elevator leix=elevatorService.getEById(id_elevator);
-        elevator_tag_init_task.setElevator_type(leix.getElevatorType().getElevatortype());
+        elevator_tag_init_task.setElevator_type(leix.getModel().getElevator_type_def().getElevatortype());
         elevator_tag_init_task.setElevator_code(el.getDevice_code());
         elevator_tag_init_task.setElevator_address(el.getAddress());
         elevator_tag_init_task.setElevator_layer_number(el.getNum_floor_elevator());
         elevator_tag_init_taskService.insert(elevator_tag_init_task);
         //此时插入成功之后 转到elevator_state界面去插入电梯状态的信息
-        return "/system/yuanElevator_state";
+        
+        
+        return "/system/insertElevator_state";
 	}
 	@RequestMapping("insertTo1")
 	public String insert1(Elevator elevator,HttpServletRequest request,HttpServletResponse response){
@@ -382,7 +396,8 @@ public class ElevatorController {
 		return mav;
 	}
 	
-	@RequestMapping("regist")
+	@RequestMapping(value="regist",produces="text/html;charset=utf-8")
+	@ResponseBody
 	public String regist(Elevator e,HttpServletRequest request){
 		//查询该电梯
 		request.getSession().setAttribute("id_elevator1", e.getId_elevator());
@@ -423,12 +438,12 @@ public class ElevatorController {
         Elevator_tag_init_task elevator_tag_init_task=new Elevator_tag_init_task();
         elevator_tag_init_task.setTitle(elevator.getDesc());
         elevator_tag_init_task.setElevator_id(e.getId_elevator());
-        elevator_tag_init_task.setElevator_type(elevator.getElevatorType().getElevatortype());
+        elevator_tag_init_task.setElevator_type(elevator.getModel().getElevator_type_def().getElevatortype());
         elevator_tag_init_task.setElevator_code(elevator.getDevice_code());
         elevator_tag_init_task.setElevator_address(elevator.getAddress());
         elevator_tag_init_task.setElevator_layer_number(elevator.getNum_floor_elevator());
         elevator_tag_init_taskService.insert(elevator_tag_init_task);
-        return "/system/insertElevator_stateRegist";//最后
+        return "ok";//最后
 		
 	}
 	//查询所有的电梯

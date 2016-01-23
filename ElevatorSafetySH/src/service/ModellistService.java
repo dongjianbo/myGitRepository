@@ -30,7 +30,11 @@ public class ModellistService {
 		}
 		return modellistDao.findPageByDcQuery(dc, pageSize, request);
 	}
-	
+	@SuppressWarnings("unchecked")
+	public List<Modellist> list(){
+		DetachedCriteria dc=DetachedCriteria.forClass(Modellist.class);
+		return modellistDao.getListByDc(dc);
+	}
 	public Serializable insert(Modellist modellist){
 		return modellistDao.save(modellist);
 	}

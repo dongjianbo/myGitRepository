@@ -43,7 +43,8 @@ public class LoginController {
    @RequestMapping("check")
    public String CheckLogin(Operator operator,HttpServletRequest request,HttpServletResponse response)
 		    {
-	   
+	   //设置会话永不过时
+	   request.getSession().setMaxInactiveInterval(-1);
 	   int i=perService.check(operator);//判断是否可以登陆 
 	   request.setAttribute("op", operator);
 	   if(i==1){

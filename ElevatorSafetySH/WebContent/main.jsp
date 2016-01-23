@@ -127,7 +127,7 @@ $().ready(function(){
 				</div>
 				<li><div style="font-size:14px;text-align: left;margin-left: 100px;">
 				<div style="width: 40%;display: inline-block;">
-				${operator_type.name}
+<%-- 				${operator_type.name} --%>
 				</div>
 				<div style="width: 55%;display: inline-block;text-align: right">
 				${login.city.name_city}${login.distict.name_district}${login.subdistict.name_subdistrict}&nbsp;&nbsp;&nbsp;&nbsp;

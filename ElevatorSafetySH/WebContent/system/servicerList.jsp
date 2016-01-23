@@ -21,6 +21,15 @@
 	<script src="${path}/jquery/ui/jquery.ui.dialog.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.effect.js"></script>
 	<script type="text/javascript">
+	function getCard(){
+		//获取用户id
+		var idservicer=$("#idservicer_card").val();
+		var a=card.WriteUserData(3,idservicer,0)
+		var b=card.serial;
+		//讲序列号写入文本框
+		$("#idMifare_card").val(b);
+		$("#cardmessage").html("发卡成功");
+	}
 	var dia;
 	$().ready(function(){
 // 		var $doc;         
@@ -60,20 +69,14 @@
 							$("#licencecode2").html("<i>从业资格证书编号不能为空 !!!</i>");
 						}else{
 							$("#licencecode2").html("");
-				            var idMifare1=$("#idMifare1").val();
-						    if(idMifare1==null||idMifare1==""){
-							  $("#idMifare2").html("<i>上岗卡标识号不能为空 !!!</i>");
-							 }else{
-							   $("#idMifare2").html("");
+				           
 								//提交表单 
-								$.post(form.attr('action'),form.serialize(),function(a){
-								if(a=="ok"){
-								location.reload();
-								}else{
-								alert("程序有点问题哟！");
-								}
-					         });
-				          }
+							$.post(form.attr('action'),form.serialize(),function(a){
+								$("#idservicer_card").val(a);
+								$("#insertDialog").dialog("close");
+								$("#getCard").dialog("open");
+					        });
+				          
 				        }
 				   }
 				}
@@ -135,10 +138,7 @@
 							$("#licencecode0").html("<i>从业资格证书编号不能为空 !!!</i>");
 						}else{
 							$("#licencecode0").html("");
-				            var idMifare=$("#idMifare").val();
-						    if(idMifare==null||idMifare==""){
-							  $("#idMifare0").html("<i>上岗卡标识号不能为空 !!!</i>");
-							 }else{
+				           
 							   $("#idMifare0").html("");
 								   //提交表单 
 									$.post(form.attr('action'),form.serialize(),function(a){
@@ -148,7 +148,7 @@
 											alert("程序有点问题哟！");
 										}
 					             });
-							   }
+							   
 				        }
 				   }
 				}
@@ -161,8 +161,34 @@
 				$(this).dialog("close");
 			}
 		});
+		$("#getCard").dialog({
+			modal:true,
+			autoOpen:false,
+			width:750,
+			height:500,
+			buttons:{
+				"确定":function(){
+					var form = $("#getCardForm");
+					$.post(form.attr('action'),form.serialize(),function(a){
+						if(a=="ok"){
+							location.reload();
+						}else{
+							alert("程序有点问题哟！");
+						}
+	             });
+				}
+			},
+			close:function(){
+				$(this).dialog("close");
+			}
+		});
 	});
 
+	//补卡
+	function updateCard(idservicer){
+		$("#idservicer_card").val(idservicer);
+		$("#getCard").dialog("open");
+	}
 	function showInsert(){
 		
 // 		dia.dialog("open");
@@ -212,6 +238,7 @@
 			<th>从业资格证书编号</th>
 			<th>维保人员类别</th>
 			<th>维保人员状态</th>
+			<th>上岗卡标识</th>
 			<th>操 作</th>
 		</tr>
 		<c:forEach items="${servicerList}" var="d">
@@ -222,9 +249,11 @@
 				<td>${d.licencecode}</td>
 				<td>${d.servicer_type_def.name }</td>
 				<td>${d.status_def.name}</td>
-				<td><a
-				       href="javascript:showUpdate(${d.idservicer})">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;
-					<a href="${path }/servicer/delete.do?idservicer=${d.idservicer}">删除</a>
+				<td>${d.idMifare}</td>
+				<td>
+				       <input type="button" value="修改" onclick="showUpdate(${d.idservicer})"/>
+				       <input type="button" value="补卡" onclick="updateCard(${d.idservicer})"/>
+<%-- 					<a href="${path }/servicer/delete.do?idservicer=${d.idservicer}">删除</a> --%>
 				</td>
 			</tr>
 		</c:forEach>
@@ -250,9 +279,6 @@
 				<li><input type="text" name="licencecode" id="licencecode1" maxlength="20" size="50"/>*<div id="licencecode2" style="float: right; margin-right:220 "></div>
 				<li>维保人员类别:
 				<li><select name="type" id="type1" ></select>
-				<li>上岗卡标识号:
-				<li><input type="text" name="idMifare" id="idMifare1" maxlength="8" size="50"/>*<div id="idMifare2" style="float: right; margin-right:220 "></div>
-	
 				<li><input type="hidden" name="status" value="1"/>
 			</ul>
 		</form>
@@ -271,13 +297,24 @@
 				<li><input type="text" name="licencecode" id="licencecode" maxlength="20" size="50"/>*<div id="licencecode0" style="float: right; margin-right:220 "></div>
 				<li>维保人员类别:
 				<li><select name="type" id="type"></select>
-				<li>上岗卡标识号:
-				<li><input type="text" name="idMifare" id="idMifare" maxlength="8" size="50"/>*<div id="idMifare0" style="float: right; margin-right:220 "></div>
-				<li>维保人员状态:
-				<li><select name="status" id="status"></select>
 				<li><input type="hidden" name="idservicer" id="idservicer" />
+				<li><input type="hidden" name="status" value="1"/>
+				<li><input type="hidden" name="idMifare" id="idMifare"/>
 			</ul>
 		</form>
 	</div>
+	<div title="发卡" id="getCard">
+		<form action="${path }/servicer/getCard.do" method="post" id="getCardForm">
+			<ul>
+				<li>请将卡片放置读卡器上,然后点击下面的"发卡"按钮
+				<li><input type="button" onclick="getCard()" value="发卡"/><span id="cardmessage"></span>
+<!-- 				<li>读取卡片序列号 -->
+				<li><input type="hidden" name="idMifare" id="idMifare_card"  readonly="readonly"/>
+<!-- 				<li>卡片将绑定本维保人员ID -->
+				<li><input type="hidden" name="idservicer" id="idservicer_card" readonly="readonly"/>
+			</ul>
+		</form>
+	</div>
+	<object id="card" classid="CLSID:145AE2F1-2DEE-4C88-A7DF-B08E6DCDD39E"></object>
 </body>
 </html>

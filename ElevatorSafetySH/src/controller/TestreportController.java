@@ -62,6 +62,6 @@ public class TestreportController {
       hilist.setKey(key);//key表示复合主键的类
       hilist.setValue(id_testreport+"");
 	  history_listService.insert(hilist);
-      return "/system/successTestreport";
+      return "redirect:/testreport/toInsert.do";
   }
 }

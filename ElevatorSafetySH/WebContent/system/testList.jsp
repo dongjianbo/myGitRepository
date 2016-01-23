@@ -25,27 +25,27 @@
 	$().ready(function(){
 		//查询城市id
 		$.getJSON("${path }/citylist/list.do","rand="+Math.random(),function(d){
+			$("#idcity").append("<option size='"+50+"' value=''>-请选择</option>");
+			$("#idcity1").append("<option size='"+50+"' value=''>-请选择</option>");
 			//将查询到的信息放入表单
 			for(var i=0;i<d.length;i++){
-			  $("#idcity").append("<option size='"+50+"' value='"+d[i].id_city+"'>"+d[i].name_city+"</option>");
-			  $("#idcity1").append("<option size='"+50+"' value='"+d[i].id_city+"'>"+d[i].name_city+"</option>");
-			  $("#registerArea1").append("<option size='"+50+"' value='"+d[i].id_city+"'>"+d[i].name_city+"</option>");
-			  $("#registerArea2").append("<option size='"+50+"' value='"+d[i].id_city+"'>"+d[i].name_city+"</option>");
+				if(d[i].id_city!="00"){
+					 $("#registerArea1").append("<option size='"+50+"' value='"+d[i].id_city+"'>"+d[i].name_city+"</option>");
+					 $("#registerArea2").append("<option size='"+50+"' value='"+d[i].id_city+"'>"+d[i].name_city+"</option>");
+				}
+				
+				 
+				if(d[i].id_city!="99"){
+				  $("#idcity").append("<option size='"+50+"' value='"+d[i].id_city+"'>"+d[i].name_city+"</option>");
+				  $("#idcity1").append("<option size='"+50+"' value='"+d[i].id_city+"'>"+d[i].name_city+"</option>");
+				}
+			  
+			 
 			}
-			//根据第一个城市的id查区域
-			$.getJSON("${path }/distictlist/listByIdCity.do?id_city="+d[0].id_city,"rand="+Math.random(),function(s){
-				for(var i=0;i<s.length;i++){
-					  $("#iddistrict").append("<option size='"+50+"' value='"+s[i].id_district+"'>"+s[i].name_district+"</option>");
-					  $("#iddistrict1").append("<option size='"+50+"' value='"+s[i].id_district+"'>"+s[i].name_district+"</option>");
-					}
-			 //根据第一个区域查询乡镇
-			    $.getJSON("${path }/subdistictlist/listById.do?id_city="+d[0].id_city+"&id_distrct="+s[0].id_district,"rand="+Math.random(),function(a){
-			    	for(var i=0;i<a.length;i++){
-			    		$("#idsubdistrict").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
-			    		$("#idsubdistrict1").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
-			    	}
-			    });
-			});
+			$("#iddistrict").append("<option size='"+50+"' value=''>-请选择</option>");
+			$("#iddistrict1").append("<option size='"+50+"' value=''>-请选择</option>");
+			$("#idsubdistrict").append("<option size='"+50+"' value=''>-请选择</option>");
+			$("#idsubdistrict1").append("<option size='"+50+"' value=''>-请选择</option>");
 		});
 		//----------------------------------
 		$("#insertDialog").dialog({
@@ -215,58 +215,106 @@
 	});
 	//选择城市-----------------------------------------------
 	function chooseCity(id_city){
-		//不同的城市选择不同的id
-		$.getJSON("${path }/distictlist/listByIdCity.do?id_city="+id_city,"rand="+Math.random(),function(s){
-			document.getElementById("iddistrict").innerHTML="";
-			for(var i=0;i<s.length;i++){
-				
-				 $("#iddistrict").append("<option size='"+50+"' value='"+s[i].id_district+"'>"+s[i].name_district+"</option>");
+		//省直的话就不用级联
+		if(id_city=="00"){
+			$("#iddistrict option").remove();
+			$("#idsubdistrict option").remove();
+			$("#iddistrict").attr("disabled",true);
+			$("#idsubdistrict").attr("disabled",true);
+		}else{
+			$("#iddistrict").attr("disabled",false);
+			//不同的城市选择不同的id
+			$.getJSON("${path }/distictlist/listByIdCity.do?id_city="+id_city,"rand="+Math.random(),function(s){
+				document.getElementById("iddistrict").innerHTML="";
+				$("#iddistrict").append("<option size='"+50+"' value=''>-请选择</option>");
+				for(var i=0;i<s.length;i++){
+					 $("#iddistrict").append("<option size='"+50+"' value='"+s[i].id_district+"'>"+s[i].name_district+"</option>");
 				}
-		//选择区域下面的像乡镇
-			 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+s[0].id_district,"rand="+Math.random(),function(a){
-				 document.getElementById("idsubdistrict").innerHTML="";	
-				 for(var i=0;i<a.length;i++){
-						$("#idsubdistrict").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
-			    	}
-			    });
-		});
+				$("#idsubdistrict option").remove();
+				$("#idsubdistrict").attr("disable",true);
+// 			//选择区域下面的乡镇
+// 				if($("#iddistrict").val()=="00"){
+// 					$("#idsubdistrict").attr("disable",true);
+// 				}else{
+// 					 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+s[0].id_district,"rand="+Math.random(),function(a){
+// 						 document.getElementById("idsubdistrict").innerHTML="";	
+// 						 for(var i=0;i<a.length;i++){
+// 								$("#idsubdistrict").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
+// 					    	}
+// 					});
+// 				}
+				
+			});
+		}
+		
 	}
 	function chooseCity1(id_city){
-		//不同的城市选择不同的id
-		$.getJSON("${path }/distictlist/listByIdCity.do?id_city="+id_city,"rand="+Math.random(),function(s){
-			document.getElementById("iddistrict1").innerHTML="";
-			for(var i=0;i<s.length;i++){
-				 $("#iddistrict1").append("<option size='"+50+"' value='"+s[i].id_district+"'>"+s[i].name_district+"</option>");
-				}
-		//选择区域下面的像乡镇
-			 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+s[0].id_district,"rand="+Math.random(),function(a){
-				 document.getElementById("idsubdistrict1").innerHTML="";
-				 for(var i=0;i<a.length;i++){
-						$("#idsubdistrict1").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
-			    	}
-			    });
-		});
+		if(id_city=="00"){
+			$("#iddistrict1 option").remove();
+			$("#idsubdistrict1 option").remove();
+			$("#iddistrict1").attr("disabled",true);
+			$("#idsubdistrict1").attr("disabled",true);
+		}else{
+			$("#iddistrict1").attr("disabled",false);
+			//不同的城市选择不同的id
+			$.getJSON("${path }/distictlist/listByIdCity.do?id_city="+id_city,"rand="+Math.random(),function(s){
+				document.getElementById("iddistrict1").innerHTML="";
+				$("#iddistrict1").append("<option size='"+50+"' value=''>-请选择</option>");
+				for(var i=0;i<s.length;i++){
+					 $("#iddistrict1").append("<option size='"+50+"' value='"+s[i].id_district+"'>"+s[i].name_district+"</option>");
+					}
+				$("#idsubdistrict1 option").remove();
+				$("#idsubdistrict1").attr("disabled",true);
+// 			//选择区域下面的像乡镇
+// 				if($("#iddistrict1").val()=="00"){
+// 					$("#idsubdistrict1").attr("disable",true);
+// 				}else{
+// 				 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+s[0].id_district,"rand="+Math.random(),function(a){
+// 					 document.getElementById("idsubdistrict1").innerHTML="";
+// 					 for(var i=0;i<a.length;i++){
+// 							$("#idsubdistrict1").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
+// 				    	}
+// 				    });
+// 				}
+			});
+		}
 	}
 	//选择区域来获取乡镇-------------------------------------
 	function choosedistrict(id_district){
+		//如果选择市直
+		if(id_district=="00"){
+			$("#idsubdistrict option").remove();
+			$("#idsubdistrict").attr("disabled",true);
+		}else{
+			$("#idsubdistrict").attr("disabled",false);
 		//去城市的id
 		var id_city=document.getElementById("idcity").value;
 		 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+id_district,"rand="+Math.random(),function(a){
 			 document.getElementById("idsubdistrict").innerHTML="";
+			 $("#idsubdistrict").append("<option size='"+50+"' value=''>-请选择</option>");
 			 for(var i=0;i<a.length;i++){
 		    		$("#idsubdistrict").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
 		    	}
 		    });
+		}
 	}
 	function choosedistrict1(id_district){
+		//如果选择市直
+		if(id_district=="00"){
+			$("#idsubdistrict1 option").remove();
+			$("#idsubdistrict1").attr("disabled",true);
+		}else{
+			$("#idsubdistrict1").attr("disabled",false);
 		//去城市的id
 		var id_city=document.getElementById("idcity1").value;
 		 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+id_district,"rand="+Math.random(),function(a){
 			 document.getElementById("idsubdistrict1").innerHTML="";
+			 $("#idsubdistrict1").append("<option size='"+50+"' value=''>-请选择</option>");
 			 for(var i=0;i<a.length;i++){
 		    		$("#idsubdistrict1").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
 		    	}
 		    });
+		}
 	}
 	function showInsert(){
 // 		dia.dialog("open");
@@ -317,7 +365,7 @@
 			<th>检验检测单位代码</th>
 			<th>单位名称</th>
 			<th>检验检测许可证编号</th>
-			<th>检验检测许可证名称</th>
+<!-- 			<th>检验检测许可证名称</th> -->
 			<th>单位负责人</th>
 			<th>联系电话</th>
 			<th>单位地址</th>
@@ -330,7 +378,7 @@
 				<td style="text-align: left">${d.code }</td>
 				<td style="text-align: left">${d.name}</td>
 				<td style="text-align: left">${d.licencecode }</td>
-				<td style="text-align: left">${d.licename }</td>
+<%-- 				<td style="text-align: left">${d.licename }</td> --%>
 				<td style="text-align: left">${d.manager }</td>
 				<td style="text-align: left">${d.telephone }</td>
 				<td style="text-align: left">${d.addr }</td>
@@ -359,8 +407,8 @@
 				<li><input type="text" name="name" id="danweiname" size="50"/>*<div id="message" style="float: right;padding-right:220px;"></div>
 				<li>检验检测许可证编号:
 				<li><input type="text" name="licencecode" size="50"/>
-				<li>检验检测许可证名称:
-				<li><input type="text" name="licename" size="50"/>
+<!-- 				<li>检验检测许可证名称: -->
+<!-- 				<li><input type="text" name="licename" size="50"/> -->
 				<li>单位负责人:
 				<li><input type="text" name="manager" size="50"/>
 				<li>联系电话:
@@ -383,8 +431,8 @@
 				<li><input type="text" id="name" name="name" size="50"/>*<div id="message1" style="float: right;padding-right:220px;"></div>
 				<li>检验检测许可证编号:
 				<li><input type="text" id="licencecode" name="licencecode" size="50"/>
-				<li>检验检测许可证名称:
-				<li><input type="text" id="licename" name="licename" size="50"/>
+<!-- 				<li>检验检测许可证名称: -->
+<!-- 				<li><input type="text" id="licename" name="licename" size="50"/> -->
 				<li>单位负责人:
 				<li><input type="text" id="manager" name="manager" size="50"/>
 				<li>联系电话:
@@ -406,16 +454,16 @@
 				<li><input type="text" id="insertname" name="name" size="50"/>*<div id="message2" style="float: right;padding-right:220px;"></div>
 				<li>身份证号码:
 				<li><input type="text" id="idcard" name="idcard" size="50"/>
-<!-- 				<li>城市: -->
-<!-- 				<li><select name="idcity" id="idcity" onchange="chooseCity(this.value)"> -->
+				<li>城市:
+				<li><select name="idcity" id="idcity" onchange="chooseCity(this.value)">
 				
-<!-- 				</select>  -->
-<!-- 				<li>区: -->
-<!-- 				<li><select name="iddistrict" id="iddistrict" onchange="choosedistrict(this.value)"> -->
-<!-- 				</select>  -->
-<!-- 				<li>街道: -->
-<!-- 				<li><select id="idsubdistrict" name="idsubdistrict"> -->
-<!-- 				</select> -->
+				</select> 
+				<li>区:
+				<li><select name="iddistrict" id="iddistrict" onchange="choosedistrict(this.value)">
+				</select> 
+				<li>街道:
+				<li><select id="idsubdistrict" name="idsubdistrict">
+				</select>
 				<li>登录名:
 				<li><input type="text" id="loginname" name="loginname" size="50"/>*<div id="message3" style="float: right;padding-right:220px;"></div>
 				<li>密码:
@@ -437,15 +485,15 @@
 				<li><input type="text" id="insert1name" name="name" size="50"/>*<div id="message6" style="float: right;padding-right:220px;"></div>
 				<li>身份证号码:
 				<li><input type="text" id="idcard" name="idcard" size="50"/>
-<!-- 				<li>城市: -->
-<!-- 				<li><select name="idcity" id="idcity1" onchange="chooseCity1(this.value)"> -->
-<!-- 				</select>  -->
-<!-- 				<li>区: -->
-<!-- 				<li><select name="iddistrict" id="iddistrict1" onchange="choosedistrict1(this.value)"> -->
-<!-- 				</select>  -->
-<!-- 				<li>街道: -->
-<!-- 				<li><select id="idsubdistrict1" name="idsubdistrict"> -->
-<!-- 				</select> -->
+				<li>城市:
+				<li><select name="idcity" id="idcity1" onchange="chooseCity1(this.value)">
+				</select> 
+				<li>区:
+				<li><select name="iddistrict" id="iddistrict1" onchange="choosedistrict1(this.value)">
+				</select> 
+				<li>街道:
+				<li><select id="idsubdistrict1" name="idsubdistrict">
+				</select>
 				<li>登录名:
 				<li><input type="text" id="loginname1" name="loginname" size="50"/>*<div id="message7" style="float: right;padding-right:220px;"></div>
 				<li>密码:

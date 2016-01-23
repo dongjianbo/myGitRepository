@@ -9,7 +9,7 @@
 <link href="${path}/css/system.css" rel="stylesheet" type="text/css">
 <link href="${path}/css/table.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="${path}/jquery/themes/base/jquery.ui.all.css">
-	<script src="${path}/jquery/jquery-1.10.2.js"></script>
+<script src="${path}/jquery/jquery-1.10.2.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.core.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.widget.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.mouse.js"></script>

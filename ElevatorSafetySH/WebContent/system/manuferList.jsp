@@ -26,6 +26,9 @@
 		//查询城市id
 		$.getJSON("${path }/citylist/list.do","rand="+Math.random(),function(d){
 			for(var i=0;i<d.length;i++){
+				if(d[i].id_city=="00"){
+					continue;
+				}
 			  $("#register_area1").append("<option size='"+50+"' value='"+d[i].id_city+"'>"+d[i].name_city+"</option>");
 			  $("#register_area2").append("<option size='"+50+"' value='"+d[i].id_city+"'>"+d[i].name_city+"</option>");
 			}
@@ -151,7 +154,7 @@
 			<th>制造单位代码</th>
 			<th>制造单位名称</th>
 			<th>制造许可证编号</th>
-			<th>制造许可证名称</th>
+<!-- 			<th>制造许可证名称</th> -->
 			<th>单位负责人</th>
 			<th>联系电话</th>
 			<th>制造单位地址</th>
@@ -164,7 +167,7 @@
 				<td>${d.code }</td>
 				<td>${d.name}</td>
 				<td>${d.licence }</td>
-				<td>${d.licename }</td>
+<%-- 				<td>${d.licename }</td> --%>
 				<td>${d.manager }</td>
 				<td>${d.tel }</td>
 				<td>${d.addr }</td>
@@ -193,8 +196,8 @@
 				<li><input type="text" name="name" id="danweiname" size="50"/>*<div id="message" style="float: right;padding-right:220px;"></div>
 				<li>制造许可证编号:
 				<li><input type="text" name="licence" size="50"/>
-				<li>制造许可证名称:
-				<li><input type="text" name="licename" size="50"/>
+<!-- 				<li>制造许可证名称: -->
+<!-- 				<li><input type="text" name="licename" size="50"/> -->
 				<li>单位负责人:
 				<li><input type="text" name="manager" size="50"/>
 				<li>联系电话:
@@ -217,8 +220,8 @@
 				<li><input type="text" id="name" name="name" size="50"/>*<div id="message1" style="float: right;padding-right:220px;"></div>
 				<li>制造许可证编号:
 				<li><input type="text" id="licence" name="licence" size="50"/>
-				<li>制造许可证名称:
-				<li><input type="text" id="licename" name="licename" size="50"/>
+<!-- 				<li>制造许可证名称: -->
+<!-- 				<li><input type="text" id="licename" name="licename" size="50"/> -->
 				<li>单位负责人:
 				<li><input type="text" id="manager" name="manager" size="50"/>
 				<li>联系电话:

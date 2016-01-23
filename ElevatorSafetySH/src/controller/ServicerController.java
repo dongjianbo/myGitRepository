@@ -73,7 +73,7 @@ public class ServicerController {
 		history_listService.insert(history_list);
 		//≤Â»ÎICø®–≈œ¢
 		
-		return "ok";
+		return idservicer+"";
 	}
 	@RequestMapping(value="toUpdate",produces="text/html;charset=utf-8")
 	@ResponseBody
@@ -95,5 +95,11 @@ public class ServicerController {
 		
 		servicerService.delete(servicer);
 		return "redirect:/servicer/list.do";
+	}
+	@RequestMapping(value="getCard",produces="text/html;charset=utf-8")
+	@ResponseBody
+	public String getCard(String idMifare,int idservicer){
+		servicerService.updateCard(idMifare, idservicer);
+		return "ok";
 	}
 }

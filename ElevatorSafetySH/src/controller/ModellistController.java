@@ -2,11 +2,13 @@ package controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
@@ -40,6 +42,13 @@ public class ModellistController {
 		ModelAndView mav=new ModelAndView("system/modelList");
 		mav.addObject("modelList", modellistService.list(key,12,request));
 		return mav;
+	}
+	@RequestMapping(value="list_json",produces="text/html;charset=utf-8")
+	@ResponseBody
+	public String list_json(){
+		List<Modellist> mlist=modellistService.list();
+		JSONArray array=JSONArray.fromObject(mlist);
+		return array.toString();
 	}
 	@RequestMapping(value="insert",produces="text/html;charset=utf-8")
 	@ResponseBody

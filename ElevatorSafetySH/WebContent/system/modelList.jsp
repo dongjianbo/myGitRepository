@@ -43,6 +43,11 @@
 			buttons:{
 				"确定":function(fn){
 					var form = $("#insertForm");
+					var idmanufer=$("#idmanufer1").val();
+					if(idmanufer==null||idmanufer==""){
+						$("#idmanufer_div1").html("<i>生产厂家不能为空 !</i>");
+						return;
+					}
 					var modelname1=$("#modelname1").val();
 					if(modelname1==null||modelname1==""){
 						$("#modelname2").html("<i>电梯型号不能为空 !!!</i>");
@@ -204,6 +209,11 @@
 			buttons:{
 				"确定":function(){
 					var form = $("#updateForm");
+					var idmanufer=$("#idmanufer").val();
+					if(idmanufer==null||idmanufer==""){
+						$("#idmanufer_div2").html("<i>生产厂家不能为空 !</i>");
+						return;
+					}
 					var modelname=$("#modelname").val();
 					if(modelname==null||modelname==""){
 						$("#modelname0").html("<i>电梯型号不能为空 !!!</i>");
@@ -484,7 +494,7 @@
 		<form action="${path }/modellist/insert.do" method="post" id="insertForm">
 			<ul>
 				<li>生产厂家:
-				<li><select name="idmanufer" id="idmanufer1"></select>
+				<li><select name="idmanufer" id="idmanufer1"></select>*<div id="idmanufer_div1" style="float: right; margin-right:220 " ></div>
 				<li>电梯型号:
 				<li><input type="text" name="modelname" id="modelname1" maxlength="20" size="50"/>*<div id="modelname2" style="float: right; margin-right:220 " ></div>
 				<li>电梯类型:
@@ -513,14 +523,20 @@
 					<li>油缸数量
 					<li><input type="text" name="parameter24" id="parameter24_1" maxlength="11"  size="50"/><div id="parameter24_2" style="float: right; margin-right:220 " ></div>
 					<li>顶升方式 
-					<li><input type="text" name="parameter25" maxlength="1" size="50"/>
+					<li><select name="parameter25" >
+						<option value="1">直接顶升</option>
+						<option value="2">间接顶升</option>
+					</select>
 				</ul>
 				</div>
 				<div id="insertType3" style="display: none">
 				<ul>
 				
 					<li>驱动方式
-					<li><input type="text" name="parameter31" maxlength="1" size="50"/>
+					<li><select name="parameter31" >
+						<option value="1">曳引</option>
+						<option value="2">强制驱动</option>
+					</select>
 					<li>额定载重量 （单位=kg）
 					<li><input type="text" name="parameter32" id="parameter32_1" maxlength="11"  size="50"/><div id="parameter32_2" style="float: right; margin-right:220 " ></div>
 					<li>额定速度 （单位=m/s）
@@ -555,7 +571,7 @@
 		<form action="${path }/modellist/update.do" method="post" id="updateForm">
 			<ul>
 				<li>生产厂家:
-				<li><select name="idmanufer" id="idmanufer"></select>
+				<li><select name="idmanufer" id="idmanufer"></select>*<div id="idmanufer_div2" style="float: right; margin-right:220 " ></div>
 				<li>电梯型号:
 				<li><input type="text" name="modelname" id="modelname" maxlength="20" size="50"/>*<div id="modelname0" style="float: right; margin-right:220 " ></div>
 				<li>电梯类型:
@@ -583,13 +599,19 @@
 				<li>油缸数量
 				<li><input type="text" name="parameter24" id="parameter24" maxlength="11" size="50"/><div id="parameter24_0" style="float: right; margin-right:220 " ></div>
 				<li>顶升方式 
-				<li><input type="text" name="parameter25"  id="parameter25" maxlength="1" size="50"/>
+				<li><select name="parameter25" >
+						<option value="1">直接顶升</option>
+						<option value="2">间接顶升</option>
+				</select>
 				</ul>
 				</div>
 				<div id="updateType3" style="display: none">
 				<ul>
 				<li>驱动方式
-				<li><input type="text" name="parameter31" id="parameter31" maxlength="1" size="50"/>
+				<li><select name="parameter31" >
+						<option value="1">曳引</option>
+						<option value="2">强制驱动</option>
+				</select>
 				<li>额定载重量 （单位=kg）
 				<li><input type="text" name="parameter32" id="parameter32" maxlength="11" size="50"/><div id="parameter32_0" style="float: right; margin-right:220 " ></div>
 				<li>额定速度 （单位=m/s）

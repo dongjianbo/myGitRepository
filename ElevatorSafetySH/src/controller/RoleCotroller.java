@@ -117,7 +117,7 @@ public class RoleCotroller {
 	@RequestMapping(value="changeStatus",produces="text/html;charset=utf-8")
 	@ResponseBody
 	public String changeStatus(int idrole){
-		roleService.changeStatus(idrole);
+		roleService.updateStatus(idrole);
 		return "ok";
 	}
 }

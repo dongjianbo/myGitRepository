@@ -38,26 +38,33 @@
 	    		  $("#id_test").append("<option size='"+50+"' value='"+d[i].idtest+"'>"+d[i].name+"</option>");
 	    	  }
 	       });	 */
-		 $.getJSON("${path}/elevator_type_def/list_json.do","rand="+Math.random(),function(d){
+		 $.getJSON("${path}/modellist/list_json.do","rand="+Math.random(),function(d){
 	    	  //对电梯型号进行循环
 	    	  for(var i=0;i<d.length;i++){
-	    		  $("#id_elevator_model").append("<option size='"+50+"' value='"+d[i].elevatortype+"'>"+d[i].name+"</option>");
+	    		  $("#id_elevator_model").append("<option size='"+50+"' value='"+d[i].idmodel+"'>"+d[i].modelname+"</option>");
 	    	  }
-	       });	
+	       });
 		 //-----------------------------------------------------------
 		 $.getJSON("${path }/citylist/list.do","rand="+Math.random(),function(d){
 				//将查询到的信息放入表单
 				for(var i=0;i<d.length;i++){
+					if(d[i].id_city!="00"&&d[i].id_city!="99")
 				  $("#id_city").append("<option size='"+30+"' value='"+d[i].id_city+"'>"+d[i].name_city+"</option>");
 				}
 				//根据第一个城市的id查区域
-				$.getJSON("${path }/distictlist/listByIdCity.do?id_city="+d[0].id_city,"rand="+Math.random(),function(s){
+				$.getJSON("${path }/distictlist/listByIdCity.do?id_city="+$("#id_city").val(),"rand="+Math.random(),function(s){
 					for(var i=0;i<s.length;i++){
-						  $("#id_district").append("<option size='"+30+"' value='"+s[i].id_district+"'>"+s[i].name_district+"</option>");
+						if(s[i].id_district=="00"){
+							continue;
 						}
+						  $("#id_district").append("<option size='"+30+"' value='"+s[i].id_district+"'>"+s[i].name_district+"</option>");
+					}
 				 //根据第一个区域查询乡镇
-				    $.getJSON("${path }/subdistictlist/listById.do?id_city="+d[0].id_city+"&id_distrct="+s[0].id_district,"rand="+Math.random(),function(a){
+				    $.getJSON("${path }/subdistictlist/listById.do?id_city="+$("#id_city").val()+"&id_distrct="+$("#id_district").val(),"rand="+Math.random(),function(a){
 				    	for(var i=0;i<a.length;i++){
+				    		if(a[i].id_subdistrict=="00"){
+				    			continue;
+				    		}
 				    		$("#id_subdistrict").append("<option size='"+30+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
 				    	}
 				    });
@@ -69,15 +76,19 @@
 		//不同的城市选择不同的id
 		$.getJSON("${path }/distictlist/listByIdCity.do?id_city="+id_city,"rand="+Math.random(),function(s){
 			document.getElementById("id_district").innerHTML="";
-			 $("#id_district").append("<option size='"+50+"' value='"+00+"'>无</option>");
 			for(var i=0;i<s.length;i++){
+				if(s[i].id_district=="00"){
+					continue;
+				}
 				 $("#id_district").append("<option size='"+50+"' value='"+s[i].id_district+"'>"+s[i].name_district+"</option>");
 				}
 		//选择区域下面的像乡镇
-			 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+s[0].id_district,"rand="+Math.random(),function(a){
+			 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+$("#id_district").val(),"rand="+Math.random(),function(a){
 				 document.getElementById("id_subdistrict").innerHTML="";
-				 $("#id_subdistrict").append("<option size='"+50+"' value='"+00+"'>无</option>");
 				 for(var i=0;i<a.length;i++){
+					 	if(a[i].id_subdistrict=="00"){
+			    			continue;
+			    		}
 						$("#id_subdistrict").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
 			    	}
 			    });
@@ -88,9 +99,11 @@
 		//去城市的id
 		var id_city=document.getElementById("id_city").value;
 		 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+id_district,"rand="+Math.random(),function(a){
-			 document.getElementById("id_subdistrict").innerHTML="";	
-			 $("#id_subdistrict").append("<option size='"+50+"' value='"+00+"'>无</option>");
+			 document.getElementById("id_subdistrict").innerHTML="";
 			 for(var i=0;i<a.length;i++){
+				 if(a[i].id_subdistrict=="00"){
+		    			continue;
+		    		}
 		    		$("#id_subdistrict").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
 		    	}
 		    });
@@ -130,10 +143,10 @@
 						</select>
 						<li>所属区县:
 						<li><select name="id_district" id="id_district" onchange="choosedistrict(this.value)">
-						   <option size="50" value="00">无</option>
+						   
 						</select>
 						<li>所属街道乡镇:
-						<li><select name="id_subdistrict" id="id_subdistrict"><option size="50" value="00">无</option></select>
+						<li><select name="id_subdistrict" id="id_subdistrict"></select>
 						<li>电梯所在位置:
 					    <li><input type="text" name="address" size="50">  
 				        <br><br><br>
@@ -148,12 +161,13 @@
 				</td>
 			</tr>
 			<tr>
-			 <tr>
-		        <td style="padding-left: 450px;"> 
-		        <input type="button" value="电梯申报" onclick="ifnan()"/>
-		        </td>
-		     </tr>
-		</table>	  
+			
+		</table>
+		 <table width="90%">
+		        <tr>
+		              <td align="right"><hr>   <input type="button" value="电梯申报" onclick="ifnan()"/></td>
+		             </tr>
+		        </table>	  
 		</form>
 </body>
 </html>

@@ -30,19 +30,19 @@
 				src="${pageContext.servletContext.contextPath}/images/14060338.jpg"
 				width="400px" /></td>
 			<td style="text-align: left">
-				<div style="margin-left: 20px;">
+				<div style="margin-left: 120px;margin-top: 100px;">
 					<form
 						action="${pageContext.servletContext.contextPath }/login/check.do"
 						method="post">
 						<span class="label1">登录帐号：</span> <input type="text"
 							name="loginname" value="${op.loginname }"
-							style="height: 24px; width: 260px;" />${massage1 }<br> <br>
+							style="height: 24px; width: 160px;" />${massage1 }<br> <br>
 						<br>
 						<br>
 						<br> <span class="label1">登录密码：</span> <input type="password"
-							value="${op.password }" style="height: 24px; width: 260px;"
+							value="${op.password }" style="height: 24px; width: 160px;"
 							name="password" /> ${massage2 }<br>
-						<br> <br> <br> <input style="margin-left: 263px;height: 30px;"
+						<br> <br> <br> <input style="margin-left: 163px;height: 30px;"
 							type="submit" value="登       录" />
 
 					</form>

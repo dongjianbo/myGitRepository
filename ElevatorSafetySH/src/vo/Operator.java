@@ -3,7 +3,6 @@ package vo;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "operator")
@@ -38,21 +38,19 @@ public class Operator {
 	private String idcard;	
 	@Column(name = "id_city")
 	private String idcity;
-	@ManyToOne(cascade=CascadeType.REFRESH,optional=true)
-	@JoinColumn(name="id_city",insertable=false,updatable=false)
+
 	//登录人所在城市
+	@Transient
 	private Citylist city;
 	@Column(name = "id_district")
 	private String iddistrict;
 	//登录人所在县区
-	@ManyToOne(cascade=CascadeType.REFRESH,optional=true)
-	@JoinColumn(name="id_district",insertable=false,updatable=false)
+	@Transient
 	private Distictlist distict;
 	@Column(name = "id_subdistrict")
 	private String idsubdistrict;
 	//登录人所在街道
-	@ManyToOne(cascade=CascadeType.REFRESH,optional=true)
-	@JoinColumn(name="id_subdistrict",insertable=false,updatable=false)
+	@Transient
 	private Subdistictlist subdistict;
 	private String loginname;
 	private String password;

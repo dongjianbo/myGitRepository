@@ -27,6 +27,7 @@ import service.History_listService;
 import service.Maint_report_idService;
 import service.OperatorService;
 import service.TestService;
+import service.TesterService;
 import vo.Elevator;
 import vo.History;
 import vo.History_list;
@@ -34,6 +35,7 @@ import vo.History_listKey;
 import vo.Maint_report_id;
 import vo.Operator;
 import vo.Test;
+import vo.Tester;
 
 @Controller
 @RequestMapping("test")
@@ -50,6 +52,8 @@ public class TestController {
 	public CitylistService cityService;
 	@Resource
 	public OperatorService operatorService;
+	@Resource
+	public TesterService testerService;
 	@RequestMapping("list")
 	public ModelAndView list(String key,HttpServletRequest request){
 		ModelAndView mav=new ModelAndView("system/testList");
@@ -235,29 +239,32 @@ public class TestController {
 	}
 	//安全员任务量统计
 	@RequestMapping("task")
-	public ModelAndView task(String start,String end,HttpServletRequest request){
+	public ModelAndView task(int idtester,String start,String end,HttpServletRequest request){
 		Operator op=(Operator)request.getSession().getAttribute("login");
 		if(!op.getTypeOperator().equals("30")&&!op.getTypeOperator().equals("31")){
 			ModelAndView mav=new ModelAndView("error");
 			mav.addObject("error","当前登录人非检验检测单位人员!");
 			return mav;
 		}else{
+			//查询本使用单位的检测人员
+			List<Tester> testerList=testerService.listByTestId(op.getIdOrganization());
 			//查询本使用单位的巡检任务量
-			int countType0=testService.getCountMaintType0(op.getIdOrganization(), start, end);
-			int countType=testService.getCountMaint(op.getIdOrganization(), start, end);
+			int countType0=testService.getCountMaintType0(op.getIdOrganization(), start, end,idtester);
+			int countType=testService.getCountMaint(op.getIdOrganization(), start, end,idtester);
 			ModelAndView mav=new ModelAndView("system/testTask");
 			mav.addObject("countType0", countType0);
 			mav.addObject("countType",countType);
+			mav.addObject("testerList",testerList);
 			return mav;
 		}
 	}
 	//任务量列表
 	@RequestMapping("listForTask")
-	public ModelAndView listForTask(int type,String start,String end,HttpServletRequest request){
+	public ModelAndView listForTask(int type,String start,String end,int idtester,HttpServletRequest request){
 		Operator op=(Operator)request.getSession().getAttribute("login");
 		//获取当前登录人的单位编号
 		int id_test=op.getIdOrganization();
-		List<Maint_report_id> list=testService.listByType(id_test,type, start, end,request);
+		List<Maint_report_id> list=testService.listByType(id_test,type, start, end,idtester,request);
 		ModelAndView mav=new ModelAndView("system/serviceListForTask");
 		String typeName="";
 		if(type!=-1){

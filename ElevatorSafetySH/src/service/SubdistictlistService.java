@@ -21,11 +21,9 @@ public class SubdistictlistService {
 		DetachedCriteria dc=DetachedCriteria.forClass(Subdistictlist.class);
 		dc.add(Restrictions.eq("id_district", id_distictlist));
 		dc.add(Restrictions.eq("id_city", id_city));
-		dc.add(Restrictions.ne("name_subdistrict", "ÇøÖ±"));
 		return subdistictlistDao.getListByDc(dc); 
 	}
 	public String getListById(String id_city,String id_distictlist,String sub){
-		System.out.println(sub+"----------------------sub");
 		if(!id_distictlist.equals("00")&&!sub.equals("00")&&!sub.equals("0")){
 			DetachedCriteria dc=DetachedCriteria.forClass(Subdistictlist.class);
 			dc.add(Restrictions.eq("id_district", id_distictlist));
@@ -36,5 +34,22 @@ public class SubdistictlistService {
 			return "";
 		}
 		
+	}
+	@SuppressWarnings("unchecked")
+	public Subdistictlist getSubdistictById(String id_city,String id_distictlist,String sub){
+		if(!id_city.equals("00")&&!id_distictlist.equals("00")&&!sub.equals("")){
+			DetachedCriteria dc=DetachedCriteria.forClass(Subdistictlist.class);
+			dc.add(Restrictions.eq("id_district", id_distictlist));
+			dc.add(Restrictions.eq("id_city", id_city));
+			dc.add(Restrictions.eq("id_subdistrict", sub));
+			List<Subdistictlist> list=subdistictlistDao.getListByDc(dc);
+			if(list!=null&&!list.isEmpty()){
+				return (Subdistictlist)list.get(0);
+			}else{
+				return null;
+			}
+		}else{
+			return null;
+		}
 	}
 }

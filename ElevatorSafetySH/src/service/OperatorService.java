@@ -16,12 +16,19 @@ import org.springframework.stereotype.Service;
 
 import util.MD5;
 import vo.Operator;
+import dao.CitylistDao;
 import dao.OperatorDao;
 
 @Service
 public class OperatorService {
    @Resource
    public OperatorDao operatorDao;
+   @Resource
+   public CitylistService cityService;
+   @Resource
+   public DistictlistService distictService;
+   @Resource
+   public SubdistictlistService subdistictService;
    @SuppressWarnings("unchecked")
  	public List<Operator> list(String key,int pageSize,HttpServletRequest request){
  		DetachedCriteria dc=DetachedCriteria.forClass(Operator.class);
@@ -30,7 +37,18 @@ public class OperatorService {
  					Restrictions.like("name", key,MatchMode.ANYWHERE)));
  			
  		}
- 		return operatorDao.findPageByDcQuery(dc, pageSize, request);
+ 		List<Operator> olist=operatorDao.findPageByDcQuery(dc, pageSize, request);
+ 		//查询操作员的所属
+ 		for(Operator o:olist){
+ 			o.setCity(cityService.listBy_Idcity(o.getIdcity()));
+ 			if(o.getIddistrict()!=null&&!"".equals(o.getIddistrict())){
+ 				o.setDistict(distictService.getDistictById(o.getIdcity(), o.getIddistrict()));
+ 			}
+ 			if(o.getIdsubdistrict()!=null&&!"".equals(o.getIdsubdistrict())){
+ 				o.setSubdistict(subdistictService.getSubdistictById(o.getIdcity(), o.getIddistrict(), o.getIdsubdistrict()));
+ 			}
+ 		}
+ 		return olist;
  	}
  	public Serializable insert(Operator operator){
  		return operatorDao.save(operator);

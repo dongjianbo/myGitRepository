@@ -105,7 +105,7 @@
 		           <td>
 		           <ul>
 		           <li>登记机构:
-		           <li><input type="text" name="register_org" size="50"/>
+		           <li><input type="text" name="register_org" size="50" value="${deptName }"/>
 		           <li>特种设备登记代码:
 		           <li><input type="text" name="register_code" id="register_code" size="50" placeholder="请输入特种设备登记代码"/>*
 		           <li>特种设备代码:
@@ -146,8 +146,10 @@
 				      </ul>
 		        </td>
 		        </tr>
-		            <tr>
-		              <td colspan="2" style="padding-left: 450px;">  <input type="button" value="下一页" onclick="ifNull()"/></td>
+		        </table>
+		        <table width="90%">
+		        <tr>
+		              <td align="right"><hr>  <input type="button" value="&nbsp;下一页&nbsp;" onclick="ifNull()"/></td>
 		             </tr>
 		        </table>
 		  </form>

@@ -76,7 +76,7 @@ public class Elevator {
    //µçÌÝÐÍºÅ
    @ManyToOne(cascade=CascadeType.REFRESH,optional=true)
    @JoinColumn(name="id_elevator_model",insertable=false,updatable=false)
-   private Elevator_type_def elevatorType;
+   private Modellist model;
    //×¢²á×´Ì¬
    @ManyToOne(cascade=CascadeType.REFRESH,optional=true)
    @JoinColumn(name="register_status",insertable=false,updatable=false)
@@ -314,12 +314,15 @@ public int getId_elevator_model() {
 public void setId_elevator_model(int id_elevator_model) {
 	this.id_elevator_model = id_elevator_model;
 }
-public Elevator_type_def getElevatorType() {
-	return elevatorType;
+
+public Modellist getModel() {
+	return model;
 }
-public void setElevatorType(Elevator_type_def elevatorType) {
-	this.elevatorType = elevatorType;
+
+public void setModel(Modellist model) {
+	this.model = model;
 }
+
 public String getDesc() {
 	return desc;
 }

@@ -7,6 +7,11 @@
 <title>Insert title here</title>
 <link href="${path}/css/system.css" rel="stylesheet" type="text/css">
 <link href="${path}/css/table.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+a{
+	text-decoration: underline;
+}
+</style>
 <script type="text/javascript" src="${path }/jquery/jquery-1.9.1.js"></script>
 <script type="text/javascript">
 	
@@ -18,7 +23,7 @@
 </head>
 <body>
 <ul>
-	<li><h3>${test.name }&nbsp;&nbsp;各状态下的电梯数量</h3>
+	<li><h3>电梯数量</h3>
 	<li><table cellpadding="0" cellspacing="1">
 	<tr>
 		<th>电梯总数量</th>
@@ -35,7 +40,7 @@
 		<td><a href="${path }/test/listForSearch.do?key=count_destory">${count_destory}</a></td>
 	</tr>
 	</table>
-	<li><h3>已注册电梯统计</h3>
+	<li><h3>正常运行电梯统计</h3>
 	<li><table cellpadding="0" cellspacing="1">
 		<tr>
 			<th>&nbsp;</th>

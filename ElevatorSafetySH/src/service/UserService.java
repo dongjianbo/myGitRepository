@@ -33,7 +33,7 @@ public class UserService {
 		DetachedCriteria dc=DetachedCriteria.forClass(User.class);
 		if(key!=null&&!"".equals(key.trim())){
 			dc.add(Restrictions.or(Restrictions.like("code", key,MatchMode.ANYWHERE),
-					Restrictions.like("username", key,MatchMode.ANYWHERE)));
+					Restrictions.like("name", key,MatchMode.ANYWHERE)));
 			
 		}
 		return userDao.findPageByDcQuery(dc, pageSize, request);

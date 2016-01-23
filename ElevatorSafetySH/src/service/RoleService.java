@@ -13,7 +13,6 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
 import vo.Role;
-import vo.Service1;
 import dao.RoleDao;
 
 @Service
@@ -24,8 +23,7 @@ public class RoleService {
 	public List<Role> list(String key,int pageSize,HttpServletRequest request){
 		DetachedCriteria dc=DetachedCriteria.forClass(Role.class);
 		if(key!=null&&!"".equals(key.trim())){
-			dc.add(Restrictions.or(Restrictions.like("code", key,MatchMode.ANYWHERE),
-					Restrictions.like("name", key,MatchMode.ANYWHERE)));
+			dc.add(Restrictions.like("name_role", key,MatchMode.ANYWHERE));
 			
 		}
 		return roleDao.findPageByDcQuery(dc, pageSize, request);
@@ -58,8 +56,13 @@ public class RoleService {
 				+ "where r.id_role="+roleid+" order by m.id_system_menu asc";
 		return roleDao.listBySQLQuery(sql);
 	}
-	public void changeStatus(int idrole){
-		String sql="update role set role_status=(case role_status when 1 then 0 else 1 end) where id_role="+idrole; 
-		roleDao.executeSQL(sql);
+	public void updateStatus(int idrole){
+		Role r=roleDao.get(Role.class, idrole);
+		if(r.getRole_status().equals("1")){
+			r.setRole_status("0");
+		}else{
+			r.setRole_status("1");
+		}
+		roleDao.update(r);
 	}
 }

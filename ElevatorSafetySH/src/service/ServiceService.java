@@ -550,16 +550,18 @@ public class ServiceService {
 		}
 		//维保单位任务量统计
 		@SuppressWarnings("unchecked")
-		public Map<String, Integer> getTask(int id_service,String start,String end){
+		public Map<String, Integer> getTask(int id_service,String start,String end,int idservicer){
 			String sql="select mt.name,count(mr.maint_id) from "
 					+ "maint_report_id mr right join maint_type_def mt "
 					+ "on mr.maint_type=mt.maint_type "
 					+ "where mt.maint_type!=0 and mr.elevator_id in"
 					+ "(select id_elevator from elevator where id_service="+id_service+")";
-			if(start!=null&&end!=null){
+			if(start!=null&&end!=null&&!"".equals(start)&&!"".equals(end)){
 				sql+=" and  (mr.maint_date between '"+start+"' and '"+end+"')";
 			}
-			
+			if(idservicer!=0){
+				sql+=" and (mr.user1_id="+idservicer+" or mr.user2_id="+idservicer+") ";
+			}
 			sql+= "group by (mt.name) ";
 			List<Object[]> list=serviceDao.getListBySQL(sql);
 			Map<String, Integer> map=new HashMap<String, Integer>();
@@ -573,8 +575,8 @@ public class ServiceService {
 		} 
 		@Resource
 		public Maint_report_idDao mriDao;
-		@SuppressWarnings("unchecked")
-		public List<Maint_report_id> listByTaskType(int id_service,int maint_type,String start,String end,HttpServletRequest request){
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		public List<Maint_report_id> listByTaskType(int id_service,int maint_type,String start,String end,int idservicer,HttpServletRequest request){
 			String sql="select id_elevator from elevator where id_service="+id_service;
 			List ids=mriDao.getListBySQL(sql);
 			DetachedCriteria dc=DetachedCriteria.forClass(Maint_report_id.class);
@@ -589,7 +591,9 @@ public class ServiceService {
 				Date endTime=new Date(DateUtils.parse(end).getTime());
 				dc.add(Restrictions.between("maint_date", startTime, endTime));
 			}
-			
+			if(idservicer!=0){
+				dc.add(Restrictions.or(Restrictions.eq("user1_id", idservicer), Restrictions.eq("user2_id", idservicer)));
+			}
 			return mriDao.findPageByDcQuery(dc, 10, request);
 		}	
 		

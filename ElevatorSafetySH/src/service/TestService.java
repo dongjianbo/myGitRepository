@@ -273,10 +273,13 @@ public class TestService {
 			return testDao.findPageByDcQuery(dc, pageSize, request);
 		}
 		//本检测单位巡检次数
-		public int getCountMaintType0(int id_test,String start,String end){
+		public int getCountMaintType0(int id_test,String start,String end,int idtester){
 			String sql="select count(*) from maint_report_id where maint_type=0 and elevator_id in(select id_elevator from elevator where id_test="+id_test+")";
-			if(start!=null&&end!=null){
+			if(start!=null&&!"".equals(start)&&end!=null&&!"".equals(end)){
 				sql+=" and  (maint_date between '"+start+"' and '"+end+"')";
+			}
+			if(idtester!=0){
+				sql+=" and user3_id="+idtester;
 			}
 			Object obj=testDao.getObjectBySQL(sql);
 			if(obj!=null){
@@ -286,10 +289,13 @@ public class TestService {
 			}
 		}
 		//本检测单位共配合维保次数
-		public int getCountMaint(int id_test,String start,String end){
+		public int getCountMaint(int id_test,String start,String end,int idtester){
 			String sql="select count(*) from maint_report_id where elevator_id in(select id_elevator from elevator where id_test="+id_test+")";
-			if(start!=null&&end!=null){
+			if(start!=null&&!"".equals(start)&&end!=null&&!"".equals(end)){
 				sql+=" and  (maint_date between '"+start+"' and '"+end+"')";
+			}
+			if(idtester!=0){
+				sql+=" and user3_id="+idtester;
 			}
 			Object obj=testDao.getObjectBySQL(sql);
 			if(obj!=null){
@@ -302,8 +308,8 @@ public class TestService {
 		@Resource
 		public Maint_report_idDao mriDao;
 		//获得维保记录列表，传入检测单位ID
-		@SuppressWarnings("unchecked")
-		public List<Maint_report_id> listByType(int id_test,int maint_type,String start,String end,HttpServletRequest request){
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		public List<Maint_report_id> listByType(int id_test,int maint_type,String start,String end,int idtester,HttpServletRequest request){
 			String sql="select id_elevator from elevator where id_test="+id_test;
 			List ids=mriDao.getListBySQL(sql);
 			DetachedCriteria dc=DetachedCriteria.forClass(Maint_report_id.class);
@@ -312,6 +318,9 @@ public class TestService {
 			}
 			if(!ids.isEmpty()){
 				dc.add(Restrictions.in("elevator_id", ids));
+			}
+			if(idtester!=0){
+				dc.add(Restrictions.eq("user3_id", idtester));
 			}
 			if(start!=null&&end!=null&&!"".equals(start)&&!"".equals(end)){
 				Date startTime=new Date(DateUtils.parse(start).getTime());

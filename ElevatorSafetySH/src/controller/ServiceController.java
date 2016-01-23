@@ -24,6 +24,7 @@ import service.HistoryService;
 import service.History_listService;
 import service.Maint_report_idService;
 import service.ServiceService;
+import service.ServicerService;
 import vo.Elevator;
 import vo.History;
 import vo.History_list;
@@ -31,6 +32,7 @@ import vo.History_listKey;
 import vo.Maint_report_id;
 import vo.Operator;
 import vo.Service1;
+import vo.Servicer;
 
 @Controller
 @RequestMapping("service")
@@ -45,6 +47,8 @@ public class ServiceController {
 	public Maint_report_idService mriService;
 	@Resource
 	public CitylistService cityService;
+	@Resource
+	public ServicerService servicerService;
     @RequestMapping("list")
     public ModelAndView list(String key,HttpServletRequest request){
 		ModelAndView mav=new ModelAndView("system/serviceList");
@@ -289,7 +293,7 @@ public class ServiceController {
 		}
 		//维保单位任务量统计
 		@RequestMapping("task")
-		public ModelAndView task(String start,String end,HttpServletRequest request){
+		public ModelAndView task(int idservicer,String start,String end,HttpServletRequest request){
 			Operator op=(Operator)request.getSession().getAttribute("login");
 			if(!op.getTypeOperator().equals("10")&&!op.getTypeOperator().equals("11")){
 				ModelAndView mav=new ModelAndView("error");
@@ -298,19 +302,22 @@ public class ServiceController {
 			}else{
 				//得到当前登录人的单位编号
 				int id_service=op.getIdOrganization();
-				Map<String, Integer> data=serviceService.getTask(id_service,start, end);
+				//查询当前单位的维保人员
+				List<Servicer> slist=servicerService.listByIdService(id_service);
+				Map<String, Integer> data=serviceService.getTask(id_service,start, end,idservicer);
 				ModelAndView mav=new ModelAndView("system/serviceTask");
 				mav.addObject("data",data);
+				mav.addObject("slist", slist);
 				return mav;
 			}
 		}
 		//任务量列表
 		@RequestMapping("listForTask")
-		public ModelAndView listForTask(int type,String start,String end,HttpServletRequest request){
+		public ModelAndView listForTask(int type,String start,String end,int idservicer,HttpServletRequest request){
 			Operator op=(Operator)request.getSession().getAttribute("login");
 			//得到当前登录人的单位编号
 			int id_service=op.getIdOrganization();
-			List<Maint_report_id> list=serviceService.listByTaskType(id_service,type, start, end,request);
+			List<Maint_report_id> list=serviceService.listByTaskType(id_service,type, start, end,idservicer,request);
 			ModelAndView mav=new ModelAndView("system/serviceListForTask");
 			String typeName=mriService.getTypeNameById(type);
 			mav.addObject("list",list);

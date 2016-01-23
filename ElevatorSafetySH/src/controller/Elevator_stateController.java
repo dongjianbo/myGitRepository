@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import service.Elevator_stateService;
+import util.DateUtils;
+import vo.Elevator;
 import vo.Elevator_state;
 
 
@@ -56,12 +60,15 @@ public class Elevator_stateController {
 	}          
 	@RequestMapping("insertElevator_state")
 	public String insertElevator_state(Elevator_state elevator_state,HttpServletRequest request,HttpServletResponse response){
-		elevator_state.setIdelevator(Integer.parseInt(request.getSession().getAttribute("id_elevator").toString()));
+		elevator_state.setIdelevator(Integer.parseInt(request.getSession().getAttribute("yuanid_elevator").toString()));
 		System.out.println(elevator_state.getIdelevator());
+		Elevator yuanEl=(Elevator)request.getSession().getAttribute("yuanelevator");
 		elevator_state.setLabelwrite("1");
+		elevator_state.setLabeldemo(yuanEl.getDesc());
+		elevator_state.setLastmodified(DateUtils.format(new Date()));
 		elevator_stateService.insert(elevator_state);
 		//添加成功  待电梯详细查询写好后 转向电梯详细查询连接 先转向成功界面
-		return "/system/successElevator";
+		return "/system/yuanElevatorDeclaration";
 	}
 	@RequestMapping("yuanElevator_state")
 	public String yuanElevator_state(Elevator_state elevator_state,HttpServletRequest request,HttpServletResponse response){

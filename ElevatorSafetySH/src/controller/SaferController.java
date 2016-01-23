@@ -72,7 +72,7 @@ public class SaferController {
 		history_listService.insert(history_list);
 		
 		//≤Â»ÎICø®–≈œ¢
-		return "ok";
+		return idsafer+"";
 	}
 	
 	@RequestMapping(value="toUpdate",produces="text/html;charset=utf-8")
@@ -92,5 +92,11 @@ public class SaferController {
 	public String delete(Safer safer){
 		saferService.delete(safer);
 		return "redirect:/safer/list.do";
+	}
+	@RequestMapping(value="getCard",produces="text/html;charset=utf-8")
+	@ResponseBody
+	public String getCard(String idMifare,int idservicer){
+		saferService.updateCard(idMifare, idservicer);
+		return "ok";
 	}
 }

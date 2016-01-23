@@ -12,7 +12,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
 import vo.Safer;
-
+import vo.Servicer;
 import dao.SaferDao;
 
 @Service
@@ -40,5 +40,10 @@ public class SaferService {
 	}
 	public void delete(Safer safer){
 		saferDao.delete(safer);
+	}
+	public void updateCard(String idMifare,int idservicer){
+		Safer s=saferDao.get(Safer.class, idservicer);
+		s.setIdMifare(idMifare);
+		saferDao.update(s);
 	}
 }

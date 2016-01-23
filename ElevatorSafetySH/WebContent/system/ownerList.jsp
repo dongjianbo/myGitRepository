@@ -26,6 +26,9 @@
 		 //查询城市id
 		$.getJSON("${path }/citylist/list.do","rand="+Math.random(),function(d){
 			for(var i=0;i<d.length;i++){
+				if(d[i].id_city=="00"){
+					continue;
+				}
 			  $("#register_area1").append("<option size='"+50+"' value='"+d[i].id_city+"'>"+d[i].name_city+"</option>");
 			  $("#register_area2").append("<option size='"+50+"' value='"+d[i].id_city+"'>"+d[i].name_city+"</option>");
 			}
