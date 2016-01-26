@@ -74,6 +74,28 @@
 					<li><input type="text" value=" ${eById.desc }" readonly="readonly" size="30" />
 		        </ul>
 		      </td>
+		      <td style="text-align: left;">
+		      	<ul>
+		      		<li>上次半月维保日期
+		      		<li><input type="text" value="${es.last_15_service}" readonly="readonly" size="30"/>
+		      		<li>上次季度维保日期
+		      		<li><input type="text" value="${es.last_90_service}" readonly="readonly" size="30"/>
+		      		<li>上次半年维保日期
+		      		<li><input type="text" value="${es.last_180_service}" readonly="readonly" size="30"/>
+		      		<li>上次年度维保日期
+		      		<li><input type="text" value="${es.last_360_service}" readonly="readonly" size="30"/>
+		      		<li>上次安全员巡检日期
+		      		<li><input type="text" value="${es.lastrounds}" readonly="readonly" size="30"/>
+		      		<li>上次检验检测日期
+		      		<li><input type="text" value="${es.lasttest}" readonly="readonly" size="30"/>
+		      		<li>标签数据下载标识
+		      		<li><input type="text" value="${es.labelwrite=='1'?'已写':'待写'}" readonly="readonly" size="30"/>
+		      		<li>标签下载备注项
+		      		<li><input type="text" value="${es.labeldemo}" readonly="readonly" size="30"/>
+		      		<li>最后修改日期
+		      		<li><input type="text" value="${es.lastmodified}" readonly="readonly" size="30"/>
+		      	</ul>
+		      </td>
       </tr>
      
       </table>

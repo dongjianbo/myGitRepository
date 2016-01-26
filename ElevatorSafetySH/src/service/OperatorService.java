@@ -132,6 +132,9 @@ public class OperatorService {
  		dc.add(Restrictions.eq("loginname", operator.getLoginname().trim()));
  		List<Operator> operlist=operatorDao.getListByDc(dc);
  		Operator o=operlist.get(0);
+ 		o.setCity(cityService.listBy_Idcity(o.getIdcity()));
+ 		o.setDistict(distictService.getDistictById(o.getIdcity(), o.getIddistrict()));
+ 		o.setSubdistict(subdistictService.getSubdistictById(o.getIdcity(), o.getIddistrict(), o.getIdsubdistrict()));
  		return o;
  	}
  	@SuppressWarnings("rawtypes")

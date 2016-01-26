@@ -23,6 +23,7 @@ import service.Elevator_stateService;
 import service.Elevator_tag_init_taskService;
 import service.HistoryService;
 import service.History_listService;
+import service.OperatorService;
 import service.SubdistictlistService;
 import service.SystemstateService;
 import util.DateUtils;
@@ -55,6 +56,8 @@ public class ElevatorController {
 	public Elevator_tag_init_taskService elevator_tag_init_taskService;
 	@Resource
 	public Elevator_stateService esService;
+	@Resource
+	public OperatorService operatorService;
 	@RequestMapping("insert")
 	public String insert(Elevator elevator,HttpServletRequest request,HttpServletResponse response){
 		Elevator el=(Elevator)request.getSession().getAttribute("elevator");//存在第一页的值
@@ -191,7 +194,7 @@ public class ElevatorController {
 
 	//技术监督部门统计查询
 		@RequestMapping("search")
-		public ModelAndView search(HttpServletRequest request) {
+		public ModelAndView search(String key,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,HttpServletRequest request) {
 			//查找当前登录人
 			Operator op=(Operator)request.getSession().getAttribute("login");
 			if(!op.getTypeOperator().equals("00")){
@@ -199,50 +202,57 @@ public class ElevatorController {
 				mav.addObject("error","当前登录人非技术监督部门人员!");
 				return mav;
 			}else{
+				op=operatorService.findById(op.getIdoperator());
 				//登录人所属区域
-				String id_city=op.getIdcity();
-				String id_district=op.getIddistrict();
-				String id_subdistrict=op.getIdsubdistrict();
+				if(key!=null&&key.equals("first")){
+					//第一次登录，没有查询，所以得从session中取地址
+					id_city=op.getIdcity();
+					id_district=op.getIddistrict();
+					id_subdistrict=op.getIdsubdistrict();
+					System.out.println("id_city:"+id_city);
+					System.out.println("id_district:"+id_district);
+					System.out.println("id_subdistrict:"+id_subdistrict);
+				}
 				// 电梯总数
-				int count = elevatorService.getCount(id_city,id_district,id_subdistrict);
+				int count = elevatorService.getCount(id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 				// 已注册数量
-				int count_registed = elevatorService.getCount_Registed(id_city,id_district,id_subdistrict);
+				int count_registed = elevatorService.getCount_Registed(id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 				// 停用数量
-				int count_stop = elevatorService.getCount_Stop(id_city,id_district,id_subdistrict);
+				int count_stop = elevatorService.getCount_Stop(id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 				// 已注销数量
-				int count_destory = elevatorService.getCount_Destory(id_city,id_district,id_subdistrict);
+				int count_destory = elevatorService.getCount_Destory(id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 				// 未注册数量
-				int count_noregist = elevatorService.getCount_NoRegist(id_city,id_district,id_subdistrict);
+				int count_noregist = elevatorService.getCount_NoRegist(id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 				// 年检正常数量
-				int count_rounds_normal = elevatorService.getCount_Rounds_Normal(id_city,id_district,id_subdistrict);
+				int count_rounds_normal = elevatorService.getCount_Rounds_Normal(id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 				// 年检提示数量
-				int count_rounds_warnning = elevatorService.getCount_Rounds_Warnning(id_city,id_district,id_subdistrict);
+				int count_rounds_warnning = elevatorService.getCount_Rounds_Warnning(id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 				// 年检预期数量
-				int count_rounds_overdue = elevatorService.getCount_Rounds_Overdue(id_city,id_district,id_subdistrict);
+				int count_rounds_overdue = elevatorService.getCount_Rounds_Overdue(id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 				// 半月维保正常数量
-				int count_15service_normal = elevatorService.getCount_15service_Normal(id_city,id_district,id_subdistrict);
+				int count_15service_normal = elevatorService.getCount_15service_Normal(id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 				// 半月维保提示数量
-				int count_15service_warnning = elevatorService.getCount_15service_Warnning(id_city,id_district,id_subdistrict);
+				int count_15service_warnning = elevatorService.getCount_15service_Warnning(id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 				// 半月维保逾期数量
-				int count_15service_overdue = elevatorService.getCount_15service_Overdue(id_city,id_district,id_subdistrict);
+				int count_15service_overdue = elevatorService.getCount_15service_Overdue(id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 				// 季度维保正常数量
-				int count_90service_normal = elevatorService.getCount_90service_Normal(id_city,id_district,id_subdistrict);
+				int count_90service_normal = elevatorService.getCount_90service_Normal(id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 				// 季度维保提示数量
-				int count_90service_warnning = elevatorService.getCount_90service_Warnning(id_city,id_district,id_subdistrict);
+				int count_90service_warnning = elevatorService.getCount_90service_Warnning(id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 				// 季度维保逾期数量
-				int count_90service_overdue = elevatorService.getCount_90service_Overdue(id_city,id_district,id_subdistrict);
+				int count_90service_overdue = elevatorService.getCount_90service_Overdue(id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 				// 半年维保正常数量
-				int count_180service_normal = elevatorService.getCount_180service_Normal(id_city,id_district,id_subdistrict);
+				int count_180service_normal = elevatorService.getCount_180service_Normal(id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 				// 半年维保提示数量
-				int count_180service_warnning = elevatorService.getCount_180service_Warnning(id_city,id_district,id_subdistrict);
+				int count_180service_warnning = elevatorService.getCount_180service_Warnning(id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 				// 半年维保逾期数量
-				int count_180service_overdue = elevatorService.getCount_180service_Overdue(id_city,id_district,id_subdistrict);
+				int count_180service_overdue = elevatorService.getCount_180service_Overdue(id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 				// 年度维保正常数量
-				int count_360service_normal = elevatorService.getCount_360service_Normal(id_city,id_district,id_subdistrict);
+				int count_360service_normal = elevatorService.getCount_360service_Normal(id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 				// 年度维保提示数量
-				int count_360service_warnning = elevatorService.getCount_360service_Warnning(id_city,id_district,id_subdistrict);
+				int count_360service_warnning = elevatorService.getCount_360service_Warnning(id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 				// 年度维保逾期数量
-				int count_360service_overdue = elevatorService.getCount_360service_Overdue(id_city,id_district,id_subdistrict);
+				int count_360service_overdue = elevatorService.getCount_360service_Overdue(id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 		
 				ModelAndView mav = new ModelAndView("system/elevatorTongji");
 				mav.addObject("count", count);
@@ -265,103 +275,104 @@ public class ElevatorController {
 				mav.addObject("count_360service_normal", count_360service_normal);
 				mav.addObject("count_360service_warnning", count_360service_warnning);
 				mav.addObject("count_360service_overdue", count_360service_overdue);
+				mav.addObject("id_city", id_city);
+				mav.addObject("id_district", id_district);
+				mav.addObject("id_subdistrict", id_subdistrict);
 				return mav;
 			}
 		}
 
 		// 点击统计中的数字进入电梯列表
 		@RequestMapping("listForSearch")
-		public ModelAndView listForSearch(String key, String search, HttpServletRequest request) {
+		public ModelAndView listForSearch(String key, String search, HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test) {
 			Operator op=(Operator)request.getSession().getAttribute("login");
 			//
 			List<Elevator> list = new ArrayList<Elevator>();
-			//登录人所属区域
-			String id_city=op.getIdcity();
-			String id_district=op.getIddistrict();
-			String id_subdistrict=op.getIdsubdistrict();
+			
+		
 			//查询关键字
 			if(search==null){
 				search="";
 			}
 			// 电梯总数量
 			if (key.equals("count")) {
-				list = elevatorService.listCount(search, 10, request,id_city,id_district,id_subdistrict);
+				list = elevatorService.listCount(search, 10, request,id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 			}
 			// 电梯已注册数量
 			if (key.equals("count_registed")) {
-				list = elevatorService.listCount_Registed(search, 10, request,id_city,id_district,id_subdistrict);
+				list = elevatorService.listCount_Registed(search, 10, request,id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 			}
 			// 电梯未注册数量
 			if (key.equals("count_noregist")) {
-				list = elevatorService.listCount_NoRegist(search, 10, request,id_city,id_district,id_subdistrict);
+				list = elevatorService.listCount_NoRegist(search, 10, request,id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 			}
 			// 电梯已停用数量
 			if (key.equals("count_stop")) {
-				list = elevatorService.listCount_Stop(search, 10, request,id_city,id_district,id_subdistrict);
+				list = elevatorService.listCount_Stop(search, 10, request,id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 			}
 			// 电梯已注销数量
 			if (key.equals("count_destory")) {
-				list = elevatorService.listCount_Destory(search, 10, request,id_city,id_district,id_subdistrict);
+				list = elevatorService.listCount_Destory(search, 10, request,id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 			}
 			// 电梯年检正常数量
 			if (key.equals("count_rounds_normal")) {
-				list = elevatorService.listCount_Rounds_Normal(search, 10, request,id_city,id_district,id_subdistrict);
+				list = elevatorService.listCount_Rounds_Normal(search, 10, request,id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 			}
 			// 电梯年检提示数量
 			if (key.equals("count_rounds_warnning")) {
-				list = elevatorService.listCount_Rounds_Warnning(search, 10, request,id_city,id_district,id_subdistrict);
+				list = elevatorService.listCount_Rounds_Warnning(search, 10, request,id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 			}
 			// 电梯年检逾期数量
 			if (key.equals("count_rounds_overdue")) {
-				list = elevatorService.listCount_Rounds_Overdue(search, 10, request,id_city,id_district,id_subdistrict);
+				list = elevatorService.listCount_Rounds_Overdue(search, 10, request,id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 			}
 			// 电梯半月维保正常数量
 			if (key.equals("count_15service_normal")) {
-				list = elevatorService.listCount_15service_Normal(search, 10, request,id_city,id_district,id_subdistrict);
+				list = elevatorService.listCount_15service_Normal(search, 10, request,id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 			}
 			// 电梯半月维保提示数量
 			if (key.equals("count_15service_warnning")) {
-				list = elevatorService.listCount_15service_Warnning(search, 10, request,id_city,id_district,id_subdistrict);
+				list = elevatorService.listCount_15service_Warnning(search, 10, request,id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 			}
 			// 电梯半月维保逾期数量
 			if (key.equals("count_15service_overdue")) {
-				list = elevatorService.listCount_15service_Overdue(search, 10, request,id_city,id_district,id_subdistrict);
+				list = elevatorService.listCount_15service_Overdue(search, 10, request,id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 			}
 			// 电梯季度维保正常数量
 			if (key.equals("count_90service_normal")) {
-				list = elevatorService.listCount_90service_Normal(search, 10, request,id_city,id_district,id_subdistrict);
+				list = elevatorService.listCount_90service_Normal(search, 10, request,id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 			}
 			// 电梯季度维保提示数量
 			if (key.equals("count_90service_warnning")) {
-				list = elevatorService.listCount_90service_Warnning(search, 10, request,id_city,id_district,id_subdistrict);
+				list = elevatorService.listCount_90service_Warnning(search, 10, request,id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 			}
 			// 电梯季度维保逾期数量
 			if (key.equals("count_90service_overdue")) {
-				list = elevatorService.listCount_90service_Overdue(search, 10, request,id_city,id_district,id_subdistrict);
+				list = elevatorService.listCount_90service_Overdue(search, 10, request,id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 			}
 			// 电梯半年维保正常数量
 			if (key.equals("count_180service_normal")) {
-				list = elevatorService.listCount_180service_Normal(search, 10, request,id_city,id_district,id_subdistrict);
+				list = elevatorService.listCount_180service_Normal(search, 10, request,id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 			}
 			//电梯半年维保提示数量
 			if (key.equals("count_180service_warnning")) {
-				list = elevatorService.listCount_180service_Warnning(search, 10, request,id_city,id_district,id_subdistrict);
+				list = elevatorService.listCount_180service_Warnning(search, 10, request,id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 			}
 			//电梯半年维保逾期数量
 			if (key.equals("count_180service_overdue")) {
-				list = elevatorService.listCount_180service_Overdue(search, 10, request,id_city,id_district,id_subdistrict);
+				list = elevatorService.listCount_180service_Overdue(search, 10, request,id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 			}
 			//电梯年度维保正常数量
 			if (key.equals("count_360service_normal")) {
-				list = elevatorService.listCount_360service_Normal(search, 10, request,id_city,id_district,id_subdistrict);
+				list = elevatorService.listCount_360service_Normal(search, 10, request,id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 			}
 			//电梯年度维保提示数量
 			if (key.equals("count_360service_warnning")) {
-				list = elevatorService.listCount_360service_Warnning(search, 10, request,id_city,id_district,id_subdistrict);
+				list = elevatorService.listCount_360service_Warnning(search, 10, request,id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 			}
 			//电梯年度维保逾期数量
 			if (key.equals("count_360service_overdue")) {
-				list = elevatorService.listCount_360service_Overdue(search, 10, request,id_city,id_district,id_subdistrict);
+				list = elevatorService.listCount_360service_Overdue(search, 10, request,id_city,id_district,id_subdistrict,id_service,id_user,id_test);
 			}
 
 			ModelAndView mav = new ModelAndView("system/elevatorList");
@@ -378,21 +389,23 @@ public class ElevatorController {
 	public ModelAndView selectElevatorByID(Elevator e){
 		System.out.println(e.getId_elevator());
 		ModelAndView mav=new ModelAndView("system/elevatorinfrom");
+		Elevator_state es=esService.findById(e.getId_elevator());
 		mav.addObject("eById",elevatorService.getEById(e.getId_elevator()));
+		mav.addObject("es",es);
 		return mav;
 	}
 	//查询未注册的电梯
 	@RequestMapping("list")
 	public ModelAndView list(HttpServletRequest request){
 		ModelAndView mav=new ModelAndView("system/ElevatorRegist");
-		mav.addObject("elevListRegist", elevatorService.listCount_NoRegist("",12, request,null,null,null));
+		mav.addObject("elevListRegist", elevatorService.listCount_NoRegist("",12, request,null,null,null,0,0,0));
 		return mav;
 	}
 	@RequestMapping("list1")
 	public ModelAndView list(String key,HttpServletRequest request){
 		ModelAndView mav=new ModelAndView("system/ElevatorRegist");
 		System.out.println(key);
-		mav.addObject("elevListRegist", elevatorService.listCount_NoRegist(key,12, request,null,null,null));
+		mav.addObject("elevListRegist", elevatorService.listCount_NoRegist(key,12, request,null,null,null,0,0,0));
 		return mav;
 	}
 	
@@ -443,6 +456,30 @@ public class ElevatorController {
         elevator_tag_init_task.setElevator_address(elevator.getAddress());
         elevator_tag_init_task.setElevator_layer_number(elevator.getNum_floor_elevator());
         elevator_tag_init_taskService.insert(elevator_tag_init_task);
+        //修改elevator_state中的时间为当前时间
+        Elevator_state es=esService.findById(e.getId_elevator());
+        if(es==null){
+        	es=new Elevator_state();
+            es.setIdelevator(e.getId_elevator());
+            es.setLabelwrite("0");
+            es.setLabeldemo(e.getDesc());
+            es.setLastmodified(DateUtils.format(new Date()));
+            es.setLast_15_service(e.getDate_enable());
+            es.setLast_180_service(e.getDate_enable());
+            es.setLast_360_service(e.getDate_enable());
+            es.setLast_90_service(e.getDate_enable());
+            es.setLastrounds(e.getDate_enable());
+            es.setLasttest(e.getDate_enable());
+            esService.insert(es);
+        }else{
+        	 es.setLast_15_service(e.getDate_enable());
+             es.setLast_180_service(e.getDate_enable());
+             es.setLast_360_service(e.getDate_enable());
+             es.setLast_90_service(e.getDate_enable());
+             es.setLastrounds(e.getDate_enable());
+             es.setLasttest(e.getDate_enable());
+             esService.update(es);
+        }
         return "ok";//最后
 		
 	}

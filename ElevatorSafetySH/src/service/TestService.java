@@ -186,8 +186,8 @@ public class TestService {
 		public int getCount_Rounds_Normal(int id_test){
 			String sql="select count(e.id_elevator) from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(es.last_rounds)-to_days(now())>("
-					+ "select alarm_rounds from system_setting limit 0,1)";
+					+ "where to_days(now())-to_days(es.last_rounds)<365";
+			sql+=" and e.register_status='1'";
 			sql+=" and e.id_test="+id_test;
 			List list=testDao.getListBySQL(sql);
 			if(list!=null&&list.size()>0){
@@ -201,8 +201,8 @@ public class TestService {
 		public List<Elevator> listCount_Rounds_Normal(String search,int pageSize,HttpServletRequest request,int id_test){
 			String sql="select e.id_elevator from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(es.last_rounds)-to_days(now())>("
-					+ "select alarm_rounds from system_setting limit 0,1)";
+					+ "where to_days(now())-to_days(es.last_rounds)<365";
+			sql+=" and e.register_status='1'";
 			sql+=" and e.id_test="+id_test;
 			List<Long> list=testDao.getListBySQL(sql);
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
@@ -217,8 +217,9 @@ public class TestService {
 		public int getCount_Rounds_Warnning(int id_test){
 			String sql="select count(e.id_elevator) from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where (to_days(es.last_rounds)-to_days(now())) "
-					+ "between 0 and (select alarm_rounds from system_setting limit 0,1)";
+					+ "where to_days(now())-to_days(es.last_rounds) "
+					+ "between (365-(select alarm_rounds from system_setting limit 0,1)) and 365 ";
+			sql+=" and e.register_status='1'";
 			sql+=" and e.id_test="+id_test;
 			List list=testDao.getListBySQL(sql);
 			if(list!=null&&list.size()>0){
@@ -232,8 +233,9 @@ public class TestService {
 		public List<Elevator> listCount_Rounds_Warnning(String search,int pageSize,HttpServletRequest request,int id_test){
 			String sql="select e.id_elevator from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where (to_days(es.last_rounds)-to_days(now())) "
-					+ "between 0 and (select alarm_rounds from system_setting limit 0,1)";
+					+ "where to_days(now())-to_days(es.last_rounds) "
+					+ "between (365-(select alarm_rounds from system_setting limit 0,1)) and 365 ";
+			sql+=" and e.register_status='1'";
 			sql+=" and e.id_test="+id_test;
 			List<Long> list=testDao.getListBySQL(sql);
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
@@ -248,7 +250,8 @@ public class TestService {
 		public int getCount_Rounds_Overdue(int id_test){
 			String sql="select count(e.id_elevator) from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(es.last_rounds)-to_days(now())<0";
+					+ "where to_days(now())-to_days(es.last_rounds)>365 ";
+			sql+=" and e.register_status='1'";
 			sql+=" and e.id_test="+id_test;
 			List list=testDao.getListBySQL(sql);
 			if(list!=null&&list.size()>0){
@@ -262,7 +265,8 @@ public class TestService {
 		public List<Elevator> listCount_Rounds_Overdue(String search,int pageSize,HttpServletRequest request,int id_test){
 			String sql="select e.id_elevator from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(es.last_rounds)-to_days(now())<0";
+					+ "where to_days(now())-to_days(es.last_rounds)>365 ";
+			sql+=" and e.register_status='1'";
 			sql+=" and e.id_test="+id_test;
 			List<Long> list=testDao.getListBySQL(sql);
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);

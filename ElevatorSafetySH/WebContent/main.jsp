@@ -99,7 +99,7 @@ $().ready(function(){
 
 			 $("#menu").append("<li><a href='${path }/"+a[i][1]+"'>"+a[i][0]+"</a>");
 		}
-		$("#menu").append("<li><a href=\"${path}/system/writeICCard.jsp\">读卡测试</a>");
+		
 		
 	});
 });
@@ -130,7 +130,7 @@ $().ready(function(){
 <%-- 				${operator_type.name} --%>
 				</div>
 				<div style="width: 55%;display: inline-block;text-align: right">
-				${login.city.name_city}${login.distict.name_district}${login.subdistict.name_subdistrict}&nbsp;&nbsp;&nbsp;&nbsp;
+<%-- 				${login.city.name_city}${login.distict.name_district}${login.subdistict.name_subdistrict}&nbsp;&nbsp;&nbsp;&nbsp; --%>
 				${deptName}&nbsp;&nbsp;
 <%-- 				${login.role.name_role } --%>
 				</div>
@@ -171,7 +171,7 @@ $().ready(function(){
 					<iframe width="100%" height="100%" frameborder="0" marginheight="0" scrolling="no"
 						marginwidth="0" id="_root" name="_root" src="
 						<c:if test="${operator_type.id_operator_type=='00'||operator_type.id_operator_type=='01'}">
-				   ${path }/elevator/search.do
+				   ${path }/elevator/search.do?id_service=0&id_user=0&id_test=0&key=first
 				   </c:if>
 				   <c:if test="${operator_type.id_operator_type=='10'||operator_type.id_operator_type=='11'}">
 				    ${path }/service/search.do

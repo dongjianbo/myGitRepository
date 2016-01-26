@@ -19,7 +19,10 @@ public class DistictlistService {
 	@SuppressWarnings("unchecked")
 	public List<Distictlist> getListByCityId(String id_city){
 		DetachedCriteria dc=DetachedCriteria.forClass(Distictlist.class);
-		dc.add(Restrictions.eq("id_city", id_city));
+		if(id_city!=null&&!"".equals(id_city)){
+			dc.add(Restrictions.eq("id_city", id_city));
+		}
+		
 		return distictlistDao.getListByDc(dc);
 	}
 	public String getListByCityId(String id_city,String dis){
@@ -34,7 +37,7 @@ public class DistictlistService {
 	}
 	@SuppressWarnings("rawtypes")
 	public Distictlist getDistictById(String id_city,String dis){
-		if(!id_city.equals("00")){
+		if(id_city!=null&&!id_city.equals("00")){
 			DetachedCriteria dc=DetachedCriteria.forClass(Distictlist.class);
 			dc.add(Restrictions.eq("id_city", id_city));
 			dc.add(Restrictions.eq("id_district", dis));

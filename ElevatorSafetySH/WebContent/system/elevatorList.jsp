@@ -25,7 +25,7 @@
 			$("#ElevatorDetail").dialog({
 				modal:true,
 				autoOpen:false,
-				width:850,
+				width:1050,
 				height:600,
 				buttons:{
 					"确定":function(){
