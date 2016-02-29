@@ -38,9 +38,9 @@ a{
 	<li><form action="${path}/user/task.do" method="post">
 		<table cellpadding="0" cellspacing="1">
 			<tr>
-				<td>从<input readonly="readonly" type="text" id="start" name="start" size="35" value="${param.start }"/>
+				<td>从<input readonly="readonly" type="text" id="start" name="start" size="35" value="${start }"/>
 				到
-				<input readonly="readonly" type="text" id="end" name="end" size="35" value="${param.end }"/>
+				<input readonly="readonly" type="text" id="end" name="end" size="35" value="${end }"/>
 				<input type="submit" value="搜索">
 				</td>
 			</tr>
@@ -55,8 +55,8 @@ a{
 		<th>配合维保次数</th>
 	</tr>
 	<tr>
-		<td><a href="${path }/user/listForTask.do?type=0&start=${param.start }&end=${param.end}">${countType0 }</a></td>
-		<td><a href="${path }/user/listForTask.do?type=-1&start=${param.start }&end=${param.end}">${countType}</a></td>
+		<td><a href="${path }/user/listForTask.do?type=0&start=${start }&end=${end}">${countType0 }</a></td>
+		<td><a href="${path }/user/listForTask.do?type=-1&start=${start }&end=${end}">${countType}</a></td>
 		
 	</tr>
 	</table>

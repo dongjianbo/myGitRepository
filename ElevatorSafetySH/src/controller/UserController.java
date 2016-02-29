@@ -4,6 +4,7 @@ import java.util.List;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -23,13 +24,16 @@ import service.CitylistService;
 import service.HistoryService;
 import service.History_listService;
 import service.Maint_report_idService;
+import service.System_settingService;
 import service.UserService;
+import util.DateUtils;
 import vo.Elevator;
 import vo.History;
 import vo.History_list;
 import vo.History_listKey;
 import vo.Maint_report_id;
 import vo.Operator;
+import vo.System_setting;
 import vo.User;
 
 @Controller
@@ -45,6 +49,8 @@ public class UserController {
    public Maint_report_idService mriService;
    @Resource
    public CitylistService cityService;
+   @Resource
+   public System_settingService system_settingService;
    @RequestMapping("list")
    public ModelAndView list(String key,HttpServletRequest request){
 		ModelAndView mav=new ModelAndView("system/userList");
@@ -201,6 +207,11 @@ public class UserController {
 				mav.addObject("count_360service_normal", count_360service_normal);
 				mav.addObject("count_360service_warnning", count_360service_warnning);
 				mav.addObject("count_360service_overdue", count_360service_overdue);
+				//系统设置中的提示天数
+				List<System_setting> system_settingList=system_settingService.list();
+				if(system_settingList!=null&&system_settingList.size()>0){
+					mav.addObject("system_setting",system_settingList.get(0));
+				}
 				return mav;
 			}
 		}
@@ -314,12 +325,26 @@ public class UserController {
 				mav.addObject("error","当前登录人非使用单位人员!");
 				return mav;
 			}else{
+				//第一次默认查询当前月份
+				String from=request.getParameter("from");
+				if("m".equals(from)){
+					//设置到当前月的第一天
+					Calendar c=Calendar.getInstance();
+					c.set(Calendar.DAY_OF_MONTH, 1);
+					start=DateUtils.format1(c.getTime());
+					//获取当月最后一天
+					c.add(Calendar.MONTH, 1);
+					c.add(Calendar.DAY_OF_MONTH, -1);
+					end=DateUtils.format1(c.getTime());
+				}
 				//查询本使用单位的巡检任务量
 				int countType0=userService.getCountMaintType0(op.getIdOrganization(), start, end);
 				int countType=userService.getCountMaint(op.getIdOrganization(), start, end);
 				ModelAndView mav=new ModelAndView("system/userTask");
 				mav.addObject("countType0", countType0);
 				mav.addObject("countType",countType);
+				mav.addObject("start",start);
+				mav.addObject("end",end);
 				return mav;
 			}
 		}

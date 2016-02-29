@@ -35,7 +35,7 @@ public class ElevatorService {
 	}
 	//电梯总数量
 	@SuppressWarnings("unchecked")
-	public int getCount(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public int getCount(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 		dc.setProjection(Projections.count("id_elevator"));
 		if(id_city!=null&&!"".equals(id_city)&&!"00".equals(id_city)){
@@ -56,6 +56,9 @@ public class ElevatorService {
 		if(id_test!=0){
 			dc.add(Restrictions.eq("id_test", id_test));
 		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			dc.add(Restrictions.like("desc", desc,MatchMode.ANYWHERE));
+		}
 		List<Long> list=elevatorDao.getListByDc(dc);
 		if(list!=null){
 			return list.get(0).intValue();
@@ -65,7 +68,7 @@ public class ElevatorService {
 	}
 	//电梯总数量列表
 	@SuppressWarnings("unchecked")
-	public List<Elevator> listCount(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public List<Elevator> listCount(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 		if(!"".equals(search)){
 			dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
@@ -87,6 +90,9 @@ public class ElevatorService {
 		}
 		if(id_test!=0){
 			dc.add(Restrictions.eq("id_test", id_test));
+		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			dc.add(Restrictions.like("desc", desc,MatchMode.ANYWHERE));
 		}
 		return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 	}
@@ -98,7 +104,7 @@ public class ElevatorService {
 		}
 	//未注册电梯数量
 	@SuppressWarnings("unchecked")
-	public int getCount_NoRegist(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public int getCount_NoRegist(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 		dc.setProjection(Projections.count("id_elevator"));
 		dc.add(Restrictions.eq("register_status", "0"));
@@ -119,6 +125,9 @@ public class ElevatorService {
 		}
 		if(id_test!=0){
 			dc.add(Restrictions.eq("id_test", id_test));
+		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			dc.add(Restrictions.like("desc", desc,MatchMode.ANYWHERE));
 		}
 		List<Long> list=elevatorDao.getListByDc(dc);
 		if(list!=null){
@@ -129,7 +138,7 @@ public class ElevatorService {
 	}
 	//未注册电梯列表
 	@SuppressWarnings("unchecked")
-	public List<Elevator> listCount_NoRegist(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public List<Elevator> listCount_NoRegist(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 		dc.add(Restrictions.eq("register_status", "0"));
 		if(!"".equals(search)){
@@ -153,13 +162,16 @@ public class ElevatorService {
 		if(id_test!=0){
 			dc.add(Restrictions.eq("id_test", id_test));
 		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			dc.add(Restrictions.like("desc", desc,MatchMode.ANYWHERE));
+		}
 		return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 	}
 	
 	
 	//已注册电梯数量
 	@SuppressWarnings("unchecked")
-	public int getCount_Registed(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public int getCount_Registed(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 		dc.setProjection(Projections.count("id_elevator"));
 		dc.add(Restrictions.eq("register_status", "1"));
@@ -180,6 +192,9 @@ public class ElevatorService {
 		}
 		if(id_test!=0){
 			dc.add(Restrictions.eq("id_test", id_test));
+		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			dc.add(Restrictions.like("desc", desc,MatchMode.ANYWHERE));
 		}
 		List<Long> list=elevatorDao.getListByDc(dc);
 		if(list!=null){
@@ -190,7 +205,7 @@ public class ElevatorService {
 	}
 	//已注册电梯列表
 	@SuppressWarnings("unchecked")
-	public List<Elevator> listCount_Registed(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public List<Elevator> listCount_Registed(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 		dc.add(Restrictions.eq("register_status", "1"));
 		if(!"".equals(search)){
@@ -214,11 +229,14 @@ public class ElevatorService {
 		if(id_test!=0){
 			dc.add(Restrictions.eq("id_test", id_test));
 		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			dc.add(Restrictions.like("desc", desc,MatchMode.ANYWHERE));
+		}
 		return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 	}
 	//已注销电梯数量
 	@SuppressWarnings("unchecked")
-	public int getCount_Destory(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public int getCount_Destory(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 		dc.setProjection(Projections.count("id_elevator"));
 		dc.add(Restrictions.eq("register_status", "2"));
@@ -239,6 +257,9 @@ public class ElevatorService {
 		}
 		if(id_test!=0){
 			dc.add(Restrictions.eq("id_test", id_test));
+		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			dc.add(Restrictions.like("desc", desc,MatchMode.ANYWHERE));
 		}
 		List<Long> list=elevatorDao.getListByDc(dc);
 		if(list!=null){
@@ -249,7 +270,7 @@ public class ElevatorService {
 	}
 	//已注销电梯列表
 	@SuppressWarnings("unchecked")
-	public List<Elevator> listCount_Destory(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public List<Elevator> listCount_Destory(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 		dc.add(Restrictions.eq("register_status", "2"));
 		if(!"".equals(search)){
@@ -273,11 +294,14 @@ public class ElevatorService {
 		if(id_test!=0){
 			dc.add(Restrictions.eq("id_test", id_test));
 		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			dc.add(Restrictions.like("desc", desc,MatchMode.ANYWHERE));
+		}
 		return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 	}
 	//已停用电梯数量
 	@SuppressWarnings("unchecked")
-	public int getCount_Stop(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public int getCount_Stop(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 		dc.setProjection(Projections.count("id_elevator"));
 		dc.add(Restrictions.eq("register_status", "3"));
@@ -299,6 +323,9 @@ public class ElevatorService {
 		if(id_test!=0){
 			dc.add(Restrictions.eq("id_test", id_test));
 		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			dc.add(Restrictions.like("desc", desc,MatchMode.ANYWHERE));
+		}
 		List<Long> list=elevatorDao.getListByDc(dc);
 		if(list!=null){
 			return list.get(0).intValue();
@@ -308,7 +335,7 @@ public class ElevatorService {
 	}
 	//已停用电梯列表
 	@SuppressWarnings("unchecked")
-	public List<Elevator> listCount_Stop(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public List<Elevator> listCount_Stop(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 		dc.add(Restrictions.eq("register_status", "3"));
 		if(!"".equals(search)){
@@ -332,11 +359,14 @@ public class ElevatorService {
 		if(id_test!=0){
 			dc.add(Restrictions.eq("id_test", id_test));
 		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			dc.add(Restrictions.like("desc", desc,MatchMode.ANYWHERE));
+		}
 		return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 	}
 	//年检正常数量
 	@SuppressWarnings("rawtypes")
-	public int getCount_Rounds_Normal(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public int getCount_Rounds_Normal(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select count(e.id_elevator) from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where to_days(now())-to_days(es.last_rounds)<365";
@@ -359,6 +389,9 @@ public class ElevatorService {
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
 		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
+		}
 		List list=elevatorDao.getListBySQL(sql);
 		if(list!=null&&list.size()>0){
 			return Integer.parseInt(list.get(0).toString());
@@ -368,7 +401,7 @@ public class ElevatorService {
 	}
 	//年检正常数量列表
 	@SuppressWarnings("unchecked")
-	public List<Elevator> listCount_Rounds_Normal(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public List<Elevator> listCount_Rounds_Normal(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select e.id_elevator from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where to_days(now())-to_days(es.last_rounds)<365";
@@ -390,6 +423,9 @@ public class ElevatorService {
 		}
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
+		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
 		}
 		List<Long> list=elevatorDao.getListBySQL(sql);
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
@@ -401,7 +437,7 @@ public class ElevatorService {
 	}
 	//年检提示数量
 	@SuppressWarnings("rawtypes")
-	public int getCount_Rounds_Warnning(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public int getCount_Rounds_Warnning(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select count(e.id_elevator) from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where (to_days(now())-to_days(es.last_rounds)) "
@@ -425,6 +461,9 @@ public class ElevatorService {
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
 		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
+		}
 		List list=elevatorDao.getListBySQL(sql);
 		if(list!=null&&list.size()>0){
 			return Integer.parseInt(list.get(0).toString());
@@ -434,7 +473,7 @@ public class ElevatorService {
 	}
 	//年检提示数量列表
 	@SuppressWarnings({"unchecked" })
-	public List<Elevator> listCount_Rounds_Warnning(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public List<Elevator> listCount_Rounds_Warnning(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select e.id_elevator from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where (to_days(now())-to_days(es.last_rounds)) "
@@ -457,6 +496,9 @@ public class ElevatorService {
 		}
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
+		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
 		}
 		List<Long> list=elevatorDao.getListBySQL(sql);
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
@@ -468,7 +510,7 @@ public class ElevatorService {
 	}
 	//年检逾期数量
 	@SuppressWarnings("rawtypes")
-	public int getCount_Rounds_Overdue(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public int getCount_Rounds_Overdue(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select count(e.id_elevator) from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where to_days(now())-to_days(es.last_rounds)>365";
@@ -491,6 +533,9 @@ public class ElevatorService {
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
 		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
+		}
 		List list=elevatorDao.getListBySQL(sql);
 		if(list!=null&&list.size()>0){
 			return Integer.parseInt(list.get(0).toString());
@@ -500,7 +545,7 @@ public class ElevatorService {
 	}
 	//年检逾期数量列表
 	@SuppressWarnings({"unchecked" })
-	public List<Elevator> listCount_Rounds_Overdue(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public List<Elevator> listCount_Rounds_Overdue(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select e.id_elevator from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where to_days(now())-to_days(es.last_rounds)>365";
@@ -522,6 +567,9 @@ public class ElevatorService {
 		}
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
+		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
 		}
 		List<Long> list=elevatorDao.getListBySQL(sql);
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
@@ -533,7 +581,7 @@ public class ElevatorService {
 	}
 	//半月检正常数量
 	@SuppressWarnings("rawtypes")
-	public int getCount_15service_Normal(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public int getCount_15service_Normal(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select count(e.id_elevator) from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where to_days(now())-to_days(es.last_15_service)<15";
@@ -556,6 +604,9 @@ public class ElevatorService {
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
 		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
+		}
 		List list=elevatorDao.getListBySQL(sql);
 		if(list!=null&&list.size()>0){
 			return Integer.parseInt(list.get(0).toString());
@@ -565,7 +616,7 @@ public class ElevatorService {
 	}
 	//半月检正常数量列表
 	@SuppressWarnings({"unchecked" })
-	public List<Elevator> listCount_15service_Normal(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public List<Elevator> listCount_15service_Normal(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select e.id_elevator from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where to_days(now())-to_days(es.last_15_service)<15";
@@ -587,6 +638,9 @@ public class ElevatorService {
 		}
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
+		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
 		}
 		List<Long> list=elevatorDao.getListBySQL(sql);
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
@@ -598,7 +652,7 @@ public class ElevatorService {
 	}
 	//半月检提示数量
 	@SuppressWarnings("rawtypes")
-	public int getCount_15service_Warnning(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public int getCount_15service_Warnning(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select count(e.id_elevator) from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where (to_days(now())-to_days(es.last_15_service)) "
@@ -622,6 +676,9 @@ public class ElevatorService {
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
 		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
+		}
 		List list=elevatorDao.getListBySQL(sql);
 		if(list!=null&&list.size()>0){
 			return Integer.parseInt(list.get(0).toString());
@@ -631,7 +688,7 @@ public class ElevatorService {
 	}
 	//半月检提示数量列表
 	@SuppressWarnings({"unchecked" })
-	public List<Elevator> listCount_15service_Warnning(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public List<Elevator> listCount_15service_Warnning(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select e.id_elevator from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where (to_days(now())-to_days(es.last_15_service)) "
@@ -654,6 +711,9 @@ public class ElevatorService {
 		}
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
+		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
 		}
 		List<Long> list=elevatorDao.getListBySQL(sql);
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
@@ -665,7 +725,7 @@ public class ElevatorService {
 	}
 	//半月检预期数量
 	@SuppressWarnings("rawtypes")
-	public int getCount_15service_Overdue(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public int getCount_15service_Overdue(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select count(e.id_elevator) from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where to_days(now())-to_days(es.last_15_service)>15 ";
@@ -688,6 +748,9 @@ public class ElevatorService {
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
 		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
+		}
 		List list=elevatorDao.getListBySQL(sql);
 		if(list!=null&&list.size()>0){
 			return Integer.parseInt(list.get(0).toString());
@@ -697,7 +760,7 @@ public class ElevatorService {
 	}
 	//半月检预期数量列表
 	@SuppressWarnings({"unchecked" })
-	public List<Elevator> listCount_15service_Overdue(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public List<Elevator> listCount_15service_Overdue(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select e.id_elevator from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where to_days(now())-to_days(es.last_15_service)>15 ";
@@ -719,6 +782,9 @@ public class ElevatorService {
 		}
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
+		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
 		}
 		List<Long> list=elevatorDao.getListBySQL(sql);
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
@@ -730,7 +796,7 @@ public class ElevatorService {
 	}
 	//季度检正常数量
 	@SuppressWarnings("rawtypes")
-	public int getCount_90service_Normal(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public int getCount_90service_Normal(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select count(e.id_elevator) from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where to_days(now())-to_days(es.last_90_service)<90";
@@ -753,6 +819,9 @@ public class ElevatorService {
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
 		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
+		}
 		List list=elevatorDao.getListBySQL(sql);
 		if(list!=null&&list.size()>0){
 			return Integer.parseInt(list.get(0).toString());
@@ -762,7 +831,7 @@ public class ElevatorService {
 	}
 	//季度检正常数量列表
 	@SuppressWarnings({"unchecked" })
-	public List<Elevator> listCount_90service_Normal(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public List<Elevator> listCount_90service_Normal(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select e.id_elevator from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where to_days(now())-to_days(es.last_90_service)<90";
@@ -784,6 +853,9 @@ public class ElevatorService {
 		}
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
+		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
 		}
 		List<Long> list=elevatorDao.getListBySQL(sql);
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
@@ -795,7 +867,7 @@ public class ElevatorService {
 	}
 	//季度检提示数量
 	@SuppressWarnings("rawtypes")
-	public int getCount_90service_Warnning(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public int getCount_90service_Warnning(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select count(e.id_elevator) from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where (to_days(now())-to_days(es.last_90_service)) "
@@ -819,6 +891,9 @@ public class ElevatorService {
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
 		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
+		}
 		List list=elevatorDao.getListBySQL(sql);
 		if(list!=null&&list.size()>0){
 			return Integer.parseInt(list.get(0).toString());
@@ -828,7 +903,7 @@ public class ElevatorService {
 	}
 	//季度检提示数量列表
 	@SuppressWarnings({"unchecked" })
-	public List<Elevator> listCount_90service_Warnning(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public List<Elevator> listCount_90service_Warnning(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select e.id_elevator from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where (to_days(now())-to_days(es.last_90_service)) "
@@ -851,6 +926,9 @@ public class ElevatorService {
 		}
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
+		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
 		}
 		List<Long> list=elevatorDao.getListBySQL(sql);
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
@@ -862,7 +940,7 @@ public class ElevatorService {
 	}
 	//季度检逾期数量
 	@SuppressWarnings("rawtypes")
-	public int getCount_90service_Overdue(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public int getCount_90service_Overdue(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select count(e.id_elevator) from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where (to_days(now())-to_days(es.last_90_service))>90 ";
@@ -885,6 +963,9 @@ public class ElevatorService {
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
 		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
+		}
 		List list=elevatorDao.getListBySQL(sql);
 		if(list!=null&&list.size()>0){
 			return Integer.parseInt(list.get(0).toString());
@@ -894,7 +975,7 @@ public class ElevatorService {
 	}
 	//季度检预期数量列表
 	@SuppressWarnings({"unchecked" })
-	public List<Elevator> listCount_90service_Overdue(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public List<Elevator> listCount_90service_Overdue(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select e.id_elevator from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where (to_days(now())-to_days(es.last_90_service))>90 ";
@@ -916,6 +997,9 @@ public class ElevatorService {
 		}
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
+		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
 		}
 		List<Long> list=elevatorDao.getListBySQL(sql);
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
@@ -927,7 +1011,7 @@ public class ElevatorService {
 	}
 	//半年检正常数量
 	@SuppressWarnings("rawtypes")
-	public int getCount_180service_Normal(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public int getCount_180service_Normal(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select count(e.id_elevator) from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where to_days(now())-to_days(es.last_180_service)<180";
@@ -950,6 +1034,9 @@ public class ElevatorService {
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
 		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
+		}
 		List list=elevatorDao.getListBySQL(sql);
 		if(list!=null&&list.size()>0){
 			return Integer.parseInt(list.get(0).toString());
@@ -959,7 +1046,7 @@ public class ElevatorService {
 	}
 	//半年检正常数量列表
 	@SuppressWarnings({"unchecked" })
-	public List<Elevator> listCount_180service_Normal(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public List<Elevator> listCount_180service_Normal(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select e.id_elevator from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where to_days(now())-to_days(es.last_180_service)<180";
@@ -982,6 +1069,9 @@ public class ElevatorService {
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
 		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
+		}
 		List<Long> list=elevatorDao.getListBySQL(sql);
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 		dc.add(Restrictions.in("id_elevator", list));
@@ -992,7 +1082,7 @@ public class ElevatorService {
 	}
 	//半年检提示数量
 	@SuppressWarnings("rawtypes")
-	public int getCount_180service_Warnning(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public int getCount_180service_Warnning(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select count(e.id_elevator) from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where to_days(now())-to_days(es.last_180_service) "
@@ -1016,6 +1106,9 @@ public class ElevatorService {
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
 		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
+		}
 		List list=elevatorDao.getListBySQL(sql);
 		if(list!=null&&list.size()>0){
 			return Integer.parseInt(list.get(0).toString());
@@ -1025,7 +1118,7 @@ public class ElevatorService {
 	}
 	//半年检提示数量列表
 	@SuppressWarnings({"unchecked" })
-	public List<Elevator> listCount_180service_Warnning(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public List<Elevator> listCount_180service_Warnning(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select e.id_elevator from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where to_days(now())-to_days(es.last_180_service) "
@@ -1049,6 +1142,9 @@ public class ElevatorService {
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
 		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
+		}
 		List<Long> list=elevatorDao.getListBySQL(sql);
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 		dc.add(Restrictions.in("id_elevator", list));
@@ -1059,7 +1155,7 @@ public class ElevatorService {
 	}
 	//半年检预期数量
 	@SuppressWarnings("rawtypes")
-	public int getCount_180service_Overdue(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public int getCount_180service_Overdue(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select count(e.id_elevator) from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where to_days(now())-to_days(es.last_180_service)>180 ";
@@ -1082,6 +1178,9 @@ public class ElevatorService {
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
 		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
+		}
 		List list=elevatorDao.getListBySQL(sql);
 		if(list!=null&&list.size()>0){
 			return Integer.parseInt(list.get(0).toString());
@@ -1091,7 +1190,7 @@ public class ElevatorService {
 	}
 	//半年检预期数量列表
 	@SuppressWarnings({"unchecked" })
-	public List<Elevator> listCount_180service_Overdue(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public List<Elevator> listCount_180service_Overdue(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select e.id_elevator from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where to_days(now())-to_days(es.last_180_service)>180 ";
@@ -1113,6 +1212,9 @@ public class ElevatorService {
 		}
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
+		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
 		}
 		List<Long> list=elevatorDao.getListBySQL(sql);
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
@@ -1124,7 +1226,7 @@ public class ElevatorService {
 	}
 	//年度维保正常数量
 	@SuppressWarnings("rawtypes")
-	public int getCount_360service_Normal(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public int getCount_360service_Normal(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select count(e.id_elevator) from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where to_days(now())-to_days(es.last_360_service)<360 ";
@@ -1147,6 +1249,9 @@ public class ElevatorService {
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
 		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
+		}
 		List list=elevatorDao.getListBySQL(sql);
 		if(list!=null&&list.size()>0){
 			return Integer.parseInt(list.get(0).toString());
@@ -1156,7 +1261,7 @@ public class ElevatorService {
 	}
 	//年度维保正常数量列表
 	@SuppressWarnings({"unchecked" })
-	public List<Elevator> listCount_360service_Normal(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public List<Elevator> listCount_360service_Normal(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select e.id_elevator from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where to_days(now())-to_days(es.last_360_service)<360 ";
@@ -1178,6 +1283,9 @@ public class ElevatorService {
 		}
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
+		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
 		}
 		List<Long> list=elevatorDao.getListBySQL(sql);
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
@@ -1189,7 +1297,7 @@ public class ElevatorService {
 	}
 	//年度维保提示数量
 	@SuppressWarnings("rawtypes")
-	public int getCount_360service_Warnning(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public int getCount_360service_Warnning(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select count(e.id_elevator) from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where to_days(now())-to_days(es.last_360_service) "
@@ -1213,6 +1321,9 @@ public class ElevatorService {
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
 		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
+		}
 		List list=elevatorDao.getListBySQL(sql);
 		if(list!=null&&list.size()>0){
 			return Integer.parseInt(list.get(0).toString());
@@ -1222,7 +1333,7 @@ public class ElevatorService {
 	}
 	//年度维保提示数量列表
 	@SuppressWarnings({"unchecked" })
-	public List<Elevator> listCount_360service_Warnning(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public List<Elevator> listCount_360service_Warnning(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select e.id_elevator from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where to_days(now())-to_days(es.last_360_service) "
@@ -1245,6 +1356,9 @@ public class ElevatorService {
 		}
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
+		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
 		}
 		List<Long> list=elevatorDao.getListBySQL(sql);
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
@@ -1256,7 +1370,7 @@ public class ElevatorService {
 	}
 	//年度维保逾期数量
 	@SuppressWarnings("rawtypes")
-	public int getCount_360service_Overdue(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public int getCount_360service_Overdue(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select count(e.id_elevator) from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where to_days(now())-to_days(es.last_360_service)>360 ";
@@ -1279,6 +1393,9 @@ public class ElevatorService {
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
 		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
+		}
 		List list=elevatorDao.getListBySQL(sql);
 		if(list!=null&&list.size()>0){
 			return Integer.parseInt(list.get(0).toString());
@@ -1288,7 +1405,7 @@ public class ElevatorService {
 	}
 	//年度维保预期数量列表
 	@SuppressWarnings({"unchecked" })
-	public List<Elevator> listCount_360service_Overdue(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test){
+	public List<Elevator> listCount_360service_Overdue(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select e.id_elevator from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
 				+ "where to_days(now())-to_days(es.last_360_service)>360 ";
@@ -1311,6 +1428,9 @@ public class ElevatorService {
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
 		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
+		}
 		List<Long> list=elevatorDao.getListBySQL(sql);
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 		dc.add(Restrictions.in("id_elevator", list));
@@ -1318,5 +1438,11 @@ public class ElevatorService {
 			dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
 		}
 		return elevatorDao.findPageByDcQuery(dc, pageSize, request);
+	}
+	//查询电梯的id和简称，下拉框使用
+	@SuppressWarnings("unchecked")
+	public List<Object[]> listElevator(){
+		String sql="select id_elevator,`desc` from elevator";
+		return elevatorDao.getListBySQL(sql);
 	}
 }

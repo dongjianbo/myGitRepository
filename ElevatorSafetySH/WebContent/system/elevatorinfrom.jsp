@@ -56,13 +56,13 @@
 		         <ul>
 		            <li>注册时间:
 					<li><input type="text" value="${eById.date_register }" readonly="readonly" size="30" />
-					<li> 开始使用时间:
+					<li>开始使用时间:
 					<li><input type="text" value="${eById.date_enable }" readonly="readonly" size="30" />
 					<li>安装项目责任人:
 					<li><input type="text" value="${eById.project_duty }" readonly="readonly" size="30" />
-					<li>  维保单位名称:
+					<li>维保单位名称:
 					<li><input type="text" value="${eById.service.name }" readonly="readonly" size="30" />
-					<li> 检验坚持测单位名称:
+					<li>检验检测单位名称:
 					<li><input type="text" value=" ${eById.test.name }" readonly="readonly" size="30" />
 					<li>电梯层数:
 					<li><input type="text" value=" ${eById.num_floor_elevator }" readonly="readonly" size="30" />
@@ -70,7 +70,7 @@
 					<li><input type="text" value="${eById.model.modelname }" readonly="readonly" size="30" />
 					<li>注册状态 :
 					<li><input type="text" value="${eById.regist_status.name }" readonly="readonly" size="30" />
-					<li> 电梯简称:
+					<li>电梯简称:
 					<li><input type="text" value=" ${eById.desc }" readonly="readonly" size="30" />
 		        </ul>
 		      </td>

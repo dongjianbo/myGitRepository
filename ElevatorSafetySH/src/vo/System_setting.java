@@ -53,8 +53,6 @@ public class System_setting {
 	private int alarm_90_service;
 	private int alarm_180_service;
 	private int alarm_360_service;
-	@Column(name="alarmrounds")
 	private int alarm_rounds;
-	@Column(name="alarmtest")
 	private int alarm_test;
 }

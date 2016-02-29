@@ -322,7 +322,7 @@ span{
 <input type="hidden" value="${login.idcity}" id="idcity"/>
 <input type="hidden" value="${login.iddistrict}" id="iddistrict"/>
 <input type="hidden" value="${login.idsubdistrict}" id="idsubdistrict"/>
-<form action="${path }/elevator/search.do" method="post">
+<form action="${path }/elevator/search.do" method="get">
 <div style="margin-top: 50px;">
 	<ul>
 			<li>
@@ -346,6 +346,12 @@ span{
 		</ul>
 </div>
 <br>
+<div>
+	<ul>
+		<li><span>电梯简称:</span><input type="text" id="desc" name="desc" size="100" maxlength="16" value="${desc }"/>
+	</ul>
+</div>
+<br>
 <div style="width: 95%;text-align: right;">
 	<input type="submit" value="&nbsp;&nbsp;搜索&nbsp;&nbsp;"/>
 </div>
@@ -362,11 +368,11 @@ span{
 		<th>已注销数量</th>
 	</tr>
 	<tr>
-		<td><a href="${path }/elevator/listForSearch.do?key=count&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">${count }</a></td>
-		<td><a href="${path }/elevator/listForSearch.do?key=count_registed&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">${count_registed}</a></td>
-		<td><a href="${path }/elevator/listForSearch.do?key=count_noregist&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">${count_noregist }</a></td>
-		<td><a href="${path }/elevator/listForSearch.do?key=count_stop&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">${count_stop }</a></td>
-		<td><a href="${path }/elevator/listForSearch.do?key=count_destory&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">${count_destory}</a></td>
+		<td><a href="${path }/elevator/listForSearch.do?key=count&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count }</a></td>
+		<td><a href="${path }/elevator/listForSearch.do?key=count_registed&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_registed}</a></td>
+		<td><a href="${path }/elevator/listForSearch.do?key=count_noregist&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_noregist }</a></td>
+		<td><a href="${path }/elevator/listForSearch.do?key=count_stop&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_stop }</a></td>
+		<td><a href="${path }/elevator/listForSearch.do?key=count_destory&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_destory}</a></td>
 	</tr>
 	</table>
 	<li><h3>正常运行电梯统计</h3>
@@ -378,34 +384,34 @@ span{
 			<th>逾期数量</th>
 		</tr>
 		<tr>
-			<td>年检</td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_rounds_normal&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">${count_rounds_normal }</a></td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_rounds_warnning&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">${count_rounds_warnning }</a></td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_rounds_overdue&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">${count_rounds_overdue }</a></td>
+			<td>年检(提前提示时间：${system_setting.alarm_test}天)</td>
+			<td><a href="${path }/elevator/listForSearch.do?key=count_rounds_normal&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_rounds_normal }</a></td>
+			<td><a href="${path }/elevator/listForSearch.do?key=count_rounds_warnning&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_rounds_warnning }</a></td>
+			<td><a href="${path }/elevator/listForSearch.do?key=count_rounds_overdue&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_rounds_overdue }</a></td>
 		</tr>
 		<tr>
-			<td>半月维保</td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_15service_normal&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">${count_15service_normal }</a></td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_15service_warnning&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">${count_15service_warnning }</a></td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_15service_overdue&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">${count_15service_overdue }</a></td>
+			<td>半月维保(提前提示时间：${system_setting.alarm_15_service}天)</td>
+			<td><a href="${path }/elevator/listForSearch.do?key=count_15service_normal&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_15service_normal }</a></td>
+			<td><a href="${path }/elevator/listForSearch.do?key=count_15service_warnning&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_15service_warnning }</a></td>
+			<td><a href="${path }/elevator/listForSearch.do?key=count_15service_overdue&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_15service_overdue }</a></td>
 		</tr>
 		<tr>
-			<td>季度维保</td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_90service_normal&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">${count_90service_normal }</a></td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_90service_warnning&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">${count_90service_warnning }</a></td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_90service_overdue&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">${count_90service_overdue }</a></td>
+			<td>季度维保(提前提示时间：${system_setting.alarm_90_service}天)</td>
+			<td><a href="${path }/elevator/listForSearch.do?key=count_90service_normal&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_90service_normal }</a></td>
+			<td><a href="${path }/elevator/listForSearch.do?key=count_90service_warnning&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_90service_warnning }</a></td>
+			<td><a href="${path }/elevator/listForSearch.do?key=count_90service_overdue&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_90service_overdue }</a></td>
 		</tr>
 		<tr>
-			<td>半年维保</td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_180service_normal&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">${count_180service_normal }</a></td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_180service_warnning&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">${count_180service_warnning }</a></td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_180service_overdue&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">${count_180service_overdue }</a></td>
+			<td>半年维保(提前提示时间：${system_setting.alarm_180_service}天)</td>
+			<td><a href="${path }/elevator/listForSearch.do?key=count_180service_normal&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_180service_normal }</a></td>
+			<td><a href="${path }/elevator/listForSearch.do?key=count_180service_warnning&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_180service_warnning }</a></td>
+			<td><a href="${path }/elevator/listForSearch.do?key=count_180service_overdue&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_180service_overdue }</a></td>
 		</tr>
 		<tr>
-			<td>年度维保</td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_360service_normal&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">${count_360service_normal }</a></td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_360service_warnning&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">${count_360service_warnning }</a></td>
-			<td><a href="${path }/elevator/listForSearch.do?key=count_360service_overdue&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">${count_360service_overdue }</a></td>
+			<td>年度维保(提前提示时间：${system_setting.alarm_360_service}天)</td>
+			<td><a href="${path }/elevator/listForSearch.do?key=count_360service_normal&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_360service_normal }</a></td>
+			<td><a href="${path }/elevator/listForSearch.do?key=count_360service_warnning&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_360service_warnning }</a></td>
+			<td><a href="${path }/elevator/listForSearch.do?key=count_360service_overdue&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_360service_overdue }</a></td>
 		</tr>
 	</table>
 </ul>

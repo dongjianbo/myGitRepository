@@ -13,6 +13,9 @@ public class DateUtils {
 	public static String format(Date date){
 		return format.format(date);
 	}
+	public static String format1(Date date){
+		return format1.format(date);
+	}
 	public static Date parse(String str){
 		try {
 			return format1.parse(str);

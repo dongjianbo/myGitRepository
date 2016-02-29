@@ -45,4 +45,9 @@ public class OwnerService {
 	public void delete(Owner owner){
 		ownerDao.delete(owner);
 	}
+	@SuppressWarnings("unchecked")
+	public List<Object[]> listOwner(){
+		String sql="select id_owner,name from owner";
+		return ownerDao.listBySQLQuery(sql);
+	}
 }

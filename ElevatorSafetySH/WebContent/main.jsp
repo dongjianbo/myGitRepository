@@ -131,6 +131,11 @@ $().ready(function(){
 				</div>
 				<div style="width: 55%;display: inline-block;text-align: right">
 <%-- 				${login.city.name_city}${login.distict.name_district}${login.subdistict.name_subdistrict}&nbsp;&nbsp;&nbsp;&nbsp; --%>
+				<c:if test="${operator_type.id_operator_type=='00'||operator_type.id_operator_type=='01'}">
+				  ${login.city.name_city}
+				   </c:if>
+				
+				
 				${deptName}&nbsp;&nbsp;
 <%-- 				${login.role.name_role } --%>
 				</div>
@@ -157,8 +162,9 @@ $().ready(function(){
 <!-- 						<li><a href='#'>检测人员任务量统计</a> -->
 <%-- 						<li><a href='${path }/system/insertTestReport.jsp'>检测报告录入</a> --%>
 <%-- 						<li><a href='${path}/system/operatorZhanghao.jsp'>账号信息设置</a> --%>
-							
+								
 					</ul>
+					
 				</div>
 				<div class="div1" style="height: 10%;margin-top: -1px;background-color: #ddefff;">
 					<ul style="margin-left: -30px;">
@@ -189,5 +195,8 @@ $().ready(function(){
 	<div title="打开或关闭侧边栏" onclick="$('#main_td').toggle();"
 		style="width: 20px; height: 20px; display: block; position: absolute; left: 4px; top: 0px;margin-top:30px; border: 1px solid #aacccc; background-color: #ddefff; text-align: center; cursor: pointer;">
 		&lt;&gt;</div>
+	<div title="退出" onclick="window.opener=null;window.close();"
+	style="width: 30px; height: 30px; display: block; position: absolute; right: 4px; top: 0px;margin-top:5px; border: 1px solid #aacccc; background-color: #ddefff; text-align: center; cursor: pointer;">
+	<font size="+1">Ⅹ</font></div>
 </body>
 </html>

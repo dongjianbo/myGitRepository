@@ -32,7 +32,7 @@ public class OperatorController  {
   @Resource
   public HistoryService  historyService;
   @Resource
-  public History_listService  history_listService; 
+  public History_listService  history_listService;
   @RequestMapping("list")
   public ModelAndView list(String key,HttpServletRequest request){
 		ModelAndView mav=new ModelAndView("system/operatorList");
@@ -62,7 +62,7 @@ public class OperatorController  {
 	    System.out.println("类型："+operator.getTypeOperator());
 	    operator.setPassword(new MD5().getMD5ofStr(operator.getPassword()));
 	   //插入技术监督局操作员信息
-		int idoperator=Integer.parseInt( operatorService.insert(operator).toString());//返回表的主键
+		int idoperator=Integer.parseInt(operatorService.insert(operator).toString());//返回表的主键
 		//插入history信息
 		History history=new History();
 		history.setType(11);//类型

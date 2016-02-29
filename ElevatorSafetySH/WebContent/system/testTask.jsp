@@ -51,9 +51,9 @@ a{
 						>${t.name }</option>
 					</c:forEach>
 				</select>
-				从<input readonly="readonly" type="text" id="start" name="start" size="35" value="${param.start }"/>
+				从<input readonly="readonly" type="text" id="start" name="start" size="35" value="${start }"/>
 				到
-				<input readonly="readonly" type="text" id="end" name="end" size="35" value="${param.end }"/>
+				<input readonly="readonly" type="text" id="end" name="end" size="35" value="${end }"/>
 				<input type="submit" value="搜索">
 				</td>
 			</tr>
@@ -68,8 +68,8 @@ a{
 		<th>配合维保次数</th>
 	</tr>
 	<tr>
-		<td><a href="${path }/test/listForTask.do?type=0&start=${param.start }&end=${param.end}&idtester=${param.idtester}">${countType0 }</a></td>
-		<td><a href="${path }/test/listForTask.do?type=-1&start=${param.start }&end=${param.end}&idtester=${param.idtester}">${countType}</a></td>
+		<td><a href="${path }/test/listForTask.do?type=0&start=${start }&end=${end}&idtester=${param.idtester}">${countType0 }</a></td>
+		<td><a href="${path }/test/listForTask.do?type=-1&start=${start }&end=${end}&idtester=${param.idtester}">${countType}</a></td>
 		
 	</tr>
 	</table>

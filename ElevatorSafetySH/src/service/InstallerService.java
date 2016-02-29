@@ -12,13 +12,12 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
 import vo.Installer;
-
 import dao.InstallerDao;
 
 @Service
 public class InstallerService {
 	@Resource
-   public InstallerDao nstallerdao;
+   public InstallerDao installerdao;
 	@SuppressWarnings("unchecked")
 	public List<Installer> list(String key,int pageSize,HttpServletRequest request){
 		DetachedCriteria dc=DetachedCriteria.forClass(Installer.class);
@@ -27,22 +26,28 @@ public class InstallerService {
 					Restrictions.like("name", key,MatchMode.ANYWHERE)));
 			
 		}
-		return nstallerdao.findPageByDcQuery(dc, pageSize, request);
+		return installerdao.findPageByDcQuery(dc, pageSize, request);
 	}
+	@SuppressWarnings("unchecked")
 	public List<Installer> selectId_installer(){
 		DetachedCriteria dc=DetachedCriteria.forClass(Installer.class);
-		return nstallerdao.getListByDc(dc);
+		return installerdao.getListByDc(dc);
 	}
 	public Serializable insert(Installer Installer){
-		return nstallerdao.save(Installer);
+		return installerdao.save(Installer);
 	}
 	public Installer findById(int idInstaller){
-		return nstallerdao.get(Installer.class, idInstaller);
+		return installerdao.get(Installer.class, idInstaller);
 	}
 	public void update(Installer Installer){
-		nstallerdao.update(Installer);
+		installerdao.update(Installer);
 	}
 	public void delete(Installer Installer){
-		nstallerdao.delete(Installer);
+		installerdao.delete(Installer);
+	}
+	@SuppressWarnings("unchecked")
+	public List<Object[]> listInstaller(){
+		String sql="select id_installer,name from installer";
+		return installerdao.listBySQLQuery(sql);
 	}
 }

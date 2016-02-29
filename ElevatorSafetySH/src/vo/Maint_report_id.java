@@ -12,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 @Entity
 @Table(name="maint_report_id")
 public class Maint_report_id {
@@ -26,16 +29,18 @@ public class Maint_report_id {
 	
 	private Integer user1_id;
 	@ManyToOne(cascade=CascadeType.REFRESH)
+	@NotFound(action=NotFoundAction.IGNORE)
 	@JoinColumn(name="user1_id",insertable=false,updatable=false)
 	private Servicer servicer1;
 	private Integer user2_id;
 	@ManyToOne(cascade=CascadeType.REFRESH)
+	@NotFound(action=NotFoundAction.IGNORE)
 	@JoinColumn(name="user2_id",insertable=false,updatable=false)
 	private Servicer servicer2;
 	private Integer user3_id;
 	@ManyToOne(cascade=CascadeType.REFRESH)
 	@JoinColumn(name="user3_id",insertable=false,updatable=false)
-	private Tester servicer3;
+	private Safer servicer3;
 	private int maint_type;
 	private Date maint_date;
 	private Date maint_upload;
@@ -61,10 +66,11 @@ public class Maint_report_id {
 		this.servicer2 = servicer2;
 	}
 	
-	public Tester getServicer3() {
+	
+	public Safer getServicer3() {
 		return servicer3;
 	}
-	public void setServicer3(Tester servicer3) {
+	public void setServicer3(Safer servicer3) {
 		this.servicer3 = servicer3;
 	}
 	public Integer getMaint_id() {

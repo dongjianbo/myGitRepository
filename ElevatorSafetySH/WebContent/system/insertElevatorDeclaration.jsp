@@ -111,11 +111,11 @@
 		           <td>
 		           <ul>
 		           <li>登记机构:
-		           <li><input type="text" name="register_org" size="50" value="${deptName}"/>
+		           <li><input type="text" name="register_org" size="50" maxlength="30" value="${deptName}"/>
 		           <li>特种设备登记代码:
-		           <li><input type="text" name="register_code" id="register_code" size="50" placeholder="请输入特种设备登记代码"/>*
+		           <li><input type="text" name="register_code" id="register_code" size="50" maxlength="21" placeholder="请输入特种设备登记代码"/>*
 		           <li>特种设备代码:
-		           <li><input type="text" name="device_code" id="device_code" size="50" placeholder="请输入特种设备代码"/>*
+		           <li><input type="text" name="device_code" id="device_code" size="50" maxlength="21" placeholder="请输入特种设备代码"/>*
 			       <li>产权单位名称:
 			       <li><select name="id_owner" id="id_owner"></select><span id="id_owner_error"></span>
 		           <li>使用单位名称:
@@ -127,7 +127,7 @@
 					<li>生产单位名称:
 					<li><select id="id_manufer" name="id_manufer"></select><span id="id_manufer_error"></span>
 		            <li>出厂编号:
-					<li><input type="text" name="code_manufer" size="50"/>
+					<li><input type="text" name="code_manufer" size="50" maxlength="21"/>
 					</ul>
 		        </td>
 		        <td>
@@ -135,17 +135,17 @@
                     <li>生产日期:
 					<li><input type="text" name="date_manufer" size="50" id="date1" placeholder="请选择生产日期"/>*
 		            <li>土建施工单位:
-					<li><input type="text" name="constucter" size="50"/>
+					<li><input type="text" name="constucter" maxlength="30" size="50"/>
 					<li>土建施工开始时间:
 					<li><input type="text" name="startdate_construct" size="50" id="date2" placeholder="请选择土地建工开始时间"/> * 
 		            <li>土建施工竣工时间:
 				    <li><input type="text" name="enddate_construct" size="50" id="date3" placeholder="请选择土地施工竣工时间"/>*
 				    <li>土建验收单位名称:
-				    <li><input type="text" name="accepter_construct" size="50"/>
+				    <li><input type="text" name="accepter_construct" maxlength="30" size="50"/>
 				    <li>安装单位名称:
 				    <li><select name="id_installer" id="id_installer"></select>
 				    <li>安装项目责任人:
-				    <li><input type="text" name="project_duty" size="50">
+				    <li><input type="text" name="project_duty" maxlength="20" size="50">
 					    <br><br><br>
 				    <li>电梯简称:
 				    <li><input type="text" name="desc" id="desc" size="50" maxlength="16" placeholder="请输入电梯简称,不能超过16字"/>*

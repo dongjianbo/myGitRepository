@@ -51,9 +51,9 @@ a{
 						>${s.name }</option>
 					</c:forEach>
 				</select>
-				从<input readonly="readonly" type="text" id="start" name="start" size="35" value="${param.start }"/>
+				从<input readonly="readonly" type="text" id="start" name="start" size="35" value="${start }"/>
 				到
-				<input readonly="readonly" type="text" id="end" name="end" size="35" value="${param.end }"/>
+				<input readonly="readonly" type="text" id="end" name="end" size="35" value="${end }"/>
 				<input type="submit" value="搜索">
 				</td>
 			</tr>
@@ -70,10 +70,10 @@ a{
 		<th>年度维保</th>
 	</tr>
 	<tr>
-		<td><a href="${path }/service/listForTask.do?type=1&start=${param.start }&end=${param.end}&idservicer=${param.idservicer}">${data["半月"] eq null?0:data["半月"]}</a></td>
-		<td><a href="${path }/service/listForTask.do?type=2&start=${param.start }&end=${param.end}&idservicer=${param.idservicer}">${data["季度"] eq null?0:data["季度"]}</a></td>
-		<td><a href="${path }/service/listForTask.do?type=3&start=${param.start }&end=${param.end}&idservicer=${param.idservicer}">${data["半年"] eq null?0:data["半年"]}</a></td>
-		<td><a href="${path }/service/listForTask.do?type=4&start=${param.start }&end=${param.end}&idservicer=${param.idservicer}">${data["年检"] eq null?0:data["年检"]}</a></td>
+		<td><a href="${path }/service/listForTask.do?type=1&start=${start }&end=${end}&idservicer=${param.idservicer}">${data["半月"] eq null?0:data["半月"]}</a></td>
+		<td><a href="${path }/service/listForTask.do?type=2&start=${start }&end=${end}&idservicer=${param.idservicer}">${data["季度"] eq null?0:data["季度"]}</a></td>
+		<td><a href="${path }/service/listForTask.do?type=3&start=${start }&end=${end}&idservicer=${param.idservicer}">${data["半年"] eq null?0:data["半年"]}</a></td>
+		<td><a href="${path }/service/listForTask.do?type=4&start=${start }&end=${end}&idservicer=${param.idservicer}">${data["年检"] eq null?0:data["年检"]}</a></td>
 	</tr>
 	</table>
 </ul>

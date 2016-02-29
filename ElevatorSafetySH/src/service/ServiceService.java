@@ -183,7 +183,101 @@ public class ServiceService {
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
-		
+		//年检正常数量
+		@SuppressWarnings("rawtypes")
+		public int getCount_Rounds_Normal(int id_service){
+			String sql="select count(e.id_elevator) from elevator e left join "
+					+ "elevator_state es on e.id_elevator=es.id_elevator "
+					+ "where to_days(now())-to_days(es.last_rounds)<365";
+			sql+=" and e.register_status='1'";
+			sql+=" and e.id_service="+id_service;
+			List list=elevatorDao.getListBySQL(sql);
+			if(list!=null&&list.size()>0){
+				return Integer.parseInt(list.get(0).toString());
+			}else{
+				return -1;
+			}
+		}
+		//年检正常数量列表
+		@SuppressWarnings({"unchecked" })
+		public List<Elevator> listCount_Rounds_Normal(String search,int pageSize,HttpServletRequest request,int id_service){
+			String sql="select e.id_elevator from elevator e left join "
+					+ "elevator_state es on e.id_elevator=es.id_elevator "
+					+ "where to_days(now())-to_days(es.last_rounds)<365";
+			sql+=" and e.register_status='1'";
+			sql+=" and e.id_service="+id_service;
+			List<Long> list=elevatorDao.getListBySQL(sql);
+			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
+			dc.add(Restrictions.in("id_elevator", list));
+			if(!"".equals(search)){
+				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+			}
+			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
+		}
+		//年检提示数量
+		@SuppressWarnings("rawtypes")
+		public int getCount_Rounds_Warnning(int id_service){
+			String sql="select count(e.id_elevator) from elevator e left join "
+					+ "elevator_state es on e.id_elevator=es.id_elevator "
+					+ "where (to_days(now())-to_days(es.last_rounds)) "
+					+ "between (365-(select alarm_rounds from system_setting limit 0,1)) and 365";
+			sql+=" and e.register_status='1'";
+			sql+=" and e.id_service="+id_service;
+			List list=elevatorDao.getListBySQL(sql);
+			if(list!=null&&list.size()>0){
+				return Integer.parseInt(list.get(0).toString());
+			}else{
+				return -1;
+			}
+		}
+		//年检提示数量列表
+		@SuppressWarnings({"unchecked" })
+		public List<Elevator> listCount_Rounds_Warnning(String search,int pageSize,HttpServletRequest request,int id_service){
+			String sql="select e.id_elevator from elevator e left join "
+					+ "elevator_state es on e.id_elevator=es.id_elevator "
+					+ "where to_days(now())-to_days(es.last_15_service) "
+					+ "between (15-(select alarm_15_service from system_setting limit 0,1)) and 15";
+			sql+=" and e.register_status='1'";
+			sql+=" and e.id_service="+id_service;
+			List<Long> list=elevatorDao.getListBySQL(sql);
+			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
+			dc.add(Restrictions.in("id_elevator", list));
+			if(!"".equals(search)){
+				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+			}
+			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
+		}
+		//年检逾期数量
+		@SuppressWarnings("rawtypes")
+		public int getCount_Rounds_Overdue(int id_service){
+			String sql="select count(e.id_elevator) from elevator e left join "
+					+ "elevator_state es on e.id_elevator=es.id_elevator "
+					+ "where to_days(now())-to_days(es.last_rounds)>365";
+			sql+=" and e.register_status='1'";
+			sql+=" and e.id_service="+id_service;
+			List list=elevatorDao.getListBySQL(sql);
+			if(list!=null&&list.size()>0){
+				return Integer.parseInt(list.get(0).toString());
+			}else{
+				return -1;
+			}
+		}
+		//年检逾期数量列表
+		@SuppressWarnings({"unchecked" })
+		public List<Elevator> listCount_Rounds_Overdue(String search,int pageSize,HttpServletRequest request,int id_service){
+			String sql="select e.id_elevator from elevator e left join "
+					+ "elevator_state es on e.id_elevator=es.id_elevator "
+					+ "where to_days(now())-to_days(es.last_rounds)>365";
+			sql+=" and e.register_status='1'";
+			sql+=" and e.id_service="+id_service;
+			List<Long> list=elevatorDao.getListBySQL(sql);
+			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
+			dc.add(Restrictions.in("id_elevator", list));
+			if(!"".equals(search)){
+				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+			}
+			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
+		}
 		//半月检正常数量
 		@SuppressWarnings("rawtypes")
 		public int getCount_15service_Normal(int id_service){

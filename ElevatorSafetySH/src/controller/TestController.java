@@ -4,6 +4,7 @@ import java.util.List;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -26,14 +27,17 @@ import service.HistoryService;
 import service.History_listService;
 import service.Maint_report_idService;
 import service.OperatorService;
+import service.System_settingService;
 import service.TestService;
 import service.TesterService;
+import util.DateUtils;
 import vo.Elevator;
 import vo.History;
 import vo.History_list;
 import vo.History_listKey;
 import vo.Maint_report_id;
 import vo.Operator;
+import vo.System_setting;
 import vo.Test;
 import vo.Tester;
 
@@ -54,6 +58,8 @@ public class TestController {
 	public OperatorService operatorService;
 	@Resource
 	public TesterService testerService;
+	@Resource
+	public System_settingService system_settingService;
 	@RequestMapping("list")
 	public ModelAndView list(String key,HttpServletRequest request){
 		ModelAndView mav=new ModelAndView("system/testList");
@@ -168,8 +174,32 @@ public class TestController {
 			int count_rounds_warnning = testService.getCount_Rounds_Warnning(id_test);
 			// 年检逾期数量
 			int count_rounds_overdue = testService.getCount_Rounds_Overdue(id_test);
-		
-
+			// 半月维保正常数量
+			int count_15service_normal = testService.getCount_15service_Normal(id_test);
+			// 半月维保提示数量
+			int count_15service_warnning = testService.getCount_15service_Warnning(id_test);
+			// 半月维保逾期数量
+			int count_15service_overdue = testService.getCount_15service_Overdue(id_test);
+			// 季度维保正常数量
+			int count_90service_normal = testService.getCount_90service_Normal(id_test);
+			// 季度维保提示数量
+			int count_90service_warnning = testService.getCount_90service_Warnning(id_test);
+			// 季度维保逾期数量
+			int count_90service_overdue = testService.getCount_90service_Overdue(id_test);
+			// 半年维保正常数量
+			int count_180service_normal = testService.getCount_180service_Normal(id_test);
+			// 半年维保提示数量
+			int count_180service_warnning = testService.getCount_180service_Warnning(id_test);
+			// 半年维保逾期数量
+			int count_180service_overdue = testService.getCount_180service_Overdue(id_test);
+			// 年度维保正常数量
+			int count_360service_normal = testService.getCount_360service_Normal(id_test);
+			// 年度维保提示数量
+			int count_360service_warnning = testService.getCount_360service_Warnning(id_test);
+			// 年度维保逾期数量
+			int count_360service_overdue = testService.getCount_360service_Overdue(id_test);
+	
+			
 			ModelAndView mav = new ModelAndView("system/testTongji");
 			mav.addObject("test",test);
 			mav.addObject("count", count);
@@ -180,6 +210,23 @@ public class TestController {
 			mav.addObject("count_rounds_normal", count_rounds_normal);
 			mav.addObject("count_rounds_warnning", count_rounds_warnning);
 			mav.addObject("count_rounds_overdue", count_rounds_overdue);
+			mav.addObject("count_15service_normal", count_15service_normal);
+			mav.addObject("count_15service_warnning", count_15service_warnning);
+			mav.addObject("count_15service_overdue", count_15service_overdue);
+			mav.addObject("count_90service_normal", count_90service_normal);
+			mav.addObject("count_90service_warnning", count_90service_warnning);
+			mav.addObject("count_90service_overdue", count_90service_overdue);
+			mav.addObject("count_180service_normal", count_180service_normal);
+			mav.addObject("count_180service_warnning", count_180service_warnning);
+			mav.addObject("count_180service_overdue", count_180service_overdue);
+			mav.addObject("count_360service_normal", count_360service_normal);
+			mav.addObject("count_360service_warnning", count_360service_warnning);
+			mav.addObject("count_360service_overdue", count_360service_overdue);
+			//系统设置中的提示天数
+			List<System_setting> system_settingList=system_settingService.list();
+			if(system_settingList!=null&&system_settingList.size()>0){
+				mav.addObject("system_setting",system_settingList.get(0));
+			}
 			
 			return mav;
 		}
@@ -229,6 +276,54 @@ public class TestController {
 		if (key.equals("count_rounds_overdue")) {
 			list = testService.listCount_Rounds_Overdue(search, 10, request,id_test);
 		}
+		// 电梯半月维保正常数量
+		if (key.equals("count_15service_normal")) {
+			list = testService.listCount_15service_Normal(search, 10, request,id_test);
+		}
+		// 电梯半月维保提示数量
+		if (key.equals("count_15service_warnning")) {
+			list = testService.listCount_15service_Warnning(search, 10, request,id_test);
+		}
+		// 电梯半月维保逾期数量
+		if (key.equals("count_15service_overdue")) {
+			list = testService.listCount_15service_Overdue(search, 10, request,id_test);
+		}
+		// 电梯季度维保正常数量
+		if (key.equals("count_90service_normal")) {
+			list = testService.listCount_90service_Normal(search, 10, request,id_test);
+		}
+		// 电梯季度维保提示数量
+		if (key.equals("count_90service_warnning")) {
+			list = testService.listCount_90service_Warnning(search, 10, request,id_test);
+		}
+		// 电梯季度维保逾期数量
+		if (key.equals("count_90service_overdue")) {
+			list = testService.listCount_90service_Overdue(search, 10, request,id_test);
+		}
+		// 电梯半年维保正常数量
+		if (key.equals("count_180service_normal")) {
+			list = testService.listCount_180service_Normal(search, 10, request,id_test);
+		}
+		//电梯半年维保提示数量
+		if (key.equals("count_180service_warnning")) {
+			list = testService.listCount_180service_Warnning(search, 10, request,id_test);
+		}
+		//电梯半年维保逾期数量
+		if (key.equals("count_180service_overdue")) {
+			list = testService.listCount_180service_Overdue(search, 10, request,id_test);
+		}
+		//电梯年度维保正常数量
+		if (key.equals("count_360service_normal")) {
+			list = testService.listCount_360service_Normal(search, 10, request,id_test);
+		}
+		//电梯年度维保提示数量
+		if (key.equals("count_360service_warnning")) {
+			list = testService.listCount_360service_Warnning(search, 10, request,id_test);
+		}
+		//电梯年度维保逾期数量
+		if (key.equals("count_360service_overdue")) {
+			list = testService.listCount_360service_Overdue(search, 10, request,id_test);
+		}
 		ModelAndView mav = new ModelAndView("system/elevatorList");
 		mav.addObject("list", list);
 		mav.addObject("key",key);
@@ -246,6 +341,18 @@ public class TestController {
 			mav.addObject("error","当前登录人非检验检测单位人员!");
 			return mav;
 		}else{
+			//第一次默认查询当前月份
+			String from=request.getParameter("from");
+			if("m".equals(from)){
+				//设置到当前月的第一天
+				Calendar c=Calendar.getInstance();
+				c.set(Calendar.DAY_OF_MONTH, 1);
+				start=DateUtils.format1(c.getTime());
+				//获取当月最后一天
+				c.add(Calendar.MONTH, 1);
+				c.add(Calendar.DAY_OF_MONTH, -1);
+				end=DateUtils.format1(c.getTime());
+			}
 			//查询本使用单位的检测人员
 			List<Tester> testerList=testerService.listByTestId(op.getIdOrganization());
 			//查询本使用单位的巡检任务量
@@ -255,6 +362,8 @@ public class TestController {
 			mav.addObject("countType0", countType0);
 			mav.addObject("countType",countType);
 			mav.addObject("testerList",testerList);
+			mav.addObject("start",start);
+			mav.addObject("end",end);
 			return mav;
 		}
 	}

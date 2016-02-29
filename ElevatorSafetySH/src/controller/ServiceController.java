@@ -4,6 +4,7 @@ import java.util.Map;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.annotation.Resource;
@@ -25,6 +26,8 @@ import service.History_listService;
 import service.Maint_report_idService;
 import service.ServiceService;
 import service.ServicerService;
+import service.System_settingService;
+import util.DateUtils;
 import vo.Elevator;
 import vo.History;
 import vo.History_list;
@@ -33,6 +36,7 @@ import vo.Maint_report_id;
 import vo.Operator;
 import vo.Service1;
 import vo.Servicer;
+import vo.System_setting;
 
 @Controller
 @RequestMapping("service")
@@ -49,6 +53,8 @@ public class ServiceController {
 	public CitylistService cityService;
 	@Resource
 	public ServicerService servicerService;
+	@Resource
+	public System_settingService system_settingService;
     @RequestMapping("list")
     public ModelAndView list(String key,HttpServletRequest request){
 		ModelAndView mav=new ModelAndView("system/serviceList");
@@ -74,27 +80,34 @@ public class ServiceController {
 		Serializable ser=serviceService.insert(service);
 		if(ser!=null){
 			idservice=Integer.parseInt(ser.toString());
+			History history=new History();
+			history.setType(5);//类型
+			Operator op=(Operator)request.getSession().getAttribute("login");
+			history.setOperator(op.getIdoperator());//登录人id
+			Date date=new Date();
+			SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String s=format.format(date);
+			history.setDatetime(s);//当前时间
+			Serializable ser1=historyService.insert(history);
+			if(ser1!=null){
+				int idhistory=Integer.parseInt(ser1.toString());
+				//插入信息到systemstate表中（待写）
+			    History_list hilist=new History_list();
+			    History_listKey key=new History_listKey();
+			    key.setIdhistory(idhistory);
+			    key.setKey(5);
+		        hilist.setKey(key);//key表示复合主键的类
+		        hilist.setValue(idservice+"");
+		        Serializable ser2=history_listService.insert(hilist);
+		        if(ser2==null){
+		        	//插入不成功则删除维保单位
+					serviceService.delete(service);
+		        }
+			}else{
+				//插入不成功则删除维保单位
+				serviceService.delete(service);
+			}
 		}
-
-
-		History history=new History();
-		history.setType(5);//类型
-		Operator op=(Operator)request.getSession().getAttribute("login");
-		history.setOperator(op.getIdoperator());//登录人id
-		Date date=new Date();
-		SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String s=format.format(date);
-		history.setDatetime(s);//当前时间
-		int idhistory=Integer.parseInt(historyService.insert(history).toString());
-		//插入信息到systemstate表中（待写）
-	    History_list hilist=new History_list();
-	    History_listKey key=new History_listKey();
-	    key.setIdhistory(idhistory);
-	    key.setKey(5);
-        hilist.setKey(key);//key表示复合主键的类
-        hilist.setValue(idservice+"");
-		System.out.println(history_listService.insert(hilist).toString());
-
 		return idservice+"";
 
 	}
@@ -155,6 +168,12 @@ public class ServiceController {
 			int count_destory = serviceService.getCount_Destory(id_service);
 			// 未注册数量
 			int count_noregist = serviceService.getCount_NoRegist(id_service);
+			//年检正常数量
+			int count_rounds_normal=serviceService.getCount_Rounds_Normal(id_service);
+			//年检提示数量
+			int count_rounds_warnning=serviceService.getCount_Rounds_Warnning(id_service);
+			//年检逾期数量
+			int count_rounds_overdue=serviceService.getCount_Rounds_Overdue(id_service);
 			// 半月维保正常数量
 			int count_15service_normal = serviceService.getCount_15service_Normal(id_service);
 			// 半月维保提示数量
@@ -187,6 +206,9 @@ public class ServiceController {
 			mav.addObject("count_stop", count_stop);
 			mav.addObject("count_destory", count_destory);
 			mav.addObject("count_noregist", count_noregist);
+			mav.addObject("count_rounds_normal",count_rounds_normal);
+			mav.addObject("count_rounds_warnning",count_rounds_warnning);
+			mav.addObject("count_rounds_overdue",count_rounds_overdue);
 			mav.addObject("count_15service_normal", count_15service_normal);
 			mav.addObject("count_15service_warnning", count_15service_warnning);
 			mav.addObject("count_15service_overdue", count_15service_overdue);
@@ -199,6 +221,11 @@ public class ServiceController {
 			mav.addObject("count_360service_normal", count_360service_normal);
 			mav.addObject("count_360service_warnning", count_360service_warnning);
 			mav.addObject("count_360service_overdue", count_360service_overdue);
+			//系统设置中的提示天数
+			List<System_setting> system_settingList=system_settingService.list();
+			if(system_settingList!=null&&system_settingList.size()>0){
+				mav.addObject("system_setting",system_settingList.get(0));
+			}
 			return mav;
 		}
 		
@@ -234,6 +261,18 @@ public class ServiceController {
 			// 电梯已注销数量
 			if (key.equals("count_destory")) {
 				list = serviceService.listCount_Destory(search, 10, request,id_service);
+			}
+			//电梯年检正常数量
+			if(key.equals("count_rounds_normal")){
+				list=serviceService.listCount_Rounds_Normal(search, 10, request,id_service);
+			}
+			//电梯年检提示数量
+			if(key.equals("count_rounds_warnning")){
+				list=serviceService.listCount_Rounds_Warnning(search, 10, request,id_service);
+			}
+			//电梯年检逾期数量
+			if(key.equals("count_rounds_overdue")){
+				list=serviceService.listCount_Rounds_Overdue(search, 10, request,id_service);
 			}
 			// 电梯半月维保正常数量
 			if (key.equals("count_15service_normal")) {
@@ -289,6 +328,7 @@ public class ServiceController {
 			mav.addObject("key",key);
 			mav.addObject("search",search);
 			mav.addObject("requestMapping", "service");
+			
 			return mav;
 		}
 		//维保单位任务量统计
@@ -302,12 +342,26 @@ public class ServiceController {
 			}else{
 				//得到当前登录人的单位编号
 				int id_service=op.getIdOrganization();
+				//第一次默认查询当前月份
+				String from=request.getParameter("from");
+				if("m".equals(from)){
+					//设置到当前月的第一天
+					Calendar c=Calendar.getInstance();
+					c.set(Calendar.DAY_OF_MONTH, 1);
+					start=DateUtils.format1(c.getTime());
+					//获取当月最后一天
+					c.add(Calendar.MONTH, 1);
+					c.add(Calendar.DAY_OF_MONTH, -1);
+					end=DateUtils.format1(c.getTime());
+				}
 				//查询当前单位的维保人员
 				List<Servicer> slist=servicerService.listByIdService(id_service);
 				Map<String, Integer> data=serviceService.getTask(id_service,start, end,idservicer);
 				ModelAndView mav=new ModelAndView("system/serviceTask");
 				mav.addObject("data",data);
 				mav.addObject("slist", slist);
+				mav.addObject("start",start);
+				mav.addObject("end",end);
 				return mav;
 			}
 		}

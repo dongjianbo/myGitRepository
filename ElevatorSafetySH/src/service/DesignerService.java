@@ -18,7 +18,7 @@ import vo.Designer;
 @Service
 public class DesignerService {
 	@Resource
-	public DesignerDao esignerDao;
+	public DesignerDao designerDao;
 	@SuppressWarnings("unchecked")
 	public List<Designer> list(String key,int pageSize,HttpServletRequest request){
 		DetachedCriteria dc=DetachedCriteria.forClass(Designer.class);
@@ -27,24 +27,29 @@ public class DesignerService {
 					Restrictions.like("name", key,MatchMode.ANYWHERE)));
 			
 		}
-		return esignerDao.findPageByDcQuery(dc, pageSize, request);
+		return designerDao.findPageByDcQuery(dc, pageSize, request);
 	}
-    public List<Designer> getId_designer(){
+    @SuppressWarnings("unchecked")
+	public List<Designer> getId_designer(){
     	DetachedCriteria dc=DetachedCriteria.forClass(Designer.class);
-    	return esignerDao.getListByDc(dc);
+    	return designerDao.getListByDc(dc);
 		
 	}
 	public Serializable insert(Designer designer){
-		return esignerDao.save(designer);
+		return designerDao.save(designer);
 	}
 	public Designer findById(int iddesigner){
-		return esignerDao.get(Designer.class, iddesigner);
+		return designerDao.get(Designer.class, iddesigner);
 	}
 	public void update(Designer designer){
-		esignerDao.update(designer);
+		designerDao.update(designer);
 	}
 	public void delete(Designer designer){
-		esignerDao.delete(designer);
+		designerDao.delete(designer);
 	}
-	
+	@SuppressWarnings("unchecked")
+	public List<Object[]> listDesigner(){
+		String sql="select id_designer,name from designer";
+		return designerDao.listBySQLQuery(sql);
+	}
 }
