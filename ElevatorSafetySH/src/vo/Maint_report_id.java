@@ -39,6 +39,7 @@ public class Maint_report_id {
 	private Servicer servicer2;
 	private Integer user3_id;
 	@ManyToOne(cascade=CascadeType.REFRESH)
+	@NotFound(action=NotFoundAction.IGNORE)
 	@JoinColumn(name="user3_id",insertable=false,updatable=false)
 	private Safer servicer3;
 	private int maint_type;

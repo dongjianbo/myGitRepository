@@ -67,7 +67,7 @@
 			modal:true,
 			autoOpen:false,
 			width:750,
-			height:450,
+			height:500,
 			buttons:{
 				"确定":function(fn){
 					var name=$("#serviceName").val();
@@ -83,7 +83,8 @@
 							$("#insertDialog").dialog("close");
 							$("#insertweibaoDialog").dialog("open");
 						}else{
-							alert("程序有点问题哟！");
+							alert("添加失败！");
+							$("#insertDialog").dialog("close");
 						}
 					});
 				 }
@@ -101,7 +102,7 @@
 			modal:true,
 			autoOpen:false,
 			width:750,
-			height:450,
+			height:500,
 			buttons:{
 				"确定":function(){
 					var name=$("#name").val();
@@ -114,7 +115,8 @@
 						if(a=="ok"){
 							location.reload();
 						}else{
-							alert("程序有点问题哟！");
+							alert("修改失败!");
+							$("#updateDialog").dialog("close");
 						}
 					});
 				  }
@@ -132,7 +134,7 @@
 			modal:true,
 			autoOpen:false,
 			width:750,
-			height:450,
+			height:500,
 			buttons:{
 				"确定":function(){
 					var name=$("#insertname").val();
@@ -158,7 +160,8 @@
 							$("#insertweibaoDialog").dialog("close");
 							$("#insertyewuDialog").dialog("open");
 						}else{
-							alert("程序有点问题哟！");
+							alert("添加失败！");
+							$("#insertweibaoDialog").dialog("close");
 						}
 					});
 				}
@@ -178,7 +181,7 @@
 			modal:true,
 			autoOpen:false,
 			width:750,
-			height:450,
+			height:500,
 			buttons:{
 				"确定":function(){
 					var name=$("#insert1name").val();
@@ -201,7 +204,8 @@
 						if(a=="ok"){
 							location.reload();
 						}else{
-							alert("程序有点问题哟！");
+							alert("添加失败！");
+							$("#insertyewuDialog").dialog("close");
 						}
 					});
 				}
@@ -419,17 +423,17 @@
 				<li>维保单位代码:
 				<li><input type="text" name="code" size="50" maxlength="9"/>
 				<li>单位名称:
-				<li><input type="text" id="serviceName" name="name" size="50"/>*<div id="message1" style="float: right;padding-right:220px;"></div>
+				<li><input type="text" id="serviceName" maxlength="30" name="name" size="50"/>*<div id="message1" style="float: right;padding-right:220px;"></div>
 				<li>维保许可证编号:
-				<li><input type="text" name="licence" size="50"/>
+				<li><input type="text" maxlength="20" name="licence" size="50"/>
 <!-- 				<li>维保许可证名称: -->
 <!-- 				<li><input type="text" name="licename" size="50"/> -->
 				<li>单位负责人:
-				<li><input type="text" name="manager" size="50"/>
+				<li><input type="text" maxlength="20" name="manager" size="50"/>
 				<li>联系电话:
-				<li><input type="text" name="tel" size="50"/>
+				<li><input type="text" maxlength="20" name="tel" size="50"/>
 				<li>单位地址:
-				<li><input type="text" name="addr" size="50"/>
+				<li><input type="text" maxlength="30" name="addr" size="50"/>
 				<li>注册区域:
 				<li><select name="registerArea" id="registerArea1">
 				 
@@ -443,17 +447,17 @@
 				<li>维保单位代码:
 				<li><input type="text" id="code" name="code" size="50" maxlength="9"/>
 				<li>单位名称:
-				<li><input type="text" id="name" name="name" size="50"/>*<div id="message2" style="float: right;padding-right:220px;"></div>
+				<li><input type="text" id="name" maxlength="30" name="name" size="50"/>*<div id="message2" style="float: right;padding-right:220px;"></div>
 				<li>维保许可证编号:
-				<li><input type="text" id="licence" name="licence" size="50"/>
+				<li><input type="text" maxlength="20" id="licence" name="licence" size="50"/>
 <!-- 				<li>维保许可证名称: -->
 <!-- 				<li><input type="text" id="licename" name="licename" size="50"/> -->
 				<li>单位负责人:
-				<li><input type="text" id="manager" name="manager" size="50"/>
+				<li><input type="text" maxlength="20" id="manager" name="manager" size="50"/>
 				<li>联系电话:
-				<li><input type="text" id="tel" name="tel" size="50"/>
+				<li><input type="text" maxlength="20" id="tel" name="tel" size="50"/>
 				<li>单位地址:
-				<li><input type="text" id="addr" name="addr" size="50"/>
+				<li><input type="text" id="addr" maxlength="30" name="addr" size="50"/>
 				<li>注册区域:
 				<li><select name="registerArea" id="registerArea2" >
 				 
@@ -467,9 +471,9 @@
 		<form action="${path }/operator/insert1.do" method="post" id="insertweibaoForm">
 			<ul>
 				<li>姓名:
-				<li><input type="text" id="insertname" name="name" size="50"/>*<div id="message3" style="float: right;padding-right:220px;"></div>
+				<li><input type="text" maxlength="20" id="insertname" name="name" size="50"/>*<div id="message3" style="float: right;padding-right:220px;"></div>
 				<li>身份证号码:
-				<li><input type="text" id="idcard" name="idcard" size="50"/>
+				<li><input type="text" id="idcard" maxlength="18" name="idcard" size="50"/>
 				<li>城市:
 				<li><select name="idcity" id="idcity" onchange="chooseCity(this.value)">
 				    
@@ -481,9 +485,9 @@
 				<li><select id="idsubdistrict" name="idsubdistrict">
 				</select>
 				<li>登录名:
-				<li><input type="text" id="loginname" name="loginname" size="50"/>*<div id="message4" style="float: right;padding-right:220px;"></div>
+				<li><input type="text" maxlength="20" id="loginname" name="loginname" size="50"/>*<div id="message4" style="float: right;padding-right:220px;"></div>
 				<li>密码:
-				<li><input type="password" id="password" name="password" size="50"/>*<div id="message5" style="float: right;padding-right:220px;"></div>
+				<li><input type="password" maxlength="6" id="password" name="password" size="50"/>*<div id="message5" style="float: right;padding-right:220px;"></div>
 				<input type="hidden" name="status" value="1">
 				<input type="hidden" name="typeOperator" value="10">
 				<input type="hidden" name="idprivilege" value="1">
@@ -498,9 +502,9 @@
 		<form action="${path }/operator/insert1.do" method="post" id="insertyewuForm">
 			<ul>
 				<li>姓名:
-				<li><input type="text" id="insert1name" name="name" size="50"/>*<div id="message6" style="float: right;padding-right:220px;"></div>
+				<li><input type="text" id="insert1name" name="name" size="50" maxlength="20"/>*<div id="message6" style="float: right;padding-right:220px;"></div>
 				<li>身份证号码:
-				<li><input type="text" id="idcard" name="idcard" size="50"/>
+				<li><input type="text" id="idcard" name="idcard" size="50" maxlength="18"/>
 				<li>城市:
 				<li><select name="idcity" id="idcity1" onchange="chooseCity1(this.value)">
 				</select> 
@@ -509,14 +513,13 @@
 				<li>街道:
 				<li><select id="idsubdistrict1" name="idsubdistrict"></select>
 				<li>登录名:
-				<li><input type="text" id="loginname1" name="loginname" size="50"/>*<div id="message7" style="float: right;padding-right:220px;"></div>
+				<li><input type="text" id="loginname1" name="loginname" size="50" maxlength="20"/>*<div id="message7" style="float: right;padding-right:220px;"></div>
 				<li>密码:
-				<li><input type="password" id="password1" name="password" size="50"/>*<div id="message8" style="float: right;padding-right:220px;"></div>
+				<li><input type="password" id="password1" name="password" size="50" maxlength="6"/>*<div id="message8" style="float: right;padding-right:220px;"></div>
 				<input type="hidden" name="status" value="1">
 				<input type="hidden" name="typeOperator" value="11">
 				<input type="hidden" name="idprivilege" value="2">
-
-				 <input type="hidden" name="idOrganization1" id="idOrganization2">
+				<input type="hidden" name="idOrganization1" id="idOrganization2">
 
 			</ul>
 		</form>

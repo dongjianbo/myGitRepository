@@ -148,15 +148,15 @@
 						<li>所属街道乡镇:
 						<li><select name="id_subdistrict" id="id_subdistrict"></select>
 						<li>电梯所在位置:
-					    <li><input type="text" name="address" size="50">  
+					    <li><input type="text" name="address" size="50" maxlength="18">  
 				        <br><br><br>
 				        
 		                <li>电梯层数:
-					    <li><input type="text" name="num_floor_elevator" id="censhu" size="50" placeholder="请输入电梯层数">*
+					    <li><input type="text" name="num_floor_elevator" id="censhu" maxlength="2" size="50" placeholder="请输入电梯层数">*
 				        <li>电梯型号:
 				        <li><select name="id_elevator_model" id="id_elevator_model"></select>
                          <li>申报时间:
-					    <li><input type="text" name="date_declare" size="50" id="date1" placeholder="请选择申报时间">*<br><br><br>
+					    <li><input type="text" name="date_declare" size="50" id="date1" readonly="readonly" placeholder="请选择申报时间">*<br><br><br>
 					</ul>
 				</td>
 			</tr>

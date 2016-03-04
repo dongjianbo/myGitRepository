@@ -88,12 +88,12 @@
 		      		<li><input type="text" value="${es.lastrounds}" readonly="readonly" size="30"/>
 		      		<li>上次检验检测日期
 		      		<li><input type="text" value="${es.lasttest}" readonly="readonly" size="30"/>
-		      		<li>标签数据下载标识
-		      		<li><input type="text" value="${es.labelwrite=='1'?'已写':'待写'}" readonly="readonly" size="30"/>
-		      		<li>标签下载备注项
-		      		<li><input type="text" value="${es.labeldemo}" readonly="readonly" size="30"/>
-		      		<li>最后修改日期
-		      		<li><input type="text" value="${es.lastmodified}" readonly="readonly" size="30"/>
+<!-- 		      		<li>标签数据下载标识 -->
+<%-- 		      		<li><input type="text" value="${es.labelwrite=='1'?'已写':'待写'}" readonly="readonly" size="30"/> --%>
+<!-- 		      		<li>标签下载备注项 -->
+<%-- 		      		<li><input type="text" value="${es.labeldemo}" readonly="readonly" size="30"/> --%>
+<!-- 		      		<li>最后修改日期 -->
+<%-- 		      		<li><input type="text" value="${es.lastmodified}" readonly="readonly" size="30"/> --%>
 		      	</ul>
 		      </td>
       </tr>

@@ -18,11 +18,17 @@ import org.springframework.web.servlet.ModelAndView;
 import service.HistoryService;
 import service.History_listService;
 import service.OperatorService;
+import service.ServiceService;
+import service.TestService;
+import service.UserService;
 import util.MD5;
 import vo.History;
 import vo.History_list;
 import vo.History_listKey;
 import vo.Operator;
+import vo.Service1;
+import vo.Test;
+import vo.User;
 
 @Controller
 @RequestMapping("operator")
@@ -33,6 +39,12 @@ public class OperatorController  {
   public HistoryService  historyService;
   @Resource
   public History_listService  history_listService;
+  @Resource
+  public ServiceService serviceService;
+  @Resource
+  public UserService userService;
+  @Resource
+  public TestService testService;
   @RequestMapping("list")
   public ModelAndView list(String key,HttpServletRequest request){
 		ModelAndView mav=new ModelAndView("system/operatorList");
@@ -61,32 +73,65 @@ public class OperatorController  {
 	    System.out.println("状态："+operator.getStatus());
 	    System.out.println("类型："+operator.getTypeOperator());
 	    operator.setPassword(new MD5().getMD5ofStr(operator.getPassword()));
-	   //插入技术监督局操作员信息
-		int idoperator=Integer.parseInt(operatorService.insert(operator).toString());//返回表的主键
-		//插入history信息
-		History history=new History();
-		history.setType(11);//类型
-		Operator op=(Operator)request.getSession().getAttribute("login");
-		history.setOperator(op.getIdoperator());//登陆的id
-		Date date=new Date();
-		SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String s=format.format(date);
-		history.setDatetime(s);//当前时间
-		int idhistory=Integer.parseInt(historyService.insert(history).toString());
-		System.out.println("idhistory:"+idhistory);
-		
-		
-		//插入histroy_list信息
-		History_list  history_list=new History_list();
-		History_listKey  history_listKey=new History_listKey();  
-		history_listKey.setIdhistory(idhistory);
-		history_listKey.setKey(11);
-		history_list.setKey(history_listKey);;
-		history_list.setValue(idoperator+"");
-		history_listService.insert(history_list);
+	    History history=new History();
+	    History_list  history_list=new History_list();
+		try {
+			//插入技术监督局操作员信息
+			int idoperator=Integer.parseInt(operatorService.insert(operator).toString());//返回表的主键
+			//插入history信息
+			
+			history.setType(11);//类型
+			Operator op=(Operator)request.getSession().getAttribute("login");
+			history.setOperator(op.getIdoperator());//登陆的id
+			Date date=new Date();
+			SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String s=format.format(date);
+			history.setDatetime(s);//当前时间
+			int idhistory=Integer.parseInt(historyService.insert(history).toString());
+			System.out.println("idhistory:"+idhistory);
+			
+			
+			//插入histroy_list信息
+			
+			History_listKey  history_listKey=new History_listKey();  
+			history_listKey.setIdhistory(idhistory);
+			history_listKey.setKey(11);
+			history_list.setKey(history_listKey);;
+			history_list.setValue(idoperator+"");
+			history_listService.insert(history_list);
+			return "ok";
+		} catch (NumberFormatException e) {
+			System.out.println("插入操作员失败！事务将回滚");
+			
+			//删除相应的单位和操作员
+			if(operator.getTypeOperator().equals("10")||operator.getTypeOperator().equals("11")){
+				
+				Service1 s=new Service1();
+				s.setIdservice(operator.getIdOrganization());
+				serviceService.delete(s);
+			}
+			if(operator.getTypeOperator().equals("20")||operator.getTypeOperator().equals("21")){
+				User u=new User();
+				u.setIduser(operator.getIdOrganization());
+				userService.delete(u);
+			}
+			if(operator.getTypeOperator().equals("30")||operator.getTypeOperator().equals("31")){
+				Test t=new Test();
+				t.setIdtest(operator.getIdOrganization());
+				testService.delete(t);
+			}
+			
+			if(history.getIdhistory()!=0){
+				historyService.delete(history);
+			}
+			if(history_list.getKey()!=null&&history_list.getKey().getIdhistory()!=0&&history_list.getKey().getKey()!=0){
+				history_listService.delete(history_list);
+			}
+			return "no";
+		}
 		
 			
-		return "ok";
+		
 	}
  //查询密码
    @RequestMapping(value="selectById",produces="text/html;charset=utf-8")
@@ -131,15 +176,83 @@ public class OperatorController  {
    @RequestMapping(value="insert1",produces="text/html;charset=utf-8")
   	@ResponseBody
   	public String insert1(String idOrganization1,Operator operator,HttpServletRequest request){
-  	    //插入技术监督局操作员信息
-	   System.out.println(idOrganization1+"-----");
-	   MD5 md5=new MD5();//将密码转码之后存在数据库中
-	   String psd=md5.getMD5ofStr(operator.getPassword());
-	   operator.setPassword(psd);
-	   operator.setIdOrganization(Integer.parseInt(idOrganization1));
-	   System.out.println(operator.getPassword());
-  		operatorService.insert(operator);//返回表的主键  		
-  		return "ok";
+  	    try {
+			//插入技术监督局操作员信息
+		   System.out.println(idOrganization1+"-----");
+		   MD5 md5=new MD5();//将密码转码之后存在数据库中
+		   String psd=md5.getMD5ofStr(operator.getPassword());
+		   operator.setPassword(psd);
+		   operator.setIdOrganization(Integer.parseInt(idOrganization1));
+		   System.out.println(operator.getPassword());
+			operatorService.insert(operator);//返回表的主键  		
+			return "ok";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("插入操作员失败！事务将回滚");
+			
+			//删除相应的单位和历史记录
+			if(operator.getTypeOperator().equals("10")||operator.getTypeOperator().equals("11")){
+				//删除该单位的所有操作员
+				String sql="delete from operator where (type_operator='10' or type_operator='11') and id_organization="+operator.getIdOrganization();
+				operatorService.delete(sql);
+				//删除历史记录
+				String sql1="select id_history from history_list where `key`='5' and `value`='"+operator.getIdOrganization()+"'";
+				int id_history=history_listService.getIdBySQL(sql1);
+				History_list hl=new History_list();
+				History_listKey hl_key=new History_listKey();
+				hl_key.setIdhistory(id_history);
+				hl_key.setKey(5);
+				hl.setKey(hl_key);
+				history_listService.delete(hl);
+				History h=new History();
+				h.setIdhistory(id_history);
+				historyService.delete(h);
+				Service1 s=new Service1();
+				s.setIdservice(operator.getIdOrganization());
+				serviceService.delete(s);
+			}
+			if(operator.getTypeOperator().equals("20")||operator.getTypeOperator().equals("21")){
+				//删除该单位的所有操作员
+				String sql="delete from operator where (type_operator='20' or type_operator='21') and id_organization="+operator.getIdOrganization();
+				operatorService.delete(sql);
+				//删除历史记录
+				String sql1="select id_history from history_list where `key`='7' and `value`='"+operator.getIdOrganization()+"'";
+				int id_history=history_listService.getIdBySQL(sql1);
+				History_list hl=new History_list();
+				History_listKey hl_key=new History_listKey();
+				hl_key.setIdhistory(id_history);
+				hl_key.setKey(7);
+				hl.setKey(hl_key);
+				history_listService.delete(hl);
+				History h=new History();
+				h.setIdhistory(id_history);
+				historyService.delete(h);
+				User u=new User();
+				u.setIduser(operator.getIdOrganization());
+				userService.delete(u);
+			}
+			if(operator.getTypeOperator().equals("30")||operator.getTypeOperator().equals("31")){
+				//删除该单位的所有操作员
+				String sql="delete from operator where (type_operator='30' or type_operator='31') and id_organization="+operator.getIdOrganization();
+				operatorService.delete(sql);
+				//删除历史记录
+				String sql1="select id_history from history_list where `key`='4' and `value`='"+operator.getIdOrganization()+"'";
+				int id_history=history_listService.getIdBySQL(sql1);
+				History_list hl=new History_list();
+				History_listKey hl_key=new History_listKey();
+				hl_key.setIdhistory(id_history);
+				hl_key.setKey(4);
+				hl.setKey(hl_key);
+				history_listService.delete(hl);
+				History h=new History();
+				h.setIdhistory(id_history);
+				historyService.delete(h);
+				Test t=new Test();
+				t.setIdtest(operator.getIdOrganization());
+				testService.delete(t);
+			}
+			return "no";
+		}
   	}
 	
 	@RequestMapping(value="toUpdate",produces="text/html;charset=utf-8")

@@ -100,6 +100,9 @@ public class OperatorService {
  	public void delete(Operator operator){
  		operatorDao.delete(operator);
  	}
+ 	public void delete(String sql){
+ 		operatorDao.delete(sql);
+ 	}
  	@SuppressWarnings("unchecked")
 	public int check(Operator operator){
  		//先将登陆的密码加密再和数据库中的比对

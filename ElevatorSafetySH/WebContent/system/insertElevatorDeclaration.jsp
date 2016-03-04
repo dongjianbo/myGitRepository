@@ -111,7 +111,7 @@
 		           <td>
 		           <ul>
 		           <li>登记机构:
-		           <li><input type="text" name="register_org" size="50" maxlength="30" value="${deptName}"/>
+		           <li><input type="text" name="register_org" size="50" maxlength="30" readonly="readonly" value="${deptName}"/>
 		           <li>特种设备登记代码:
 		           <li><input type="text" name="register_code" id="register_code" size="50" maxlength="21" placeholder="请输入特种设备登记代码"/>*
 		           <li>特种设备代码:
@@ -133,13 +133,13 @@
 		        <td>
 		           <ul>
                     <li>生产日期:
-					<li><input type="text" name="date_manufer" size="50" id="date1" placeholder="请选择生产日期"/>*
+					<li><input type="text" name="date_manufer" size="50" id="date1" readonly="readonly" placeholder="请选择生产日期"/>*
 		            <li>土建施工单位:
 					<li><input type="text" name="constucter" maxlength="30" size="50"/>
 					<li>土建施工开始时间:
-					<li><input type="text" name="startdate_construct" size="50" id="date2" placeholder="请选择土地建工开始时间"/> * 
+					<li><input type="text" name="startdate_construct" size="50" id="date2" readonly="readonly" placeholder="请选择土地建工开始时间"/> * 
 		            <li>土建施工竣工时间:
-				    <li><input type="text" name="enddate_construct" size="50" id="date3" placeholder="请选择土地施工竣工时间"/>*
+				    <li><input type="text" name="enddate_construct" size="50" id="date3" readonly="readonly" placeholder="请选择土地施工竣工时间"/>*
 				    <li>土建验收单位名称:
 				    <li><input type="text" name="accepter_construct" maxlength="30" size="50"/>
 				    <li>安装单位名称:

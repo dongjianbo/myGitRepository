@@ -121,7 +121,14 @@ public class ElevatorController {
 		el.setNum_floor_elevator(elevator.getNum_floor_elevator());
 		el.setId_elevator_model(elevator.getId_elevator_model());
 		el.setDate_declare(elevator.getDate_declare());
-		int id_elevator=Integer.parseInt(elevatorService.insert(el).toString());
+		int id_elevator=-1;
+		try {
+			id_elevator = Integer.parseInt(elevatorService.insert(el).toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("电梯插入失败！");
+			return "/system/insertElevatorDeclaration";
+		}
 		request.getSession().setAttribute("id_elevator",id_elevator);
 		//systemstate修改字段version_elevator +1
 		systemService.update_version_elevator();
@@ -183,7 +190,13 @@ public class ElevatorController {
 		el.setCheck_construct_code(elevator.getCheck_construct_code());
 		el.setDate_register(elevator.getDate_register());
 		el.setDate_enable(elevator.getDate_enable());
-		int id_elevator=Integer.parseInt(elevatorService.insert(el).toString());
+		int id_elevator=-1;
+		try {
+			id_elevator = Integer.parseInt(elevatorService.insert(el).toString());
+		} catch (Exception e) {
+			System.out.println("电梯信息插入失败！");
+			return "/system/yuanElevatorDeclaration";
+		}
 		request.getSession().setAttribute("yuanid_elevator",id_elevator);
 		//systemstate修改字段version_elevator +1
 		systemService.update_version_elevator();
@@ -253,15 +266,17 @@ public class ElevatorController {
 					System.out.println("id_district:"+id_district);
 					System.out.println("id_subdistrict:"+id_subdistrict);
 				}
-				try {
-					if(desc!=null){
-						desc=new String(desc.getBytes("ISO-8859-1"),"UTF-8");
-					}
-					
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//				try {
+//					if(desc!=null){
+//						System.out.println(desc);
+//						desc=new String(desc.getBytes("ISO-8859-1"),"UTF-8");
+//						System.out.println(desc+"==========");
+//					}
+//					
+//				} catch (UnsupportedEncodingException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 				// 电梯总数
 				int count = elevatorService.getCount(id_city,id_district,id_subdistrict,id_service,id_user,id_test,desc);
 				// 已注册数量

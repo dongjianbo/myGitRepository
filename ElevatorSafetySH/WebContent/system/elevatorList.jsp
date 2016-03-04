@@ -44,6 +44,29 @@
 				$("#ElevatorDetail").dialog("open");
 			});
 		}
+		
+		function toService1(id_elevator){
+			location.href="${path }/maint_report_id/listForTask.do?maint_type=123&elevator_id="+id_elevator;
+// 			$.post("${path }/maint_report_id/listForTask.do?maint_type=123&elevator_id="+id_elevator,"",function(h){
+// 				$("#ElevatorDetail").html(h);
+// 				$("#ElevatorDetail").dialog("open");
+// 			});
+		}
+		function toService2(id_elevator){
+				location.href="${path }/maint_report_id/listForTask.do?maint_type=0&elevator_id="+id_elevator;
+// 				$.post("${path }/maint_report_id/listForTask.do?maint_type=0&elevator_id="+id_elevator,"",function(h){
+// 					$("#ElevatorDetail").html(h);
+// 					$("#ElevatorDetail").dialog("open");
+// 				});
+		}
+		function toService3(id_elevator){
+			location.href="${path }/maint_report_id/listForTask.do?maint_type=4&elevator_id="+id_elevator;
+// 			$.post("${path }/maint_report_id/listForTask.do?maint_type=4&elevator_id="+id_elevator,"",function(h){
+// 				$("#ElevatorDetail").html(h);
+// 				$("#ElevatorDetail").dialog("open");
+// 			});
+		}
+		
 	</script>
 </head>
 <body>
@@ -61,24 +84,24 @@
 	<table cellpadding="0" cellspacing="1">
 		<tr>
 			<th>电梯编号</th>
-			<th>电梯型号</th>
-			<th>出厂编号</th>
-			<th>设计单位</th>
-			<th>生产单位</th>
-			<th>电梯所在位置</th>
-			<th>安装项目负责人</th>
+			<th>特种设备编码</th>
+			<th>电梯简称</th>
+			<th>使用单位</th>
+			<th>维保单位</th>
 			<th>操作</th>
 		</tr>
 		<c:forEach items="${list }" var="e">
 			<tr>
 				<td>${e.id_elevator}</td>
-				<td>${e.model.modelname}</td>
-				<td>${e.code_manufer }</td>
-				<td>${e.designer.iddesigner}</td>
-				<td>${e.manufer.idmanufer }</td>
-				<td>${e.address}</td>
-				<td>${e.project_duty }</td>
-				<td><a href="javascript:toDetail(${e.id_elevator})">查看详细</a></td>
+				<td>${e.device_code}</td>
+				<td>${e.desc}</td>
+				<td>${e.user.name }</td>
+				<td>${e.service.name}</td>
+				<td><a href="javascript:toDetail(${e.id_elevator})">基本信息</a>&nbsp;&nbsp;&nbsp;
+				<a href="javascript:toService1(${e.id_elevator})">维保记录</a>&nbsp;&nbsp;&nbsp;
+				<a href="javascript:toService2(${e.id_elevator})">巡视记录</a>&nbsp;&nbsp;&nbsp;
+				<a href="javascript:toService3(${e.id_elevator})">年检记录</a>
+				</td>
 			</tr>
 		</c:forEach>
 		<tr>

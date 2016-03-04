@@ -103,6 +103,15 @@ $().ready(function(){
 		
 	});
 });
+function closeme(){ 
+	var browserName=navigator.appName; 
+	if (browserName=="Netscape") { 
+		window.open('','_parent',''); 
+		window.close(); } 
+	else if (browserName=="Microsoft Internet Explorer") { 
+		window.opener = "whocares"; window.close(); 
+	} 
+} 
 </script>
 
 </head>
@@ -144,8 +153,8 @@ $().ready(function(){
 			</td>
 		</tr>
 		<tr>
-			<td width="10%" valign="top" id="main_td">
-				<div id="main" class="div1" style="height: 90%">
+			<td width="10%" valign="top" id="main_td" height="90%">
+				<div id="main" class="div1" style="height: 84%">
 					<ul id="menu">
 <%-- 						<li><a href='${path}/system/system.jsp'>单位信息维护</a> --%>
 <%-- 						<li><a href='${path}/system/person.jsp'>人员信息维护</a> --%>
@@ -166,12 +175,16 @@ $().ready(function(){
 					</ul>
 					
 				</div>
+				<div class="div1" style="height: 5%;margin-top: -1px;background-color: #ddefff;">
+					<input type="button" onclick="closeme();" style="width:135px;" value="退出系统"/>
+				</div>
 				<div class="div1" style="height: 10%;margin-top: -1px;background-color: #ddefff;">
 					<ul style="margin-left: -30px;">
 						<li>登录人：${login.name} </li>
 						<li><%=DateUtils.now() %></li>
 					</ul>
 				</div>
+				
 			</td>
 			<td><div class="div1" id="right">
 					<iframe width="100%" height="100%" frameborder="0" marginheight="0" scrolling="no"
@@ -195,8 +208,6 @@ $().ready(function(){
 	<div title="打开或关闭侧边栏" onclick="$('#main_td').toggle();"
 		style="width: 20px; height: 20px; display: block; position: absolute; left: 4px; top: 0px;margin-top:30px; border: 1px solid #aacccc; background-color: #ddefff; text-align: center; cursor: pointer;">
 		&lt;&gt;</div>
-	<div title="退出" onclick="window.opener=null;window.close();"
-	style="width: 30px; height: 30px; display: block; position: absolute; right: 4px; top: 0px;margin-top:5px; border: 1px solid #aacccc; background-color: #ddefff; text-align: center; cursor: pointer;">
-	<font size="+1">Ⅹ</font></div>
+	
 </body>
 </html>

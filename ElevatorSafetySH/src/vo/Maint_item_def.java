@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="maint_item_def")
@@ -35,7 +36,16 @@ public class Maint_item_def {
 	private int act;
 	private int enable;
 	private Date last_modified;
+	@Transient
+	private String info;//¶àÓàµÄ×Ö¶Î
 	
+	
+	public String getInfo() {
+		return info;
+	}
+	public void setInfo(String info) {
+		this.info = info;
+	}
 	public Elevator_type_def getElType() {
 		return elType;
 	}

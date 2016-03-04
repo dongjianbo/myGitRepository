@@ -77,7 +77,13 @@ public class ServiceController {
 	public String insert(Service1 service,HttpServletRequest request){
 
 		int idservice=-1;
-		Serializable ser=serviceService.insert(service);
+		Serializable ser=null;
+		try {
+			ser = serviceService.insert(service);
+		} catch (Exception e) {
+			System.out.println("添加维保单位异常");
+			return idservice+"";
+		}
 		if(ser!=null){
 			idservice=Integer.parseInt(ser.toString());
 			History history=new History();
@@ -88,7 +94,13 @@ public class ServiceController {
 			SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String s=format.format(date);
 			history.setDatetime(s);//当前时间
-			Serializable ser1=historyService.insert(history);
+			Serializable ser1=null;
+			try {
+				ser1 = historyService.insert(history);
+			} catch (Exception e) {
+				System.out.println("添加history异常，事务回滚，删除已添加的维保单位");
+				serviceService.delete(service);
+			}
 			if(ser1!=null){
 				int idhistory=Integer.parseInt(ser1.toString());
 				//插入信息到systemstate表中（待写）
@@ -98,11 +110,14 @@ public class ServiceController {
 			    key.setKey(5);
 		        hilist.setKey(key);//key表示复合主键的类
 		        hilist.setValue(idservice+"");
-		        Serializable ser2=history_listService.insert(hilist);
-		        if(ser2==null){
-		        	//插入不成功则删除维保单位
+		        Serializable ser2=null;
+				try {
+					ser2 = history_listService.insert(hilist);
+				} catch (Exception e) {
+					System.out.println("添加historylist异常，事务回滚，删除已添加的service和history");
 					serviceService.delete(service);
-		        }
+					historyService.delete(history);
+				}
 			}else{
 				//插入不成功则删除维保单位
 				serviceService.delete(service);

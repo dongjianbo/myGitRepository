@@ -20,6 +20,9 @@ public class HistoryService {
   public Serializable insert(History history){
 		return historyDao.save(history);
 	}
+  public void delete(History history){
+	  historyDao.delete(history);
+  }
   public History getHistory(History history){
 	  DetachedCriteria dc=DetachedCriteria.forClass(History.class);
 	  dc.add(Restrictions.eq("datetime",history.getDatetime()));

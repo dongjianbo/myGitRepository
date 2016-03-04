@@ -165,31 +165,31 @@
 						<li>所属街道乡镇:
 						<li><select name="id_subdistrict" id="id_subdistrict"></select>
 						<li>电梯所在位置:
-					    <li><input type="text" name="address" size="50">  
+					    <li><input type="text" name="address" size="50" maxlength="18">  
 				        <br><br><br>
 				        
 		                <li>电梯层数:
-					    <li><input type="text" name="num_floor_elevator" id="censhu" size="50" placeholder="请输入电梯层数">*
+					    <li><input type="text" name="num_floor_elevator" id="censhu" size="50" maxlength="2" placeholder="请输入电梯层数">*
 				        <li>电梯型号:
 				        <li><select name="id_elevator_model" id="id_elevator_model"></select>
                          <li>申报时间:
-					    <li><input type="text" name="date_declare" size="50" id="date1" placeholder="请选择申报时间">*<br><br><br>
+					    <li><input type="text" name="date_declare" size="50" id="date1" readonly="readonly" placeholder="请选择申报时间">*<br><br><br>
 					</ul>
 				</td>
 				<td style="text-align: top;">
 				<ul>
 				<li>验收检验机构:
-				<li><input type="text" name="check_construct" size="50"><br><br><br>
+				<li><input type="text" name="check_construct" size="50" maxlength="30"><br><br><br>
 				<li>维保单位名称:
 				<li><select name="id_service" id="id_service"></select><br>
 				<li>检验检测单位名称:
 				<li><select name="id_test" id="id_test"></select><br>
 				<li>验收报告编号:
-				<li><input type="text" id="check_construct_code" name="check_construct_code" size="50"/><br><br><br>
+				<li><input type="text" id="check_construct_code" name="check_construct_code" size="50" maxlength="20"/><br><br><br>
 				<li>注册时间:
-				<li><input type="text" id="date_register" name="date_register" size="30" placeholder="请选择上次注册时间"/>*<br>
+				<li><input type="text" id="date_register" name="date_register" size="30" readonly="readonly" placeholder="请选择上次注册时间"/>*<br>
 				<li>开始使用时间:
-				<li><input type="text" id="date_enable" name="date_enable" size="30" placeholder="请选择开始使用时间"/>*<br><br><br><br><br>
+				<li><input type="text" id="date_enable" name="date_enable" size="30" readonly="readonly" placeholder="请选择开始使用时间"/>*<br><br><br><br><br>
 				</ul>
 				</td>
 			</tr>

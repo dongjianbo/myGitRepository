@@ -73,6 +73,7 @@
 					}
 				}
 				
+				
 			});
 		}
 		function outImage(i){
@@ -84,7 +85,7 @@
 
 <ul>
 	
-	<li><h3>${deptName}&nbsp;&nbsp;${typeName }&nbsp;&nbsp;维保记录列表</h3>
+	<li><h3>${typeName }&nbsp;&nbsp;记录列表</h3>
 	<li>
 	<table cellpadding="0" cellspacing="1">
 	<tr>
@@ -113,6 +114,10 @@
 		<td colspan="8" style="text-align: left;">${pagination}</td>
 	</tr>
 	</table>
+	<div align="right">
+		<button onclick="history.back();">返回上一页</button>
+	</div>
+	
 </ul>
 <div id="showDetail">
 	<table cellpadding="0" cellspacing="1" width="90%" id="table1">
@@ -126,6 +131,8 @@
 			<th>备注</th>
 		</tr>
 	</table>
+	
+				
 			
 </div>
 
