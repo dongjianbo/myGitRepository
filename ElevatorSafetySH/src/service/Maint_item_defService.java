@@ -31,7 +31,7 @@ public class Maint_item_defService {
 		return midDao.getListByDc(dc);
 	}
 	public Object getDetail(int maint_id,int maint_item_id){
-		String sql="select maint_note,image_val from maint_detail where maint_id="+maint_id+" and maint_item_id="+maint_item_id;
+		String sql="select maint_note,image_val,maint_result from maint_detail where maint_id="+maint_id+" and maint_item_id="+maint_item_id;
 		return midDao.getObjectBySQL(sql);
 	}
 	public void getImage(int maint_id,int maint_item_id,int image_val,HttpServletResponse response){

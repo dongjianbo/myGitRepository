@@ -175,8 +175,8 @@ function closeme(){
 					</ul>
 					
 				</div>
-				<div class="div1" style="height: 5%;margin-top: -1px;background-color: #ddefff;">
-					<input type="button" onclick="closeme();" style="width:135px;" value="退出系统"/>
+				<div class="div1" style="height: 5%;margin-top: -1px;background-color: #ddefff;" onclick="closeme();">
+					<input type="button"  style="width:135px;background-color: #ddefff;border: none;cursor: pointer;" value="退出系统"/>
 				</div>
 				<div class="div1" style="height: 10%;margin-top: -1px;background-color: #ddefff;">
 					<ul style="margin-left: -30px;">

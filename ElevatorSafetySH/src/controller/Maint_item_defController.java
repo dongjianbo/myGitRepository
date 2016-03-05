@@ -47,8 +47,21 @@ public class Maint_item_defController {
 			if(obj[1]!=null&&Integer.parseInt(obj[1].toString())>0){
 				info+="("+obj[1]+"p)";
 			}
-			
+			if(obj[2]!=null){
+				//为mid设置检测结果
+				if(Integer.parseInt(obj[2].toString())==0){
+					mid.setMaint_result("不存在");
+				}
+				if(Integer.parseInt(obj[2].toString())==1){
+					mid.setMaint_result("合格");
+				}
+				if(Integer.parseInt(obj[2].toString())==-1){
+					mid.setMaint_result("不合格");
+				}
+			}
 			mid.setInfo(info);
+			
+			
 		}
 		JSONArray array=JSONArray.fromObject(midlist);
 		return array.toString();

@@ -359,15 +359,15 @@ public class ElevatorController {
 			//
 			List<Elevator> list = new ArrayList<Elevator>();
 			//因为是在url后面传过来的，所以需要转码
-			try {
-				if(desc!=null){
-					desc=new String(desc.getBytes("ISO-8859-1"),"UTF-8");
-				}
-				
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			try {
+//				if(desc!=null){
+//					desc=new String(desc.getBytes("ISO-8859-1"),"UTF-8");
+//				}
+//				
+//			} catch (UnsupportedEncodingException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 		
 			//查询关键字
 			if(search==null){

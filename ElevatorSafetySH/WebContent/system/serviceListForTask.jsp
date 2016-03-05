@@ -48,7 +48,7 @@
 					tr1+="<td>"+midlist[i].mType.name+"</td>";
 					tr1+="<td>"+midlist[i].mArea.name+"</td>";
 					tr1+="<td>"+midlist[i].title+"</td>";
-					tr1+="<td>"+midlist[i].content+"</td>";
+					tr1+="<td>"+midlist[i].maint_result+"</td>";
 					tr1+="<td>"+midlist[i].info+"</td>";
 					tr1+="</tr>";
 					tr1+="<tr id='tr"+i+"' style='display:none'><td id='td"+i+"' align='left' colspan='7'></td></tr>"
@@ -90,9 +90,10 @@
 	<tr>
 		<th>记录编号</th>
 		<th>电梯简称</th>
-		<th>操作员1</th>
-		<th>操作员2</th>
-		<th>操作员3</th>
+		<th>维保记录类型</th>
+		<th>维保人员</th>
+		<th>维保人员</th>
+		<th>安全人员</th>
 		<th>维保时间</th>
 		<th>记录上传时间</th>
 		<th>操作</th>
@@ -101,16 +102,21 @@
 		<tr>
 			<td>${l.maint_id }</td>
 			<td>${l.elevator.desc }</td>
+			<td>${l.maintType.name }</td>
 			<td>${l.servicer1.name }</td>
 			<td>${l.servicer2.name }</td>
 			<td>${l.servicer3.name }</td>
 			<td>${l.maint_date }</td>
 			<td>${l.maint_upload }</td>
-			<td><a href="javascript:toDetail(${l.maint_id })">查看记录明细</a></td>
+			<td>
+				<c:if test="${l.maint_type!=4 }">
+					<a href="javascript:toDetail(${l.maint_id })">查看记录明细</a>
+				</c:if>
+			</td>
 		</tr>
 	</c:forEach>
 	<tr>
-		<td colspan="8" style="text-align: left;">${pagination}</td>
+		<td colspan="9" style="text-align: left;">${pagination}</td>
 	</tr>
 	</table>
 </ul>

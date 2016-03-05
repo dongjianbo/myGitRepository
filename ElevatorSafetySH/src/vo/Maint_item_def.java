@@ -38,8 +38,16 @@ public class Maint_item_def {
 	private Date last_modified;
 	@Transient
 	private String info;//¶àÓàµÄ×Ö¶Î
+	@Transient
+	private String maint_result;
 	
 	
+	public String getMaint_result() {
+		return maint_result;
+	}
+	public void setMaint_result(String maint_result) {
+		this.maint_result = maint_result;
+	}
 	public String getInfo() {
 		return info;
 	}

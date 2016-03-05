@@ -43,11 +43,21 @@ public class Maint_report_id {
 	@JoinColumn(name="user3_id",insertable=false,updatable=false)
 	private Safer servicer3;
 	private int maint_type;
+	@ManyToOne(cascade=CascadeType.REFRESH)
+	@NotFound(action=NotFoundAction.IGNORE)
+	@JoinColumn(name="maint_type",insertable=false,updatable=false)
+	private Maint_type_def maintType;
 	private Date maint_date;
 	private Date maint_upload;
 	@Column(name="[desc]")
 	private String desc;
 	
+	public Maint_type_def getMaintType() {
+		return maintType;
+	}
+	public void setMaintType(Maint_type_def maintType) {
+		this.maintType = maintType;
+	}
 	public Elevator getElevator() {
 		return elevator;
 	}

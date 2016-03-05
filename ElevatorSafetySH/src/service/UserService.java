@@ -670,7 +670,7 @@ public class UserService {
 		}
 		//本使用单位共配合维保次数
 		public int getCountMaint(int id_user,String start,String end){
-			String sql="select count(*) from maint_report_id where elevator_id in(select id_elevator from elevator where id_user="+id_user+")";
+			String sql="select count(*) from maint_report_id where maint_type!=0 and elevator_id in(select id_elevator from elevator where id_user="+id_user+")";
 			if(start!=null&&end!=null){
 				sql+=" and  (maint_date between '"+start+"' and '"+end+"')";
 			}
@@ -692,6 +692,8 @@ public class UserService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Maint_report_id.class);
 			if(maint_type!=-1){
 				dc.add(Restrictions.eq("maint_type", maint_type));
+			}else{
+				dc.add(Restrictions.ne("maint_type", 0));
 			}
 			if(!ids.isEmpty()){
 				dc.add(Restrictions.in("elevator_id", ids));
