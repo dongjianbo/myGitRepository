@@ -75,7 +75,7 @@
 			<tr>
 				<td>按 电梯出厂编号 <input type="text" name="search" size="50"
 					value="${search}" /> 
-					<input type="hidden" name="key" value="${key }"/>
+					<input type="hidden" name="key" value="${key}"/>
 					<input type="submit" value="搜索" />
 				</td>
 			</tr>
@@ -100,7 +100,8 @@
 				<td><a href="javascript:toDetail(${e.id_elevator})">基本信息</a>&nbsp;&nbsp;&nbsp;
 				<a href="javascript:toService1(${e.id_elevator})">维保记录</a>&nbsp;&nbsp;&nbsp;
 				<a href="javascript:toService2(${e.id_elevator})">巡视记录</a>&nbsp;&nbsp;&nbsp;
-				<a href="javascript:toService3(${e.id_elevator})">年检记录</a>
+<%-- 				<a href="javascript:toService3(${e.id_elevator})">年检记录</a> --%>
+				<a href="#">年检记录</a>
 				</td>
 			</tr>
 		</c:forEach>

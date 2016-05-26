@@ -23,14 +23,18 @@ public class Maint_report_idController {
 	public ModelAndView listForTask(int maint_type,int elevator_id,HttpServletRequest request){
 		List<Maint_report_id> list=maint_report_idService.listByTaskType(maint_type,elevator_id,request);
 		ModelAndView mav=new ModelAndView("system/maint_report_idList");
-		String typeName="";
-		if(maint_type==123){
-			typeName="维保（包括半月维保、季度维保、半年维保）";
-		}else{
-			typeName=maint_report_idService.getTypeNameById(maint_type);
-		}
+//		String typeName="";
+//		if(maint_type==123){
+//			typeName="维保（包括半月维保、季度维保、半年维保）";
+//		}else{
+//			typeName=maint_report_idService.getTypeNameById(maint_type);
+//		}
 		mav.addObject("list",list);
-		mav.addObject("typeName",typeName);
+		if(maint_type==0){
+			mav.addObject("typeName","巡视");
+		}else{
+			mav.addObject("typeName","维保");
+		}
 		return mav;
 	}
 }

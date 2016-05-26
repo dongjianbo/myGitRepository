@@ -356,15 +356,19 @@ public class UserController {
 			int id_user=op.getIdOrganization();
 			List<Maint_report_id> list=userService.listByType(id_user,type, start, end,request);
 			ModelAndView mav=new ModelAndView("system/serviceListForTask");
-			String typeName="";
-			if(type!=-1){
-				typeName=mriService.getTypeNameById(type);
-			}else{
-				typeName="配合维保";
-			}
+//			String typeName="";
+//			if(type!=-1){
+//				typeName=mriService.getTypeNameById(type);
+//			}else{
+//				typeName="配合维保";
+//			}
 			
 			mav.addObject("list",list);
-			mav.addObject("typeName",typeName);
+			if(type==0){
+				mav.addObject("typeName","巡视");
+			}else{
+				mav.addObject("typeName","维保");
+			}
 			return mav;
 		}
 }

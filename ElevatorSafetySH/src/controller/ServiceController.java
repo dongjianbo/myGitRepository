@@ -388,9 +388,14 @@ public class ServiceController {
 			int id_service=op.getIdOrganization();
 			List<Maint_report_id> list=serviceService.listByTaskType(id_service,type, start, end,idservicer,request);
 			ModelAndView mav=new ModelAndView("system/serviceListForTask");
-			String typeName=mriService.getTypeNameById(type);
+			//String typeName=mriService.getTypeNameById(type);
 			mav.addObject("list",list);
-			mav.addObject("typeName",typeName);
+			if(type==0){
+				mav.addObject("typeName","—≤ ”");
+			}else{
+				mav.addObject("typeName","Œ¨±£");
+			}
+			
 			return mav;
 		}
 }

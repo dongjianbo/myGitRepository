@@ -26,4 +26,11 @@ public class CitylistController {
 		JSONArray array=JSONArray.fromObject(citylist);
 		return array.toString();
 	}
+	public int jiecheng(int n){
+		if(n==0){
+			return 1;
+		}else{
+			return n*jiecheng(n-1);
+		}
+	}
 }

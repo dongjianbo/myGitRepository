@@ -323,7 +323,7 @@ span{
 <input type="hidden" value="${login.iddistrict}" id="iddistrict"/>
 <input type="hidden" value="${login.idsubdistrict}" id="idsubdistrict"/>
 <form action="${path }/elevator/search.do" method="get">
-<div style="margin-top: 50px;">
+<div style="margin-top: 10px;">
 	<ul>
 			<li>
 			<span>所属城市:</span><select name="id_city" id="idcity1" onchange="chooseCity1(this.value)">
@@ -349,14 +349,11 @@ span{
 <div>
 	<ul>
 		<li><span>电梯简称:</span><input type="text" id="desc" name="desc" size="39" maxlength="16" value="${desc }"/>
+		<input type="submit" style="margin-left: 650px" value="&nbsp;&nbsp;搜索&nbsp;&nbsp;"/>
 	</ul>
 </div>
-<br>
-<div style="width: 95%;text-align: right;">
-	<input type="submit" value="&nbsp;&nbsp;搜索&nbsp;&nbsp;"/>
-</div>
 </form>
-<hr>
+<hr style="margin-top: 10px">
 <ul>
 	<li><h3>电梯数量</h3>
 	<li><table cellpadding="0" cellspacing="1">
@@ -416,9 +413,9 @@ span{
 	</table>
 </ul>
 <ul>
-	<li><h3>备注：年检提前提示时间${system_setting.alarm_test}天,半月维保提前提示时间${system_setting.alarm_15_service}天,
-	季度维保提前提示时间${system_setting.alarm_90_service}天,半年维保提前提示时间${system_setting.alarm_180_service}天,
-	年度维保提前提示时间${system_setting.alarm_360_service}天。</h3>
+	<li>提前提示时间:年检${system_setting.alarm_test}天,半月维保${system_setting.alarm_15_service}天,
+	季度维保${system_setting.alarm_90_service}天,半年维保${system_setting.alarm_180_service}天,
+	年度维保${system_setting.alarm_360_service}天。
 </ul>
 
 </body>

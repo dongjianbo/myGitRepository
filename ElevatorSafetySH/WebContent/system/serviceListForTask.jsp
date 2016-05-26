@@ -42,7 +42,11 @@
 			$.getJSON("${path}/maint_item_def/listById.do?rand="+Math.random()+"&maint_id="+maint_id,"",function(midlist){
 				$("#table1 tr:not(:first)").remove();
 				for(i=0;i<midlist.length;i++){
-					var tr1="<tr onmouseover='toImage("+maint_id+","+midlist[i].maint_item_id+","+i+")' onmouseout='outImage("+i+")'>"
+					var tr1="<tr>";
+					if(midlist[i].info!=""){
+						tr1="<tr onmouseover='toImage("+maint_id+","+midlist[i].maint_item_id+","+i+")' onmouseout='outImage("+i+")'>";
+					}
+					
 					tr1+="<td>"+midlist[i].t5001_no+"</td>";
 					tr1+="<td>"+midlist[i].elType.name+"</td>";
 					tr1+="<td>"+midlist[i].mType.name+"</td>";
@@ -69,7 +73,8 @@
 				if(md[1]>0){
 					$("#td"+ii).append("<h3 align='left'>图样：("+md[1]+"p)");
 					for(i=0;i<md[1];i++){
-						$("#td"+ii).append("<img src='${path}/maint_item_def/getImage.do?maint_id="+maint_id+"&maint_item_id="+maint_item_id+"&image_val="+i+"' width=200 height=200/>&nbsp;&nbsp;&nbsp;");
+// 						$("#td"+ii).append("<img src='${path}/maint_item_def/getImage.do?maint_id="+maint_id+"&maint_item_id="+maint_item_id+"&image_val="+i+"' alt='图片不存在！' onError='this.src=${path}/images/image_error.png' width=200 height=200/>&nbsp;&nbsp;&nbsp;");
+						$("#td"+ii).append("<img src='http://longwan.shifting.com.cn/image_api.php?name=getImageData&maint_id="+maint_id+"&maint_item_id="+maint_item_id+"&image_val="+i+"&h=200&w=200' width=200 height=200 alt='图片不存在！'/>&nbsp;&nbsp;&nbsp;");
 					}
 				}
 				
@@ -84,17 +89,17 @@
 
 <ul>
 	
-	<li><h3>${deptName}&nbsp;&nbsp;${typeName }&nbsp;&nbsp;维保记录列表</h3>
+	<li><h3>${typeName }记录列表</h3>
 	<li>
 	<table cellpadding="0" cellspacing="1">
 	<tr>
 		<th>记录编号</th>
 		<th>电梯简称</th>
-		<th>维保记录类型</th>
+		<th>工作类型</th>
 		<th>维保人员</th>
 		<th>维保人员</th>
 		<th>安全人员</th>
-		<th>维保时间</th>
+		<th>工作时间</th>
 		<th>记录上传时间</th>
 		<th>操作</th>
 	</tr>
@@ -125,7 +130,7 @@
 		<tr>
 			<th>t5001编号</th>
 			<th>电梯类型</th>
-			<th>检测类型</th>
+			<th>工作类型</th>
 			<th>检测区域</th>
 			<th>检测项</th>
 			<th>检测结果</th>

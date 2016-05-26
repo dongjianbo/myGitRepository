@@ -14,7 +14,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>
  <c:if test="${operator_type.id_operator_type=='00'||operator_type.id_operator_type=='01'}">
-				   河南省电梯安全监督管理中心
+				   河南省电梯安全监管（漯河）中心
 				   </c:if>
 				   <c:if test="${operator_type.id_operator_type=='10'||operator_type.id_operator_type=='11'}">
 				   河南省电梯安全监督维保中心
@@ -122,7 +122,7 @@ function closeme(){
 				<ul>
 				<li><div style="font-size: 30px;margin-top: 10px;">
 				 <c:if test="${operator_type.id_operator_type=='00'||operator_type.id_operator_type=='01'}">
-				   河南省电梯安全监督管理中心
+				   河南省电梯安全监管（漯河）中心
 				   </c:if>
 				   <c:if test="${operator_type.id_operator_type=='10'||operator_type.id_operator_type=='11'}">
 				   河南省电梯安全监督维保中心

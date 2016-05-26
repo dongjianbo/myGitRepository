@@ -42,13 +42,16 @@
 			$.getJSON("${path}/maint_item_def/listById.do?rand="+Math.random()+"&maint_id="+maint_id,"",function(midlist){
 				$("#table1 tr:not(:first)").remove();
 				for(i=0;i<midlist.length;i++){
-					var tr1="<tr onmouseover='toImage("+maint_id+","+midlist[i].maint_item_id+","+i+")' onmouseout='outImage("+i+")'>"
+					var tr1="<tr>";
+					if(midlist[i].info!=""){
+						tr1="<tr onmouseover='toImage("+maint_id+","+midlist[i].maint_item_id+","+i+")' onmouseout='outImage("+i+")'>";
+					}
 					tr1+="<td>"+midlist[i].t5001_no+"</td>";
 					tr1+="<td>"+midlist[i].elType.name+"</td>";
 					tr1+="<td>"+midlist[i].mType.name+"</td>";
 					tr1+="<td>"+midlist[i].mArea.name+"</td>";
 					tr1+="<td>"+midlist[i].title+"</td>";
-					tr1+="<td>"+midlist[i].content+"</td>";
+					tr1+="<td>"+midlist[i].maint_result+"</td>";
 					tr1+="<td>"+midlist[i].info+"</td>";
 					tr1+="</tr>";
 					tr1+="<tr id='tr"+i+"' style='display:none'><td id='td"+i+"' align='left' colspan='7'></td></tr>"
@@ -69,7 +72,8 @@
 				if(md[1]>0){
 					$("#td"+ii).append("<h3 align='left'>图样：("+md[1]+"p)");
 					for(i=0;i<md[1];i++){
-						$("#td"+ii).append("<img src='${path}/maint_item_def/getImage.do?maint_id="+maint_id+"&maint_item_id="+maint_item_id+"&image_val="+i+"' width=200 height=200/>&nbsp;&nbsp;&nbsp;");
+// 						$("#td"+ii).append("<img src='${path}/maint_item_def/getImage.do?maint_id="+maint_id+"&maint_item_id="+maint_item_id+"&image_val="+i+"' width=200 height=200/>&nbsp;&nbsp;&nbsp;");
+						$("#td"+ii).append("<img src='http://longwan.shifting.com.cn/image_api.php?name=getImageData&maint_id="+maint_id+"&maint_item_id="+maint_item_id+"&image_val="+i+"&h=200&w=200' width=200 height=200 alt='图片不存在！'/>&nbsp;&nbsp;&nbsp;");
 					}
 				}
 				
@@ -85,16 +89,17 @@
 
 <ul>
 	
-	<li><h3>${typeName }&nbsp;&nbsp;记录列表</h3>
+	<li><h3>${typeName }记录列表</h3>
 	<li>
 	<table cellpadding="0" cellspacing="1">
 	<tr>
 		<th>记录编号</th>
 		<th>电梯简称</th>
-		<th>操作员1</th>
-		<th>操作员2</th>
-		<th>操作员3</th>
-		<th>维保时间</th>
+		<th>工作类型</th>
+		<th>维保人员</th>
+		<th>维保人员</th>
+		<th>安全人员</th>
+		<th>工作时间</th>
 		<th>记录上传时间</th>
 		<th>操作</th>
 	</tr>
@@ -102,16 +107,19 @@
 		<tr>
 			<td>${l.maint_id }</td>
 			<td>${l.elevator.desc }</td>
+			<td>${l.maintType.name }</td>
 			<td>${l.servicer1.name }</td>
 			<td>${l.servicer2.name }</td>
 			<td>${l.servicer3.name }</td>
 			<td>${l.maint_date }</td>
 			<td>${l.maint_upload }</td>
-			<td><a href="javascript:toDetail(${l.maint_id })">查看记录明细</a></td>
+			<td><c:if test="${l.maint_type!=4 }">
+					<a href="javascript:toDetail(${l.maint_id })">查看记录明细</a>
+				</c:if></td>
 		</tr>
 	</c:forEach>
 	<tr>
-		<td colspan="8" style="text-align: left;">${pagination}</td>
+		<td colspan="9" style="text-align: left;">${pagination}</td>
 	</tr>
 	</table>
 	<div align="right">
@@ -124,7 +132,7 @@
 		<tr>
 			<th>t5001编号</th>
 			<th>电梯类型</th>
-			<th>检测类型</th>
+			<th>工作类型</th>
 			<th>检测区域</th>
 			<th>检测项</th>
 			<th>检测结果</th>
