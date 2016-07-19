@@ -369,7 +369,7 @@ public class ElevatorService {
 	public int getCount_Rounds_Normal(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select count(e.id_elevator) from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
-				+ "where to_days(now())-to_days(es.last_rounds)<365";
+				+ "where to_days(now())-to_days(es.last_test)<365";
 		sql+=" and e.register_status='1'";
 		if(id_city!=null&&!"".equals(id_city)&&!"00".equals(id_city)){
 			sql+=" and e.id_city='"+id_city+"'";
@@ -404,7 +404,7 @@ public class ElevatorService {
 	public List<Elevator> listCount_Rounds_Normal(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select e.id_elevator from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
-				+ "where to_days(now())-to_days(es.last_rounds)<365";
+				+ "where to_days(now())-to_days(es.last_test)<365";
 		sql+=" and e.register_status='1'";
 		if(id_city!=null&&!"".equals(id_city)&&!"00".equals(id_city)){
 			sql+=" and e.id_city='"+id_city+"'";
@@ -440,7 +440,7 @@ public class ElevatorService {
 	public int getCount_Rounds_Warnning(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select count(e.id_elevator) from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
-				+ "where (to_days(now())-to_days(es.last_rounds)) "
+				+ "where (to_days(now())-to_days(es.last_test)) "
 				+ "between (365-(select alarm_rounds from system_setting limit 0,1)) and 365";
 		sql+=" and e.register_status='1'";
 		if(id_city!=null&&!"".equals(id_city)&&!"00".equals(id_city)){
@@ -476,7 +476,7 @@ public class ElevatorService {
 	public List<Elevator> listCount_Rounds_Warnning(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select e.id_elevator from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
-				+ "where (to_days(now())-to_days(es.last_rounds)) "
+				+ "where (to_days(now())-to_days(es.last_test)) "
 				+ "between (365-(select alarm_rounds from system_setting limit 0,1)) and 365";
 		sql+=" and e.register_status='1'";
 		if(id_city!=null&&!"".equals(id_city)&&!"00".equals(id_city)){
@@ -513,7 +513,7 @@ public class ElevatorService {
 	public int getCount_Rounds_Overdue(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select count(e.id_elevator) from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
-				+ "where to_days(now())-to_days(es.last_rounds)>365";
+				+ "where to_days(now())-to_days(es.last_test)>365";
 		sql+=" and e.register_status='1'";
 		if(id_city!=null&&!"".equals(id_city)&&!"00".equals(id_city)){
 			sql+=" and e.id_city='"+id_city+"'";
@@ -548,7 +548,7 @@ public class ElevatorService {
 	public List<Elevator> listCount_Rounds_Overdue(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select e.id_elevator from elevator e left join "
 				+ "elevator_state es on e.id_elevator=es.id_elevator "
-				+ "where to_days(now())-to_days(es.last_rounds)>365";
+				+ "where to_days(now())-to_days(es.last_test)>365";
 		sql+=" and e.register_status='1'";
 		if(id_city!=null&&!"".equals(id_city)&&!"00".equals(id_city)){
 			sql+=" and e.id_city='"+id_city+"'";

@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
@@ -51,6 +52,8 @@ public class Maint_report_id {
 	private Date maint_upload;
 	@Column(name="[desc]")
 	private String desc;
+	@Transient
+	private int overdue=0;//用来标识该维保记录是否逾期0表示没有逾期，1表示已经逾期
 	
 	public Maint_type_def getMaintType() {
 		return maintType;
@@ -137,6 +140,12 @@ public class Maint_report_id {
 	}
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+	public int getOverdue() {
+		return overdue;
+	}
+	public void setOverdue(int overdue) {
+		this.overdue = overdue;
 	}
 	
 	

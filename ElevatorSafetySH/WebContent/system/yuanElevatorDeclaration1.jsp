@@ -21,6 +21,7 @@
 	<script src="${path}/jquery/ui/jquery.ui.dialog.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.effect.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.datepicker.js"></script><!-- 日期控件的js -->
+	<script src="${path}/jquery/ui/i18n/jquery.ui.datepicker-zh-CN.js"></script>
 	<script type="text/javascript">
 	var dia;
 	$().ready(function(){
@@ -173,7 +174,7 @@
 				        <li>电梯型号:
 				        <li><select name="id_elevator_model" id="id_elevator_model"></select>
                          <li>申报时间:
-					    <li><input type="text" name="date_declare" size="50" id="date1" readonly="readonly" placeholder="请选择申报时间">*<br><br><br>
+					    <li><input type="text" name="date_declare" size="50" id="date1" placeholder="请选择申报时间(yyyy-mm-dd)">*<br><br><br>
 					</ul>
 				</td>
 				<td style="text-align: top;">
@@ -187,9 +188,9 @@
 				<li>验收报告编号:
 				<li><input type="text" id="check_construct_code" name="check_construct_code" size="50" maxlength="20"/><br><br><br>
 				<li>注册时间:
-				<li><input type="text" id="date_register" name="date_register" size="30" readonly="readonly" placeholder="请选择上次注册时间"/>*<br>
+				<li><input type="text" id="date_register" name="date_register" size="50" placeholder="请选择上次注册时间(yyyy-mm-dd)"/>*<br>
 				<li>开始使用时间:
-				<li><input type="text" id="date_enable" name="date_enable" size="30" readonly="readonly" placeholder="请选择开始使用时间"/>*<br><br><br><br><br>
+				<li><input type="text" id="date_enable" name="date_enable" size="50" placeholder="请选择开始使用时间(yyyy-mm-dd)"/>*<br><br><br><br><br>
 				</ul>
 				</td>
 			</tr>

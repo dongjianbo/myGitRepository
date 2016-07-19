@@ -21,6 +21,7 @@
 	<script src="${path}/jquery/ui/jquery.ui.dialog.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.effect.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.datepicker.js"></script><!-- 日期控件的js -->
+	<script src="${path}/jquery/ui/i18n/jquery.ui.datepicker-zh-CN.js"></script>
 	<script type="text/javascript">
 	var dia;
 	$().ready(function(){
@@ -127,13 +128,13 @@
 		        <td>
 		           <ul>
                     <li>生产日期:
-					<li><input type="text" name="date_manufer" size="50" id="date1" readonly="readonly" placeholder="请选择生产日期"/>*
+					<li><input type="text" name="date_manufer" size="50" id="date1" placeholder="请选择生产日期(yyyy-mm-dd)"/>*
 		            <li>土建施工单位:
 					<li><input type="text" name="constucter" size="50" maxlength="30"/>
 					<li>土建施工开始时间:
-					<li><input type="text" name="startdate_construct" size="50" id="date2" readonly="readonly" placeholder="请选择土地建工开始时间"/> * 
+					<li><input type="text" name="startdate_construct" size="50" id="date2"  placeholder="请选择土地建工开始时间(yyyy-mm-dd)"/> * 
 		            <li>土建施工竣工时间:
-				    <li><input type="text" name="enddate_construct" size="50" id="date3" readonly="readonly" placeholder="请选择土地施工竣工时间"/>*
+				    <li><input type="text" name="enddate_construct" size="50" id="date3"  placeholder="请选择土地施工竣工时间(yyyy-mm-dd)"/>*
 				    <li>土建验收单位名称:
 				    <li><input type="text" name="accepter_construct" size="50" maxlength="30"/>
 				    <li>安装单位名称:

@@ -30,6 +30,34 @@
 		$("#idMifare_card").val(b);
 		$("#cardmessage").html("发卡成功");
 	}
+	//新版写卡程序
+	function icw() {
+
+		var utype = 3;
+		var uid = $("#idservicer_card").val();
+
+		if ((utype =="") || uid=="") {
+			$("#binfo").html("数据填写错误");
+			return;
+		}
+
+		$("#cardmessage").html("正在写...");
+
+		$.get("http://127.0.0.1:4050", {
+			action : "write",
+			utype : utype,
+			uid : uid
+		}, function(result,r,x) {
+
+			if (result == "FAILED") {
+				$("#cardmessage").html("写卡失败");
+			} else {
+				//讲序列号写入文本框
+				$("#idMifare_card").val(result);
+				$("#cardmessage").html("写卡成功，卡ID=" + result);
+			}
+		});
+	}
 	var dia;
 	$().ready(function(){
 // 		var $doc;         
@@ -307,7 +335,7 @@
 		<form action="${path }/servicer/getCard.do" method="post" id="getCardForm">
 			<ul>
 				<li>请将卡片放置读卡器上,然后点击下面的"发卡"按钮
-				<li><input type="button" onclick="getCard()" value="发卡"/><span id="cardmessage"></span>
+				<li><input type="button" onclick="icw()" value="发卡"/><span id="cardmessage"></span>
 <!-- 				<li>读取卡片序列号 -->
 				<li><input type="hidden" name="idMifare" id="idMifare_card"  readonly="readonly"/>
 <!-- 				<li>卡片将绑定本维保人员ID -->

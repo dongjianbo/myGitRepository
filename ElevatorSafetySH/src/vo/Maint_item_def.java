@@ -41,6 +41,9 @@ public class Maint_item_def {
 	@Transient
 	private String maint_result;
 	
+	@Transient
+	private int doorid;//为了显示层门图片，需要增加门ID
+	
 	
 	public String getMaint_result() {
 		return maint_result;
@@ -137,6 +140,12 @@ public class Maint_item_def {
 	}
 	public void setLast_modified(Date last_modified) {
 		this.last_modified = last_modified;
+	}
+	public int getDoorid() {
+		return doorid;
+	}
+	public void setDoorid(int doorid) {
+		this.doorid = doorid;
 	}
 	
 }

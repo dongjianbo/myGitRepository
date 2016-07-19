@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
@@ -186,7 +187,7 @@ public class TestService {
 		public int getCount_Rounds_Normal(int id_test){
 			String sql="select count(e.id_elevator) from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_rounds)<365";
+					+ "where to_days(now())-to_days(es.last_test)<365";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_test="+id_test;
 			List list=testDao.getListBySQL(sql);
@@ -201,7 +202,7 @@ public class TestService {
 		public List<Elevator> listCount_Rounds_Normal(String search,int pageSize,HttpServletRequest request,int id_test){
 			String sql="select e.id_elevator from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_rounds)<365";
+					+ "where to_days(now())-to_days(es.last_test)<365";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_test="+id_test;
 			List<Long> list=testDao.getListBySQL(sql);
@@ -217,7 +218,7 @@ public class TestService {
 		public int getCount_Rounds_Warnning(int id_test){
 			String sql="select count(e.id_elevator) from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_rounds) "
+					+ "where to_days(now())-to_days(es.last_test) "
 					+ "between (365-(select alarm_test from system_setting limit 0,1)) and 365 ";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_test="+id_test;
@@ -233,7 +234,7 @@ public class TestService {
 		public List<Elevator> listCount_Rounds_Warnning(String search,int pageSize,HttpServletRequest request,int id_test){
 			String sql="select e.id_elevator from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_rounds) "
+					+ "where to_days(now())-to_days(es.last_test) "
 					+ "between (365-(select alarm_test from system_setting limit 0,1)) and 365 ";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_test="+id_test;
@@ -250,7 +251,7 @@ public class TestService {
 		public int getCount_Rounds_Overdue(int id_test){
 			String sql="select count(e.id_elevator) from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_rounds)>365 ";
+					+ "where to_days(now())-to_days(es.last_test)>365 ";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_test="+id_test;
 			List list=testDao.getListBySQL(sql);
@@ -265,7 +266,7 @@ public class TestService {
 		public List<Elevator> listCount_Rounds_Overdue(String search,int pageSize,HttpServletRequest request,int id_test){
 			String sql="select e.id_elevator from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_rounds)>365 ";
+					+ "where to_days(now())-to_days(es.last_test)>365 ";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_test="+id_test;
 			List<Long> list=testDao.getListBySQL(sql);
@@ -724,7 +725,8 @@ public class TestService {
 				Date endTime=new Date(DateUtils.parse(end).getTime());
 				dc.add(Restrictions.between("maint_date", startTime, endTime));
 			}
-			
+			//按照工作时间降序排列
+			dc.addOrder(Order.desc("maint_date"));
 			return mriDao.findPageByDcQuery(dc, 10, request);
 		}
 }

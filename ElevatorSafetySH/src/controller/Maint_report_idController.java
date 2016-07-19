@@ -29,6 +29,7 @@ public class Maint_report_idController {
 //		}else{
 //			typeName=maint_report_idService.getTypeNameById(maint_type);
 //		}
+		
 		mav.addObject("list",list);
 		if(maint_type==0){
 			mav.addObject("typeName","я╡йс");

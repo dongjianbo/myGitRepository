@@ -22,6 +22,7 @@ import service.CitylistService;
 import service.DesignerService;
 import service.DistictlistService;
 import service.ElevatorService;
+import service.Elevator_doorService;
 import service.Elevator_stateService;
 import service.Elevator_tag_init_taskService;
 import service.HistoryService;
@@ -40,6 +41,8 @@ import service.TestService;
 import service.UserService;
 import util.DateUtils;
 import vo.Elevator;
+import vo.Elevator_door;
+import vo.Elevator_doorKey;
 import vo.Elevator_state;
 import vo.Elevator_tag_init_task;
 import vo.History;
@@ -97,6 +100,8 @@ public class ElevatorController {
 	public ModellistService modellistService;
 	@Resource
 	public Register_status_defService regService;
+	@Resource
+	public Elevator_doorService doorService;
 	
 	@RequestMapping("insert")
 	public String insert(Elevator elevator,HttpServletRequest request,HttpServletResponse response){
@@ -158,6 +163,16 @@ public class ElevatorController {
         es.setLabeldemo(el.getDesc());
         es.setLastmodified(DateUtils.format(new Date()));
         esService.insert(es);
+        //根据新需求，插入elevtor_door记录
+        Elevator_door door=new Elevator_door();
+        Elevator_doorKey edKey=new Elevator_doorKey();
+        edKey.setDoor_id("1");
+        door.setNote("first");
+        door.setLast_modified(new Date());
+        edKey.setElevator_id(id_elevator);
+        door.setKey(edKey);
+        doorService.save(door);
+        System.out.println("已插入elevator_door记录");
         return "/system/insertElevatorDeclaration";
 	}
 	@RequestMapping("yuaninsert")
@@ -229,6 +244,16 @@ public class ElevatorController {
         elevator_tag_init_task.setElevator_address(el.getAddress());
         elevator_tag_init_task.setElevator_layer_number(el.getNum_floor_elevator());
         elevator_tag_init_taskService.insert(elevator_tag_init_task);
+        //根据新需求，插入elevtor_door记录
+        Elevator_door door=new Elevator_door();
+        Elevator_doorKey edKey=new Elevator_doorKey();
+        edKey.setDoor_id("1");
+        door.setNote("first");
+        door.setLast_modified(new Date());
+        edKey.setElevator_id(id_elevator);
+        door.setKey(edKey);
+        doorService.save(door);
+        System.out.println("已插入elevator_door记录");
         //此时插入成功之后 转到elevator_state界面去插入电梯状态的信息
         
         

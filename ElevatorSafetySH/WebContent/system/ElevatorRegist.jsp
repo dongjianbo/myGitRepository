@@ -21,6 +21,7 @@
 	<script src="${path}/jquery/ui/jquery.ui.dialog.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.effect.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.datepicker.js"></script><!-- 日期控件的js -->
+	<script src="${path}/jquery/ui/i18n/jquery.ui.datepicker-zh-CN.js"></script>
 	<script type="text/javascript">
 	$().ready(function(){
 		

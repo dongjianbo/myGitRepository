@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>insertElevatorDeclaration2.jsp</title>
 <link href="${path}/css/system.css" rel="stylesheet" type="text/css">
 <link href="${path}/css/table.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="${path}/jquery/themes/base/jquery.ui.all.css">
@@ -21,6 +21,7 @@
 	<script src="${path}/jquery/ui/jquery.ui.dialog.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.effect.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.datepicker.js"></script><!-- 日期控件的js -->
+	<script src="${path}/jquery/ui/i18n/jquery.ui.datepicker-zh-CN.js"></script>
 	<script type="text/javascript">
 	var dia;
 	$().ready(function(){
