@@ -24,9 +24,11 @@ import service.CitylistService;
 import service.HistoryService;
 import service.History_listService;
 import service.Maint_report_idService;
+import service.OperatorService;
 import service.System_settingService;
 import service.UserService;
 import util.DateUtils;
+import util.MD5;
 import vo.Elevator;
 import vo.History;
 import vo.History_list;
@@ -51,6 +53,10 @@ public class UserController {
    public CitylistService cityService;
    @Resource
    public System_settingService system_settingService;
+   @Resource
+   public OperatorService operatorService;
+   public final String PASSWORD_DEFAULT="123456";
+   public MD5 md5=new MD5();
    @RequestMapping("list")
    public ModelAndView list(String key,HttpServletRequest request){
 		ModelAndView mav=new ModelAndView("system/userList");
@@ -86,7 +92,8 @@ public class UserController {
 		SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String s=format.format(date);
 		history.setDatetime(s);//当前时间
-		int idhistory=Integer.parseInt(historyService.insert(history).toString());
+		int idhistory=-1;
+		idhistory = Integer.parseInt(historyService.insert(history).toString());
 		//插入信息到systemstate表中（待写）
 	    History_list hilist=new History_list();
 	    History_listKey key=new History_listKey();
@@ -95,6 +102,33 @@ public class UserController {
         hilist.setKey(key);//key表示复合主键的类
         hilist.setValue(iduser+"");
 		System.out.println( history_listService.insert(hilist).toString());
+		//自动添加两个操作员
+		//自动加入两个操作员(20160726号需求)
+		for(int i=0;i<=1;i++){
+			Operator op1=new Operator();
+			op1.setLoginname("sy"+user.getIduser()+i);
+			op1.setPassword(md5.getMD5ofStr(PASSWORD_DEFAULT));
+			op1.setIdcard("");
+			op1.setIdcity("");
+			op1.setIddistrict("");
+			op1.setIdsubdistrict("");
+			op1.setIdOrganization(iduser);
+			op1.setIdprivilege(14+i);
+			op1.setName("-");
+			op1.setStatus("1");
+			op1.setTypeOperator(20+i+"");
+			try {
+				operatorService.insert(op1);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				//添加操作员异常，回滚事务，删除已添加的维保单位和历史记录
+				userService.delete(user);
+				historyService.delete(history);
+				history_listService.delete(hilist);
+				iduser=-1;
+			}
+		}
 		return iduser+"";
 	}
 	@RequestMapping(value="toUpdate",produces="text/html;charset=utf-8")

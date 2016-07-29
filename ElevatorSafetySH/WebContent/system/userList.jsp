@@ -81,7 +81,9 @@
 							$("#idOrganization1").val(a);
 							$("#idOrganization2").val(a);
 							$("#insertDialog").dialog("close");
-							$("#insertweibaoDialog").dialog("open");
+							//自动添加两位操作员（新需求见20160726号），所以取消以下窗口
+							//$("#insertweibaoDialog").dialog("open");
+							$("#insertDiv").dialog("open");
 						}else{
 							alert("添加失败！");
 							$("#insertDialog").dialog("close");
@@ -228,6 +230,18 @@
 			buttons:{
 				"确定":function(){
 					$(this).dialog("close");
+				}
+			}
+		});
+		$("#insertDiv").dialog({
+			modal:true,
+			autoOpen:false,
+			width:250,
+			height:150,
+			buttons:{
+				"确定":function(){
+					$(this).dialog("close");
+					location.reload();
 				}
 			}
 		});
@@ -529,6 +543,9 @@
 	</div>
 	<div title="删除警告" id="delDiv">
 		该项已经被使用，不能删除！
+	</div>
+	<div title="添加成功" id="insertDiv">
+		已成功添加新的使用单位！
 	</div>
 </body>
 </html>

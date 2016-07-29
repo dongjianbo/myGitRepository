@@ -70,17 +70,21 @@
 	</script>
 </head>
 <body>
-	<form action="${path}/${requestMapping }/listForSearch.do" method="post">
-		<table cellpadding="0" cellspacing="1">
-			<tr>
-				<td>按 电梯出厂编号 <input type="text" name="search" size="50"
-					value="${search}" /> 
-					<input type="hidden" name="key" value="${key}"/>
-					<input type="submit" value="搜索" />
-				</td>
-			</tr>
-		</table>
-	</form>
+<!-- 	技术监督人员电梯列表不要搜索，与上一个页面重复 -->
+	<c:if test="${requestMapping ne 'elevator'}">
+		<form action="${path}/${requestMapping }/listForSearch.do" method="post">
+			<table cellpadding="0" cellspacing="1">
+				<tr>
+					<td>按 关键字 <input type="text" name="search" size="50"
+						value="${search}" /> 
+						<input type="hidden" name="key" value="${key}"/>
+						<input type="submit" value="搜索" />
+					</td>
+				</tr>
+			</table>
+		</form>
+	</c:if>
+	
 	<table cellpadding="0" cellspacing="1">
 		<tr>
 			<th>电梯编号</th>

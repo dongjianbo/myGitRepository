@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -28,6 +29,10 @@ public class Servicer {
 	private String status;
 	@Column(name = "id_mifare")
 	private String idMifare;
+	//维保单位
+	@ManyToOne(cascade=CascadeType.REFRESH,optional=true)
+	@JoinColumn(name="id_service",insertable=false,updatable=false)
+	private Service1 service1;
 
 	
 	//配置一对一  人员类型
@@ -119,5 +124,13 @@ public class Servicer {
 		this.status_def = status_def;
 	}
 
+	public Service1 getService1() {
+		return service1;
+	}
+
+	public void setService1(Service1 service1) {
+		this.service1 = service1;
+	}
+	
 
 }

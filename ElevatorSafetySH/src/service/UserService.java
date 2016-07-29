@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import vo.Elevator;
 import vo.Maint_report_id;
-import vo.Service1;
 import vo.User;
 import dao.ElevatorDao;
 import dao.Maint_report_idDao;
@@ -74,7 +73,7 @@ public class UserService {
 		public List<Elevator> listCount(String search,int pageSize,HttpServletRequest request,int id_user){
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			dc.add(Restrictions.eq("id_user", id_user));
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
@@ -99,7 +98,7 @@ public class UserService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.eq("register_status", "0"));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			dc.add(Restrictions.eq("id_user", id_user));
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
@@ -126,7 +125,7 @@ public class UserService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.eq("register_status", "1"));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			dc.add(Restrictions.eq("id_user", id_user));
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
@@ -152,7 +151,7 @@ public class UserService {
 			dc.add(Restrictions.eq("register_status", "2"));
 			dc.add(Restrictions.eq("id_user", id_user));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -177,7 +176,7 @@ public class UserService {
 			dc.add(Restrictions.eq("register_status", "3"));
 			dc.add(Restrictions.eq("id_user", id_user));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -208,7 +207,7 @@ public class UserService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -241,7 +240,7 @@ public class UserService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -272,7 +271,7 @@ public class UserService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -303,7 +302,7 @@ public class UserService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -336,7 +335,7 @@ public class UserService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -367,7 +366,7 @@ public class UserService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -398,7 +397,7 @@ public class UserService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -431,7 +430,7 @@ public class UserService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -462,7 +461,7 @@ public class UserService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -493,7 +492,7 @@ public class UserService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -526,7 +525,7 @@ public class UserService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -557,7 +556,7 @@ public class UserService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -588,7 +587,7 @@ public class UserService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -621,7 +620,7 @@ public class UserService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -652,7 +651,7 @@ public class UserService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -686,7 +685,7 @@ public class UserService {
 		@Resource
 		public Maint_report_idDao mriDao;
 		//获得维保记录列表，传入使用单位ID
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		public List<Maint_report_id> listByType(int id_user,int maint_type,String start,String end,HttpServletRequest request){
 			String sql="select id_elevator from elevator where id_user="+id_user;
 			List ids=mriDao.getListBySQL(sql);
@@ -712,5 +711,23 @@ public class UserService {
 			String sql="select 1 from operator where type_operator in('20','21') and id_organization="+user.getIduser();
 			Object obj=userDao.getObjectBySQL(sql);
 			return obj==null;
+		}
+		/**
+		 * 按市级查找使用单位的数量
+		 *
+		 */
+		@SuppressWarnings("rawtypes")
+		public int getCountForCity(String id_city){
+			DetachedCriteria dc=DetachedCriteria.forClass(User.class);
+			dc.setProjection(Projections.count("iduser"));
+			if(id_city!=null&&!"".equals(id_city)){
+				dc.add(Restrictions.eq("registerArea", id_city));
+			}
+			List obj=userDao.getListByDc(dc);
+			if(obj!=null&&!obj.isEmpty()){
+				return Integer.parseInt(obj.get(0).toString());
+			}else{
+				return 0;
+			}
 		}
 }

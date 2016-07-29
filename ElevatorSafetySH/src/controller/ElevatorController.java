@@ -1,10 +1,11 @@
 package controller;
 
-import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +34,9 @@ import service.ModellistService;
 import service.OperatorService;
 import service.OwnerService;
 import service.Register_status_defService;
+import service.SaferService;
 import service.ServiceService;
+import service.ServicerService;
 import service.SubdistictlistService;
 import service.System_settingService;
 import service.SystemstateService;
@@ -102,6 +105,10 @@ public class ElevatorController {
 	public Register_status_defService regService;
 	@Resource
 	public Elevator_doorService doorService;
+	@Resource
+	public ServicerService servicerService;
+	@Resource
+	public SaferService saferService;
 	
 	@RequestMapping("insert")
 	public String insert(Elevator elevator,HttpServletRequest request,HttpServletResponse response){
@@ -268,6 +275,50 @@ public class ElevatorController {
 	public String insert2(Elevator elevator,HttpServletRequest request,HttpServletResponse response){
 		request.getSession().setAttribute("yuanelevator", elevator);
 		return "/system/yuanElevatorDeclaration1";
+	}
+	//监管部门相关统计数字
+	@RequestMapping("statistics")
+	public ModelAndView statistics(HttpServletRequest request){
+		//查找当前登录人
+		Operator op=(Operator)request.getSession().getAttribute("login");
+		if(!op.getTypeOperator().equals("00")){
+			ModelAndView mav=new ModelAndView("error");
+			mav.addObject("error","当前登录人非技术监督部门人员!");
+			return mav;
+		}else{
+			op=operatorService.findById(op.getIdoperator());
+			String	id_city=op.getIdcity();
+			String	id_district=op.getIddistrict();
+			String	id_subdistrict=op.getIdsubdistrict();
+			System.out.println("id_city:"+id_city);
+			System.out.println("id_district:"+id_district);
+			System.out.println("id_subdistrict:"+id_subdistrict);
+			//辖区范围内出厂日期超过15年电梯统计
+			int countFor15Years=elevatorService.getCountFor15Years(id_city, id_district, id_subdistrict);
+			//辖区范围内电梯按类型统计数量
+			Map<String, Integer> countForType=elevatorService.getCountForType(id_city, id_district, id_subdistrict);
+			List<String> keylist=new ArrayList<String>();
+			List<Integer> values=new ArrayList<Integer>();
+			for(Entry<String, Integer> entry:countForType.entrySet()){
+				keylist.add(entry.getKey());
+				values.add(entry.getValue());
+			}
+			//按市级统计使用单位数量、维保单位数量、维保人员数量、安全人员数量
+			int userCountForCity=userService.getCountForCity(id_city);
+			int serviceCountForCity=serviceService.getCountForCity(id_city);
+			int servicerCountForCity=servicerService.getCountForCity(id_city);
+			int saferCountForCity=saferService.getCountForCity(id_city);
+			ModelAndView mav=new ModelAndView("/system/elevatorStatistics");
+			mav.addObject("countFor15Years",countFor15Years);
+			mav.addObject("countForType",countForType);
+			mav.addObject("keylist",keylist);
+			mav.addObject("values",values);
+			mav.addObject("userCountForCity",userCountForCity);
+			mav.addObject("serviceCountForCity",serviceCountForCity);
+			mav.addObject("servicerCountForCity",servicerCountForCity);
+			mav.addObject("saferCountForCity",saferCountForCity);
+			return mav;
+		}
 	}
 
 	//技术监督部门统计查询

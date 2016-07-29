@@ -19,15 +19,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import dao.OperatorDao;
 import service.CitylistService;
 
 import service.HistoryService;
 import service.History_listService;
 import service.Maint_report_idService;
+import service.OperatorService;
 import service.ServiceService;
 import service.ServicerService;
 import service.System_settingService;
 import util.DateUtils;
+import util.MD5;
 import vo.Elevator;
 import vo.History;
 import vo.History_list;
@@ -55,6 +58,10 @@ public class ServiceController {
 	public ServicerService servicerService;
 	@Resource
 	public System_settingService system_settingService;
+	@Resource
+	public OperatorService operatorService;
+	public final String PASSWORD_DEFAULT="123456";
+	public MD5 md5=new MD5();
     @RequestMapping("list")
     public ModelAndView list(String key,HttpServletRequest request){
 		ModelAndView mav=new ModelAndView("system/serviceList");
@@ -85,6 +92,7 @@ public class ServiceController {
 			return idservice+"";
 		}
 		if(ser!=null){
+			//添加history
 			idservice=Integer.parseInt(ser.toString());
 			History history=new History();
 			history.setType(5);//类型
@@ -101,27 +109,57 @@ public class ServiceController {
 				System.out.println("添加history异常，事务回滚，删除已添加的维保单位");
 				serviceService.delete(service);
 			}
+			History_list hilist=new History_list();
 			if(ser1!=null){
+				//添加historylist
 				int idhistory=Integer.parseInt(ser1.toString());
 				//插入信息到systemstate表中（待写）
-			    History_list hilist=new History_list();
+			    
 			    History_listKey key=new History_listKey();
 			    key.setIdhistory(idhistory);
 			    key.setKey(5);
 		        hilist.setKey(key);//key表示复合主键的类
 		        hilist.setValue(idservice+"");
-		        Serializable ser2=null;
 				try {
-					ser2 = history_listService.insert(hilist);
+					history_listService.insert(hilist);
 				} catch (Exception e) {
 					System.out.println("添加historylist异常，事务回滚，删除已添加的service和history");
 					serviceService.delete(service);
 					historyService.delete(history);
+					idservice=-1;
 				}
 			}else{
 				//插入不成功则删除维保单位
 				serviceService.delete(service);
+				idservice=-1;
 			}
+			//自动加入两个操作员(20160726号需求)
+			for(int i=0;i<=1;i++){
+				Operator op1=new Operator();
+				op1.setLoginname("wb"+service.getIdservice()+i);
+				op1.setPassword(md5.getMD5ofStr(PASSWORD_DEFAULT));
+				op1.setIdcard("");
+				op1.setIdcity("");
+				op1.setIddistrict("");
+				op1.setIdsubdistrict("");
+				op1.setIdOrganization(idservice);
+				op1.setIdprivilege(12+i);
+				op1.setName("-");
+				op1.setStatus("1");
+				op1.setTypeOperator(10+i+"");
+				try {
+					operatorService.insert(op1);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					//添加操作员异常，回滚事务，删除已添加的维保单位和历史记录
+					serviceService.delete(service);
+					historyService.delete(history);
+					history_listService.delete(hilist);
+					idservice=-1;
+				}
+			}
+			
 		}
 		return idservice+"";
 

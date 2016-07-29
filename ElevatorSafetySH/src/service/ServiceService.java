@@ -79,7 +79,7 @@ public class ServiceService {
 		public List<Elevator> listCount(String search,int pageSize,HttpServletRequest request,int id_service){
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			dc.add(Restrictions.eq("id_service", id_service));
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
@@ -130,7 +130,7 @@ public class ServiceService {
 			dc.add(Restrictions.eq("register_status", "1"));
 			dc.add(Restrictions.eq("id_service", id_service));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -155,7 +155,7 @@ public class ServiceService {
 			dc.add(Restrictions.eq("register_status", "2"));
 			dc.add(Restrictions.eq("id_service", id_service));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -180,7 +180,7 @@ public class ServiceService {
 			dc.add(Restrictions.eq("register_status", "3"));
 			dc.add(Restrictions.eq("id_service", id_service));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -211,7 +211,7 @@ public class ServiceService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -244,7 +244,7 @@ public class ServiceService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -275,7 +275,7 @@ public class ServiceService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -306,7 +306,7 @@ public class ServiceService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -339,7 +339,7 @@ public class ServiceService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -370,7 +370,7 @@ public class ServiceService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -401,7 +401,7 @@ public class ServiceService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -434,7 +434,7 @@ public class ServiceService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -465,7 +465,7 @@ public class ServiceService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -496,7 +496,7 @@ public class ServiceService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -529,7 +529,7 @@ public class ServiceService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -560,7 +560,7 @@ public class ServiceService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -591,7 +591,7 @@ public class ServiceService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -624,7 +624,7 @@ public class ServiceService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -655,7 +655,7 @@ public class ServiceService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -787,6 +787,25 @@ public class ServiceService {
 		String sql="select 1 from operator where type_operator in('10','11') and id_organization="+service.getIdservice();
 		Object obj=serviceDao.getObjectBySQL(sql);
 		return obj==null;
+	}
+	
+	/**
+	 * 按市级查找维保单位的数量
+	 *
+	 */
+	@SuppressWarnings("rawtypes")
+	public int getCountForCity(String id_city){
+		DetachedCriteria dc=DetachedCriteria.forClass(Service1.class);
+		dc.setProjection(Projections.count("idservice"));
+		if(id_city!=null&&!"".equals(id_city)){
+			dc.add(Restrictions.eq("registerArea", id_city));
+		}
+		List obj=serviceDao.getListByDc(dc);
+		if(obj!=null&&!obj.isEmpty()){
+			return Integer.parseInt(obj.get(0).toString());
+		}else{
+			return 0;
+		}
 	}
   
 }

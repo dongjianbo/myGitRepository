@@ -75,7 +75,7 @@ public class TestService {
 		public List<Elevator> listCount(String search,int pageSize,HttpServletRequest request,int id_test){
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			dc.add(Restrictions.eq("id_test", id_test));
 			return testDao.findPageByDcQuery(dc, pageSize, request);
@@ -100,7 +100,7 @@ public class TestService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.eq("register_status", "0"));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			dc.add(Restrictions.eq("id_test", id_test));
 			return testDao.findPageByDcQuery(dc, pageSize, request);
@@ -128,7 +128,7 @@ public class TestService {
 			dc.add(Restrictions.eq("register_status", "1"));
 			dc.add(Restrictions.eq("id_test", id_test));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return testDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -152,7 +152,7 @@ public class TestService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.eq("register_status", "2"));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			dc.add(Restrictions.eq("id_test", id_test));
 			return testDao.findPageByDcQuery(dc, pageSize, request);
@@ -178,7 +178,7 @@ public class TestService {
 			dc.add(Restrictions.eq("register_status", "3"));
 			dc.add(Restrictions.eq("id_test", id_test));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return testDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -209,7 +209,7 @@ public class TestService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return testDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -242,7 +242,7 @@ public class TestService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return testDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -273,7 +273,7 @@ public class TestService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return testDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -304,7 +304,7 @@ public class TestService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return testDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -337,7 +337,7 @@ public class TestService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return testDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -370,7 +370,7 @@ public class TestService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return testDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -402,7 +402,7 @@ public class TestService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return testDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -435,7 +435,7 @@ public class TestService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return testDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -468,7 +468,7 @@ public class TestService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return testDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -500,7 +500,7 @@ public class TestService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return testDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -533,7 +533,7 @@ public class TestService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return testDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -566,7 +566,7 @@ public class TestService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return testDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -598,7 +598,7 @@ public class TestService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return testDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -631,7 +631,7 @@ public class TestService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return testDao.findPageByDcQuery(dc, pageSize, request);
 		}
@@ -664,7 +664,7 @@ public class TestService {
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
 			if(!"".equals(search)){
-				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+				dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 			}
 			return testDao.findPageByDcQuery(dc, pageSize, request);
 		}

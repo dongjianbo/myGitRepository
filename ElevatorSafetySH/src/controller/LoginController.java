@@ -65,7 +65,7 @@ public class LoginController {
 			   String optype=op.getTypeOperator();
 			   int deptid=op.getIdOrganization();
 			   String deptName="";
-			   if(optype.equals("00")){
+			   if(optype.equals("00")||optype.equals("01")){
 				   //技术监督部门
 				   deptName="技术监督局";
 			   }

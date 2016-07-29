@@ -1,6 +1,9 @@
 package service;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +35,39 @@ public class ElevatorService {
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 		dc.add(Restrictions.eq("id_elevator", id_elevator));
 		return (Elevator)elevatorDao.getListByDc(dc).get(0);
+	}
+	//返回符合条件的电梯编号
+	@SuppressWarnings("unchecked")
+	public List<Integer> getElevatorIds(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
+		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
+		if(id_city!=null&&!"".equals(id_city)&&!"00".equals(id_city)){
+			dc.add(Restrictions.eq("id_city", id_city));
+		}
+		if(id_district!=null&&!"".equals(id_district)&&!"00".equals(id_district)&&!"00".equals(id_district)){
+			dc.add(Restrictions.eq("id_district", id_district));
+		}
+		if(id_subdistrict!=null&&!"".equals(id_subdistrict)){
+			dc.add(Restrictions.eq("id_subdistrict", id_subdistrict));
+		}
+		if(id_service!=0){
+			dc.add(Restrictions.eq("id_service", id_service));
+		}
+		if(id_user!=0){
+			dc.add(Restrictions.eq("id_user", id_user));
+		}
+		if(id_test!=0){
+			dc.add(Restrictions.eq("id_test", id_test));
+		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			dc.add(Restrictions.like("desc", desc,MatchMode.ANYWHERE));
+		}
+		List<Elevator> elist=elevatorDao.getListByDc(dc);
+		List<Integer> ids=new ArrayList<Integer>();
+		for(Elevator e:elist){
+			ids.add(e.getId_elevator());
+		}
+		return ids;
+			
 	}
 	//电梯总数量
 	@SuppressWarnings("unchecked")
@@ -71,7 +107,7 @@ public class ElevatorService {
 	public List<Elevator> listCount(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 		if(!"".equals(search)){
-			dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+			dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
 		}
 		if(id_city!=null&&!"".equals(id_city)&&!"00".equals(id_city)){
 			dc.add(Restrictions.eq("id_city", id_city));
@@ -1444,5 +1480,57 @@ public class ElevatorService {
 	public List<Object[]> listElevator(){
 		String sql="select id_elevator,`desc` from elevator";
 		return elevatorDao.getListBySQL(sql);
+	}
+	/**
+	 * 20170726新需求
+	 */
+	//辖区范围内出厂日期超过15年电梯统计
+	public int getCountFor15Years(String id_city,String id_district,String id_subdistrict){
+		String sql="select count(e.id_elevator) from elevator e where 1=1 ";
+		if(id_city!=null&&!"".equals(id_city)&&!"00".equals(id_city)){
+			sql+=" and e.id_city='"+id_city+"'";
+		}
+		if(id_district!=null&&!"".equals(id_district)&&!"00".equals(id_district)){
+			sql+=" and e.id_district='"+id_district+"'";
+		}
+		if(id_subdistrict!=null&&!"".equals(id_subdistrict)){
+			sql+=" and e.id_subdistrict='"+id_subdistrict+"'";
+		}
+		sql+=" and TIMESTAMPDIFF(YEAR,date_manufer,now())>15";
+		Object obj=elevatorDao.getObjectBySQL(sql);
+		if(obj!=null){
+			return Integer.parseInt(obj.toString());
+		}else{
+			return 0;
+		}
+	}
+	/**
+	 * 辖区范围内电梯按类型统计数量
+	 */
+	
+	@SuppressWarnings("rawtypes")
+	public Map<String, Integer> getCountForType(String id_city,String id_district,String id_subdistrict){
+		//查询电梯种类
+		String sql="select t.name,count(e.id_elevator) from elevator_type_def t left join modellist m"+
+				" on m.type_elevator=t.elevator_type left join elevator e on m.id_model=e.id_elevator_model ";
+		if(id_city!=null&&!"".equals(id_city)&&!"00".equals(id_city)){
+			sql+=" and e.id_city='"+id_city+"'";
+		}
+		if(id_district!=null&&!"".equals(id_district)&&!"00".equals(id_district)){
+			sql+=" and e.id_district='"+id_district+"'";
+		}
+		if(id_subdistrict!=null&&!"".equals(id_subdistrict)){
+			sql+=" and e.id_subdistrict='"+id_subdistrict+"'";
+		}
+		sql+=" group by t.name";
+		List list=elevatorDao.getListBySQL(sql);
+		Map<String, Integer> map=new HashMap<String, Integer>();
+		for(Object obj:list){
+			if(obj!=null){
+				Object[] res=(Object[])obj;
+				map.put(res[0].toString(),Integer.parseInt(res[1].toString()));
+			}
+		}
+		return map;
 	}
 }

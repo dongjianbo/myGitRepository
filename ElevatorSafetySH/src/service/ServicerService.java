@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
-
 import vo.Servicer;
 import dao.ServicerDao;
 
@@ -50,5 +50,24 @@ public class ServicerService {
 		Servicer s=servicerDao.get(Servicer.class, idservicer);
 		s.setIdMifare(idMifare);
 		servicerDao.update(s);
+	}
+	/**
+	 * 按市级查找维保人员的数量
+	 *
+	 */
+	@SuppressWarnings("rawtypes")
+	public int getCountForCity(String id_city){
+		DetachedCriteria dc=DetachedCriteria.forClass(Servicer.class);
+		dc.setProjection(Projections.count("idservicer"));
+		if(id_city!=null&&!"".equals(id_city)){
+			dc.createAlias("service1", "service1");
+			dc.add(Restrictions.eq("service1.registerArea", id_city));
+		}
+		List obj=servicerDao.getListByDc(dc);
+		if(obj!=null&&!obj.isEmpty()){
+			return Integer.parseInt(obj.get(0).toString());
+		}else{
+			return 0;
+		}
 	}
 }

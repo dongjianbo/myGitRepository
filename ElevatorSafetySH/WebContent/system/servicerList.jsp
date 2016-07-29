@@ -273,7 +273,7 @@
 			<tr>
 				<td>${d.idservicer}</td>
 				<td>${d.name }</td>
-				<td>${d.idservice}</td>
+				<td>${d.service1.name}</td>
 				<td>${d.licencecode}</td>
 				<td>${d.servicer_type_def.name }</td>
 				<td>${d.status_def.name}</td>

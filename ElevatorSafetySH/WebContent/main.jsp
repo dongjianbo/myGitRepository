@@ -186,7 +186,7 @@ function closeme(){
 				</div>
 				
 			</td>
-			<td><div class="div1" id="right">
+			<td height="90%"><div class="div1" id="right" style="height: 100%">
 					<iframe width="100%" height="100%" frameborder="0" marginheight="0" scrolling="no"
 						marginwidth="0" id="_root" name="_root" src="
 						<c:if test="${operator_type.id_operator_type=='00'||operator_type.id_operator_type=='01'}">
