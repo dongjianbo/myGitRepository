@@ -15,7 +15,7 @@
 	
 <!-- 	spring定时任务 -->
 	<task:scheduled-tasks>
-		<task:scheduled ref="overdueTaskService" method="createTask" cron="0 23 9 * * ?"/>
+		<task:scheduled ref="overdueTaskService" method="createTask" cron="0 30 0 * * ?"/>
 	</task:scheduled-tasks>
 
 </beans>

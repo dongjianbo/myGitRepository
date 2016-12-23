@@ -276,50 +276,7 @@ public class ElevatorController {
 		request.getSession().setAttribute("yuanelevator", elevator);
 		return "/system/yuanElevatorDeclaration1";
 	}
-	//监管部门相关统计数字
-	@RequestMapping("statistics")
-	public ModelAndView statistics(HttpServletRequest request){
-		//查找当前登录人
-		Operator op=(Operator)request.getSession().getAttribute("login");
-		if(!op.getTypeOperator().equals("00")){
-			ModelAndView mav=new ModelAndView("error");
-			mav.addObject("error","当前登录人非技术监督部门人员!");
-			return mav;
-		}else{
-			op=operatorService.findById(op.getIdoperator());
-			String	id_city=op.getIdcity();
-			String	id_district=op.getIddistrict();
-			String	id_subdistrict=op.getIdsubdistrict();
-			System.out.println("id_city:"+id_city);
-			System.out.println("id_district:"+id_district);
-			System.out.println("id_subdistrict:"+id_subdistrict);
-			//辖区范围内出厂日期超过15年电梯统计
-			int countFor15Years=elevatorService.getCountFor15Years(id_city, id_district, id_subdistrict);
-			//辖区范围内电梯按类型统计数量
-			Map<String, Integer> countForType=elevatorService.getCountForType(id_city, id_district, id_subdistrict);
-			List<String> keylist=new ArrayList<String>();
-			List<Integer> values=new ArrayList<Integer>();
-			for(Entry<String, Integer> entry:countForType.entrySet()){
-				keylist.add(entry.getKey());
-				values.add(entry.getValue());
-			}
-			//按市级统计使用单位数量、维保单位数量、维保人员数量、安全人员数量
-			int userCountForCity=userService.getCountForCity(id_city);
-			int serviceCountForCity=serviceService.getCountForCity(id_city);
-			int servicerCountForCity=servicerService.getCountForCity(id_city);
-			int saferCountForCity=saferService.getCountForCity(id_city);
-			ModelAndView mav=new ModelAndView("/system/elevatorStatistics");
-			mav.addObject("countFor15Years",countFor15Years);
-			mav.addObject("countForType",countForType);
-			mav.addObject("keylist",keylist);
-			mav.addObject("values",values);
-			mav.addObject("userCountForCity",userCountForCity);
-			mav.addObject("serviceCountForCity",serviceCountForCity);
-			mav.addObject("servicerCountForCity",servicerCountForCity);
-			mav.addObject("saferCountForCity",saferCountForCity);
-			return mav;
-		}
-	}
+	
 
 	//技术监督部门统计查询
 		@RequestMapping("search")
@@ -704,6 +661,64 @@ public class ElevatorController {
 		JSONObject jobject=JSONObject.fromObject(e);
 		return jobject.toString();
 	}
-	
-	
+	/**
+	 * 2016年7月26新需求
+	 * @param key
+	 * @param id_city
+	 * @param id_district
+	 * @param id_subdistrict
+	 * @param id_service
+	 * @param id_user
+	 * @param id_test
+	 * @param desc
+	 * @param request
+	 * @return
+	 */
+	//监管部门相关统计数字
+		@RequestMapping("statistics")
+		public ModelAndView statistics(String key,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc,HttpServletRequest request){
+			//查找当前登录人
+			Operator op=(Operator)request.getSession().getAttribute("login");
+			if(!op.getTypeOperator().equals("00")){
+				ModelAndView mav=new ModelAndView("error");
+				mav.addObject("error","当前登录人非技术监督部门人员!");
+				return mav;
+			}else{
+				op=operatorService.findById(op.getIdoperator());
+				if(key!=null&&key.equals("first")){
+					//第一次登录，没有查询，所以得从session中取地址
+					id_city=op.getIdcity();
+					id_district=op.getIddistrict();
+					id_subdistrict=op.getIdsubdistrict();
+					System.out.println("id_city:"+id_city);
+					System.out.println("id_district:"+id_district);
+					System.out.println("id_subdistrict:"+id_subdistrict);
+				}
+				//辖区范围内出厂日期超过15年电梯统计
+				int countFor15Years=elevatorService.getCountFor15Years(id_city, id_district, id_subdistrict,id_service,id_user,id_test,desc);
+				//辖区范围内电梯按类型统计数量
+				Map<String, Integer> countForType=elevatorService.getCountForType(id_city, id_district, id_subdistrict,id_service,id_user,id_test,desc);
+				List<String> keylist=new ArrayList<String>();
+				List<Integer> values=new ArrayList<Integer>();
+				for(Entry<String, Integer> entry:countForType.entrySet()){
+					keylist.add(entry.getKey());
+					values.add(entry.getValue());
+				}
+				//辖区内电梯相关使用单位数量、维保单位数量、维保人员数量、安全人员数量
+				int userCountForCity=userService.getCountForCity(id_city, id_district, id_subdistrict);
+				int serviceCountForCity=serviceService.getCountForCity(id_city, id_district, id_subdistrict);
+				int servicerCountForCity=servicerService.getCountForCity(id_city, id_district, id_subdistrict);
+				int saferCountForCity=saferService.getCountForCity(id_city, id_district, id_subdistrict);
+				ModelAndView mav=new ModelAndView("/system/elevatorStatistics");
+				mav.addObject("countFor15Years",countFor15Years);
+				mav.addObject("countForType",countForType);
+				mav.addObject("keylist",keylist);
+				mav.addObject("values",values);
+				mav.addObject("userCountForCity",userCountForCity);
+				mav.addObject("serviceCountForCity",serviceCountForCity);
+				mav.addObject("servicerCountForCity",servicerCountForCity);
+				mav.addObject("saferCountForCity",saferCountForCity);
+				return mav;
+			}
+		}
 }

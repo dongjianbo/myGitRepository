@@ -1485,7 +1485,7 @@ public class ElevatorService {
 	 * 20170726新需求
 	 */
 	//辖区范围内出厂日期超过15年电梯统计
-	public int getCountFor15Years(String id_city,String id_district,String id_subdistrict){
+	public int getCountFor15Years(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		String sql="select count(e.id_elevator) from elevator e where 1=1 ";
 		if(id_city!=null&&!"".equals(id_city)&&!"00".equals(id_city)){
 			sql+=" and e.id_city='"+id_city+"'";
@@ -1495,6 +1495,18 @@ public class ElevatorService {
 		}
 		if(id_subdistrict!=null&&!"".equals(id_subdistrict)){
 			sql+=" and e.id_subdistrict='"+id_subdistrict+"'";
+		}
+		if(id_service!=0){
+			sql+=" and e.id_service="+id_service;
+		}
+		if(id_user!=0){
+			sql+=" and e.id_user="+id_user;
+		}
+		if(id_test!=0){
+			sql+=" and e.id_test="+id_test;
+		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
 		}
 		sql+=" and TIMESTAMPDIFF(YEAR,date_manufer,now())>15";
 		Object obj=elevatorDao.getObjectBySQL(sql);
@@ -1509,7 +1521,7 @@ public class ElevatorService {
 	 */
 	
 	@SuppressWarnings("rawtypes")
-	public Map<String, Integer> getCountForType(String id_city,String id_district,String id_subdistrict){
+	public Map<String, Integer> getCountForType(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
 		//查询电梯种类
 		String sql="select t.name,count(e.id_elevator) from elevator_type_def t left join modellist m"+
 				" on m.type_elevator=t.elevator_type left join elevator e on m.id_model=e.id_elevator_model ";
@@ -1521,6 +1533,18 @@ public class ElevatorService {
 		}
 		if(id_subdistrict!=null&&!"".equals(id_subdistrict)){
 			sql+=" and e.id_subdistrict='"+id_subdistrict+"'";
+		}
+		if(id_service!=0){
+			sql+=" and e.id_service="+id_service;
+		}
+		if(id_user!=0){
+			sql+=" and e.id_user="+id_user;
+		}
+		if(id_test!=0){
+			sql+=" and e.id_test="+id_test;
+		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
 		}
 		sql+=" group by t.name";
 		List list=elevatorDao.getListBySQL(sql);

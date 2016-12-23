@@ -351,6 +351,7 @@
 		<tr>
 			<th>编号</th>
 			<th>操作员类别</th>
+			<th>操作员登录名</th>
 			<th>操作员姓名</th>
 			<th>所属城市</th>
 			<th>所属区县</th>
@@ -363,6 +364,7 @@
 			<tr>
 				<td>${d.idoperator}</td>
 				<td>${d.operator_type_def.name}</td>
+				<td>${d.loginname }</td>
 				<td>${d.name}</td>
 				<td>${d.city.name_city }</td>
 				<td>${d.distict.name_district }</td>
@@ -378,7 +380,7 @@
 			</tr>
 		</c:forEach>
 		<tr>
-			<td colspan="9" style="text-align: left;">${pagination}</td>
+			<td colspan="10" style="text-align: left;">${pagination}</td>
 		</tr>
 	</table>
 	<div align="right">

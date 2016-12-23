@@ -716,16 +716,20 @@ public class UserService {
 		 * 按市级查找使用单位的数量
 		 *
 		 */
-		@SuppressWarnings("rawtypes")
-		public int getCountForCity(String id_city){
-			DetachedCriteria dc=DetachedCriteria.forClass(User.class);
-			dc.setProjection(Projections.count("iduser"));
-			if(id_city!=null&&!"".equals(id_city)){
-				dc.add(Restrictions.eq("registerArea", id_city));
+		public int getCountForCity(String id_city, String id_district, String id_subdistrict){
+			String sql="select count(distinct id_user) from elevator e where 1=1 ";
+			if(id_city!=null&&!"".equals(id_city)&&!"00".equals(id_city)){
+				sql+=" and e.id_city='"+id_city+"'";
 			}
-			List obj=userDao.getListByDc(dc);
-			if(obj!=null&&!obj.isEmpty()){
-				return Integer.parseInt(obj.get(0).toString());
+			if(id_district!=null&&!"".equals(id_district)&&!"00".equals(id_district)){
+				sql+=" and e.id_district='"+id_district+"'";
+			}
+			if(id_subdistrict!=null&&!"".equals(id_subdistrict)&&!"00".equals(id_subdistrict)){
+				sql+=" and e.id_subdistrict='"+id_subdistrict+"'";
+			}
+			Object obj=userDao.getObjectBySQL(sql);
+			if(obj!=null){
+				return Integer.parseInt(obj.toString());
 			}else{
 				return 0;
 			}

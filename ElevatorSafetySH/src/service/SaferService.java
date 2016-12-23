@@ -50,19 +50,25 @@ public class SaferService {
 	 * 按市级查找安全人员的数量
 	 *
 	 */
-	@SuppressWarnings("rawtypes")
-	public int getCountForCity(String id_city){
-		DetachedCriteria dc=DetachedCriteria.forClass(Safer.class);
-		dc.setProjection(Projections.count("idsafer"));
-		if(id_city!=null&&!"".equals(id_city)){
-			dc.createAlias("user", "user");
-			dc.add(Restrictions.eq("user.registerArea", id_city));
+	public int getCountForCity(String id_city, String id_district, String id_subdistrict){
+		String sql="select count(id_safer) from safer s where s.id_user "
+				+ "in(select distinct id_user from elevator e where 1=1 ";
+		if(id_city!=null&&!"".equals(id_city)&&!"00".equals(id_city)){
+			sql+=" and e.id_city='"+id_city+"'";
 		}
-		List obj=saferDao.getListByDc(dc);
-		if(obj!=null&&!obj.isEmpty()){
-			return Integer.parseInt(obj.get(0).toString());
+		if(id_district!=null&&!"".equals(id_district)&&!"00".equals(id_district)){
+			sql+=" and e.id_district='"+id_district+"'";
+		}
+		if(id_subdistrict!=null&&!"".equals(id_subdistrict)&&!"00".equals(id_subdistrict)){
+			sql+=" and e.id_subdistrict='"+id_subdistrict+"'";
+		}
+		sql+= ")";
+		Object obj=saferDao.getObjectBySQL(sql);
+		if(obj!=null){
+			return Integer.parseInt(obj.toString());
 		}else{
 			return 0;
 		}
+		
 	}
 }
