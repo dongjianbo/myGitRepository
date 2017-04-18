@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import service.CitylistService;
+import service.DeptGroupService;
 import service.DistictlistService;
 import service.OperatorService;
 import service.Operator_typeService;
@@ -15,6 +16,7 @@ import service.ServiceService;
 import service.SubdistictlistService;
 import service.TestService;
 import service.UserService;
+import vo.DeptGroup;
 import vo.Operator;
 import vo.Operator_type;
 import vo.Service1;
@@ -40,6 +42,8 @@ public class LoginController {
 	public UserService userService;
 	@Resource
 	public TestService testService;
+	@Resource
+	public DeptGroupService dbService;
    @RequestMapping("check")
    public String CheckLogin(Operator operator,HttpServletRequest request,HttpServletResponse response)
 		    {
@@ -88,6 +92,13 @@ public class LoginController {
 				   Test test=testService.findById(deptid);
 				   if(test!=null){
 					   deptName=test.getName();
+				   }
+			   }
+			   if(optype.equals("40")){
+				   //集团单位
+				   DeptGroup dg=dbService.getDeptGroupByOperatorId(deptid);
+				   if(dg!=null){
+					   deptName=dg.getName();
 				   }
 			   }
 			  

@@ -2,6 +2,7 @@ package util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtils {
@@ -24,5 +25,18 @@ public class DateUtils {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	/**
+	 * 计算俩个日期之间相隔的天数
+	 * 
+	 */
+	public static int daysBetween(Date smdate,Date bdate)throws ParseException{
+		Calendar c=Calendar.getInstance();
+		c.setTime(smdate);
+		long time1=c.getTimeInMillis();
+		c.setTime(bdate);
+		long time2=c.getTimeInMillis();
+		long between_days=(time2-time1)/(1000*3600*24);
+		return Integer.parseInt(String.valueOf(between_days));
 	}
 }

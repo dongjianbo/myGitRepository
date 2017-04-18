@@ -15,6 +15,12 @@ public class LoginInterceptor implements MethodInterceptor{
 	public Object invoke(MethodInvocation arg0) throws Throwable {
 		String uri=request.getRequestURI();
 		System.out.println("uri:"+uri);
+		/*
+		 * 手持端二维码查询不需要登录
+		 */
+		if("/ElevatorSafetySH/elevator/QRCode.do".equalsIgnoreCase(uri)){
+			return arg0.proceed();
+		}
 		if("/ElevatorSafetySH/login/check.do".equals(uri)){
 			//去登录的uri
 			return arg0.proceed();

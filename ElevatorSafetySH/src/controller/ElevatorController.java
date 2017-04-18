@@ -1,7 +1,11 @@
 package controller;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -721,4 +725,78 @@ public class ElevatorController {
 				return mav;
 			}
 		}
+	/**
+	 * 2017年4月17日新需求
+	 * 二维码电梯信息查询
+	 * 通过微信扫描二维码
+	 * 转到电梯详细信息页面	
+	 */
+	@RequestMapping("QRCode")
+	public ModelAndView QRCode(int eid){
+		Elevator e=elevatorService.getEById(eid);
+		Elevator_state es=esService.findById(eid);
+		ModelAndView mav=new ModelAndView("system/elevatorQRCode");
+		mav.addObject("e", e);
+		ArrayList<Date> dlist=new ArrayList<Date>();
+		dlist.add(DateUtils.parse(es.getLast_15_service()));
+		dlist.add(DateUtils.parse(es.getLast_90_service()));
+		dlist.add(DateUtils.parse(es.getLast_180_service()));
+		dlist.add(DateUtils.parse(es.getLast_360_service()));
+		Date max_15=Collections.max(dlist);
+		dlist.remove(0);
+		Date max_90=Collections.max(dlist);
+		dlist.remove(0);
+		Date max_180=Collections.max(dlist);
+		//半月维保情况
+		if(es!=null){
+			try {
+				String service_15="";
+				int days_15=DateUtils.daysBetween(new Date(), max_15);
+				if(days_15<=15){
+					service_15="正常";
+				}else{
+					service_15="逾期"+(days_15-15)+"天";
+				}
+				mav.addObject("service_15",service_15);
+				String service_90="";
+				int days_90=DateUtils.daysBetween(new Date(), max_90);
+				if(days_90<=90){
+					service_90="正常";
+				}else{
+					service_90="逾期"+(days_90-90)+"天";
+				}
+				mav.addObject("service_90",service_90);
+				String service_180="";
+				int days_180=DateUtils.daysBetween(new Date(), max_180);
+				if(days_180<=180){
+					service_180="正常";
+				}else{
+					service_180="逾期"+(days_180-180)+"天";
+				}
+				mav.addObject("service_180",service_180);
+				String service_360="";
+				int days_360=DateUtils.daysBetween(new Date(), DateUtils.parse(es.getLast_360_service()));
+				if(days_360<=365){
+					service_360="正常";
+				}else{
+					service_360="逾期"+(days_360-365)+"天";
+				}
+				mav.addObject("service_360",service_360);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			mav.addObject("last_rounds",es.getLastrounds());
+			//下一年年检时间
+			Calendar nextRounds=Calendar.getInstance();
+			nextRounds.setTime(DateUtils.parse(es.getLasttest()));
+			nextRounds.add(Calendar.YEAR, 1);
+			String next_Rounds=DateUtils.format1(nextRounds.getTime());
+			mav.addObject("next_rounds",next_Rounds);
+			
+		}
+		
+		
+		return mav;
+	}
 }
