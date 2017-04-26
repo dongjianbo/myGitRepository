@@ -18,6 +18,7 @@ public class Tester {
 	@Column(name = "id_tester")
 	private int idtester;
 	private String name;
+	private String tel;
 	private String idcard;
 	@Column(name = "id_test")
 	private int idtest;
@@ -110,4 +111,12 @@ public class Tester {
 		this.status = status;
 	}
 
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+	
 }

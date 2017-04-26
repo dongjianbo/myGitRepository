@@ -21,10 +21,26 @@ a{
 		
 		
 	});
+	function searchForUserID(v){
+		location.href="${path}/user/search.do?iduser="+v;
+	}
 </script>
 </head>
 <body>
 <ul>
+	<c:if test="${login.typeOperator eq '40'}">
+		<li><h3>请选择要查看的下属单位：</h3>
+		<select id="selectUser" onchange="searchForUserID(this.value)">
+			<option value="0">全部单位</option>
+			<c:forEach items="${users}" var="u">
+				<option value="${u.iduser}" 
+					<c:if test="${u.iduser==iduser}">
+						selected='selected'
+					</c:if>
+				>${u.name}
+			</c:forEach>
+		</select>
+	</c:if>
 	<li><h3>电梯数量</h3>
 	<li><table cellpadding="0" cellspacing="1">
 	<tr>
@@ -35,11 +51,11 @@ a{
 		<th>已注销数量</th>
 	</tr>
 	<tr>
-		<td><a href="${path }/user/listForSearch.do?key=count">${count }</a></td>
-		<td><a href="${path }/user/listForSearch.do?key=count_registed">${count_registed}</a></td>
-		<td><a href="${path }/user/listForSearch.do?key=count_noregist">${count_noregist }</a></td>
-		<td><a href="${path }/user/listForSearch.do?key=count_stop">${count_stop }</a></td>
-		<td><a href="${path }/user/listForSearch.do?key=count_destory">${count_destory}</a></td>
+		<td><a href="${path }/user/listForSearch.do?key=count&iduser=${iduser}">${count }</a></td>
+		<td><a href="${path }/user/listForSearch.do?key=count_registed&iduser=${iduser}">${count_registed}</a></td>
+		<td><a href="${path }/user/listForSearch.do?key=count_noregist&iduser=${iduser}">${count_noregist }</a></td>
+		<td><a href="${path }/user/listForSearch.do?key=count_stop&iduser=${iduser}">${count_stop }</a></td>
+		<td><a href="${path }/user/listForSearch.do?key=count_destory&iduser=${iduser}">${count_destory}</a></td>
 	</tr>
 	</table>
 	<li><h3>正常运行电梯统计</h3>
@@ -56,17 +72,17 @@ a{
 				<c:if test="${count_rounds_normal!=0 }">
 					style="color:green"
 				</c:if>	
-			href="${path }/user/listForSearch.do?key=count_rounds_normal">${count_rounds_normal }</a></td>
+			href="${path }/user/listForSearch.do?key=count_rounds_normal&iduser=${iduser}">${count_rounds_normal }</a></td>
 			<td><a 
 				<c:if test="${count_rounds_warnning!=0 }">
 					style="color:blue"
 				</c:if>	
-			href="${path }/user/listForSearch.do?key=count_rounds_warnning">${count_rounds_warnning }</a></td>
+			href="${path }/user/listForSearch.do?key=count_rounds_warnning&iduser=${iduser}">${count_rounds_warnning }</a></td>
 			<td><a 
 				<c:if test="${count_rounds_overdue!=0 }">
 					style="color:red"
 				</c:if>	
-			href="${path }/user/listForSearch.do?key=count_rounds_overdue">${count_rounds_overdue }</a></td>
+			href="${path }/user/listForSearch.do?key=count_rounds_overdue&iduser=${iduser}">${count_rounds_overdue }</a></td>
 		</tr>
 		<tr>
 			<td>半月维保</td>
@@ -74,17 +90,17 @@ a{
 				<c:if test="${count_15service_normal!=0 }">
 					style="color:green"
 				</c:if>	
-			href="${path }/user/listForSearch.do?key=count_15service_normal">${count_15service_normal }</a></td>
+			href="${path }/user/listForSearch.do?key=count_15service_normal&iduser=${iduser}">${count_15service_normal }</a></td>
 			<td><a 
 				<c:if test="${count_15service_warnning!=0 }">
 					style="color:blue"
 				</c:if>	
-			href="${path }/user/listForSearch.do?key=count_15service_warnning">${count_15service_warnning }</a></td>
+			href="${path }/user/listForSearch.do?key=count_15service_warnning&iduser=${iduser}">${count_15service_warnning }</a></td>
 			<td><a 
 				<c:if test="${count_15service_overdue!=0 }">
 					style="color:red"
 				</c:if>	
-			href="${path }/user/listForSearch.do?key=count_15service_overdue">${count_15service_overdue }</a></td>
+			href="${path }/user/listForSearch.do?key=count_15service_overdue&iduser=${iduser}">${count_15service_overdue }</a></td>
 		</tr>
 		<tr>
 			<td>季度维保</td>
@@ -92,17 +108,17 @@ a{
 				<c:if test="${count_90service_normal!=0 }">
 					style="color:green"
 				</c:if>	
-			href="${path }/user/listForSearch.do?key=count_90service_normal">${count_90service_normal }</a></td>
+			href="${path }/user/listForSearch.do?key=count_90service_normal&iduser=${iduser}">${count_90service_normal }</a></td>
 			<td><a 
 				<c:if test="${count_90service_warnning!=0 }">
 					style="color:blue"
 				</c:if>	
-			href="${path }/user/listForSearch.do?key=count_90service_warnning">${count_90service_warnning }</a></td>
+			href="${path }/user/listForSearch.do?key=count_90service_warnning&iduser=${iduser}">${count_90service_warnning }</a></td>
 			<td><a 
 				<c:if test="${count_90service_overdue!=0 }">
 					style="color:red"
 				</c:if>	
-			href="${path }/user/listForSearch.do?key=count_90service_overdue">${count_90service_overdue }</a></td>
+			href="${path }/user/listForSearch.do?key=count_90service_overdue&iduser=${iduser}">${count_90service_overdue }</a></td>
 		</tr>
 		<tr>
 			<td>半年维保</td>
@@ -110,17 +126,17 @@ a{
 				<c:if test="${count_180service_normal!=0 }">
 					style="color:green"
 				</c:if>	
-			href="${path }/user/listForSearch.do?key=count_180service_normal">${count_180service_normal }</a></td>
+			href="${path }/user/listForSearch.do?key=count_180service_normal&iduser=${iduser}">${count_180service_normal }</a></td>
 			<td><a 
 				<c:if test="${count_180service_warnning!=0 }">
 					style="color:#009999;"
 				</c:if>	
-			href="${path }/user/listForSearch.do?key=count_180service_warnning">${count_180service_warnning }</a></td>
+			href="${path }/user/listForSearch.do?key=count_180service_warnning&iduser=${iduser}">${count_180service_warnning }</a></td>
 			<td><a 
 				<c:if test="${count_180service_overdue!=0 }">
 					style="color:red"
 				</c:if>	
-			href="${path }/user/listForSearch.do?key=count_180service_overdue">${count_180service_overdue }</a></td>
+			href="${path }/user/listForSearch.do?key=count_180service_overdue&iduser=${iduser}">${count_180service_overdue }</a></td>
 		</tr>
 		<tr>
 			<td>年度维保</td>
@@ -128,17 +144,17 @@ a{
 				<c:if test="${count_360service_normal!=0 }">
 					style="color:green"
 				</c:if>	
-			href="${path }/user/listForSearch.do?key=count_360service_normal">${count_360service_normal }</a></td>
+			href="${path }/user/listForSearch.do?key=count_360service_normal&iduser=${iduser}">${count_360service_normal }</a></td>
 			<td><a 
 				<c:if test="${count_360service_warnning!=0 }">
 					style="color:blue"
 				</c:if>	
-			href="${path }/user/listForSearch.do?key=count_360service_warnning">${count_360service_warnning }</a></td>
+			href="${path }/user/listForSearch.do?key=count_360service_warnning&iduser=${iduser}">${count_360service_warnning }</a></td>
 			<td><a 
 				<c:if test="${count_360service_overdue!=0 }">
 					style="color:red"
 				</c:if>	
-			href="${path }/user/listForSearch.do?key=count_360service_overdue">${count_360service_overdue }</a></td>
+			href="${path }/user/listForSearch.do?key=count_360service_overdue&iduser=${iduser}">${count_360service_overdue }</a></td>
 		</tr>
 	</table>
 </ul>

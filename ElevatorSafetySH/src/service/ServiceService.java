@@ -220,8 +220,8 @@ public class ServiceService {
 		public int getCount_Rounds_Warnning(int id_service){
 			String sql="select count(e.id_elevator) from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where (to_days(now())-to_days(es.last_test)) "
-					+ "between (365-(select alarm_rounds from system_setting limit 0,1)) and 365";
+					+ "where to_days(es.last_test)+365 between to_days(now()) and "
+					+ "to_days(now())+(select alarm_rounds from system_setting limit 0,1)";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List list=elevatorDao.getListBySQL(sql);
@@ -236,8 +236,8 @@ public class ServiceService {
 		public List<Elevator> listCount_Rounds_Warnning(String search,int pageSize,HttpServletRequest request,int id_service){
 			String sql="select e.id_elevator from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_15_service) "
-					+ "between (15-(select alarm_15_service from system_setting limit 0,1)) and 15";
+					+ "where to_days(es.last_test)+365 between to_days(now()) and "
+					+ "to_days(now())+(select alarm_rounds from system_setting limit 0,1)";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List<Long> list=elevatorDao.getListBySQL(sql);
@@ -253,7 +253,7 @@ public class ServiceService {
 		public int getCount_Rounds_Overdue(int id_service){
 			String sql="select count(e.id_elevator) from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_test)>365";
+					+ "where to_days(now())-to_days(es.last_test)>=365";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List list=elevatorDao.getListBySQL(sql);
@@ -268,7 +268,7 @@ public class ServiceService {
 		public List<Elevator> listCount_Rounds_Overdue(String search,int pageSize,HttpServletRequest request,int id_service){
 			String sql="select e.id_elevator from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_test)>365";
+					+ "where to_days(now())-to_days(es.last_test)>=365";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List<Long> list=elevatorDao.getListBySQL(sql);
@@ -284,7 +284,7 @@ public class ServiceService {
 		public int getCount_15service_Normal(int id_service){
 			String sql="select count(e.id_elevator) from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_15_service)<15";
+					+ "where to_days(greatest(es.last_15_service,es.last_90_service,es.last_180_service,es.last_360_service))+15>=to_days(now())";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List list=elevatorDao.getListBySQL(sql);
@@ -299,7 +299,7 @@ public class ServiceService {
 		public List<Elevator> listCount_15service_Normal(String search,int pageSize,HttpServletRequest request,int id_service){
 			String sql="select e.id_elevator from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_15_service)<15";
+					+ "where to_days(greatest(es.last_15_service,es.last_90_service,es.last_180_service,es.last_360_service))+15>=to_days(now())";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List<Long> list=elevatorDao.getListBySQL(sql);
@@ -315,8 +315,8 @@ public class ServiceService {
 		public int getCount_15service_Warnning(int id_service){
 			String sql="select count(e.id_elevator) from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_15_service) "
-					+ "between (15-(select alarm_15_service from system_setting limit 0,1)) and 15";
+					+ "where to_days(greatest(es.last_15_service,es.last_90_service,es.last_180_service,es.last_360_service))+15 between to_days(now()) and "
+					+ "to_days(now())+(select alarm_15_service from system_setting limit 0,1)";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List list=elevatorDao.getListBySQL(sql);
@@ -331,8 +331,8 @@ public class ServiceService {
 		public List<Elevator> listCount_15service_Warnning(String search,int pageSize,HttpServletRequest request,int id_service){
 			String sql="select e.id_elevator from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_15_service) "
-					+ "between (15-(select alarm_15_service from system_setting limit 0,1)) and 15";
+					+ "where to_days(greatest(es.last_15_service,es.last_90_service,es.last_180_service,es.last_360_service))+15 between to_days(now()) and "
+					+ "to_days(now())+(select alarm_15_service from system_setting limit 0,1)";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List<Long> list=elevatorDao.getListBySQL(sql);
@@ -348,7 +348,7 @@ public class ServiceService {
 		public int getCount_15service_Overdue(int id_service){
 			String sql="select count(e.id_elevator) from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_15_service)>15 ";
+					+ "where to_days(greatest(es.last_15_service,es.last_90_service,es.last_180_service,es.last_360_service))+15<to_days(now())";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List list=elevatorDao.getListBySQL(sql);
@@ -363,7 +363,7 @@ public class ServiceService {
 		public List<Elevator> listCount_15service_Overdue(String search,int pageSize,HttpServletRequest request,int id_service){
 			String sql="select e.id_elevator from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_15_service)>15 ";
+					+ "where to_days(greatest(es.last_15_service,es.last_90_service,es.last_180_service,es.last_360_service))+15<to_days(now())";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List<Long> list=elevatorDao.getListBySQL(sql);
@@ -379,7 +379,7 @@ public class ServiceService {
 		public int getCount_90service_Normal(int id_service){
 			String sql="select count(e.id_elevator) from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_90_service)<90";
+					+ "where to_days(greatest(es.last_90_service,es.last_180_service,es.last_360_service))+90>=to_days(now())";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List list=elevatorDao.getListBySQL(sql);
@@ -394,7 +394,7 @@ public class ServiceService {
 		public List<Elevator> listCount_90service_Normal(String search,int pageSize,HttpServletRequest request,int id_service){
 			String sql="select e.id_elevator from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_90_service)<90";
+					+ "where to_days(greatest(es.last_90_service,es.last_180_service,es.last_360_service))+90>=to_days(now())";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List<Long> list=elevatorDao.getListBySQL(sql);
@@ -410,8 +410,7 @@ public class ServiceService {
 		public int getCount_90service_Warnning(int id_service){
 			String sql="select count(e.id_elevator) from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_90_service) "
-					+ "between (90-(select alarm_90_service from system_setting limit 0,1)) and 90";
+					+ "where to_days(greatest(es.last_90_service,es.last_180_service,es.last_360_service))+90 between to_days(now()) and to_days(now())+(select alarm_90_service from system_setting limit 0,1)";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List list=elevatorDao.getListBySQL(sql);
@@ -426,8 +425,7 @@ public class ServiceService {
 		public List<Elevator> listCount_90service_Warnning(String search,int pageSize,HttpServletRequest request,int id_service){
 			String sql="select e.id_elevator from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_90_service) "
-					+ "between (90-(select alarm_90_service from system_setting limit 0,1)) and 90";
+					+ "where to_days(greatest(es.last_90_service,es.last_180_service,es.last_360_service))+90 between to_days(now()) and to_days(now())+(select alarm_90_service from system_setting limit 0,1)";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List<Long> list=elevatorDao.getListBySQL(sql);
@@ -443,7 +441,7 @@ public class ServiceService {
 		public int getCount_90service_Overdue(int id_service){
 			String sql="select count(e.id_elevator) from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_90_service)>90 ";
+					+ "where to_days(greatest(es.last_90_service,es.last_180_service,es.last_360_service))+90<to_days(now())";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List list=elevatorDao.getListBySQL(sql);
@@ -458,7 +456,7 @@ public class ServiceService {
 		public List<Elevator> listCount_90service_Overdue(String search,int pageSize,HttpServletRequest request,int id_service){
 			String sql="select e.id_elevator from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_90_service)>90 ";
+					+ "where to_days(greatest(es.last_90_service,es.last_180_service,es.last_360_service))+90<to_days(now())";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List<Long> list=elevatorDao.getListBySQL(sql);
@@ -474,7 +472,7 @@ public class ServiceService {
 		public int getCount_180service_Normal(int id_service){
 			String sql="select count(e.id_elevator) from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_180_service)<180";
+					+ "where to_days(greatest(es.last_180_service,es.last_360_service))+180>=to_days(now())";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List list=elevatorDao.getListBySQL(sql);
@@ -489,7 +487,7 @@ public class ServiceService {
 		public List<Elevator> listCount_180service_Normal(String search,int pageSize,HttpServletRequest request,int id_service){
 			String sql="select e.id_elevator from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_180_service)<180";
+					+ "where to_days(greatest(es.last_180_service,es.last_360_service))+180>=to_days(now())";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List<Long> list=elevatorDao.getListBySQL(sql);
@@ -505,8 +503,7 @@ public class ServiceService {
 		public int getCount_180service_Warnning(int id_service){
 			String sql="select count(e.id_elevator) from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_180_service) "
-					+ "between (180-(select alarm_180_service from system_setting limit 0,1)) and 180";
+					+ "where to_days(greatest(es.last_180_service,es.last_360_service))+180 between to_days(now()) and to_days(now())+(select alarm_180_service from system_setting limit 0,1)";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List list=elevatorDao.getListBySQL(sql);
@@ -521,8 +518,7 @@ public class ServiceService {
 		public List<Elevator> listCount_180service_Warnning(String search,int pageSize,HttpServletRequest request,int id_service){
 			String sql="select e.id_elevator from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_180_service) "
-					+ "between (180-(select alarm_180_service from system_setting limit 0,1)) and 180";
+					+ "where to_days(greatest(es.last_180_service,es.last_360_service))+180 between to_days(now()) and to_days(now())+(select alarm_180_service from system_setting limit 0,1)";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List<Long> list=elevatorDao.getListBySQL(sql);
@@ -538,7 +534,7 @@ public class ServiceService {
 		public int getCount_180service_Overdue(int id_service){
 			String sql="select count(e.id_elevator) from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_180_service)>180 ";
+					+ "where to_days(greatest(es.last_180_service,es.last_360_service))+180<to_days(now())";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List list=elevatorDao.getListBySQL(sql);
@@ -553,7 +549,7 @@ public class ServiceService {
 		public List<Elevator> listCount_180service_Overdue(String search,int pageSize,HttpServletRequest request,int id_service){
 			String sql="select e.id_elevator from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_180_service)>180 ";
+					+ "where to_days(greatest(es.last_180_service,es.last_360_service))+180<to_days(now())";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List<Long> list=elevatorDao.getListBySQL(sql);
@@ -569,7 +565,7 @@ public class ServiceService {
 		public int getCount_360service_Normal(int id_service){
 			String sql="select count(e.id_elevator) from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_360_service)<360 ";
+					+ "where to_days(es.last_360_service)+365>=to_days(now())";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List list=elevatorDao.getListBySQL(sql);
@@ -584,7 +580,7 @@ public class ServiceService {
 		public List<Elevator> listCount_360service_Normal(String search,int pageSize,HttpServletRequest request,int id_service){
 			String sql="select e.id_elevator from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_360_service)<360 ";
+					+ "where to_days(es.last_360_service)+365>=to_days(now())";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List<Long> list=elevatorDao.getListBySQL(sql);
@@ -600,8 +596,7 @@ public class ServiceService {
 		public int getCount_360service_Warnning(int id_service){
 			String sql="select count(e.id_elevator) from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_360_service) "
-					+ "between (360-(select alarm_360_service from system_setting limit 0,1)) and 360";
+					+ "where to_days(es.last_360_service)+365 between to_days(now()) and to_days(now())+(select alarm_360_service from system_setting limit 0,1)";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List list=elevatorDao.getListBySQL(sql);
@@ -616,8 +611,7 @@ public class ServiceService {
 		public List<Elevator> listCount_360service_Warnning(String search,int pageSize,HttpServletRequest request,int id_service){
 			String sql="select e.id_elevator from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_360_service) "
-					+ "between (360-(select alarm_360_service from system_setting limit 0,1)) and 360";
+					+ "where to_days(es.last_360_service)+365 between to_days(now()) and to_days(now())+(select alarm_360_service from system_setting limit 0,1)";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List<Long> list=elevatorDao.getListBySQL(sql);
@@ -633,7 +627,7 @@ public class ServiceService {
 		public int getCount_360service_Overdue(int id_service){
 			String sql="select count(e.id_elevator) from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_360_service)>360 ";
+					+ "where to_days(es.last_360_service)+365<to_days(now())";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List list=elevatorDao.getListBySQL(sql);
@@ -648,7 +642,7 @@ public class ServiceService {
 		public List<Elevator> listCount_360service_Overdue(String search,int pageSize,HttpServletRequest request,int id_service){
 			String sql="select e.id_elevator from elevator e left join "
 					+ "elevator_state es on e.id_elevator=es.id_elevator "
-					+ "where to_days(now())-to_days(es.last_360_service)>360 ";
+					+ "where to_days(es.last_360_service)+365<to_days(now())";
 			sql+=" and e.register_status='1'";
 			sql+=" and e.id_service="+id_service;
 			List<Long> list=elevatorDao.getListBySQL(sql);

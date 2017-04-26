@@ -39,7 +39,7 @@
 			modal:true,
 			autoOpen:false,
 			width:750,
-			height:500,
+			height:600,
 			buttons:{
 				"确定":function(fn){
 					var form = $("#insertForm");
@@ -205,7 +205,7 @@
 			modal:true,
 			autoOpen:false,
 			width:750,
-			height:500,
+			height:600,
 			buttons:{
 				"确定":function(){
 					var form = $("#updateForm");
@@ -333,8 +333,8 @@
 								   }
 							   }
 						   }
-						   }  
-				 }
+						}  
+				 	}
 			    }	   
 				},
 				"关闭":function(){
@@ -403,7 +403,6 @@
 			}
 			$("#suitplace").val(d.suitplace);
 			$("#idmodel").val(d.idmodel);
-			
 			$("#parameter11").val(d.parameter11);
 			$("#parameter12").val(d.parameter12);
 			$("#parameter13").val(d.parameter13);
@@ -503,7 +502,10 @@
 				<div id="insertType1" style="display: none">
 				<ul>
 					<li>驱动方式：
-					<li><input type="text" name="parameter11" maxlength="1" size="50"/>
+					<li><select name="parameter11" id="parameter11_1">
+						<option value="1">曳引</option>
+						<option value="2">强制驱动</option>
+					</select>
 					<li>额定载重量:（单位：千克）
 					<li><input type="text" name="parameter12" id="parameter12_1" maxlength="11" size="50"/><div id="parameter12_2" style="float: right; margin-right:220 " ></div>
 					<li>额定速度:（单位：m/s）
@@ -579,7 +581,10 @@
 				<div id="updateType1" style="display: none">
 				<ul>
 				<li>驱动方式：
-				<li><input type="text" name="parameter11" id="parameter11" maxlength="1" size="50"/>
+				<li><select name="parameter11" id="parameter11">
+						<option value="1">曳引</option>
+						<option value="2">强制驱动</option>
+					</select>
 				<li>额定载重量:（单位：千克）
 				<li><input type="text" name="parameter12" id="parameter12" maxlength="11" size="50"/><div id="parameter12_0" style="float: right; margin-right:220 " ></div>
 				<li>额定速度:（单位：m/s）

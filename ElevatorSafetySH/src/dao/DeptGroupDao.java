@@ -1,26 +1,26 @@
 package dao;
 
-import java.util.List;
 
-import org.hibernate.SQLQuery;
-import org.hibernate.Session;
+import java.util.ArrayList;
+
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import vo.DeptGroup;
+import vo.User;
+
 @Repository
 public class DeptGroupDao extends BaseDao{
-	@SuppressWarnings("rawtypes")
-	public DeptGroup getDGByOperatorid(int operatorid){
-		Session session=this.getSessionFactory().openSession();
-		SQLQuery sqlquery=session.createSQLQuery("select dg.* from deptgroup dg where dg.id=(select gid from dept_group_user where uid=?)");
-		sqlquery.setInteger(1, operatorid);
-		sqlquery.addEntity("dg", DeptGroup.class);
-		List list=sqlquery.list();
-		if(list!=null&&!list.isEmpty()){
-			DeptGroup dg=(DeptGroup)list.get(0);
-			return dg;
-		}else{
-			return null;
-		}
+	@SuppressWarnings("unchecked")
+	public ArrayList<Integer> getUserIds(int dgid){
+		String sql="select uid from dept_group_user where gid="+dgid;
+		return (ArrayList<Integer>)super.getListBySQL(sql);
 	}
+	@SuppressWarnings("unchecked")
+	public ArrayList<User> getUsers(int dgid){
+		DetachedCriteria dc=DetachedCriteria.forClass(User.class);
+		dc.add(Restrictions.in("iduser", getUserIds(dgid)));
+		return (ArrayList<User>)super.getListByDc(dc);
+	} 
+	
 }

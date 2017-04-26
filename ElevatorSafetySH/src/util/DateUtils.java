@@ -37,6 +37,6 @@ public class DateUtils {
 		c.setTime(bdate);
 		long time2=c.getTimeInMillis();
 		long between_days=(time2-time1)/(1000*3600*24);
-		return Integer.parseInt(String.valueOf(between_days));
+		return Math.abs(Integer.parseInt(String.valueOf(between_days)));
 	}
 }

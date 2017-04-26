@@ -96,7 +96,7 @@ public class LoginController {
 			   }
 			   if(optype.equals("40")){
 				   //集团单位
-				   DeptGroup dg=dbService.getDeptGroupByOperatorId(deptid);
+				   DeptGroup dg=dbService.getDeptGroupById(deptid);
 				   if(dg!=null){
 					   deptName=dg.getName();
 				   }

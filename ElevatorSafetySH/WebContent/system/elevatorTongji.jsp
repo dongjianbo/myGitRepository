@@ -349,8 +349,16 @@ span{
 <br>
 <div>
 	<ul>
-		<li><span>电梯简称:</span><input type="text" id="desc" name="desc" size="39" maxlength="16" value="${desc }"/>
-		<input type="submit" style="margin-left: 650px" value="&nbsp;&nbsp;搜索&nbsp;&nbsp;"/>
+		<li><span><select name="keyType" style="width: 80px;">
+			<option value="1"
+				<c:if test="${param.keyType==1 }">selected='selected'</c:if>
+			>电梯简称</option>
+			<option value="2"
+				<c:if test="${param.keyType==2 }">selected='selected'</c:if>
+			>电梯品牌</option>
+		</select></span>
+		<input type="text" id="desc" name="desc" size="59" maxlength="16" value="${desc }"/>
+		<input type="submit" style="margin-left: 450px" value="&nbsp;&nbsp;搜索&nbsp;&nbsp;"/>
 	</ul>
 </div>
 </form>
@@ -366,11 +374,11 @@ span{
 		<th>已注销数量</th>
 	</tr>
 	<tr>
-		<td><a href="${path }/elevator/listForSearch.do?key=count&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count }</a></td>
-		<td><a href="${path }/elevator/listForSearch.do?key=count_registed&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_registed}</a></td>
-		<td><a href="${path }/elevator/listForSearch.do?key=count_noregist&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_noregist }</a></td>
-		<td><a href="${path }/elevator/listForSearch.do?key=count_stop&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_stop }</a></td>
-		<td><a href="${path }/elevator/listForSearch.do?key=count_destory&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_destory}</a></td>
+		<td><a href="${path }/elevator/listForSearch.do?key=count&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}">${count }</a></td>
+		<td><a href="${path }/elevator/listForSearch.do?key=count_registed&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}">${count_registed}</a></td>
+		<td><a href="${path }/elevator/listForSearch.do?key=count_noregist&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}">${count_noregist }</a></td>
+		<td><a href="${path }/elevator/listForSearch.do?key=count_stop&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}">${count_stop }</a></td>
+		<td><a href="${path }/elevator/listForSearch.do?key=count_destory&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}">${count_destory}</a></td>
 	</tr>
 	</table>
 	<li><h3>正常运行电梯统计</h3>
@@ -387,17 +395,17 @@ span{
 				<c:if test="${count_rounds_normal!=0 }">
 					style="color:green"
 				</c:if>	
-			href="${path }/elevator/listForSearch.do?key=count_rounds_normal&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_rounds_normal }</a></td>
+			href="${path }/elevator/listForSearch.do?key=count_rounds_normal&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}">${count_rounds_normal }</a></td>
 			<td><a 
 				<c:if test="${count_rounds_warnning!=0 }">
 					style="color:blue"
 				</c:if>	
-			href="${path }/elevator/listForSearch.do?key=count_rounds_warnning&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_rounds_warnning }</a></td>
+			href="${path }/elevator/listForSearch.do?key=count_rounds_warnning&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}">${count_rounds_warnning }</a></td>
 			<td><a 
 				<c:if test="${count_rounds_overdue!=0 }">
 					style="color:red"
 				</c:if>	
-			href="${path }/elevator/listForSearch.do?key=count_rounds_overdue&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_rounds_overdue }</a></td>
+			href="${path }/elevator/listForSearch.do?key=count_rounds_overdue&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}">${count_rounds_overdue }</a></td>
 		</tr>
 		<tr>
 			<td>半月维保</td>
@@ -405,17 +413,17 @@ span{
 				<c:if test="${count_15service_normal!=0 }">
 					style="color:green"
 				</c:if>	
-			href="${path }/elevator/listForSearch.do?key=count_15service_normal&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_15service_normal }</a></td>
+			href="${path }/elevator/listForSearch.do?key=count_15service_normal&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}">${count_15service_normal }</a></td>
 			<td><a 
 				<c:if test="${count_15service_warnning!=0 }">
 					style="color:blue"
 				</c:if>	
-			href="${path }/elevator/listForSearch.do?key=count_15service_warnning&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_15service_warnning }</a></td>
+			href="${path }/elevator/listForSearch.do?key=count_15service_warnning&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}">${count_15service_warnning }</a></td>
 			<td><a 
 				<c:if test="${count_15service_overdue!=0 }">
 					style="color:red"
 				</c:if>	
-			href="${path }/elevator/listForSearch.do?key=count_15service_overdue&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_15service_overdue }</a></td>
+			href="${path }/elevator/listForSearch.do?key=count_15service_overdue&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}">${count_15service_overdue }</a></td>
 		</tr>
 		<tr>
 			<td>季度维保</td>
@@ -423,17 +431,17 @@ span{
 				<c:if test="${count_90service_normal!=0 }">
 					style="color:green"
 				</c:if>	
-			href="${path }/elevator/listForSearch.do?key=count_90service_normal&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_90service_normal }</a></td>
+			href="${path }/elevator/listForSearch.do?key=count_90service_normal&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}">${count_90service_normal }</a></td>
 			<td><a 
 				<c:if test="${count_90service_warnning!=0 }">
 					style="color:blue"
 				</c:if>	
-			href="${path }/elevator/listForSearch.do?key=count_90service_warnning&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_90service_warnning }</a></td>
+			href="${path }/elevator/listForSearch.do?key=count_90service_warnning&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}">${count_90service_warnning }</a></td>
 			<td><a 
 				<c:if test="${count_90service_overdue!=0 }">
 					style="color:red"
 				</c:if>	
-			href="${path }/elevator/listForSearch.do?key=count_90service_overdue&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_90service_overdue }</a></td>
+			href="${path }/elevator/listForSearch.do?key=count_90service_overdue&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}">${count_90service_overdue }</a></td>
 		</tr>
 		<tr>
 			<td>半年维保</td>
@@ -441,17 +449,17 @@ span{
 				<c:if test="${count_180service_normal!=0 }">
 					style="color:green"
 				</c:if>	
-			href="${path }/elevator/listForSearch.do?key=count_180service_normal&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_180service_normal }</a></td>
+			href="${path }/elevator/listForSearch.do?key=count_180service_normal&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}">${count_180service_normal }</a></td>
 			<td><a 
 				<c:if test="${count_180service_warnning!=0 }">
 					style="color:blue;"
 				</c:if>	
-			href="${path }/elevator/listForSearch.do?key=count_180service_warnning&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_180service_warnning }</a></td>
+			href="${path }/elevator/listForSearch.do?key=count_180service_warnning&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}">${count_180service_warnning }</a></td>
 			<td><a 
 				<c:if test="${count_180service_overdue!=0 }">
 					style="color:red"
 				</c:if>	
-			href="${path }/elevator/listForSearch.do?key=count_180service_overdue&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_180service_overdue }</a></td>
+			href="${path }/elevator/listForSearch.do?key=count_180service_overdue&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}">${count_180service_overdue }</a></td>
 		</tr>
 		<tr>
 			<td>年度维保</td>
@@ -459,17 +467,17 @@ span{
 				<c:if test="${count_360service_normal!=0 }">
 					style="color:green"
 				</c:if>	
-			href="${path }/elevator/listForSearch.do?key=count_360service_normal&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_360service_normal }</a></td>
+			href="${path }/elevator/listForSearch.do?key=count_360service_normal&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}">${count_360service_normal }</a></td>
 			<td><a 
 				<c:if test="${count_360service_warnning!=0 }">
 					style="color:blue"
 				</c:if>	
-			href="${path }/elevator/listForSearch.do?key=count_360service_warnning&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_360service_warnning }</a></td>
+			href="${path }/elevator/listForSearch.do?key=count_360service_warnning&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}">${count_360service_warnning }</a></td>
 			<td><a 
 				<c:if test="${count_360service_overdue!=0 }">
 					style="color:red"
 				</c:if>	
-			href="${path }/elevator/listForSearch.do?key=count_360service_overdue&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}">${count_360service_overdue }</a></td>
+			href="${path }/elevator/listForSearch.do?key=count_360service_overdue&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}">${count_360service_overdue }</a></td>
 		</tr>
 	</table>
 </ul>

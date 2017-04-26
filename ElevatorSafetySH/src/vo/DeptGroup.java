@@ -14,7 +14,8 @@ public class DeptGroup {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private String name;
-	private int operator_id;
+	
+	private Integer operator_id;
 	public int getId() {
 		return id;
 	}
@@ -27,10 +28,10 @@ public class DeptGroup {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getOperator_id() {
+	public Integer getOperator_id() {
 		return operator_id;
 	}
-	public void setOperator_id(int operator_id) {
+	public void setOperator_id(Integer operator_id) {
 		this.operator_id = operator_id;
 	}
 	

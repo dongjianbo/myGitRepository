@@ -362,6 +362,9 @@ span{
 		$("#notice").html(message);
 		$("#notice").dialog("open");
 	}
+	function searchForUserID(v){
+		location.href="${path}/notice/searchForUser.do?id_service=0&id_user=0&iduser="+v+"&id_test=0&key=first&noticeType=0";
+	}
 </script>
 </head>
 <body>
@@ -371,6 +374,7 @@ span{
 <form action="${path }/notice/searchForUser.do" method="get" id="form1">
 <input type="hidden" value="${id_service}" name="id_service"/>
 <input type="hidden" value="${id_user}" name="id_user"/>
+<input type="hidden" value="${param.iduser }" name="iduser"/>
 <input type="hidden" value="${id_test}" name="id_test"/>
 <!-- <div style="margin-top: 10px;"> -->
 <!-- 	<ul> -->
@@ -406,7 +410,21 @@ span{
 <!-- </div> -->
 
 <!-- <hr style="margin-top: 10px"> -->
+
 <ul>
+	<c:if test="${login.typeOperator eq '40'}">
+		<li><h3>请选择要查看的下属单位：</h3>
+		<select id="selectUser" onchange="searchForUserID(this.value)">
+			<option value="0">全部单位</option>
+			<c:forEach items="${users}" var="u">
+				<option value="${u.iduser}" 
+					<c:if test="${u.iduser==param.iduser}">
+						selected='selected'
+					</c:if>
+				>${u.name}
+			</c:forEach>
+		</select>
+	</c:if>
 	<li><h3>逾期通知单统计</h3>
 	<li><table cellpadding="0" cellspacing="1">
 	<tr>

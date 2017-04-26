@@ -19,6 +19,7 @@ public class Safer {
 	private int idsafer;
 	private String name;
 	private String idcard;
+	private String tel;
 	@Column(name = "id_user")
 	private int iduser;
 	@Column(name = "licence_code")
@@ -110,6 +111,14 @@ public class Safer {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
 	}
 
 }

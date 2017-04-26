@@ -5,27 +5,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes"/>
 <title>您所乘坐电梯</title>
-<link href="${path}/css/system.css" rel="stylesheet" type="text/css">
-<link href="${path}/css/table.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="${path}/jquery/themes/base/jquery.ui.all.css">
-		<script src="${path}/jquery/jquery-1.10.2.js"></script>
-	<script src="${path}/jquery/ui/jquery.ui.core.js"></script>
-	<script src="${path}/jquery/ui/jquery.ui.widget.js"></script>
-	<script src="${path}/jquery/ui/jquery.ui.mouse.js"></script>
-	<script src="${path}/jquery/ui/jquery.ui.button.js"></script>
-	<script src="${path}/jquery/ui/jquery.ui.draggable.js"></script>
-	<script src="${path}/jquery/ui/jquery.ui.position.js"></script>
-	<script src="${path}/jquery/ui/jquery.ui.resizable.js"></script>
-	<script src="${path}/jquery/ui/jquery.ui.button.js"></script>
-	<script src="${path}/jquery/ui/jquery.ui.dialog.js"></script>
-	<script src="${path}/jquery/ui/jquery.ui.effect.js"></script>
-	<style type="text/css">
-		body{
-			font-family: "微软雅黑";
-		}
-	</style>	
+<style type="text/css">
+	body{
+		font-family: "微软雅黑";
+		font-size: 0.9rem;
+	}
+</style>	
 </head>
 
 <body>

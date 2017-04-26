@@ -229,6 +229,7 @@
 			//将查询到的信息放入修改表单中--注意隐藏域中的主键
 			$("#name").val(d.name);
 			$("#idcard").val(d.idcard);
+			$("#tel").val(d.tel);
 			$("#idservice").val(d.idservice);
 			$("#licencecode").val(d.licencecode);
 			$("#type").val(d.type);
@@ -262,6 +263,7 @@
 		<tr>
 			<th>编号</th>
 			<th>维保人员姓名</th>
+			<th>联系方式</th>
 			<th>所属维保公司</th>
 			<th>从业资格证书编号</th>
 			<th>维保人员类别</th>
@@ -273,6 +275,7 @@
 			<tr>
 				<td>${d.idservicer}</td>
 				<td>${d.name }</td>
+				<td>${d.tel }</td>
 				<td>${d.service1.name}</td>
 				<td>${d.licencecode}</td>
 				<td>${d.servicer_type_def.name }</td>
@@ -286,7 +289,7 @@
 			</tr>
 		</c:forEach>
 		<tr>
-			<td colspan="8" style="text-align: left;">${pagination}</td>
+			<td colspan="9" style="text-align: left;">${pagination}</td>
 		</tr>
 	</table>
 	<div align="right">
@@ -301,6 +304,8 @@
 				<li><input type="text" name="name"  id="name1" maxlength="20" size="50"/>*<div id="name2" style="float: right; margin-right:220 "></div>
 				<li>身份证号码:
 				<li><input type="text" name="idcard" id="idcard1"  maxlength="18" size="50" />*<div id="idcard2" style="float: right; margin-right:220 "></div>
+				<li>联系方式:
+				<li><input type="text" name="tel" id="tel1"  maxlength="11" size="50" />*<div id="tel2" style="float: right; margin-right:220 "></div>
 				<li>所属维保公司:
 				<li><select name="idservice" id="idservice1"></select>
 				<li>从业资格证书编号:
@@ -318,6 +323,8 @@
 				<li><input type="text" name="name"  id="name" maxlength="20" size="50"/>*<div id="name0" style="float: right; margin-right:220 " ></div>
 				<li>身份证号码:
 				<li><input type="text" name="idcard" id="idcard" maxlength="18" size="50"/>*<div id="idcard0" style="float: right; margin-right:220 "></div>
+				<li>联系方式:
+				<li><input type="text" name="tel" id="tel"  maxlength="11" size="50" />*<div id="tel0" style="float: right; margin-right:220 "></div>
 				<li>所属维保公司:
 				<li><select name="idservice" id="idservice">
 				</select>

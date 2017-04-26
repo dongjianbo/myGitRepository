@@ -223,6 +223,7 @@
 			
 			$("#name").val(d.name);
 			$("#idcard").val(d.idcard);
+			$("#tel").val(d.tel);
 			$("#iduser").val(d.iduser);
 			$("#licencecode").val(d.licencecode);
 			$("#status").val(d.status);
@@ -251,6 +252,7 @@
 		<tr>
 			<th>安全员顺序号</th>
 			<th>安全员姓名</th>
+			<th>联系方式</th>
 			<th>所属用户单位</th>
 			<th>从业资格证书编号</th>
 			<th>安全人员状态</th>
@@ -261,6 +263,7 @@
 			<tr>
 				<td>${d.idsafer}</td>
 				<td>${d.name }</td>
+				<td>${d.tel }</td>
 				<td>${d.user.name}</td>
 				<td>${d.licencecode}</td>
 				<td>${d.status_def.name }</td>
@@ -273,7 +276,7 @@
 			</tr>
 		</c:forEach>
 		<tr>
-			<td colspan="7" style="text-align: left;">${pagination}</td>
+			<td colspan="8" style="text-align: left;">${pagination}</td>
 		</tr>
 	</table>
 	<div align="right">
@@ -289,6 +292,8 @@
 				<li><input type="text" name="name" id="name1" size="50" maxlength="20"/>*<div id="name2" style="float: right; margin-right:220 "></div>
 				<li>身份证号码:
 				<li><input type="text" name="idcard" id="idcard1" size="50" maxlength="18"/>*<div id="idcard2" style="float: right; margin-right:220 "></div>
+				<li>联系电话:
+				<li><input type="text" name="tel" id="tel1" size="50" maxlength="11"/>*<div id="tel2" style="float: right; margin-right:220 "></div>
 				<li>所属用户单位:
 				<li><select name="iduser" id="iduser1"></select>
 				<li>从业资格证书编号:
@@ -305,6 +310,8 @@
 				<li><input type="text" name="name" id="name" size="50" maxlength="20"/>*<div id="name0" style="float: right; margin-right:220 "></div>
 				<li>身份证号码:
 				<li><input type="text" name="idcard" id="idcard" size="50" maxlength="18"/>*<div id="idcard0" style="float: right; margin-right:220 "></div>
+				<li>联系电话:
+				<li><input type="text" name="tel" id="tel" size="50" maxlength="11"/>*<div id="tel0" style="float: right; margin-right:220 "></div>
 				<li>所属用户单位:
 				<li><select name="iduser" id="iduser"></select>
 				<li>从业资格证书编号:

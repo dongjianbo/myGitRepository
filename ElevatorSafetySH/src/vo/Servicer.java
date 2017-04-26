@@ -20,6 +20,7 @@ public class Servicer {
 	private int idservicer;
 	private String name;
 	private String idcard;
+	private String tel;
 	@Column(name = "id_service")
 	private int idservice;
 	
@@ -130,6 +131,14 @@ public class Servicer {
 
 	public void setService1(Service1 service1) {
 		this.service1 = service1;
+	}
+
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
 	}
 	
 

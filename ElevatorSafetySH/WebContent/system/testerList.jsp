@@ -220,6 +220,7 @@
 			
 			$("#name").val(d.name);
 			$("#idcard").val(d.idcard);
+			$("#tel").val(d.tel);
 			$("#idtest").val(d.idtest);
 			$("#licencecode").val(d.licencecode);
 			$("#status").val(d.status);
@@ -247,6 +248,7 @@
 		<tr>
 			<th>检验检测人员顺序号</th>
 			<th>检验检测人员姓名</th>
+			<th>联系方式</th>
 			<th>所属检验检测机构</th>
 			<th>从业资格证书编号</th>
 			<th>检验检测人员状态 </th>
@@ -257,19 +259,20 @@
 			<tr>
 				<td>${d.idtester}</td>
 				<td>${d.name }</td>
+				<td>${d.tel }</td>
 				<td>${d.test.name}</td>
 				<td>${d.licencecode}</td>
 				<td>${d.status_def.name}</td>
 				<td>${d.idMifare}</td>
 				<td>
-<%-- 					<a href="${path }/tester/delete.do?idtester=${d.idtester}">删除</a> --%>
+<%--<a href="${path }/tester/delete.do?idtester=${d.idtester}">删除</a> --%>
 					<input type="button" value="修改" onclick="showUpdate(${d.idtester})"/>
 				    <input type="button" value="补卡" onclick="updateCard(${d.idtester})"/>
 				</td>
 			</tr>
 		</c:forEach>
 		<tr>
-			<td colspan="7" style="text-align: left;">${pagination}</td>
+			<td colspan="8" style="text-align: left;">${pagination}</td>
 		</tr>
 	</table>
 	<div align="right">
@@ -284,6 +287,8 @@
 				<li><input type="text" name="name" id="name1" size="50" maxlength="20"/>*<div id="name2" style="float: right; margin-right:220 "></div>
 				<li>身份证号码:
 				<li><input type="text" name="idcard" id="idcard1" size="50" maxlength="18"/>*<div id="idcard2" style="float: right; margin-right:220 "></div>
+				<li>联系方式:
+				<li><input type="text" name="tel" id="tel1"  maxlength="11" size="50" />*<div id="tel2" style="float: right; margin-right:220 "></div>
 				<li>所属检验检测机构:
 				<li><select name="idtest" id="idtest1"></select>
 				<li>从业资格证书编号:
@@ -300,6 +305,8 @@
 				<li><input type="text" name="name" id="name" size="50" maxlength="20"/>*<div id="name0" style="float: right; margin-right:220 "></div>
 				<li>身份证号码:
 				<li><input type="text" name="idcard" id="idcard" size="50" maxlength="18"/>*<div id="idcard0" style="float: right; margin-right:220 "></div>
+				<li>联系方式:
+				<li><input type="text" name="tel" id="tel"  maxlength="11" size="50" />*<div id="tel0" style="float: right; margin-right:220 "></div>
 				<li>所属检验检测机构:
 				<li><select name="idtest" id="idtest"></select>
 				<li>从业资格证书编号:

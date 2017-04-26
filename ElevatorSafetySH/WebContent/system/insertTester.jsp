@@ -29,6 +29,8 @@
 				<li><input type="text" name="name" size="50" value="${d.name }" />
 				<li>身份证号码:
 				<li><input type="text" name="idcard" size="50" value="${d.idcard }" />
+				<li>联系方式:
+				<li><input type="text" name="tel" size="50" value="${d.tel }" />
 				<li>所属检验检测机构:
 				<li><input type="text" name="idtest" size="50"
 					value="${d.idtest}" />

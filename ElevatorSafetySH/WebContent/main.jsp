@@ -13,18 +13,18 @@
 <base target="_root">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>
- <c:if test="${operator_type.id_operator_type=='00'||operator_type.id_operator_type=='01'}">
-				   河南省电梯安全监管（漯河）中心
-				   </c:if>
-				   <c:if test="${operator_type.id_operator_type=='10'||operator_type.id_operator_type=='11'}">
-				   河南省电梯安全监督维保中心
-				   </c:if>
-				   <c:if test="${operator_type.id_operator_type=='20'||operator_type.id_operator_type=='21'}">
-				   河南省电梯安全监督用户中心
-				   </c:if>
-				   <c:if test="${operator_type.id_operator_type=='30'||operator_type.id_operator_type=='31'}">
-				   河南省电梯安全监督检验检测中心
-				   </c:if>
+<c:if test="${operator_type.id_operator_type=='00'||operator_type.id_operator_type=='01'}">
+河南省电梯安全监管（漯河）中心
+</c:if>
+<c:if test="${operator_type.id_operator_type=='10'||operator_type.id_operator_type=='11'}">
+河南省电梯安全监督维保中心
+</c:if>
+<c:if test="${operator_type.id_operator_type=='20'||operator_type.id_operator_type=='21'||operator_type.id_operator_type=='40'}">
+河南省电梯安全监督用户中心
+</c:if>
+<c:if test="${operator_type.id_operator_type=='30'||operator_type.id_operator_type=='31'}">
+河南省电梯安全监督检验检测中心
+</c:if>
 </title>
 <link href="${path}/css/system.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="${path}/jquery/themes/base/jquery.ui.all.css">
@@ -107,9 +107,11 @@ function closeme(){
 	var browserName=navigator.appName; 
 	if (browserName=="Netscape") { 
 		window.open('','_parent',''); 
-		window.close(); } 
+		window.close(); 
+	} 
 	else if (browserName=="Microsoft Internet Explorer") { 
-		window.opener = "whocares"; window.close(); 
+		window.opener = "whocares"; 
+		window.close(); 
 	} 
 } 
 </script>
@@ -127,7 +129,7 @@ function closeme(){
 				   <c:if test="${operator_type.id_operator_type=='10'||operator_type.id_operator_type=='11'}">
 				   河南省电梯安全监督维保中心
 				   </c:if>
-				   <c:if test="${operator_type.id_operator_type=='20'||operator_type.id_operator_type=='21'}">
+				   <c:if test="${operator_type.id_operator_type=='20'||operator_type.id_operator_type=='21'||operator_type.id_operator_type=='40'}">
 				   河南省电梯安全监督用户中心
 				   </c:if>
 				   <c:if test="${operator_type.id_operator_type=='30'||operator_type.id_operator_type=='31'}">
@@ -190,13 +192,13 @@ function closeme(){
 					<iframe width="100%" height="100%" frameborder="0" marginheight="0" scrolling="no"
 						marginwidth="0" id="_root" name="_root" src="
 						<c:if test="${operator_type.id_operator_type=='00'||operator_type.id_operator_type=='01'}">
-				   ${path }/elevator/search.do?id_service=0&id_user=0&id_test=0&key=first
+				   ${path }/elevator/search.do?id_service=0&id_user=0&id_test=0&key=first&keyType=1
 				   </c:if>
 				   <c:if test="${operator_type.id_operator_type=='10'||operator_type.id_operator_type=='11'}">
 				    ${path }/service/search.do
 				   </c:if>
-				   <c:if test="${operator_type.id_operator_type=='20'||operator_type.id_operator_type=='21'}">
-				    ${path }/user/search.do
+				   <c:if test="${operator_type.id_operator_type=='20'||operator_type.id_operator_type=='21'||operator_type.id_operator_type=='40'}">
+				    ${path }/user/search.do?iduser=0
 				   </c:if>
 				   <c:if test="${operator_type.id_operator_type=='30'||operator_type.id_operator_type=='31'}">
 				    ${path }/test/search.do
