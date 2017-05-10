@@ -100,7 +100,7 @@ public class OperatorController  {
 			history_list.setValue(idoperator+"");
 			history_listService.insert(history_list);
 			return "ok";
-		} catch (NumberFormatException e) {
+		} catch (Exception e) {
 			System.out.println("插入操作员失败！事务将回滚");
 			
 			//删除相应的单位和操作员

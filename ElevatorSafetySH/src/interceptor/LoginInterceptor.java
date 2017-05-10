@@ -18,10 +18,10 @@ public class LoginInterceptor implements MethodInterceptor{
 		/*
 		 * 手持端二维码查询不需要登录
 		 */
-		if("/ElevatorSafetySH/elevator/QRCode.do".equalsIgnoreCase(uri)){
+		if(uri!=null&&uri.endsWith("/elevator/QRCode.do")){
 			return arg0.proceed();
 		}
-		if("/ElevatorSafetySH/login/check.do".equals(uri)){
+		if(uri!=null&&uri.endsWith("/login/check.do")){
 			//去登录的uri
 			return arg0.proceed();
 		}else{

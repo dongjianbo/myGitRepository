@@ -44,6 +44,19 @@ public class ServicerController {
 	    mav.addObject("servicerList",servicerList);
 		return mav;
 	}
+  /**
+   * 技术监督员：维保工人信息查询
+   * @param key
+   * @param request
+   * @return
+   */
+  @RequestMapping("list1")
+  public ModelAndView list1(String key,HttpServletRequest request){
+		ModelAndView mav=new ModelAndView("system/servicerList1");
+		List<Servicer> servicerList=servicerService.list(key, 10, request);
+	    mav.addObject("servicerList",servicerList);
+		return mav;
+	}
 	@RequestMapping(value="insert",produces="text/html;charset=utf-8")
 	@ResponseBody
 	public String insert(Servicer servicer,HttpServletRequest request){

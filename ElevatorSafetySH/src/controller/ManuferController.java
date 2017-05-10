@@ -47,6 +47,22 @@ public class ManuferController {
 		mav.addObject("manuferList",list);
 		return mav;
 	}
+	/**
+	 * 技术监督部门的单位查询
+	 * @param key
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("list1")
+	public ModelAndView list1(String key,HttpServletRequest request){
+		ModelAndView mav=new ModelAndView("system/manuferList1");
+		List<Manufer> list=manuferService.list(key, 12, request);
+		for(Manufer m:list){
+			m.setRegistCity(cityService.listBy_Idcity(m.getRegister_area()));
+		}
+		mav.addObject("manuferList",list);
+		return mav;
+	}
 	
 	 @RequestMapping(value="list_json",produces="text/html;charset=utf-8")
 	    @ResponseBody

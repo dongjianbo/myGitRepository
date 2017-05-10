@@ -101,6 +101,10 @@ public class LoginController {
 					   deptName=dg.getName();
 				   }
 			   }
+			   if(optype.equals("50")){
+				   //技术监督部门
+				   deptName="城市管理局";
+			   }
 			  
 			   request.getSession().setAttribute("deptName", deptName);
 			   request.getSession().setAttribute("login",op);

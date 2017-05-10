@@ -70,6 +70,22 @@ public class TestController {
 		mav.addObject("testList", tlist);
 		return mav;
 	}
+	/**
+	 * 技术监督员的测试单位查询
+	 * @param key
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("list1")
+	public ModelAndView list1(String key,HttpServletRequest request){
+		ModelAndView mav=new ModelAndView("system/testList1");
+		List<Test> tlist=testService.list(key,12,request);
+		for(Test t:tlist){
+			t.setRegistCity(cityService.listBy_Idcity(t.getRegisterArea()));
+		}
+		mav.addObject("testList", tlist);
+		return mav;
+	}
 	 @RequestMapping(value="list_json",produces="text/html;charset=utf-8")
 	    @ResponseBody
 	    public String list_json(){

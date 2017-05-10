@@ -45,6 +45,22 @@ public class InstallerController {
 		mav.addObject("installerList",list);
 		return mav;
 	}
+    /**
+     * 技术监督部门的安装单位查询
+     * @param key
+     * @param request
+     * @return
+     */
+    @RequestMapping("list1")
+    public ModelAndView list1(String key,HttpServletRequest request){
+		ModelAndView mav=new ModelAndView("system/installerList1");
+		List<Installer> list=installerService.list(key, 12, request);
+		for(Installer i:list){
+			i.setRegistCity(cityService.listBy_Idcity(i.getRegister_area()));
+		}
+		mav.addObject("installerList",list);
+		return mav;
+	}
 	@RequestMapping(value="insert",produces="text/html;charset=utf-8")
 	@ResponseBody
 	public String insert(Installer installer,HttpServletRequest request){

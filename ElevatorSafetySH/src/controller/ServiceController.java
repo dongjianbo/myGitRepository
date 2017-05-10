@@ -72,6 +72,22 @@ public class ServiceController {
 		mav.addObject("serviceList",slist);
 		return mav;
 	}
+    /**
+     * 技术监督员的维保单位查询
+     * @param key
+     * @param request
+     * @return
+     */
+    @RequestMapping("list1")
+    public ModelAndView list1(String key,HttpServletRequest request){
+		ModelAndView mav=new ModelAndView("system/serviceList1");
+		List<Service1> slist=serviceService.list(key, 12, request);
+		for(Service1 s:slist){
+			s.setRegistCity(cityService.listBy_Idcity(s.getRegisterArea()));
+		}
+		mav.addObject("serviceList",slist);
+		return mav;
+	}
     @RequestMapping(value="list_json",produces="text/html;charset=utf-8")
     @ResponseBody
     public String list_json(){

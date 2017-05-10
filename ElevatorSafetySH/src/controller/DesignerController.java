@@ -38,9 +38,33 @@ public class DesignerController {
 	public History_listService history_listService;
 	@Resource
 	public CitylistService cityService;
+	/**
+	 * 超级管理员中的单位操作
+	 * @param key
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("list")
 	public ModelAndView list(String key,HttpServletRequest request){
 		ModelAndView mav=new ModelAndView("system/designerList");
+		List<Designer> dlist=designerService.list(key,12,request);
+		for(Designer d:dlist){
+			String code=d.getRegister_area();
+			Citylist city=cityService.listBy_Idcity(code);
+			d.setRegistCity(city);
+		}
+		mav.addObject("designerList", dlist);
+		return mav;
+	}
+	/**
+	 * 技术监督人员的制造单位查询
+	 * @param key
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("list1")
+	public ModelAndView list1(String key,HttpServletRequest request){
+		ModelAndView mav=new ModelAndView("system/designerList1");
 		List<Designer> dlist=designerService.list(key,12,request);
 		for(Designer d:dlist){
 			String code=d.getRegister_area();

@@ -25,6 +25,9 @@
 <c:if test="${operator_type.id_operator_type=='30'||operator_type.id_operator_type=='31'}">
 河南省电梯安全监督检验检测中心
 </c:if>
+<c:if test="${operator_type.id_operator_type=='50'}">
+河南省电梯安全城市管理中心
+</c:if>
 </title>
 <link href="${path}/css/system.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="${path}/jquery/themes/base/jquery.ui.all.css">
@@ -135,6 +138,9 @@ function closeme(){
 				   <c:if test="${operator_type.id_operator_type=='30'||operator_type.id_operator_type=='31'}">
 				   河南省电梯安全监督检验检测中心
 				   </c:if>
+				   <c:if test="${operator_type.id_operator_type=='50'}">
+					河南省电梯安全城市管理中心
+					</c:if>
 				</div>
 				<li><div style="font-size:14px;text-align: left;margin-left: 100px;">
 				<div style="width: 40%;display: inline-block;">
@@ -202,6 +208,9 @@ function closeme(){
 				   </c:if>
 				   <c:if test="${operator_type.id_operator_type=='30'||operator_type.id_operator_type=='31'}">
 				    ${path }/test/search.do
+				   </c:if>
+				   <c:if test="${operator_type.id_operator_type=='50'}">
+				    ${path }/citymanager/search.do?id_service=0&id_user=0&id_test=0&key=first&keyType=1
 				   </c:if>
 						"></iframe>
 				</div></td>

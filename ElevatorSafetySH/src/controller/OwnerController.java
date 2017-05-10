@@ -46,6 +46,22 @@ public class OwnerController {
 		mav.addObject("ownerList",olist);
 		return mav;
 	}
+  /**
+   * 技术监督员：产权单位查询
+   * @param key
+   * @param request
+   * @return
+   */
+  @RequestMapping("list1")
+  public ModelAndView list1(String key,HttpServletRequest request){
+		ModelAndView mav=new ModelAndView("system/ownerList1");
+		List<Owner> olist=ownerService.list(key, 12, request);
+		for(Owner o:olist){
+			o.setRegistCity(cityService.listBy_Idcity(o.getRegisterArea()));
+		}
+		mav.addObject("ownerList",olist);
+		return mav;
+	}
 	@RequestMapping(value="insert",produces="text/html;charset=utf-8")
 	@ResponseBody
 	public String insert(Owner owner,HttpServletRequest request){

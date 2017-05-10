@@ -70,6 +70,22 @@ public class UserController {
 		mav.addObject("userList",ulist);
 		return mav;
 	}
+   /**
+    * 技术监督员：使用单位查询
+    * @param key
+    * @param request
+    * @return
+    */
+   @RequestMapping("list1")
+   public ModelAndView list1(String key,HttpServletRequest request){
+		ModelAndView mav=new ModelAndView("system/userList1");
+		List<User> ulist=userService.list(key, 12, request);
+		for(User u:ulist){
+			u.setRegistCity(cityService.listBy_Idcity(u.getRegisterArea()));
+		}
+		mav.addObject("userList",ulist);
+		return mav;
+	}
    @RequestMapping(value="list_json",produces="text/html;charset=utf-8")
    @ResponseBody
    public String list_json(){

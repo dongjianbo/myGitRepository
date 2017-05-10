@@ -41,7 +41,18 @@ public class SaferController {
 		mav.addObject("saferList",saferService.list(key, 10, request));
 		return mav;
 	}
-
+  /**
+   * 技术监督员：安全员查询
+   * @param key
+   * @param request
+   * @return
+   */
+  @RequestMapping("list1")
+  public ModelAndView list1(String key,HttpServletRequest request){
+		ModelAndView mav=new ModelAndView("system/saferList1");
+		mav.addObject("saferList",saferService.list(key, 10, request));
+		return mav;
+	}
 	@RequestMapping(value="insert",produces="text/html;charset=utf-8")
 	@ResponseBody
 	public String insert(Safer safer,HttpServletRequest request){

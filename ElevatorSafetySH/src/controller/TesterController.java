@@ -44,6 +44,18 @@ public class TesterController {
 		mav.addObject("testerList",testerService.list(key, 10, request));
 		return mav;
 	}
+  /**
+   * 技术监督员：测试人员查询
+   * @param key
+   * @param request
+   * @return
+   */
+  @RequestMapping("list1")
+  public ModelAndView list1(String key,HttpServletRequest request){
+		ModelAndView mav=new ModelAndView("system/testerList1");
+		mav.addObject("testerList",testerService.list(key, 10, request));
+		return mav;
+	}
 
   @RequestMapping(value="insert",produces="text/html;charset=utf-8")
 	@ResponseBody
