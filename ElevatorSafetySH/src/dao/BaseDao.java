@@ -62,5 +62,9 @@ public class BaseDao extends HibernateByDCPageUtil{
 		}
 		return null;
 	}
-	
+	public void executeUpdate(String sql){
+		Session session=this.getSessionFactory().openSession();
+		session.createSQLQuery(sql).executeUpdate();
+		session.close();
+	}
 }
