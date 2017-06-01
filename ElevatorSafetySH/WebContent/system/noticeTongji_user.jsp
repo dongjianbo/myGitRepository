@@ -348,9 +348,8 @@ span{
 		
 	}
 	function form_submit(ck){
-		if(ck){
-			$("#form1").submit();
-		}
+		$("#noticeType").val(ck);
+		$("#form1").submit();
 	}
 	function notice1(user,desc,registerCode,maintType,noticeDate){
 		$("#notice").html("");
@@ -433,27 +432,13 @@ span{
 		<th>未处理数目</th>
 	</tr>
 	<tr>
-		<td style="font-size: 14px;">${noticeCount }</td>
-		<td style="color: blue;font-size: 14px;">${noticeCount_processed }</td>
-		<td style="color: red;font-size: 14px;">${noticeCount_noprocessed }</td>
+		<td style="font-size: 14px;"><a href="javascript:form_submit(0)">${noticeCount }</a></td>
+		<td style="color: blue;font-size: 14px;"><a href="javascript:form_submit(1)">${noticeCount_processed }</a></td>
+		<td style="color: red;font-size: 14px;"><a href="javascript:form_submit(2)">${noticeCount_noprocessed }</a></td>
 	</tr>
 	</table>
 	<li><h3>逾期通知单列表</h3>
-		<input type="radio" name="noticeType" value="0" onclick="form_submit(this.checked)"
-			<c:if test="${noticeType eq 0}">
-				checked="checked"
-			</c:if>
-		/>全部&nbsp;&nbsp;
-		<input type="radio" name="noticeType" value="1" onclick="form_submit(this.checked)"
-			<c:if test="${noticeType eq 1}">
-				checked="checked"
-			</c:if>
-		/>已处理&nbsp;&nbsp;
-		<input type="radio" name="noticeType" value="2" onclick="form_submit(this.checked)"
-			<c:if test="${noticeType eq 2}">
-				checked="checked"
-			</c:if>
-		/>未处理&nbsp;&nbsp;</form>
+		<input type="hidden" name="noticeType" id="noticeType" value="0"/></form>
 	<li><table cellpadding="0" cellspacing="1">
 		<tr>
 			<th>电梯简称</th>

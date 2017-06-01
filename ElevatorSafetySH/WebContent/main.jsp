@@ -26,7 +26,7 @@
 河南省电梯安全监督检验检测中心
 </c:if>
 <c:if test="${operator_type.id_operator_type=='50'}">
-河南省电梯安全城市管理中心
+河南省电梯安全监管（漯河）房管中心
 </c:if>
 </title>
 <link href="${path}/css/system.css" rel="stylesheet" type="text/css">
@@ -128,8 +128,8 @@ function closeme(){
 				<li><div style="font-size: 30px;margin-top: 10px;">
 				 <c:if test="${operator_type.id_operator_type=='00'||operator_type.id_operator_type=='01'}">
 				   河南省电梯安全监管（漯河）中心
-				   </c:if>
-				   <c:if test="${operator_type.id_operator_type=='10'||operator_type.id_operator_type=='11'}">
+			     </c:if>
+			     <c:if test="${operator_type.id_operator_type=='10'||operator_type.id_operator_type=='11'}">
 				   河南省电梯安全监督维保中心
 				   </c:if>
 				   <c:if test="${operator_type.id_operator_type=='20'||operator_type.id_operator_type=='21'||operator_type.id_operator_type=='40'}">
@@ -139,8 +139,8 @@ function closeme(){
 				   河南省电梯安全监督检验检测中心
 				   </c:if>
 				   <c:if test="${operator_type.id_operator_type=='50'}">
-					河南省电梯安全城市管理中心
-					</c:if>
+				   河南省电梯安全监管（漯河）房管中心
+				   </c:if>
 				</div>
 				<li><div style="font-size:14px;text-align: left;margin-left: 100px;">
 				<div style="width: 40%;display: inline-block;">
@@ -149,11 +149,7 @@ function closeme(){
 				<div style="width: 55%;display: inline-block;text-align: right">
 <%-- 				${login.city.name_city}${login.distict.name_district}${login.subdistict.name_subdistrict}&nbsp;&nbsp;&nbsp;&nbsp; --%>
 				<c:if test="${operator_type.id_operator_type=='00'||operator_type.id_operator_type=='01'}">
-				  ${login.city.name_city}
-				   </c:if>
-				
-				
-				${deptName}&nbsp;&nbsp;
+				  ${login.city.name_city}</c:if>${deptName}&nbsp;&nbsp;
 <%-- 				${login.role.name_role } --%>
 				</div>
 				</div>

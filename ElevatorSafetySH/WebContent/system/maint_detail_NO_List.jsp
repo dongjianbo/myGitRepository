@@ -30,7 +30,14 @@
 			height:450,
 			buttons:{
 				"确定":function(){
-					$("#updateForm").submit();		 
+					var form = $("#updateForm");
+					$.post(form.attr('action'),form.serialize(),function(a){
+						if(a=="ok"){
+							location.replace(location.href);
+						}else{
+							alert("程序有点问题哟！");
+						}
+					});	 
 				},
 				"关闭":function(){
 					$(this).dialog("close");
@@ -53,7 +60,21 @@
 </head>
 <body>
 <ul>
-	<li><h3>不合格维保项目</h3>
+	<li><h4>请选择要显示的数据：</h4>
+	<li>
+	<form>
+		<input type="radio" name="resultType" value="-1" onclick="location.href='${path}/maint_report_id/listForMaintDetail_NO.do?resultType=-1'"
+			<c:if test="${resultType==-1}">
+				checked="checked"
+			</c:if>
+		/>待处理维保项目
+		<input type="radio" name="resultType" value="-2" onclick="location.href='${path}/maint_report_id/listForMaintDetail_NO.do?resultType=-2'"
+			<c:if test="${resultType==-2}">
+				checked="checked"
+			</c:if>
+		/>已处理维保项目
+	</form>
+	
 	<li>
 	<table cellpadding="0" cellspacing="1">
 		<tr>
@@ -61,9 +82,18 @@
 			<th>电梯简称</th>
 			<th>维保记录号</th>
 			<th>维保项目</th>
-			<th>备注信息</th>
+			
+			<c:if test="${resultType==-1 }">
+				<th>备注信息</th>
+			</c:if>
+			<c:if test="${resultType==-2 }">
+				<th>不合格描述</th>
+				<th>处理描述</th>
+			</c:if>
 			<th>扫描时间</th>
+			<c:if test="${resultType==-1 }">
 			<th>操作</th>
+			</c:if>
 		</tr>
 		<c:forEach items="${list}" var="d">
 			<tr>
@@ -71,9 +101,35 @@
 				<td style="text-align: left">${d.mri.elevator.desc}</td>
 				<td style="text-align: right">${d.maint_id}</td>
 				<td style="text-align: left">${d.mid.title}</td>
-				<td style="text-align: left">${d.maint_note}</td>
+				
+				
+				<c:if test="${resultType==-1 }">
+					<td style="text-align: left">${d.maint_note}</td>
+				</c:if>
+				<c:if test="${resultType==-2 }">
+					<td style="text-align: left">
+						<c:if test="${fn:length(fn:split(d.maint_note,'【补充说明】')[0])>15}">
+							<span title="${fn:split(d.maint_note,'【补充说明】')[0]}">${fn:substring(fn:split(d.maint_note,'【补充说明】')[0],0,15) }...</span>
+						</c:if>
+						<c:if test="${fn:length(fn:split(d.maint_note,'【补充说明】')[0])<=15}">
+							<span>${fn:split(d.maint_note,'【补充说明】')[0]}</span>
+						</c:if>
+					
+					</td>
+					<td style="text-align: left">
+						<c:if test="${fn:length(fn:split(d.maint_note,'【补充说明】')[2])>15}">
+							<span title="${fn:split(d.maint_note,'【补充说明】')[2]}">${fn:substring(fn:split(d.maint_note,'【补充说明】')[2],0,15) }...</span>
+						</c:if>
+						<c:if test="${fn:length(fn:split(d.maint_note,'【补充说明】')[2])<=15}">
+							<span>${fn:split(d.maint_note,'【补充说明】')[2]}</span>
+						</c:if>		
+					</td>
+				</c:if>
+				
 				<td style="text-align: center">${fn:substring(d.maint_date,0,19)}</td>
+				<c:if test="${resultType==-1 }">
 				<td style="text-align: center"><button onclick="updateNote(${d.maint_id},${d.maint_item_id },'${d.mid.title}')">处理</button></td>
+				</c:if>
 			</tr>
 		</c:forEach>
 		<tr>
