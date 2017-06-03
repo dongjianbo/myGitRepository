@@ -346,9 +346,8 @@ $().ready(function(){
 		
 	}
 	function form_submit(ck){
-		if(ck){
-			$("#form1").submit();
-		}
+		$("#noticeType").val(ck);
+		$("#form1").submit();
 	}
 	function notice1(user,desc,registerCode,maintType,noticeDate){
 		$("#notice").html("");
@@ -416,6 +415,7 @@ $().ready(function(){
 	</tr>
 	</table> --%>
 	<li><h3>逾期通知单列表</h3>
+<<<<<<< HEAD
 	<input type="radio" name="noticeType" value="0" onclick="form_submit(this.checked)"
 			<c:if test="${noticeType eq 0}">
 				checked="checked"

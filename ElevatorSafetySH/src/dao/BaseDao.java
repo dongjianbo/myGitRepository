@@ -37,9 +37,8 @@ public class BaseDao extends HibernateByDCPageUtil{
 	}
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List getListBySQL(String sql){
-		Session session=this.getSessionFactory().openSession();
+		Session session=this.getSessionFactory().getCurrentSession();
 		List list=session.createSQLQuery(sql).list();
-		session.close();
 		if(list.isEmpty()){
 			list.add(null);
 		}
@@ -47,20 +46,21 @@ public class BaseDao extends HibernateByDCPageUtil{
 	}
 	@SuppressWarnings({ "rawtypes"})
 	public List listBySQLQuery(String sql){
-		Session session=this.getSessionFactory().openSession();
+		Session session=this.getSessionFactory().getCurrentSession();
 		List list=session.createSQLQuery(sql).list();
-		session.close();
 		return list;
 	}
 	@SuppressWarnings({ "rawtypes" })
 	public Object getObjectBySQL(String sql){
-		Session session=this.getSessionFactory().openSession();
+		Session session=this.getSessionFactory().getCurrentSession();
 		List list=session.createSQLQuery(sql).list();
-		session.close();
 		if(list!=null&&!list.isEmpty()){
 			return list.get(0);
 		}
 		return null;
 	}
-	
+	public void executeUpdate(String sql){
+		Session session=this.getSessionFactory().getCurrentSession();
+		session.createSQLQuery(sql).executeUpdate();
+	}
 }

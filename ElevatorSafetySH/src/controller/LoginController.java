@@ -103,7 +103,7 @@ public class LoginController {
 			   }
 			   if(optype.equals("50")){
 				   //技术监督部门
-				   deptName="城市管理局";
+				   deptName="漯河市房地产管理局";
 			   }
 			  
 			   request.getSession().setAttribute("deptName", deptName);
