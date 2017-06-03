@@ -16,6 +16,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 import dao.ElevatorDao;
 import dao.Elevator_tag_init_taskDao;
+import vo.Approve_ack;
 import vo.Elevator;
 
 
@@ -111,7 +112,7 @@ public class ElevatorService {
 	}
 	//电梯总数量
 	@SuppressWarnings("unchecked")
-	public int getCount(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,int keyType,String desc){
+	public int getCount(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,int keyType,String desc,String gis_type){
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 		dc.setProjection(Projections.count("id_elevator"));
 		if(id_city!=null&&!"".equals(id_city)&&!"00".equals(id_city)){
@@ -131,6 +132,9 @@ public class ElevatorService {
 		}
 		if(id_test!=0){
 			dc.add(Restrictions.eq("id_test", id_test));
+		}
+		if(gis_type!=null&&!"".equals(gis_type)){
+			dc.add(Restrictions.eq("gis_type", gis_type));
 		}
 		if(desc!=null&&!"".equals(desc.trim())){
 			if(keyType==1){
@@ -152,7 +156,7 @@ public class ElevatorService {
 	}
 	//电梯总数量列表
 	@SuppressWarnings("unchecked")
-	public List<Elevator> listCount(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,int keyType,String desc){
+	public List<Elevator> listCount(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,int keyType,String desc,String gis_type){
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 		if(!"".equals(search)){
 			dc.add(Restrictions.like("desc", search,MatchMode.ANYWHERE));
@@ -171,6 +175,9 @@ public class ElevatorService {
 		}
 		if(id_user!=0){
 			dc.add(Restrictions.eq("id_user", id_user));
+		}
+		if(gis_type!=null&&!"".equals(gis_type)){
+			dc.add(Restrictions.eq("gis_type", gis_type));
 		}
 		if(id_test!=0){
 			dc.add(Restrictions.eq("id_test", id_test));
@@ -1759,7 +1766,7 @@ public class ElevatorService {
 	 * 20170726新需求
 	 */
 	//辖区范围内出厂日期超过15年电梯统计
-	public int getCountFor15Years(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
+	public int getCountFor15Years(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc,String gis_type){
 		String sql="select count(e.id_elevator) from elevator e where 1=1 ";
 		if(id_city!=null&&!"".equals(id_city)&&!"00".equals(id_city)){
 			sql+=" and e.id_city='"+id_city+"'";
@@ -1776,6 +1783,9 @@ public class ElevatorService {
 		if(id_user!=0){
 			sql+=" and e.id_user="+id_user;
 		}
+		if(gis_type!=null&&!"".equals(gis_type)){
+			sql+=" and e.gis_type="+gis_type;
+		}
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
 		}
@@ -1790,12 +1800,55 @@ public class ElevatorService {
 			return 0;
 		}
 	}
+	//电梯不同类型数量列表lz
+		@SuppressWarnings({"unchecked" })
+		public List<Elevator> getListFor15Years(String search,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,int keyType,String desc,String gis_type){
+			String sql="select e.id_elevator from elevator e where 1=1  ";
+			if(id_city!=null&&!"".equals(id_city)&&!"00".equals(id_city)){
+				sql+=" and e.id_city='"+id_city+"'";
+			}
+			if(id_district!=null&&!"".equals(id_district)&&!"00".equals(id_district)){
+				sql+=" and e.id_district='"+id_district+"'";
+			}
+			if(id_subdistrict!=null&&!"".equals(id_subdistrict)){
+				sql+=" and e.id_subdistrict='"+id_subdistrict+"'";
+			}
+			if(id_service!=0){
+				sql+=" and e.id_service="+id_service;
+			}
+			if(id_user!=0){
+				sql+=" and e.id_user="+id_user;
+			}
+			if(id_test!=0){
+				sql+=" and e.id_test="+id_test;
+			}
+			if(gis_type!=null&&!"".equals(gis_type)){
+				sql+=" and e.gis_type='"+gis_type+"'";
+			}
+			if(desc!=null&&!"".equals(desc.trim())){
+				if(keyType==1){
+					sql+=" and e.desc like '%"+desc+"%'";
+				}
+				if(keyType==2){
+					
+					sql+=" and m.model_name like '%"+desc+"%'";
+				}
+			}
+			sql+=" and TIMESTAMPDIFF(YEAR,e.date_manufer,now())>15";
+			List<Long> list=elevatorDao.getListBySQL(sql);
+			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
+			dc.add(Restrictions.in("id_elevator", list));
+			if(!"".equals(search)){
+				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+			}
+			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
+		}
 	/**
 	 * 辖区范围内电梯按类型统计数量
 	 */
 	
 	@SuppressWarnings("rawtypes")
-	public Map<String, Integer> getCountForType(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc){
+	public Map<String, Integer> getCountForType(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc,String gis_type){
 		//查询电梯种类
 		String sql="select t.name,count(e.id_elevator) from elevator_type_def t left join modellist m"+
 				" on m.type_elevator=t.elevator_type left join elevator e on m.id_model=e.id_elevator_model ";
@@ -1817,6 +1870,9 @@ public class ElevatorService {
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
 		}
+		if(gis_type!=null&&!"".equals(gis_type)){
+			sql+=" and e.gis_type="+gis_type;
+		}
 		if(desc!=null&&!"".equals(desc.trim())){
 			sql+=" and e.desc like '%"+desc+"%'";
 		}
@@ -1831,4 +1887,106 @@ public class ElevatorService {
 		}
 		return map;
 	}
+	//电梯不同类型数量列表lz
+		@SuppressWarnings({"unchecked" })
+		public List<Elevator> listCountByType(int year,String search,String elevator_type,int pageSize,HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,int keyType,String desc,String gis_type){
+			String sql="select e.id_elevator from elevator e left join "
+					+ "modellist m on m.id_model = e.id_elevator_model left join elevator_type_def t on m.type_elevator = t.elevator_type "
+					+ "where t.elevator_type='"+elevator_type+"'";
+			if(id_city!=null&&!"".equals(id_city)&&!"00".equals(id_city)){
+				sql+=" and e.id_city='"+id_city+"'";
+			}
+			if(id_district!=null&&!"".equals(id_district)&&!"00".equals(id_district)){
+				sql+=" and e.id_district='"+id_district+"'";
+			}
+			if(id_subdistrict!=null&&!"".equals(id_subdistrict)){
+				sql+=" and e.id_subdistrict='"+id_subdistrict+"'";
+			}
+			if(id_service!=0){
+				sql+=" and e.id_service="+id_service;
+			}
+			if(id_user!=0){
+				sql+=" and e.id_user="+id_user;
+			}
+			if(id_test!=0){
+				sql+=" and e.id_test="+id_test;
+			}
+			if(gis_type!=null&&!"".equals(gis_type)){
+				sql+=" and e.gis_type='"+gis_type+"'";
+			}
+			if(desc!=null&&!"".equals(desc.trim())){
+				if(keyType==1){
+					sql+=" and e.desc like '%"+desc+"%'";
+				}
+				if(keyType==2){
+					
+					sql+=" and m.model_name like '%"+desc+"%'";
+				}
+			}
+			if(year!=0){
+				sql+=" and TIMESTAMPDIFF(YEAR,e.date_manufer,now())>15";
+			}
+			List<Long> list=elevatorDao.getListBySQL(sql);
+			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
+			dc.add(Restrictions.in("id_elevator", list));
+			if(!"".equals(search)){
+				dc.add(Restrictions.like("code_manufer", search,MatchMode.ANYWHERE));
+			}
+			return elevatorDao.findPageByDcQuery(dc, pageSize, request);
+		}
+	/**
+	 * 辖区范围内15年以上电梯按类型统计数量lz
+	 */
+	@SuppressWarnings("rawtypes")
+	public Map<String, Integer> getCountFor15YearsForType(String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc,String gis_type){
+		//查询电梯种类
+		String sql="select t.name,count(e.id_elevator) from elevator_type_def t left join modellist m"+
+				" on m.type_elevator=t.elevator_type left join elevator e on m.id_model=e.id_elevator_model ";
+		if(id_city!=null&&!"".equals(id_city)&&!"00".equals(id_city)){
+			sql+=" and e.id_city='"+id_city+"'";
+		}
+		if(id_district!=null&&!"".equals(id_district)&&!"00".equals(id_district)){
+			sql+=" and e.id_district='"+id_district+"'";
+		}
+		if(id_subdistrict!=null&&!"".equals(id_subdistrict)){
+			sql+=" and e.id_subdistrict='"+id_subdistrict+"'";
+		}
+		if(id_service!=0){
+			sql+=" and e.id_service="+id_service;
+		}
+		if(gis_type!=null&&!"".equals(gis_type)){
+			sql+=" and e.gis_type="+gis_type;
+		}
+		if(id_user!=0){
+			sql+=" and e.id_user="+id_user;
+		}
+		if(id_test!=0){
+			sql+=" and e.id_test="+id_test;
+		}
+		if(gis_type!=null&&!"".equals(gis_type)){
+			sql+=" and e.gis_type="+gis_type;
+		}
+		if(desc!=null&&!"".equals(desc.trim())){
+			sql+=" and e.desc like '%"+desc+"%'";
+		}
+		sql+=" and TIMESTAMPDIFF(YEAR,date_manufer,now())>15";
+		sql+=" group by t.name";
+		List list=elevatorDao.getListBySQL(sql);
+		Map<String, Integer> map=new HashMap<String, Integer>();
+		for(Object obj:list){
+			if(obj!=null){
+				Object[] res=(Object[])obj;
+				map.put(res[0].toString(),Integer.parseInt(res[1].toString()));
+			}
+		}
+		return map;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Elevator> list() {
+		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
+		return elevatorDao.getListByDc(dc);
+	}
+	
+	
 }

@@ -68,22 +68,39 @@
 			}
 			$.getJSON(url+"?maint_id="+maint_id+"&maint_item_id="+maint_item_id,"",function(md){
 				$("#td"+ii).html("");
-			
+				var table="<table  bgcolor='#ff00ff'>";
 				if((md[0]!=null&&md[0]!="")||md[1]>0){
 					$("#tr"+ii).show();
-					$("#td"+ii).append("<h3 align='left'>备注："+decodeURI(md[0])+"</h3>");
+					//$("#td"+ii).append("<h3 align='left'>备注："+decodeURI(md[0])+"</h3>");
+					table+="<tr><td colspan='"+md[1]+"'><h3 align='left'>备注："+decodeURI(md[0])+"</h3></td></tr>";
 				}
 				if(md[1]>0){
-					$("#td"+ii).append("<h3 align='left'>图样：("+md[1]+"p)");
+					//$("#td"+ii).append("<h3 align='left'>图样：("+md[1]+"p)");
+					table+="<tr><td colspan='"+md[1]+"'><h3 align='left'>图样：("+md[1]+"p)</h3></td></tr>";
+					table+="<tr>";
 					for(i=0;i<md[1];i++){
 // 						$("#td"+ii).append("<img src='${path}/maint_item_def/getImage.do?maint_id="+maint_id+"&maint_item_id="+maint_item_id+"&image_val="+i+"' width=200 height=200/>&nbsp;&nbsp;&nbsp;");
 						if(mArea_name=="层门"){
-							$("#td"+ii).append("<img src='http://longwan.shifting.com.cn/image_api.php?name=getImageData&maint_id="+maint_id+"&maint_item_id="+maint_item_id+"&door="+doorid+"&image_val="+i+"&h=200&w=200' width=200 height=200 alt='图片不存在！'/>&nbsp;&nbsp;&nbsp;");
+							//$("#td"+ii).append("<img src='http://longwan.shifting.com.cn/image_api.php?name=getImageData&maint_id="+maint_id+"&maint_item_id="+maint_item_id+"&door="+doorid+"&image_val="+i+"&h=200&w=200' width=200 height=200 alt='图片不存在！'/>&nbsp;&nbsp;&nbsp;");
+							table+="<td><img src='http://longwan.shifting.com.cn/image_api.php?name=getImageData&maint_id="+maint_id+"&maint_item_id="+maint_item_id+"&door="+doorid+"&image_val="+i+"&h=200&w=200' width=200 height=200 alt='图片不存在！'/>&nbsp;&nbsp;&nbsp;</td>";
 						}else{
-							$("#td"+ii).append("<img src='http://longwan.shifting.com.cn/image_api.php?name=getImageData&maint_id="+maint_id+"&maint_item_id="+maint_item_id+"&image_val="+i+"&h=200&w=200' width=200 height=200 alt='图片不存在！'/>&nbsp;&nbsp;&nbsp;");
+						//	$("#td"+ii).append("<img src='http://longwan.shifting.com.cn/image_api.php?name=getImageData&maint_id="+maint_id+"&maint_item_id="+maint_item_id+"&image_val="+i+"&h=200&w=200' width=200 height=200 alt='图片不存在！'/>&nbsp;&nbsp;&nbsp;");
+							table+="<td><img src='http://longwan.shifting.com.cn/image_api.php?name=getImageData&maint_id="+maint_id+"&maint_item_id="+maint_item_id+"&image_val="+i+"&h=200&w=200' width=200 height=200 alt='图片不存在！'/>&nbsp;&nbsp;&nbsp;</td>";
+						}
+						if(i!=0&&i%3==0){
+							table+="</tr><tr>"
+						}
+						
+					}
+					if(md[1]>4){
+						for(j=0;j<4-(md[1]-1)%3;j++){
+							table+="<td></td>"
 						}
 					}
+					table+="</tr>";
 				}
+				table+="</table>";
+				$("#td"+ii).append(table);
 				$("#showDetail").scrollTop($("#showDetail").scrollTop()+240);
 				
 			});

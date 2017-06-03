@@ -149,7 +149,7 @@ function closeme(){
 				<div style="width: 55%;display: inline-block;text-align: right">
 <%-- 				${login.city.name_city}${login.distict.name_district}${login.subdistict.name_subdistrict}&nbsp;&nbsp;&nbsp;&nbsp; --%>
 				<c:if test="${operator_type.id_operator_type=='00'||operator_type.id_operator_type=='01'}">
-				  ${login.city.name_city}
+				  ${login.city.name_city}质量
 				   </c:if>
 				
 				

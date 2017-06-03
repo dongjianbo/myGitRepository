@@ -34,7 +34,7 @@ span{
 	<script src="${path}/jquery/ui/jquery.ui.effect.js"></script>
 <script type="text/javascript">
 	
-	$().ready(function(){
+$().ready(function(){
 		//对话框
 		$("#notice").dialog({
 			modal:true,
@@ -402,7 +402,7 @@ span{
 
 <hr style="margin-top: 10px">
 <ul>
-	<li><h3>逾期通知单统计</h3>
+	<%-- <li><h3>逾期通知单统计</h3>
 	<li><table cellpadding="0" cellspacing="1">
 	<tr>
 		<th>逾期通知单总数</th>
@@ -410,27 +410,27 @@ span{
 		<th>未处理数目</th>
 	</tr>
 	<tr>
-		<td style="font-size: 14px;">${noticeCount }</td>
-		<td style="color: blue;font-size: 14px;">${noticeCount_processed }</td>
-		<td style="color: red;font-size: 14px;">${noticeCount_noprocessed }</td>
+		<td style="font-size: 14px;"><a href="javascript:form_submit(0)">${noticeCount }</a></td>
+		<td style="color: blue;font-size: 14px;"><a href="javascript:form_submit(1)">${noticeCount_processed }</a></td>
+		<td style="color: red;font-size: 14px;"><a href="javascript:form_submit(2)">${noticeCount_noprocessed }</a></td>
 	</tr>
-	</table>
+	</table> --%>
 	<li><h3>逾期通知单列表</h3>
-		<input type="radio" name="noticeType" value="0" onclick="form_submit(this.checked)"
+	<input type="radio" name="noticeType" value="0" onclick="form_submit(this.checked)"
 			<c:if test="${noticeType eq 0}">
 				checked="checked"
 			</c:if>
-		/>全部&nbsp;&nbsp;
+		/>全部&nbsp;&nbsp;${noticeCount }条
 		<input type="radio" name="noticeType" value="1" onclick="form_submit(this.checked)"
 			<c:if test="${noticeType eq 1}">
 				checked="checked"
 			</c:if>
-		/>已处理&nbsp;&nbsp;
+		/>已处理&nbsp;&nbsp;${noticeCount_processed }条
 		<input type="radio" name="noticeType" value="2" onclick="form_submit(this.checked)"
 			<c:if test="${noticeType eq 2}">
 				checked="checked"
 			</c:if>
-		/>未处理&nbsp;&nbsp;
+		/>未处理&nbsp;&nbsp;${noticeCount_noprocessed }条
 		</form>
 	<li><table cellpadding="0" cellspacing="1">
 		<tr>

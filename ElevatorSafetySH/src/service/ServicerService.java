@@ -12,6 +12,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 import vo.Servicer;
+import vo.User;
 import dao.ServicerDao;
 
 @Service
@@ -75,5 +76,29 @@ public class ServicerService {
 			return 0;
 		}
 		
+	}
+	/**
+	 * 按市级查找使用单位的数量列表lz
+	 */
+	@SuppressWarnings({"unchecked" })
+	public List<Servicer> listForCity(String id_city, String id_district,int pageSize,HttpServletRequest request, String id_subdistrict){
+		String sql="select id_servicer from servicer s where s.id_service in "
+				+ "(select distinct id_service from elevator e where 1=1 ";
+		if(id_city!=null&&!"".equals(id_city)&&!"00".equals(id_city)){
+			sql+=" and e.id_city='"+id_city+"'";
+		}
+		if(id_district!=null&&!"".equals(id_district)&&!"00".equals(id_district)){
+			sql+=" and e.id_district='"+id_district+"'";
+		}
+		if(id_subdistrict!=null&&!"".equals(id_subdistrict)&&!"00".equals(id_subdistrict)){
+			sql+=" and e.id_subdistrict='"+id_subdistrict+"'";
+		}
+		sql+= ")";
+		
+		List<Long> list=servicerDao.getListBySQL(sql);
+		DetachedCriteria dc=DetachedCriteria.forClass(Servicer.class);
+		dc.add(Restrictions.in("idservicer", list));
+		
+		return servicerDao.findPageByDcQuery(dc, pageSize, request);
 	}
 }

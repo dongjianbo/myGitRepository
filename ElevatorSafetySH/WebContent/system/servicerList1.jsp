@@ -25,6 +25,8 @@
 </head>
 
 <body>
+
+<c:if test="${requestMapping ne 'elevator'}">
 	<form action="${path}/servicer/list1.do" method="post">
 		<table cellpadding="0" cellspacing="1">
 			<tr>
@@ -34,6 +36,7 @@
 			</tr>
 		</table>
 	</form>
+</c:if>
 	<table cellpadding="0" cellspacing="1">
 		<tr>
 			<th>编号</th>

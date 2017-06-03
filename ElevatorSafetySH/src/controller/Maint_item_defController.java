@@ -51,7 +51,7 @@ public class Maint_item_defController {
 				}
 			}
 			if(obj[1]!=null&&Integer.parseInt(obj[1].toString())>0){
-				info+="("+obj[1]+"p)";
+				info+="/"+obj[1]+"p";
 			}
 			if(obj[2]!=null){
 				//为mid设置检测结果
@@ -83,7 +83,7 @@ public class Maint_item_defController {
 				}
 			}
 			if(obj[1]!=null&&Integer.parseInt(obj[1].toString())>0){
-				info+="("+obj[1]+"p)";
+				info+="/"+obj[1]+"p";
 			}
 			if(obj[2]!=null){
 				//为mid设置检测结果
