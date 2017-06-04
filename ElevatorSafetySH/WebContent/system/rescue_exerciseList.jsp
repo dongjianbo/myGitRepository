@@ -42,7 +42,9 @@
 				if(v[0].error=="OK"){
 					var h="<ul>";
 					h+="<li>备注：<div style='width:950px;display:block;word-break: break-all;word-wrap: break-word;'>"+note+"<div></li>";
+					h+="<hr>";
 					h+="<li>图像个数："+image+"</li>";
+					h+="<hr>";
 					h+="<li>已上传图像个数："+image+"</li>";
 					if(v[0].tag.length>0){
 						h+="<li>";
@@ -114,6 +116,9 @@
 		
 		
 	</table>
+	<div align="right">
+		<button onclick="history.back();">返回上一页</button>
+	</div>
 	<div title="急修演习详细内容" id="reDetail"></div>
 </body>
 </html>

@@ -1099,4 +1099,43 @@ public class UserService {
 				return 0;
 			}
 		}
+		/**
+		 * 按市级查找使用单位的数量列表lz
+		 */
+		@SuppressWarnings({"unchecked" })
+		public List<User> listForCity(String id_city, String id_district,int pageSize,HttpServletRequest request, String id_subdistrict){
+			String sql="select distinct id_user from elevator e where 1=1 ";
+			if(id_city!=null&&!"".equals(id_city)&&!"00".equals(id_city)){
+				sql+=" and e.id_city='"+id_city+"'";
+			}
+			if(id_district!=null&&!"".equals(id_district)&&!"00".equals(id_district)){
+				sql+=" and e.id_district='"+id_district+"'";
+			}
+			if(id_subdistrict!=null&&!"".equals(id_subdistrict)){
+				sql+=" and e.id_subdistrict='"+id_subdistrict+"'";
+			}
+			
+			List<Long> list=userDao.getListBySQL(sql);
+			DetachedCriteria dc=DetachedCriteria.forClass(User.class);
+			dc.add(Restrictions.in("iduser", list));
+			
+			return userDao.findPageByDcQuery(dc, pageSize, request);
+		}
+		//使用单位的电梯id列表
+		@SuppressWarnings("unchecked")
+		public List<Integer> idList(int id_user,ArrayList<Integer> ids){
+			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
+			 List<Integer> list=new ArrayList<Integer>();
+			if(ids!=null){
+				dc.add(Restrictions.in("id_user", ids));
+			}else{
+				dc.add(Restrictions.eq("id_user", id_user));
+			}
+			List<Elevator> elevatorList=elevatorDao.getListByDc(dc);
+			for(Elevator e:elevatorList){
+				list.add(e.getId_elevator());
+			}
+			return list;
+		}
+		
 }

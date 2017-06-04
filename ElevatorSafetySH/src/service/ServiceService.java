@@ -1,6 +1,7 @@
 package service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
@@ -15,13 +17,13 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
-import vo.Elevator;
-import vo.Maint_report_id;
-import vo.Service1;
 import dao.ElevatorDao;
 import dao.Maint_report_idDao;
 import dao.ServiceDao;
 import util.DateUtils;
+import vo.Elevator;
+import vo.Maint_report_id;
+import vo.Service1;
 
 @Service
 public class ServiceService {
@@ -805,5 +807,38 @@ public class ServiceService {
 			return 0;
 		}
 	}
-  
+	/**
+	 * 按市级查找使用单位的数量列表lz
+	 */
+	@SuppressWarnings({"unchecked" })
+	public List<Service1> listForCity(String id_city, String id_district,int pageSize,HttpServletRequest request, String id_subdistrict){
+		String sql="select distinct id_service from elevator e where 1=1 ";
+		if(id_city!=null&&!"".equals(id_city)&&!"00".equals(id_city)){
+			sql+=" and e.id_city='"+id_city+"'";
+		}
+		if(id_district!=null&&!"".equals(id_district)&&!"00".equals(id_district)){
+			sql+=" and e.id_district='"+id_district+"'";
+		}
+		if(id_subdistrict!=null&&!"".equals(id_subdistrict)){
+			sql+=" and e.id_subdistrict='"+id_subdistrict+"'";
+		}
+		
+		List<Long> list=serviceDao.getListBySQL(sql);
+		DetachedCriteria dc=DetachedCriteria.forClass(Service1.class);
+		dc.add(Restrictions.in("idservice", list));
+		
+		return serviceDao.findPageByDcQuery(dc, pageSize, request);
+	}
+	//使用单位的电梯id列表
+		@SuppressWarnings("unchecked")
+		public List<Integer> idList(int id_service){
+			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
+			 List<Integer> list=new ArrayList<Integer>();
+			dc.add(Restrictions.eq("id_service", id_service));
+			List<Elevator> elevatorList=elevatorDao.getListByDc(dc);
+			for(Elevator e:elevatorList){
+				list.add(e.getId_elevator());
+			}
+			return list;
+		}
 }

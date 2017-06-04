@@ -132,6 +132,15 @@
 							$(this).attr("selected",true);
 						}
 					})
+					//电梯安装场所类型
+					$("#id_siteDef option").each(function(){
+							$(this).removeAttr("selected");
+					})
+					$("#id_siteDef option").each(function(){
+						if($(this).val()==e.gis_type){
+							$(this).attr("selected",true);
+						}
+					})
 					$("#desc").val(e.desc);
 				});
 			}
@@ -237,7 +246,13 @@
 				   <li><input type="text" id="constucter" name="constucter" size="50" />
 				   <li>土建施工开始时间:
 				   <li><input type="text" id="startdate_construct" name="startdate_construct" readonly="readonly" size="30" />
-		            
+		           <li>电梯安装场所类型:
+		           <li><select id="id_siteDef" name="gis_type">
+			       	<option value="">请选择</option>
+			       	<c:forEach items="${siteDefList }" var="v">
+			       		<option value="${v.idsite}">${v.site_name}</option>
+			       	</c:forEach>
+			       </select>
 					</ul>
 					
 		        </td>
@@ -272,7 +287,7 @@
 			       		<option value="${v.iduser}">${v.name}</option>
 			       	</c:forEach>
 			       </select>
-                    <li>电梯所在位置::
+                    <li>电梯所在位置:
 					<li><input type="text" id="address" name="address" size="50" />
 					<li> 申报时间:
 					<li><input type="text" id="date_declare" name="date_declare" readonly="readonly" size="30" />

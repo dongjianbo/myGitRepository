@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -14,14 +15,14 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
+import org.apache.commons.lang.ObjectUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import service.CitylistService;
 import service.DesignerService;
 import service.DistictlistService;
@@ -29,6 +30,7 @@ import service.ElevatorService;
 import service.Elevator_doorService;
 import service.Elevator_stateService;
 import service.Elevator_tag_init_taskService;
+import service.Elevator_type_defService;
 import service.HistoryService;
 import service.History_listService;
 import service.InstallerService;
@@ -40,17 +42,21 @@ import service.Register_status_defService;
 import service.SaferService;
 import service.ServiceService;
 import service.ServicerService;
+import service.Site_defService;
 import service.SubdistictlistService;
 import service.System_settingService;
 import service.SystemstateService;
 import service.TestService;
 import service.UserService;
 import util.DateUtils;
+import vo.Approve_ack;
+import vo.Distictlist;
 import vo.Elevator;
 import vo.Elevator_door;
 import vo.Elevator_doorKey;
 import vo.Elevator_state;
 import vo.Elevator_tag_init_task;
+import vo.Elevator_type_def;
 import vo.History;
 import vo.History_list;
 import vo.History_listKey;
@@ -58,7 +64,10 @@ import vo.Manufer;
 import vo.Modellist;
 import vo.Operator;
 import vo.Register_status_def;
+import vo.Safer;
 import vo.Service1;
+import vo.Servicer;
+import vo.Site_def;
 import vo.System_setting;
 import vo.Test;
 import vo.User;
@@ -112,6 +121,10 @@ public class ElevatorController {
 	public ServicerService servicerService;
 	@Resource
 	public SaferService saferService;
+	@Resource
+	public Site_defService siteDefService;
+	@Resource
+	public Elevator_type_defService elevatorTypeDefService;
 	
 	@RequestMapping("insert")
 	public String insert(Elevator elevator,HttpServletRequest request,HttpServletResponse response){
@@ -200,7 +213,7 @@ public class ElevatorController {
 				el.setId_subdistrict(elevator.getId_subdistrict());
 			}
 		}
-		
+		el.setGis_type(elevator.getGis_type());
 		//电梯所在位置加上前面的三个下拉框
 		String city=cityService.listBy_Idcity(elevator.getId_city()).getName_city();
 		String dist=distickService.getListByCityId(elevator.getId_city(),elevator.getId_district());
@@ -314,7 +327,7 @@ public class ElevatorController {
 //					e.printStackTrace();
 //				}
 				// 电梯总数
-				int count = elevatorService.getCount(id_city,id_district,id_subdistrict,id_service,id_user,id_test,keyType,desc);
+				int count = elevatorService.getCount(id_city,id_district,id_subdistrict,id_service,id_user,id_test,keyType,desc,"");
 				// 已注册数量
 				int count_registed = elevatorService.getCount_Registed(id_city,id_district,id_subdistrict,id_service,id_user,id_test,keyType,desc);
 				// 停用数量
@@ -390,7 +403,7 @@ public class ElevatorController {
 
 		// 点击统计中的数字进入电梯列表
 		@RequestMapping("listForSearch")
-		public ModelAndView listForSearch(String key, String search, HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,int keyType,String desc) {
+		public ModelAndView listForSearch(String key, String search, HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,int keyType,String desc,String elevator_type,String gis_type) {
 			Operator op=(Operator)request.getSession().getAttribute("login");
 			//
 			List<Elevator> list = new ArrayList<Elevator>();
@@ -411,7 +424,7 @@ public class ElevatorController {
 			}
 			// 电梯总数量
 			if (key.equals("count")) {
-				list = elevatorService.listCount(search, 10, request,id_city,id_district,id_subdistrict,id_service,id_user,id_test,keyType,desc);
+				list = elevatorService.listCount(search, 10, request,id_city,id_district,id_subdistrict,id_service,id_user,id_test,keyType,desc,gis_type);
 			}
 			// 电梯已注册数量
 			if (key.equals("count_registed")) {
@@ -489,7 +502,18 @@ public class ElevatorController {
 			if (key.equals("count_360service_overdue")) {
 				list = elevatorService.listCount_360service_Overdue(search, 10, request,id_city,id_district,id_subdistrict,id_service,id_user,id_test,keyType,desc);
 			}
-
+			//电梯不同类型数量
+			if(key.equals("countByType")){
+				list = elevatorService.listCountByType(0,search, elevator_type, 10, request, id_city, id_district, id_subdistrict, id_service, id_user, id_test, keyType, desc,gis_type);
+			}
+			//15年以上电梯数量
+			if(key.equals("count15Years")){
+				list = elevatorService.getListFor15Years(search, 10, request, id_city, id_district, id_subdistrict, id_service, id_user, id_test, keyType, desc,gis_type);
+			}
+			//15年以上电梯不同类型数量
+			if(key.equals("count15YearsByType")){
+				list = elevatorService.listCountByType(15,search, elevator_type, 10, request, id_city, id_district, id_subdistrict, id_service, id_user, id_test, keyType, desc,gis_type);
+			}
 			ModelAndView mav = new ModelAndView("system/elevatorList");
 			mav.addObject("list", list);
 			mav.addObject("key",key);
@@ -630,6 +654,8 @@ public class ElevatorController {
 		List<Modellist> modelList=modellistService.list();
 		//查询所有的注册状态
 		List<Register_status_def> regList=regService.list();
+		//查询所有的安装场所类型
+		List<Site_def> siteDefList=siteDefService.list();
 		mav.addObject("designerList",designerList);
 		mav.addObject("manuferList", manuferList);
 		mav.addObject("installerList",installerList);
@@ -639,6 +665,7 @@ public class ElevatorController {
 		mav.addObject("testList", testList);
 		mav.addObject("modelList",modelList);
 		mav.addObject("regList",regList);
+		mav.addObject("siteDefList",siteDefList);
 		return mav;
 	}
 	//电梯基本信息维护
@@ -650,7 +677,7 @@ public class ElevatorController {
 		e.setId_subdistrict(e_old.getId_subdistrict());
 		e.setGis_x(e_old.getGis_x());
 		e.setGis_y(e_old.getGis_y());
-		e.setGis_type(e_old.getGis_type());
+//		e.setGis_type(e_old.getGis_type());
 		if(e.getId_elevator()!=-1&&e.getId_elevator()!=0){
 			elevatorService.update(e);
 		}
@@ -679,7 +706,7 @@ public class ElevatorController {
 	 */
 	//监管部门相关统计数字
 		@RequestMapping("statistics")
-		public ModelAndView statistics(String key,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,String desc,HttpServletRequest request){
+		public ModelAndView statistics(String key,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int keyType,int id_test,String desc,HttpServletRequest request,String gis_type){
 			//查找当前登录人
 			Operator op=(Operator)request.getSession().getAttribute("login");
 			if(!op.getTypeOperator().equals("00")){
@@ -697,15 +724,32 @@ public class ElevatorController {
 					System.out.println("id_district:"+id_district);
 					System.out.println("id_subdistrict:"+id_subdistrict);
 				}
+				//电梯总数量
+				int countFor=elevatorService.getCount(id_city, id_district, id_subdistrict,id_service,id_user,id_test,keyType, desc,gis_type);
 				//辖区范围内出厂日期超过15年电梯统计
-				int countFor15Years=elevatorService.getCountFor15Years(id_city, id_district, id_subdistrict,id_service,id_user,id_test,desc);
+				int countFor15Years=elevatorService.getCountFor15Years(id_city, id_district, id_subdistrict,id_service,id_user,id_test,desc,gis_type);
+				//辖区范围内出厂日期超过15年电梯按类型统计数量
+				Map<String, Integer> countForTypeOld=elevatorService.getCountFor15YearsForType(id_city, id_district, id_subdistrict,id_service,id_user,id_test,desc,gis_type);
+				List<Elevator_type_def> list=elevatorTypeDefService.list();
 				//辖区范围内电梯按类型统计数量
-				Map<String, Integer> countForType=elevatorService.getCountForType(id_city, id_district, id_subdistrict,id_service,id_user,id_test,desc);
+				Map<String, Integer> countForType=elevatorService.getCountForType(id_city, id_district, id_subdistrict,id_service,id_user,id_test,desc,gis_type);
 				List<String> keylist=new ArrayList<String>();
-				List<Integer> values=new ArrayList<Integer>();
+				Map<String, Integer> values=new LinkedHashMap<String, Integer>();
+				Map<String, Integer> oldvalues=new LinkedHashMap<String, Integer>();
 				for(Entry<String, Integer> entry:countForType.entrySet()){
 					keylist.add(entry.getKey());
-					values.add(entry.getValue());
+					for(Elevator_type_def def:list){
+						if (ObjectUtils.equals(def.getName(), entry.getKey())) {
+							values.put(def.getElevatortype(), entry.getValue());
+							for(Entry<String, Integer> entry2:countForTypeOld.entrySet()){
+								if(ObjectUtils.equals(entry.getKey(), entry2.getKey())){
+									oldvalues.put(def.getElevatortype(),entry2.getValue());
+									continue;
+								}
+							}
+						}
+					}
+					
 				}
 				//辖区内电梯相关使用单位数量、维保单位数量、维保人员数量、安全人员数量
 				int userCountForCity=userService.getCountForCity(id_city, id_district, id_subdistrict);
@@ -714,12 +758,15 @@ public class ElevatorController {
 				int saferCountForCity=saferService.getCountForCity(id_city, id_district, id_subdistrict);
 				ModelAndView mav=new ModelAndView("/system/elevatorStatistics");
 				mav.addObject("countFor15Years",countFor15Years);
+				mav.addObject("countFor",countFor);
 				mav.addObject("countForType",countForType);
 				mav.addObject("keylist",keylist);
 				mav.addObject("values",values);
+				mav.addObject("oldvalues",oldvalues);
 				mav.addObject("userCountForCity",userCountForCity);
 				mav.addObject("serviceCountForCity",serviceCountForCity);
 				mav.addObject("servicerCountForCity",servicerCountForCity);
+				mav.addObject("gis_type",gis_type);
 				mav.addObject("saferCountForCity",saferCountForCity);
 				return mav;
 			}
@@ -797,5 +844,60 @@ public class ElevatorController {
 		
 		
 		return mav;
+	}
+	
+	// 点击维保单位数量进入单位列表lz
+	@RequestMapping("listForCountUser")
+	public ModelAndView listForCountUser(HttpServletRequest request,String id_city,String id_district,String id_subdistrict) {
+		List<User> list = new ArrayList<User>();
+		list =userService.listForCity(id_city, id_district, 10, request, id_subdistrict);
+		ModelAndView mav = new ModelAndView("system/userList1");
+		mav.addObject("userList", list);
+		mav.addObject("requestMapping", "elevator");
+		return mav;
+	}
+	// 点击维保人员数量进入单位列表lz
+	@RequestMapping("listForCountService")
+	public ModelAndView listForCountService(HttpServletRequest request,String id_city,String id_district,String id_subdistrict) {
+		List<Service1> list = new ArrayList<Service1>();
+		list =serviceService.listForCity(id_city, id_district, 10, request, id_subdistrict);
+		ModelAndView mav = new ModelAndView("system/serviceList1");
+		mav.addObject("serviceList", list);
+		mav.addObject("requestMapping", "elevator");
+		return mav;
+	}
+	// 点击维保人员数量进入单位列表lz
+	@RequestMapping("listForCountServicer")
+	public ModelAndView listForCountServicer(HttpServletRequest request,String id_city,String id_district,String id_subdistrict) {
+		List<Servicer> list = new ArrayList<Servicer>();
+		list =servicerService.listForCity(id_city, id_district, 10, request, id_subdistrict);
+		ModelAndView mav = new ModelAndView("system/servicerList1");
+		mav.addObject("servicerList", list);
+		mav.addObject("requestMapping", "elevator");
+		return mav;
+	}
+	// 点击安全人员数量进入单位列表lz
+	@RequestMapping("listForCountSafer")
+	public ModelAndView listForCountSafer(HttpServletRequest request,String id_city,String id_district,String id_subdistrict) {
+		List<Safer> list = new ArrayList<Safer>();
+		list =saferService.listForCity(id_city, id_district, 10, request, id_subdistrict);
+		ModelAndView mav = new ModelAndView("system/saferList1");
+		mav.addObject("saferList", list);
+		mav.addObject("requestMapping", "elevator");
+		return mav;
+	}
+	//查询未注册的电梯
+	@RequestMapping("gis")
+	public ModelAndView gis(HttpServletRequest request){
+		ModelAndView mav=new ModelAndView("system/testBMap");
+		return mav;
+	}
+	@RequestMapping(value="listByObject", produces = "text/html; charset=utf-8")
+	@ResponseBody
+	public String getListByIdCity(){
+		//查询所有的电梯
+		List<Elevator> elevatorList=elevatorService.list();
+		JSONArray jsonarray=JSONArray.fromObject(elevatorList);
+		return jsonarray.toString();
 	}
 }

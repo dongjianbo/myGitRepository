@@ -28,6 +28,12 @@
 		$("#date1").datepicker({dateFormat:'yy-mm-dd'});//日期控件
 		$("#date_register").datepicker({dateFormat:'yy-mm-dd'});//日期控件
 		$("#date_enable").datepicker({dateFormat:'yy-mm-dd'});//日期控件
+		$.getJSON("${path}/sit_def/list_json.do","rand="+Math.random(),function(d){
+	    	  //电梯安装场所类型进行循环
+	    	  for(var i=0;i<d.length;i++){
+	    		  $("#id_siteDef").append("<option size='"+50+"' value='"+d[i].idsite+"'>"+d[i].site_name+"</option>");
+	    	  }
+	       });	
 		 $.getJSON("${path}/modellist/list_json.do","rand="+Math.random(),function(d){
 	    	  //对电梯型号进行循环
 	    	  for(var i=0;i<d.length;i++){
@@ -166,7 +172,9 @@
 						<li>所属街道乡镇:
 						<li><select name="id_subdistrict" id="id_subdistrict"></select>
 						<li>电梯所在位置:
-					    <li><input type="text" name="address" size="50" maxlength="18">  
+					    <li><input type="text" name="address" size="50" maxlength="18"> 
+					    <li>电梯安装场所类型:
+					    <li><select name="gis_type" id="id_siteDef"> </select> 
 				        <br><br><br>
 				        
 		                <li>电梯层数:

@@ -1,27 +1,23 @@
 package controller;
-import java.util.List;
-import java.util.Map;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
-import net.sf.json.JSONArray;
-
-import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import dao.OperatorDao;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import service.CitylistService;
-
 import service.HistoryService;
 import service.History_listService;
 import service.Maint_report_idService;
@@ -451,5 +447,13 @@ public class ServiceController {
 			}
 			
 			return mav;
+		}
+		@RequestMapping(value="listByObject", produces = "text/html; charset=utf-8")
+		@ResponseBody
+		public String getListByIdCity(){
+			//查询所有的电梯
+			List<Service1> serviceList=serviceService.list();
+			JSONArray jsonarray=JSONArray.fromObject(serviceList);
+			return jsonarray.toString();
 		}
 }

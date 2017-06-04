@@ -254,7 +254,18 @@ span{
 // 					});
 // 				});
 			
-		
+		$.getJSON("${path}/sit_def/list_json.do","rand="+Math.random(),function(d){
+			$("#id_siteDef").append("<option size='"+15+"' value=''>-请选择</option>");
+    	  //对安装场所进行循环
+    	  for(var i=0;i<d.length;i++){
+    		  $("#id_siteDef").append("<option size='"+15+"' value='"+d[i].idsite+"'>"+d[i].site_name+"</option>");
+    	  }
+    	  $("#id_siteDef option").each(function(){
+				if($(this).val()=="${param.idsite}"){
+					$(this).attr("selected",true);
+				}
+			});
+       });
 		$.getJSON("${path}/service/list_json.do","rand="+Math.random(),function(d){
 			$("#id_service").append("<option size='"+15+"' value='0'>-请选择</option>");
     	  //对维保单位进行循环
@@ -383,6 +394,8 @@ span{
 			</select>
 			<span>使用单位:</span><select name="id_user" id="id_user">
 			</select>
+			<span>电梯安装场所:</span><select name="gis_type" id="id_siteDef">
+			</select>
 			<div style="display:none">
 			<span>检验检测单位:</span><select name="id_test" id="id_test">
 			</select>
@@ -391,10 +404,24 @@ span{
 		</ul>
 </div>
 <br>
-<div>
+<%-- <div>
 	<ul>
 		<li><span>电梯简称:</span><input type="text" id="desc" name="desc" size="39" maxlength="16" value="${param.desc }"/>
 		<input type="submit" style="margin-left: 650px" value="&nbsp;&nbsp;搜索&nbsp;&nbsp;"/>
+	</ul>
+</div> --%>
+<div>
+	<ul>
+		<li><span><select name="keyType" style="width: 80px;">
+			<option value="1"
+				<c:if test="${param.keyType==1 }">selected='selected'</c:if>
+			>电梯简称</option>
+			<option value="2"
+				<c:if test="${param.keyType==2 }">selected='selected'</c:if>
+			>电梯品牌</option>
+		</select></span>
+		<input type="text" id="desc" name="desc" size="59" maxlength="16" value="${param.desc }"/>
+		<input type="submit" style="margin-left: 450px" value="&nbsp;&nbsp;搜索&nbsp;&nbsp;"/>
 	</ul>
 </div>
 </form>
@@ -404,13 +431,51 @@ span{
 	<li><h3>电梯按类型统计：</h3>
 	<li><table cellpadding="0" cellspacing="1">
 	<tr>
+		<th></th>
+		<th>全部</th>
 		<c:forEach items="${keylist}" var="key">
 			<th>${key}</th>
 		</c:forEach>
 	</tr>
 	<tr>
+		<th>数量</th>
+		<td>
+		<a 
+			<c:if test="${countFor!=0 }">
+				style="color:green"
+			</c:if>
+			href="${path }/elevator/listForSearch.do?key=count&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}&gis_type=${gis_type}">
+			${countFor}
+		</a>
+		</td>
 		<c:forEach items="${values }" var="v">
-			<td>${v }</td>
+			<td>
+			<a 
+			<c:if test="${v.value!=0 }">
+				style="color:green"
+			</c:if>
+			href="${path }/elevator/listForSearch.do?key=countByType&elevator_type=${v.key }&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}&gis_type=${gis_type}">
+			${v.value }
+		</a></td>
+		</c:forEach>
+	</tr>
+	<tr>
+		<th>其中老旧电梯数量</th>
+		<td><a 
+			<c:if test="${countFor15Years!=0 }">
+				style="color:green"
+			</c:if>
+			href="${path }/elevator/listForSearch.do?key=count15Years&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}&gis_type=${gis_type}">
+			${countFor15Years}
+		</a></td>
+		<c:forEach items="${oldvalues }" var="v2">
+			<td><a 
+			<c:if test="${v2.value!=0 }">
+				style="color:green"
+			</c:if>
+			href="${path }/elevator/listForSearch.do?key=count15YearsByType&elevator_type=${v2.key }&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}&gis_type=${gis_type}">
+			${v2.value }
+		</a></td>
 		</c:forEach>
 	</tr>
 	</table>
@@ -423,10 +488,34 @@ span{
 			<th>安全人员数量</th>
 		</tr>
 		<tr>
-			<td>${userCountForCity}</td>
-			<td>${serviceCountForCity}</td>
-			<td>${servicerCountForCity}</td>
-			<td>${saferCountForCity}</td>
+			<td><a 
+			<c:if test="${userCountForCity!=0 }">
+				style="color:green"
+			</c:if>
+			href="${path }/elevator/listForCountUser.do?key=userCountForCity&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">
+			${userCountForCity }
+		</a></td>
+			<td><a 
+			<c:if test="${serviceCountForCity!=0 }">
+				style="color:green"
+			</c:if>
+			href="${path }/elevator/listForCountService.do?key=serviceCountForCity&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">
+			${serviceCountForCity }
+		</a></td>
+			<td><a 
+			<c:if test="${servicerCountForCity!=0 }">
+				style="color:green"
+			</c:if>
+			href="${path }/elevator/listForCountServicer.do?key=servicerCountForCity&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">
+			${servicerCountForCity }
+		</a></td>
+			<td><a 
+			<c:if test="${saferCountForCity!=0 }">
+				style="color:green"
+			</c:if>
+			href="${path }/elevator/listForCountSafer.do?key=saferCountForCity&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">
+			${saferCountForCity }
+		</a></td>
 			
 		</tr>
 		
