@@ -415,7 +415,6 @@ $().ready(function(){
 	</tr>
 	</table> --%>
 	<li><h3>逾期通知单列表</h3>
-<<<<<<< HEAD
 	<input type="radio" name="noticeType" value="0" onclick="form_submit(this.checked)"
 			<c:if test="${noticeType eq 0}">
 				checked="checked"
