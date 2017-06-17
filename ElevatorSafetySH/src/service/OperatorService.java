@@ -15,6 +15,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
 import util.MD5;
+import vo.Approve_ack;
+import vo.Elevator;
 import vo.Operator;
 import dao.CitylistDao;
 import dao.OperatorDao;
@@ -144,4 +146,14 @@ public class OperatorService {
 	public List listOperatorByDc(DetachedCriteria dc){
  		return operatorDao.getListByDc(dc);
  	}
+	public Operator selectById(int approver) {
+		DetachedCriteria dc=DetachedCriteria.forClass(Operator.class);
+		dc.add(Restrictions.eq("idoperator", approver));
+		return (Operator)operatorDao.getListByDc(dc).get(0);
+	}
+	@SuppressWarnings("unchecked")
+	public List<Operator> getImageList(int rid) {
+		String sql="select type,path,Image_no from reapir_image where rid="+rid;
+		return operatorDao.getListBySQL(sql);
+	}
 }

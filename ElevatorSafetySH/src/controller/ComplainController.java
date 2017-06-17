@@ -45,7 +45,7 @@ public class ComplainController {
 	
 	//监管部门投诉信息查询
 	 @RequestMapping(value="selectList",produces="text/html;charset=utf-8")
-	public ModelAndView selectListAll(String key,int  type_object,int source,int status,String id_city,String id_district,String id_subdistrict,HttpServletRequest request){
+	public ModelAndView selectListAll(String key,int id_service,int id_user,int id_test,int  type_object,int source,String desc,String id_city,String id_district,String id_subdistrict,HttpServletRequest request){
 		
 		//查找当前登录人
 		Operator op=(Operator)request.getSession().getAttribute("login");
@@ -66,9 +66,17 @@ public class ComplainController {
 				System.out.println("id_subdistrict:"+id_subdistrict);
 			}
 			ModelAndView mav=new ModelAndView("system/complainList");
+			//符合条件的电梯编号
+			List<Integer> idList=elevatorService.getElevatorIds(id_city, id_district, id_subdistrict, id_service, id_user, id_test, desc);
 			//查询所有投诉信息
-			List<Complain> list=complainService.selectList(type_object, source, status, 10, request);
+			List<Complain> list=complainService.selectList(  id_service, id_user,source,type_object, idList, 10, request);
 			mav.addObject("list", list);
+			mav.addObject("id_city", id_city);
+			mav.addObject("id_district", id_district);
+			mav.addObject("id_subdistrict", id_subdistrict);
+			mav.addObject("type_object", type_object);
+			mav.addObject("source", source);
+			mav.addObject("desc",desc);
 			return mav;
 		}
 	}
@@ -136,7 +144,6 @@ public class ComplainController {
 			SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
 			String s=format.format(date);
 			complainX.setResult(complain.getResult());
-			complainX.setStatus(1);
 			complainX.setDate2(s);
 			Operator op=(Operator)request.getSession().getAttribute("login");
 			complainX.setIput2(op.getName());
@@ -154,20 +161,21 @@ public class ComplainController {
 			}else if(type==1){
 				Service1 s=serviceService.findById(object);
 				complain.setId_object(s.getIdservice());
-				complain.setContact(s.getTel());
 			}else if(type==2){
 				User u=userService.findById(object);
 				complain.setId_object(u.getIduser());
-				complain.setContact(u.getTel());
 			}
 			JSONObject jobject=JSONObject.fromObject(complain);
 			return jobject.toString();
 		}
 		
-		@RequestMapping("insertComplain")
+		@RequestMapping(value="insertComplain",produces="text/html;charset=utf-8")
+		@ResponseBody
 		public String insertComplain(Complain complain,HttpServletRequest request,HttpServletResponse response){
-			
-			
-	        return "/system/";
+			Operator op=(Operator)request.getSession().getAttribute("login");
+			complain.setStatus(0);
+			complain.setInput1(op.getName());
+			complainService.insert(complain);
+	        return "ok";
 		}
 }

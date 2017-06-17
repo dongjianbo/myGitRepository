@@ -68,8 +68,14 @@ public class Repair_queryService {
 		sql+=" order by t1.upload desc";
 		List<Long> list=repair_queryDao.getListBySQL(sql);
 		DetachedCriteria dc=DetachedCriteria.forClass(Repair_query.class);
-		dc.add(Restrictions.in("rid", list));
-		dc.add(Restrictions.in("eid", idList));
+		if (!list.isEmpty()) {
+			dc.add(Restrictions.in("rid", list));
+		}
+		if (!idList.isEmpty()) {
+			dc.add(Restrictions.in("eid", idList));
+		}else{
+			dc.add(Restrictions.isNull("eid"));
+		}
 		dc.addOrder(Order.desc("upload"));
 		return repair_queryDao.findPageByDcQuery(dc, pageSize, request);
 	}
@@ -81,7 +87,7 @@ public class Repair_queryService {
 		if(approve_ark!=-1){
 			sql+=" and t3.approver_ack ="+approve_ark;
 		}
-		if(idList!=null){
+		if(!idList.isEmpty()){
 			sql+=" and t2.id_elevator in (";
 			for(int i=0;i<idList.size();i++){
 				sql+=idList.get(i);

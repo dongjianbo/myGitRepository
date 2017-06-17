@@ -3,7 +3,6 @@ package vo;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -88,6 +87,10 @@ public class Elevator {
    private Float gis_x;
    private Float gis_y;
    private String gis_type;
+ //安装场所
+   @ManyToOne(cascade=CascadeType.REFRESH,optional=true)
+   @JoinColumn(name="gis_type",insertable=false,updatable=false)
+   private Site_def siteDef;
 public int getId_elevator() {
 	return id_elevator;
 }
@@ -355,6 +358,14 @@ public User getUser() {
 
 public void setUser(User user) {
 	this.user = user;
+}
+
+public Site_def getSiteDef() {
+	return siteDef;
+}
+
+public void setSiteDef(Site_def siteDef) {
+	this.siteDef = siteDef;
 }  
    
 }

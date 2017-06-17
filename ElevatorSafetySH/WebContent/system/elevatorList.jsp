@@ -26,7 +26,7 @@
 				modal:true,
 				autoOpen:false,
 				width:1050,
-				height:600,
+				height:650,
 				buttons:{
 					"确定":function(){
 						$(this).dialog("close");
@@ -40,6 +40,7 @@
 		function toDetail(id_elevator){
 			
 			$.post("${path }/elevator/selectElevatorByID.do?id_elevator="+id_elevator,"",function(h){
+				console.log(h);
 				$("#ElevatorDetail").html(h);
 				$("#ElevatorDetail").dialog("open");
 			});

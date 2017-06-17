@@ -26,6 +26,7 @@ import net.sf.json.JSONObject;
 import service.CitylistService;
 import service.DesignerService;
 import service.DistictlistService;
+import service.DistinctGisService;
 import service.ElevatorService;
 import service.Elevator_doorService;
 import service.Elevator_stateService;
@@ -49,8 +50,7 @@ import service.SystemstateService;
 import service.TestService;
 import service.UserService;
 import util.DateUtils;
-import vo.Approve_ack;
-import vo.Distictlist;
+import vo.DistinctGis;
 import vo.Elevator;
 import vo.Elevator_door;
 import vo.Elevator_doorKey;
@@ -125,6 +125,8 @@ public class ElevatorController {
 	public Site_defService siteDefService;
 	@Resource
 	public Elevator_type_defService elevatorTypeDefService;
+	@Resource
+	public DistinctGisService distinctGisService;
 	
 	@RequestMapping("insert")
 	public String insert(Elevator elevator,HttpServletRequest request,HttpServletResponse response){
@@ -675,8 +677,8 @@ public class ElevatorController {
 		e.setId_city(e_old.getId_city());
 		e.setId_district(e_old.getId_district());
 		e.setId_subdistrict(e_old.getId_subdistrict());
-		e.setGis_x(e_old.getGis_x());
-		e.setGis_y(e_old.getGis_y());
+//		e.setGis_x(e_old.getGis_x());
+//		e.setGis_y(e_old.getGis_y());
 //		e.setGis_type(e_old.getGis_type());
 		if(e.getId_elevator()!=-1&&e.getId_elevator()!=0){
 			elevatorService.update(e);
@@ -757,6 +759,9 @@ public class ElevatorController {
 				int servicerCountForCity=servicerService.getCountForCity(id_city, id_district, id_subdistrict);
 				int saferCountForCity=saferService.getCountForCity(id_city, id_district, id_subdistrict);
 				ModelAndView mav=new ModelAndView("/system/elevatorStatistics");
+				mav.addObject("id_city",id_city);
+				mav.addObject("id_district",id_district);
+				mav.addObject("id_subdistrict",id_subdistrict);
 				mav.addObject("countFor15Years",countFor15Years);
 				mav.addObject("countFor",countFor);
 				mav.addObject("countForType",countForType);
@@ -899,5 +904,69 @@ public class ElevatorController {
 		List<Elevator> elevatorList=elevatorService.list();
 		JSONArray jsonarray=JSONArray.fromObject(elevatorList);
 		return jsonarray.toString();
+	}
+	// 地图
+	@RequestMapping("map")
+	public ModelAndView map(HttpServletRequest request) {
+		//查找当前登录人
+		Operator op=(Operator)request.getSession().getAttribute("login");
+		if(!op.getTypeOperator().equals("00")){
+			ModelAndView mav=new ModelAndView("error");
+			mav.addObject("error","当前登录人非技术监督部门人员!");
+			return mav;
+		}else{
+			op=operatorService.findById(op.getIdoperator());
+				//第一次登录，没有查询，所以得从session中取地址
+				String id_city=op.getIdcity();
+				String id_district=op.getIddistrict();
+				String id_subdistrict=op.getIdsubdistrict();
+				DistinctGis distinctGis=distinctGisService.selectByDisId(op.getIddistrict());
+				Float gis_x=distinctGis.getGis_x();
+				Float gis_y=distinctGis.getGis_y();
+				System.out.println("id_city:"+id_city);
+				System.out.println("id_district:"+id_district);
+				System.out.println("id_subdistrict:"+id_subdistrict);
+				//符合条件的电梯编号
+				List<Integer> idList=elevatorService.getElevatorIds(id_city, id_district, id_subdistrict, 0, 0, 0, null);
+				List<Elevator> elList=elevatorService.getElevatorByIdList(idList);
+				JSONArray jsonarray=JSONArray.fromObject(elList);
+				ModelAndView mav = new ModelAndView("system/testBMap");
+				mav.addObject("gis_x",gis_x);
+				mav.addObject("gis_y",gis_y);
+				mav.addObject("elList",jsonarray);
+				return mav;
+		}
+	}
+	// 地图
+	@RequestMapping("map2")
+	public ModelAndView map2(HttpServletRequest request) {
+		//查找当前登录人
+		Operator op=(Operator)request.getSession().getAttribute("login");
+		if(!op.getTypeOperator().equals("00")){
+			ModelAndView mav=new ModelAndView("error");
+			mav.addObject("error","当前登录人非技术监督部门人员!");
+			return mav;
+		}else{
+			op=operatorService.findById(op.getIdoperator());
+				//第一次登录，没有查询，所以得从session中取地址
+				String id_city=op.getIdcity();
+				String id_district=op.getIddistrict();
+				String id_subdistrict=op.getIdsubdistrict();
+				DistinctGis distinctGis=distinctGisService.selectByDisId(op.getIddistrict());
+				Float gis_x=distinctGis.getGis_x();
+				Float gis_y=distinctGis.getGis_y();
+				System.out.println("id_city:"+id_city);
+				System.out.println("id_district:"+id_district);
+				System.out.println("id_subdistrict:"+id_subdistrict);
+				//符合条件的电梯编号
+				/*List<Integer> idList=elevatorService.getElevatorIds(id_city, id_district, id_subdistrict, 0, 0, 0, null);
+				List<Elevator> elList=elevatorService.getElevatorByIdList(idList);
+				JSONArray jsonarray=JSONArray.fromObject(elList);*/
+				ModelAndView mav = new ModelAndView("system/testBMap2");
+				mav.addObject("gis_x",gis_x);
+				mav.addObject("gis_y",gis_y);
+//				mav.addObject("elList",jsonarray);
+				return mav;
+		}
 	}
 }

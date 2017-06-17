@@ -1,10 +1,13 @@
 package vo;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,11 +20,27 @@ public class Repair_maint {
 	private String note;
 	private int user1;
 	private int user2;
+	private int user3;
 	@Column(name = "repair_date")
 	private String repairdate;
 	private int image;
 	@Column(name = "last_modified")
 	private String lastmodified;
+	
+	
+	
+	@ManyToOne(cascade=CascadeType.REFRESH,optional=true)
+	@JoinColumn(name="user1",insertable=false,updatable=false)
+	private Servicer service1;//对应的维保人员对象
+	@ManyToOne(cascade=CascadeType.REFRESH,optional=true)
+	@JoinColumn(name="user2",insertable=false,updatable=false)
+	private Servicer service2;//对应的维保人员对象
+	
+	@ManyToOne(cascade=CascadeType.REFRESH,optional=true)
+	@JoinColumn(name="user3",insertable=false,updatable=false)
+	private Safer safer;//对应的安全人员对象
+	
+	
 	public int getRid() {
 		return rid;
 	}
@@ -63,6 +82,30 @@ public class Repair_maint {
 	}
 	public void setLastmodified(String lastmodified) {
 		this.lastmodified = lastmodified;
+	}
+	public int getUser3() {
+		return user3;
+	}
+	public void setUser3(int user3) {
+		this.user3 = user3;
+	}
+	public Servicer getService1() {
+		return service1;
+	}
+	public void setService1(Servicer service1) {
+		this.service1 = service1;
+	}
+	public Servicer getService2() {
+		return service2;
+	}
+	public void setService2(Servicer service2) {
+		this.service2 = service2;
+	}
+	public Safer getSafer() {
+		return safer;
+	}
+	public void setSafer(Safer safer) {
+		this.safer = safer;
 	}
 	
 }
