@@ -256,6 +256,9 @@ span{
 			
 		$.getJSON("${path}/sit_def/list_json.do","rand="+Math.random(),function(d){
 			$("#id_siteDef").append("<option size='"+15+"' value=''>-请选择</option>");
+			$("#id_siteDef").append("<option size='"+15+"' value='A'>-A类场所</option>");
+			$("#id_siteDef").append("<option size='"+15+"' value='B'>-B类场所</option>");
+			$("#id_siteDef").append("<option size='"+15+"' value='C'>-C类场所</option>");
     	  //对安装场所进行循环
     	  for(var i=0;i<d.length;i++){
     		  $("#id_siteDef").append("<option size='"+15+"' value='"+d[i].idsite+"'>"+d[i].site_name+"</option>");
@@ -427,14 +430,14 @@ span{
 </form>
 <hr style="margin-top: 10px">
 <ul>
-	<li><h3>超期电梯数量统计：${countFor15Years}</h3>
+	<%-- <li><h3>超期电梯数量统计：${countFor15Years}</h3> --%>
 	<li><h3>电梯按类型统计：</h3>
 	<li><table cellpadding="0" cellspacing="1">
 	<tr>
-		<th></th>
-		<th>全部</th>
+		<th width="18%"></th>
+		<th width="15%">全部</th>
 		<c:forEach items="${keylist}" var="key">
-			<th>${key}</th>
+			<th  width="15%">${key}</th>
 		</c:forEach>
 	</tr>
 	<tr>
@@ -443,8 +446,7 @@ span{
 		<a 
 			<c:if test="${countFor!=0 }">
 				style="color:green"
-			</c:if>
-			href="${path }/elevator/listForSearch.do?key=count&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}&gis_type=${gis_type}">
+			href="${path }/elevator/listForSearch.do?key=count&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}&gis_type=${gis_type}"</c:if>>
 			${countFor}
 		</a>
 		</td>
@@ -453,8 +455,8 @@ span{
 			<a 
 			<c:if test="${v.value!=0 }">
 				style="color:green"
-			</c:if>
-			href="${path }/elevator/listForSearch.do?key=countByType&elevator_type=${v.key }&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}&gis_type=${gis_type}">
+			
+			href="${path }/elevator/listForSearch.do?key=countByType&elevator_type=${v.key }&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}&gis_type=${gis_type}"</c:if>>
 			${v.value }
 		</a></td>
 		</c:forEach>
@@ -464,16 +466,14 @@ span{
 		<td><a 
 			<c:if test="${countFor15Years!=0 }">
 				style="color:green"
-			</c:if>
-			href="${path }/elevator/listForSearch.do?key=count15Years&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}&gis_type=${gis_type}">
+			href="${path }/elevator/listForSearch.do?key=count15Years&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}&gis_type=${gis_type}"</c:if>>
 			${countFor15Years}
 		</a></td>
 		<c:forEach items="${oldvalues }" var="v2">
 			<td><a 
 			<c:if test="${v2.value!=0 }">
 				style="color:green"
-			</c:if>
-			href="${path }/elevator/listForSearch.do?key=count15YearsByType&elevator_type=${v2.key }&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}&gis_type=${gis_type}">
+			href="${path }/elevator/listForSearch.do?key=count15YearsByType&elevator_type=${v2.key }&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}&gis_type=${gis_type}"</c:if>>
 			${v2.value }
 		</a></td>
 		</c:forEach>
@@ -491,29 +491,25 @@ span{
 			<td><a 
 			<c:if test="${userCountForCity!=0 }">
 				style="color:green"
-			</c:if>
-			href="${path }/elevator/listForCountUser.do?key=userCountForCity&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">
+			href="${path }/elevator/listForCountUser.do?key=userCountForCity&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}"</c:if>>
 			${userCountForCity }
 		</a></td>
 			<td><a 
 			<c:if test="${serviceCountForCity!=0 }">
 				style="color:green"
-			</c:if>
-			href="${path }/elevator/listForCountService.do?key=serviceCountForCity&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">
+			href="${path }/elevator/listForCountService.do?key=serviceCountForCity&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}"</c:if>>
 			${serviceCountForCity }
 		</a></td>
 			<td><a 
 			<c:if test="${servicerCountForCity!=0 }">
 				style="color:green"
-			</c:if>
-			href="${path }/elevator/listForCountServicer.do?key=servicerCountForCity&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">
+			href="${path }/elevator/listForCountServicer.do?key=servicerCountForCity&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}"</c:if>>
 			${servicerCountForCity }
 		</a></td>
 			<td><a 
 			<c:if test="${saferCountForCity!=0 }">
 				style="color:green"
-			</c:if>
-			href="${path }/elevator/listForCountSafer.do?key=saferCountForCity&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}">
+			href="${path }/elevator/listForCountSafer.do?key=saferCountForCity&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}"</c:if>>
 			${saferCountForCity }
 		</a></td>
 			
