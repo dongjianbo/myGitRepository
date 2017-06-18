@@ -134,7 +134,15 @@ public class ElevatorService {
 			dc.add(Restrictions.eq("id_test", id_test));
 		}
 		if(gis_type!=null&&!"".equals(gis_type)){
-			dc.add(Restrictions.eq("gis_type", gis_type));
+			if("A".equals(gis_type)){
+				dc.add(Restrictions.in("gis_type", new String[]{"0","1","2","3","4","5"}));
+			}else if("B".equals(gis_type)){
+				dc.add(Restrictions.in("gis_type", new String[]{"6","7"}));
+			}else if("C".equals(gis_type)){
+				dc.add(Restrictions.in("gis_type", new String[]{"8"}));
+			}else{
+				dc.add(Restrictions.eq("gis_type", gis_type));
+			}
 		}
 		if(desc!=null&&!"".equals(desc.trim())){
 			if(keyType==1){
@@ -177,7 +185,15 @@ public class ElevatorService {
 			dc.add(Restrictions.eq("id_user", id_user));
 		}
 		if(gis_type!=null&&!"".equals(gis_type)){
-			dc.add(Restrictions.eq("gis_type", gis_type));
+			if("A".equals(gis_type)){
+				dc.add(Restrictions.in("gis_type", new String[]{"0","1","2","3","4","5"}));
+			}else if("B".equals(gis_type)){
+				dc.add(Restrictions.in("gis_type", new String[]{"6","7"}));
+			}else if("C".equals(gis_type)){
+				dc.add(Restrictions.in("gis_type", new String[]{"8"}));
+			}else{
+				dc.add(Restrictions.eq("gis_type", gis_type));
+			}
 		}
 		if(id_test!=0){
 			dc.add(Restrictions.eq("id_test", id_test));
@@ -1784,7 +1800,15 @@ public class ElevatorService {
 			sql+=" and e.id_user="+id_user;
 		}
 		if(gis_type!=null&&!"".equals(gis_type)){
-			sql+=" and e.gis_type="+gis_type;
+			if("A".equals(gis_type)){
+				sql+=" and e.gis_type in ('0','1','2','3','4','5')";
+			}else if("B".equals(gis_type)){
+				sql+=" and e.gis_type in ('6','7')";
+			}else if("C".equals(gis_type)){
+				sql+=" and e.gis_type in ('8')";
+			}else{
+				sql+=" and e.gis_type="+gis_type;
+			}
 		}
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
@@ -1792,7 +1816,7 @@ public class ElevatorService {
 		if(desc!=null&&!"".equals(desc.trim())){
 			sql+=" and e.desc like '%"+desc+"%'";
 		}
-		sql+=" and TIMESTAMPDIFF(YEAR,date_manufer,now())>15";
+		sql+=" and TIMESTAMPDIFF(YEAR,date_enable,now())>15";
 		Object obj=elevatorDao.getObjectBySQL(sql);
 		if(obj!=null){
 			return Integer.parseInt(obj.toString());
@@ -1823,7 +1847,15 @@ public class ElevatorService {
 				sql+=" and e.id_test="+id_test;
 			}
 			if(gis_type!=null&&!"".equals(gis_type)){
-				sql+=" and e.gis_type='"+gis_type+"'";
+				if("A".equals(gis_type)){
+					sql+=" and e.gis_type in ('0','1','2','3','4','5')";
+				}else if("B".equals(gis_type)){
+					sql+=" and e.gis_type in ('6','7')";
+				}else if("C".equals(gis_type)){
+					sql+=" and e.gis_type in ('8')";
+				}else{
+					sql+=" and e.gis_type="+gis_type;
+				}
 			}
 			if(desc!=null&&!"".equals(desc.trim())){
 				if(keyType==1){
@@ -1834,7 +1866,7 @@ public class ElevatorService {
 					sql+=" and m.model_name like '%"+desc+"%'";
 				}
 			}
-			sql+=" and TIMESTAMPDIFF(YEAR,e.date_manufer,now())>15";
+			sql+=" and TIMESTAMPDIFF(YEAR,e.date_enable,now())>15";
 			List<Long> list=elevatorDao.getListBySQL(sql);
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 			dc.add(Restrictions.in("id_elevator", list));
@@ -1871,7 +1903,15 @@ public class ElevatorService {
 			sql+=" and e.id_test="+id_test;
 		}
 		if(gis_type!=null&&!"".equals(gis_type)){
-			sql+=" and e.gis_type="+gis_type;
+			if("A".equals(gis_type)){
+				sql+=" and e.gis_type in ('0','1','2','3','4','5')";
+			}else if("B".equals(gis_type)){
+				sql+=" and e.gis_type in ('6','7')";
+			}else if("C".equals(gis_type)){
+				sql+=" and e.gis_type in ('8')";
+			}else{
+				sql+=" and e.gis_type="+gis_type;
+			}
 		}
 		if(desc!=null&&!"".equals(desc.trim())){
 			sql+=" and e.desc like '%"+desc+"%'";
@@ -1912,7 +1952,15 @@ public class ElevatorService {
 				sql+=" and e.id_test="+id_test;
 			}
 			if(gis_type!=null&&!"".equals(gis_type)){
-				sql+=" and e.gis_type='"+gis_type+"'";
+				if("A".equals(gis_type)){
+					sql+=" and e.gis_type in ('0','1','2','3','4','5')";
+				}else if("B".equals(gis_type)){
+					sql+=" and e.gis_type in ('6','7')";
+				}else if("C".equals(gis_type)){
+					sql+=" and e.gis_type in ('8')";
+				}else{
+					sql+=" and e.gis_type="+gis_type;
+				}
 			}
 			if(desc!=null&&!"".equals(desc.trim())){
 				if(keyType==1){
@@ -1924,7 +1972,7 @@ public class ElevatorService {
 				}
 			}
 			if(year!=0){
-				sql+=" and TIMESTAMPDIFF(YEAR,e.date_manufer,now())>15";
+				sql+=" and TIMESTAMPDIFF(YEAR,e.date_enable,now())>15";
 			}
 			List<Long> list=elevatorDao.getListBySQL(sql);
 			DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
@@ -1955,7 +2003,15 @@ public class ElevatorService {
 			sql+=" and e.id_service="+id_service;
 		}
 		if(gis_type!=null&&!"".equals(gis_type)){
-			sql+=" and e.gis_type="+gis_type;
+			if("A".equals(gis_type)){
+				sql+=" and e.gis_type in ('0','1','2','3','4','5')";
+			}else if("B".equals(gis_type)){
+				sql+=" and e.gis_type in ('6','7')";
+			}else if("C".equals(gis_type)){
+				sql+=" and e.gis_type in ('8')";
+			}else{
+				sql+=" and e.gis_type="+gis_type;
+			}
 		}
 		if(id_user!=0){
 			sql+=" and e.id_user="+id_user;
@@ -1963,13 +2019,10 @@ public class ElevatorService {
 		if(id_test!=0){
 			sql+=" and e.id_test="+id_test;
 		}
-		if(gis_type!=null&&!"".equals(gis_type)){
-			sql+=" and e.gis_type="+gis_type;
-		}
 		if(desc!=null&&!"".equals(desc.trim())){
 			sql+=" and e.desc like '%"+desc+"%'";
 		}
-		sql+=" and TIMESTAMPDIFF(YEAR,date_manufer,now())>15";
+		sql+=" and TIMESTAMPDIFF(YEAR,date_enable,now())>15";
 		sql+=" group by t.name";
 		List list=elevatorDao.getListBySQL(sql);
 		Map<String, Integer> map=new HashMap<String, Integer>();
@@ -1985,6 +2038,13 @@ public class ElevatorService {
 	@SuppressWarnings("unchecked")
 	public List<Elevator> list() {
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
+		return elevatorDao.getListByDc(dc);
+	}
+	//通过idlist查电梯
+	@SuppressWarnings("unchecked")
+	public List<Elevator> getElevatorByIdList(List<Integer> idList) {
+		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
+		dc.add(Restrictions.in("id_elevator", idList));
 		return elevatorDao.getListByDc(dc);
 	}
 	

@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import service.ApproveAckService;
 import service.DeptGroupService;
+import service.ElevatorService;
+import service.OperatorService;
 import service.Repair_queryService;
 import service.ServiceService;
 import service.UserService;
@@ -36,95 +39,145 @@ public class Repair_queryController {
    public UserService userService;
 	@Resource
 	public ServiceService serviceService;
+	@Resource
+	public OperatorService operatorService;
+	@Resource
+	public ElevatorService elevatorService;
    
    
    
    @RequestMapping(value="list",produces="text/html;charset=utf-8")
    @ResponseBody
-   public ModelAndView list(int approve_ark,HttpServletRequest request){
-	ModelAndView mav = new ModelAndView("system/repair_query");
-	//²éÑ¯Î¬ĞŞÉêÇë¼ÇÂ¼
-   	List<Repair_query> list=repair_queryService.list(approve_ark,10, request);
-   	//²éÑ¯ËùÓĞÎ¬ĞŞÉêÇë¼ÇÂ¼
-   	List<Repair_query> listAll=repair_queryService.list(-1,10, request);
-   	mav.addObject("list", list);
-   	int count=listAll.size();
-   	int count_approve=0;
-   	int count_repaired=repair_queryService.listCount(3);
-   	int count_approved=repair_queryService.listCount(1);
-   	for(Repair_query q:listAll){
-   		if(q.getRepairapprove()==null){
-   			count_approve+=1;
-   		}
-   	}
-   	
-    //È«²¿Î¬ĞŞÉêÇëÊıÁ¿
-	mav.addObject("count",count);
-	//´ıÅú¸´Î¬ĞŞÉêÇëÊıÁ¿
-	mav.addObject("count_approve",count_approve);
-	//ÒÑÎ¬ĞŞÎ¬ĞŞÉêÇëÊıÁ¿
-	mav.addObject("count_repaired",count_repaired);
-	//ÒÑÅú¸´Î¬ĞŞÉêÇëÊıÁ¿
-	mav.addObject("count_approved",count_approved);
-	mav.addObject("approve_ark",approve_ark);
-   	
-   	return mav;
-   }
+   public ModelAndView list(String key,int approve_ark,int id_service,int id_user,int id_test,String id_city,String id_district,String id_subdistrict,String desc,HttpServletRequest request){
+	 //æŸ¥æ‰¾å½“å‰ç™»å½•äºº
+	Operator op=(Operator)request.getSession().getAttribute("login");
+	if(!op.getTypeOperator().equals("00")){
+		ModelAndView mav=new ModelAndView("error");
+		mav.addObject("error","å½“å‰ç™»å½•äººéæŠ€æœ¯ç›‘ç£éƒ¨é—¨äººå‘˜!");
+		return mav;
+	}else{
+		op=operatorService.findById(op.getIdoperator());
+		//ç™»å½•äººæ‰€å±åŒºåŸŸ
+		if(key!=null&&key.equals("first")){
+			//ç¬¬ä¸€æ¬¡ç™»å½•ï¼Œæ²¡æœ‰æŸ¥è¯¢ï¼Œæ‰€ä»¥å¾—ä»sessionä¸­å–åœ°å€
+			id_city=op.getIdcity();
+			id_district=op.getIddistrict();
+			id_subdistrict=op.getIdsubdistrict();
+			System.out.println("id_city:"+id_city);
+			System.out.println("id_district:"+id_district);
+			System.out.println("id_subdistrict:"+id_subdistrict);
+		}
+		ModelAndView mav = new ModelAndView("system/repair_query");
+		//ç¬¦åˆæ¡ä»¶çš„ç”µæ¢¯ç¼–å·
+		List<Integer> idList=elevatorService.getElevatorIds(id_city, id_district, id_subdistrict, id_service, id_user, id_test, desc);
+		//æŸ¥è¯¢ç»´ä¿®ç”³è¯·è®°å½•
+		List<Repair_query> list=repair_queryService.list(approve_ark,10, request,idList);
+	   	//æŸ¥è¯¢æ‰€æœ‰ç»´ä¿®ç”³è¯·è®°å½•
+	   	List<Repair_query> listAll=repair_queryService.list(-1,10, request,idList );
+	   	mav.addObject("list", list);
+	   	int count=repair_queryService.listCount(-1,idList);
+	   	int count_approve=0;
+	   	int count_repaired=repair_queryService.listCount(3,idList);
+	   	int count_approved=repair_queryService.listCount(1,idList);
+	   	for(Repair_query q:listAll){
+	   		if(q.getRepairapprove()==null||q.getRepairapprove().getApproveack()==0){
+	   			count_approve+=1;
+	   		}
+	   	}
+	   	
+	    //å…¨éƒ¨ç»´ä¿®ç”³è¯·æ•°é‡
+		mav.addObject("count",count);
+		//å¾…æ‰¹å¤ç»´ä¿®ç”³è¯·æ•°é‡
+		mav.addObject("count_approve",count_approve);
+		//å·²ç»´ä¿®ç»´ä¿®ç”³è¯·æ•°é‡
+		mav.addObject("count_repaired",count_repaired);
+		//å·²æ‰¹å¤ç»´ä¿®ç”³è¯·æ•°é‡
+		mav.addObject("count_approved",count_approved);
+		mav.addObject("approve_ark",approve_ark);
+		mav.addObject("id_city", id_city);
+		mav.addObject("id_district", id_district);
+		mav.addObject("id_subdistrict", id_subdistrict);
+		mav.addObject("desc",desc);
+	   	
+	   	return mav;
+	}
+}
+   /***
+    * 
+    * è¯¦ç»†ä¿¡æ¯
+    * @param repair_query
+    * @return
+    */
    @RequestMapping(value="detail",produces="text/html;charset=utf-8")
 	@ResponseBody
 	public String detail(Repair_query repair_query){
 	   repair_query=repair_queryService.findById(repair_query.getRid());
+	   Operator operator=new Operator();
+		if (repair_query.getRepairapprove() != null) {
+			operator = operatorService.selectById(repair_query.getRepairapprove().getApprover());
+			repair_query.getRepairapprove().setApprover_name(operator.getName());
+		}
 	   JSONObject object=JSONObject.fromObject(repair_query);
 	   return object.toString();
 	}
+   
+   @RequestMapping(value="listImageById",produces="text/html;charset=utf-8")
+	@ResponseBody
+	public String listImageById(int rid){
+	   List<Operator> obj=operatorService.getImageList(rid);
+		JSONArray array=JSONArray.fromObject(obj);
+		return array.toString();
+	}
+   
+   
    @RequestMapping(value="list1",produces="text/html;charset=utf-8")
    @ResponseBody
    public ModelAndView list1(int approve_ark,HttpServletRequest request,int iduser){
 	Operator op=(Operator)request.getSession().getAttribute("login");
 	if(!op.getTypeOperator().equals("20")&&!op.getTypeOperator().equals("21")&&!op.getTypeOperator().equals("40")){
 		ModelAndView mav=new ModelAndView("error");
-		mav.addObject("error","µ±Ç°µÇÂ¼ÈË·ÇÊ¹ÓÃµ¥Î»ÈËÔ±!");
+		mav.addObject("error","å½“å‰ç™»å½•äººéä½¿ç”¨å•ä½äººå‘˜!");
 		return mav;
 	}else{
 		ModelAndView mav = new ModelAndView("system/repair_query1");
-		//µÇÂ¼ÈËÊ¹ÓÃµ¥Î»
+		//ç™»å½•äººä½¿ç”¨å•ä½
 		int id_user=op.getIdOrganization();
 		ArrayList<User> users=null;
 		ArrayList<Integer> ids=null;
 		if(op.getTypeOperator().equals("40")){
-			//Èç¹ûÊÇ¼¯ÍÅµ¥Î»³ÉÔ±£¬²éÑ¯³ö¸Ã¼¯ÍÅÏÂÊôµ¥Î»±àºÅ
+			//å¦‚æœæ˜¯é›†å›¢å•ä½æˆå‘˜ï¼ŒæŸ¥è¯¢å‡ºè¯¥é›†å›¢ä¸‹å±å•ä½ç¼–å·
 			ids=deptgroupService.getUserIds(id_user);
-			//Èç¹ûÊÇ¼¯ÍÅµ¥Î»³ÉÔ±£¬²éÑ¯³ö¸Ã¼¯ÍÅÏÂÊôµ¥Î»
+			//å¦‚æœæ˜¯é›†å›¢å•ä½æˆå‘˜ï¼ŒæŸ¥è¯¢å‡ºè¯¥é›†å›¢ä¸‹å±å•ä½
 			users=deptgroupService.getUsers(id_user);
 		}
-		//Ò³ÃæÑ¡ÔñÏÂÊôµ¥Î»
+		//é¡µé¢é€‰æ‹©ä¸‹å±å•ä½
 		if(iduser!=0){
 			id_user=iduser;
 			ids=null;
 		}
 		List<Integer> idList=userService.idList(id_user, ids);
-		//²éÑ¯Î¬ĞŞÉêÇë¼ÇÂ¼
+		//æŸ¥è¯¢ç»´ä¿®ç”³è¯·è®°å½•
 	   	List<Repair_query> list=repair_queryService.list(approve_ark,10, request,idList);
-	   	//²éÑ¯ËùÓĞÎ¬ĞŞÉêÇë¼ÇÂ¼
+	   	//æŸ¥è¯¢æ‰€æœ‰ç»´ä¿®ç”³è¯·è®°å½•
 	   	List<Repair_query> listAll=repair_queryService.list(-1,10, request,idList);
 	   	mav.addObject("list", list);
-	   	int count=listAll.size();
+		int count=repair_queryService.listCount(-1,idList);
 	   	int count_approve=0;
 	   	int count_repaired=repair_queryService.listCount(3,idList);
 	   	int count_approved=repair_queryService.listCount(1,idList);
 	   	for(Repair_query q:listAll){
-	   		if(q.getRepairapprove()==null){
+	   		if(q.getRepairapprove()==null||q.getRepairapprove().getApproveack()==0){
 	   			count_approve+=1;
 	   		}
 	   	}
 	   	
-	    //È«²¿Î¬ĞŞÉêÇëÊıÁ¿
+	    //å…¨éƒ¨ç»´ä¿®ç”³è¯·æ•°é‡
 		mav.addObject("count",count);
-		//´ıÅú¸´Î¬ĞŞÉêÇëÊıÁ¿
+		//å¾…æ‰¹å¤ç»´ä¿®ç”³è¯·æ•°é‡
 		mav.addObject("count_approve",count_approve);
-		//ÒÑÎ¬ĞŞÎ¬ĞŞÉêÇëÊıÁ¿
+		//å·²ç»´ä¿®ç»´ä¿®ç”³è¯·æ•°é‡
 		mav.addObject("count_repaired",count_repaired);
-		//ÒÑÅú¸´Î¬ĞŞÉêÇëÊıÁ¿
+		//å·²æ‰¹å¤ç»´ä¿®ç”³è¯·æ•°é‡
 		mav.addObject("count_approved",count_approved);
 		mav.addObject("approve_ark",approve_ark);
 		mav.addObject("iduser",iduser);
@@ -138,37 +191,37 @@ public class Repair_queryController {
 	   Operator op=(Operator)request.getSession().getAttribute("login");
 		if(!op.getTypeOperator().equals("10")&&!op.getTypeOperator().equals("11")){
 			ModelAndView mav=new ModelAndView("error");
-			mav.addObject("error","µ±Ç°µÇÂ¼ÈË·ÇÎ¬±£µ¥Î»ÈËÔ±!");
+			mav.addObject("error","å½“å‰ç™»å½•äººéç»´ä¿å•ä½äººå‘˜!");
 			return mav;
 		}else{
 		ModelAndView mav = new ModelAndView("system/repair_query1");
-		//µÇÂ¼ÈËÎ¬±£µ¥Î»
+		//ç™»å½•äººç»´ä¿å•ä½
 		int id_service=op.getIdOrganization();
 		Service1 service=serviceService.findById(id_service);
-		//µ±Ç°Î¬±£¶ÔÓ¦ËùÓĞµçÌİ
+		//å½“å‰ç»´ä¿å¯¹åº”æ‰€æœ‰ç”µæ¢¯
 		List<Integer> idList=serviceService.idList(id_service);
-		//¸ù¾İÀàĞÍ²éÑ¯Î¬ĞŞÉêÇë¼ÇÂ¼
+		//æ ¹æ®ç±»å‹æŸ¥è¯¢ç»´ä¿®ç”³è¯·è®°å½•
 	   	List<Repair_query> list=repair_queryService.list(approve_ark,10, request,idList);
-	   	//²éÑ¯ËùÓĞÎ¬ĞŞÉêÇë¼ÇÂ¼
+	   	//æŸ¥è¯¢æ‰€æœ‰ç»´ä¿®ç”³è¯·è®°å½•
 	   	List<Repair_query> listAll=repair_queryService.list(-1,10, request,idList);
 	   	mav.addObject("list", list);
-	   	int count=listAll.size();
+	   	int count=repair_queryService.listCount(-1,idList);
 	   	int count_approve=0;
 	   	int count_repaired=repair_queryService.listCount(3,idList);
 	   	int count_approved=repair_queryService.listCount(1,idList);
 	   	for(Repair_query q:listAll){
-	   		if(q.getRepairapprove()==null){
+	   		if(q.getRepairapprove()==null||q.getRepairapprove().getApproveack()==0){
 	   			count_approve+=1;
 	   		}
 	   	}
 	   	
-	    //È«²¿Î¬ĞŞÉêÇëÊıÁ¿
+	    //å…¨éƒ¨ç»´ä¿®ç”³è¯·æ•°é‡
 		mav.addObject("count",count);
-		//´ıÅú¸´Î¬ĞŞÉêÇëÊıÁ¿
+		//å¾…æ‰¹å¤ç»´ä¿®ç”³è¯·æ•°é‡
 		mav.addObject("count_approve",count_approve);
-		//ÒÑÎ¬ĞŞÎ¬ĞŞÉêÇëÊıÁ¿
+		//å·²ç»´ä¿®ç»´ä¿®ç”³è¯·æ•°é‡
 		mav.addObject("count_repaired",count_repaired);
-		//ÒÑÅú¸´Î¬ĞŞÉêÇëÊıÁ¿
+		//å·²æ‰¹å¤ç»´ä¿®ç”³è¯·æ•°é‡
 		mav.addObject("count_approved",count_approved);
 		mav.addObject("approve_ark",approve_ark);
 		mav.addObject("listUrl","list2");

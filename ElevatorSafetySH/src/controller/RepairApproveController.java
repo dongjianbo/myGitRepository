@@ -28,7 +28,6 @@ public class RepairApproveController {
 			SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
 			String s=format.format(date);
 			repair_approve.setApprove_date(s);
-			repair_approve.setApproveack(1);
 			Operator op=(Operator)request.getSession().getAttribute("login");
 			repair_approve.setApprover(op.getIdoperator());
 			repairApproveService.insert(repair_approve);

@@ -25,7 +25,8 @@
 				   <li><input type="text" value="${eById.constucter }" readonly="readonly" size="30" />
 				   <li>土建施工开始时间:
 				   <li><input type="text" value="${eById.startdate_construct }" readonly="readonly" size="30" />
-		            
+		           <li> 申报时间:
+					<li><input type="text" value="${eById.date_declare }" readonly="readonly" size="30" />
 					</ul>
 					
 		        </td>
@@ -47,8 +48,10 @@
 					<li><input type="text" value=" ${eById.user.name }" readonly="readonly" size="30" />
                     <li>电梯所在位置::
 					<li><input type="text" value="${eById.address }" readonly="readonly" size="30" />
-					<li> 申报时间:
-					<li><input type="text" value="${eById.date_declare }" readonly="readonly" size="30" />
+					<li>电梯安装场所:
+					<li><input type="text" value="${eById.siteDef.site_name }" readonly="readonly" size="30" />
+					<li>电梯简称:
+					<li><input type="text" value=" ${eById.desc }" readonly="readonly" size="30" />
 					 
                  </ul>
 		     </td>
@@ -70,8 +73,6 @@
 					<li><input type="text" value="${eById.model.modelname }" readonly="readonly" size="30" />
 					<li>注册状态 :
 					<li><input type="text" value="${eById.regist_status.name }" readonly="readonly" size="30" />
-					<li>电梯简称:
-					<li><input type="text" value=" ${eById.desc }" readonly="readonly" size="30" />
 		        </ul>
 		      </td>
 		      <td style="text-align: left;">

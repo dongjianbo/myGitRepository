@@ -23,6 +23,21 @@
 	<script src="${path}/jquery/ui/i18n/jquery.ui.datepicker-zh-CN.js"></script>
 	<script type="text/javascript">
 	$().ready(function(){
+		$("#mapDialog").dialog({
+			modal:true,
+			autoOpen:false,
+			width:800,
+			height:640,
+		    href: 'testBMap2.jsp',
+			buttons:{
+				"确定":function(){
+					$(this).dialog("close");
+				}
+			}, 
+			close:function(){
+				$(this).dialog("close");
+			}
+		});
 		$("#date_declare").datepicker({dateFormat:'yy-mm-dd'});//日期控件
 		$("#date_enable").datepicker({dateFormat:'yy-mm-dd'});//日期控件
 		$("#date_manufer").datepicker({dateFormat:'yy-mm-dd'});//日期控件
@@ -142,6 +157,9 @@
 						}
 					})
 					$("#desc").val(e.desc);
+					$("#gis").val(e.gis_x+","+e.gis_y);
+					$("#gis_x").val(e.gis_x);
+					$("#gis_y").val(e.gis_y);
 				});
 			}
 		});
@@ -196,6 +214,10 @@
 			}
 			$("#myform1").submit();
 		});
+		$("#gis").click(function(){
+			document.getElementById("prodcutDetailSrc").src="${path }/elevator/map2.do";
+			$("#mapDialog").dialog("open");
+		});
 	});
 	</script>
 	</head>
@@ -212,136 +234,143 @@
  		
  	</ul>
  	<hr>
- 	<form id="myform1" action="${path }/elevator/update.do" method="post">
- 	<input type="hidden" id="id_elevator" name="id_elevator"/>
-	<table width="100%" height="100%" id="table" cellspacing="0">	
-		        <tr>
-		           <td style="text-align: left;vertical-align: top;">
-		           <ul>
-		           <li>登记机构:
-		           <li><input type="text" id="register_org" name="register_org" size="50"/>
-		           <li>特种设备登记代码:
-		           <li><input type="text" id="register_code" name="register_code" size="50" />
-		           <li>特种设备代码:
-		           <li><input type="text" id="device_code" name="device_code"  size="50" />
-			       <li>设计单位名称:
-			       <li><select id="id_designer" name="id_designer">
-			       	<option value="-1">请选择</option>
-			       	<c:forEach items="${designerList }" var="v">
-			       		<option value="${v[0]}">${v[1] }</option>
-			       	</c:forEach>
-			       </select>
-		           <li>生产单位名称:
-		           <li><select id="id_manufer" name="id_manufer">
-			       	<option value="-1">请选择</option>
-			       	<c:forEach items="${manuferList }" var="v">
-			       		<option value="${v.idmanufer}">${v.name}</option>
-			       	</c:forEach>
-			       </select>
-		           <li>生产日期:
-		           <li><input type="text" id="date_manufer" name="date_manufer" readonly="readonly" size="30" />
-		           <li>出厂编号:
-		           <li><input type="text" id="code_manufer" name="code_manufer" size="30" />
-		           <li>土建施工单位:<li>
-				   <li><input type="text" id="constucter" name="constucter" size="50" />
-				   <li>土建施工开始时间:
-				   <li><input type="text" id="startdate_construct" name="startdate_construct" readonly="readonly" size="30" />
-		           <li>电梯安装场所类型:
-		           <li><select id="id_siteDef" name="gis_type">
-			       	<option value="">请选择</option>
-			       	<c:forEach items="${siteDefList }" var="v">
-			       		<option value="${v.idsite}">${v.site_name}</option>
-			       	</c:forEach>
-			       </select>
-					</ul>
-					
-		        </td>
-		        <td style="text-align: left;vertical-align: top;">
-		           <ul>
-		            <li>土建施工竣工时间:
-					<li><input type="text" id="enddate_construct" name="enddate_construct" readonly="readonly" size="30" />
-		            <li> 土建验收单位名称:
-					<li><input type="text" id="accepter_construct" name="accepter_construct"  size="50" />
-					<li> 验收检验机构:
-					<li><input type="text" id="check_construct" name="check_construct"  size="50" />
-					<li> 验收报告编号:
-					<li><input type="text" id="check_construct_code" name="check_construct_code" size="30" />
-					<li> 安装单位名称:
-					<li><select id="id_installer" name="id_installer">
-			       	<option value="-1">请选择</option>
-			       	<c:forEach items="${installerList }" var="v">
-			       		<option value="${v[0]}">${v[1]}</option>
-			       	</c:forEach>
-			       </select>
-					<li> 产权单位名称:
-					<li><select id="id_owner" name="id_owner">
-			       	<option value="-1">请选择</option>
-			       	<c:forEach items="${ownerList }" var="v">
-			       		<option value="${v[0]}">${v[1]}</option>
-			       	</c:forEach>
-			       </select>
-					<li> 使用单位名称:
-					<li><select id="id_user" name="id_user">
-			       	<option value="-1">请选择</option>
-			       	<c:forEach items="${userList }" var="v">
-			       		<option value="${v.iduser}">${v.name}</option>
-			       	</c:forEach>
-			       </select>
-                    <li>电梯所在位置:
-					<li><input type="text" id="address" name="address" size="50" />
-					<li> 申报时间:
-					<li><input type="text" id="date_declare" name="date_declare" readonly="readonly" size="30" />
-					 
-                 </ul>
-		     </td>
-		     <td style="text-align: left;vertical-align: top;">
-		         <ul>
-		            <li>注册时间:
-					<li><input type="text" id="date_register" name="date_register" readonly="readonly" size="30" />
-					<li>开始使用时间:
-					<li><input type="text" id="date_enable" name="date_enable" readonly="readonly" size="30" />
-					<li>安装项目责任人:
-					<li><input type="text" id="project_duty" name="project_duty" size="50" />
-					<li>维保单位名称:
-					<li><select id="id_service" name="id_service">
-			       	<option value="-1">请选择</option>
-			       	<c:forEach items="${serviceList }" var="v">
-			       		<option value="${v.idservice}">${v.name}</option>
-			       	</c:forEach>
-			       </select>
-					<li>检验检测单位名称:
-					<li><select name="id_test" id="id_test">
-			       	<option value="-1">请选择</option>
-			       	<c:forEach items="${testList }" var="v">
-			       		<option value="${v.idtest}">${v.name}</option>
-			       	</c:forEach>
-			       </select>
-					<li>电梯层数:
-					<li><input type="text" id="num_floor_elevator" name="num_floor_elevator" size="30" />
-					<li>电梯型号:
-					<li><select id="id_elevator_model" name="id_elevator_model">
-			       	<option value="-1">请选择</option>
-			       	<c:forEach items="${modelList }" var="v">
-			       		<option value="${v.idmodel}">${v.modelname}</option>
-			       	</c:forEach>
-			       </select>
-					<li>注册状态 :
-					<li><select id="register_status" name="register_status">
-			       	<option value="-1">请选择</option>
-			       	<c:forEach items="${regList }" var="v">
-			       		<option value="${v.id_register_status}">${v.name}</option>
-			       	</c:forEach>
-			       </select>
-					<li>电梯简称:
-					<li><input type="text" id="desc" name="desc"  size="50" />
-					<li>&nbsp;
-		      		<li><input type="button" id="form_sub" style="margin-left: 200px;width: 100px;" value="提交修改内容"/>
-		        </ul>
-		      </td>
-		      
-      </tr>
-     
-      </table>
-      </form>
-	</body>
-	</html>
+<form id="myform1" action="${path }/elevator/update.do" method="post">
+<input type="hidden" id="id_elevator" name="id_elevator"/>
+<table width="100%" height="100%" id="table" cellspacing="0">	
+        <tr>
+           <td style="text-align: left;vertical-align: top;">
+           <ul>
+           <li>登记机构:
+           <li><input type="text" id="register_org" name="register_org" size="50"/>
+           <li>特种设备登记代码:
+           <li><input type="text" id="register_code" name="register_code" size="50" />
+           <li>特种设备代码:
+           <li><input type="text" id="device_code" name="device_code"  size="50" />
+	       <li>设计单位名称:
+	       <li><select id="id_designer" name="id_designer">
+	       	<option value="-1">请选择</option>
+	       	<c:forEach items="${designerList }" var="v">
+	       		<option value="${v[0]}">${v[1] }</option>
+	       	</c:forEach>
+	       </select>
+           <li>生产单位名称:
+           <li><select id="id_manufer" name="id_manufer">
+	       	<option value="-1">请选择</option>
+	       	<c:forEach items="${manuferList }" var="v">
+	       		<option value="${v.idmanufer}">${v.name}</option>
+	       	</c:forEach>
+	       </select>
+           <li>生产日期:
+           <li><input type="text" id="date_manufer" name="date_manufer" readonly="readonly" size="30" />
+           <li>出厂编号:
+           <li><input type="text" id="code_manufer" name="code_manufer" size="30" />
+           <li>土建施工单位:<li>
+		   <li><input type="text" id="constucter" name="constucter" size="50" />
+		   <li>土建施工开始时间:
+		   <li><input type="text" id="startdate_construct" name="startdate_construct" readonly="readonly" size="30" />
+           <li>电梯安装场所类型:
+           <li><select id="id_siteDef" name="gis_type">
+	       	<option value="">请选择</option>
+	       	<c:forEach items="${siteDefList }" var="v">
+	       		<option value="${v.idsite}">${v.site_name}</option>
+	       	</c:forEach>
+	       </select>
+			</ul>
+			
+        </td>
+        <td style="text-align: left;vertical-align: top;">
+           <ul>
+            <li>土建施工竣工时间:
+			<li><input type="text" id="enddate_construct" name="enddate_construct" readonly="readonly" size="30" />
+            <li> 土建验收单位名称:
+			<li><input type="text" id="accepter_construct" name="accepter_construct"  size="50" />
+			<li> 验收检验机构:
+			<li><input type="text" id="check_construct" name="check_construct"  size="50" />
+			<li> 验收报告编号:
+			<li><input type="text" id="check_construct_code" name="check_construct_code" size="30" />
+			<li> 安装单位名称:
+			<li><select id="id_installer" name="id_installer">
+	       	<option value="-1">请选择</option>
+	       	<c:forEach items="${installerList }" var="v">
+	       		<option value="${v[0]}">${v[1]}</option>
+	       	</c:forEach>
+	       </select>
+			<li> 产权单位名称:
+			<li><select id="id_owner" name="id_owner">
+	       	<option value="-1">请选择</option>
+	       	<c:forEach items="${ownerList }" var="v">
+	       		<option value="${v[0]}">${v[1]}</option>
+	       	</c:forEach>
+	       </select>
+			<li> 使用单位名称:
+			<li><select id="id_user" name="id_user">
+	       	<option value="-1">请选择</option>
+	       	<c:forEach items="${userList }" var="v">
+	       		<option value="${v.iduser}">${v.name}</option>
+	       	</c:forEach>
+	       </select>
+            <li>电梯所在位置:
+			<li><input type="text" id="address" name="address" size="50" />
+			<li>电梯坐标:
+			<li><input type="text" id="gis" name="gis" size="50" />
+			<input type="hidden" id="gis_x" name="gis_x" size="50" />
+			<input type="hidden" id="gis_y" name="gis_y" size="50" />
+			<li> 申报时间:
+			<li><input type="text" id="date_declare" name="date_declare" readonly="readonly" size="30" />
+			 
+               </ul>
+     </td>
+     <td style="text-align: left;vertical-align: top;">
+         <ul>
+            <li>注册时间:
+			<li><input type="text" id="date_register" name="date_register" readonly="readonly" size="30" />
+			<li>开始使用时间:
+			<li><input type="text" id="date_enable" name="date_enable" readonly="readonly" size="30" />
+			<li>安装项目责任人:
+			<li><input type="text" id="project_duty" name="project_duty" size="50" />
+			<li>维保单位名称:
+			<li><select id="id_service" name="id_service">
+	       	<option value="-1">请选择</option>
+	       	<c:forEach items="${serviceList }" var="v">
+	       		<option value="${v.idservice}">${v.name}</option>
+	       	</c:forEach>
+	       </select>
+			<li>检验检测单位名称:
+			<li><select name="id_test" id="id_test">
+	       	<option value="-1">请选择</option>
+	       	<c:forEach items="${testList }" var="v">
+	       		<option value="${v.idtest}">${v.name}</option>
+	       	</c:forEach>
+	       </select>
+			<li>电梯层数:
+			<li><input type="text" id="num_floor_elevator" name="num_floor_elevator" size="30" />
+			<li>电梯型号:
+			<li><select id="id_elevator_model" name="id_elevator_model">
+	       	<option value="-1">请选择</option>
+	       	<c:forEach items="${modelList }" var="v">
+	       		<option value="${v.idmodel}">${v.modelname}</option>
+	       	</c:forEach>
+	       </select>
+			<li>注册状态 :
+			<li><select id="register_status" name="register_status">
+	       	<option value="-1">请选择</option>
+	       	<c:forEach items="${regList }" var="v">
+	       		<option value="${v.id_register_status}">${v.name}</option>
+	       	</c:forEach>
+	       </select>
+			<li>电梯简称:
+			<li><input type="text" id="desc" name="desc"  size="50" />
+			<li>&nbsp;
+      		<li><input type="button" id="form_sub" style="margin-left: 200px;width: 100px;" value="提交修改内容"/>
+        </ul>
+      </td>
+    </tr>
+</table>
+</form>
+<div id="mapDialog" style="display: none" title="map">
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" 
+		id="prodcutDetailSrc"  scrolling="no"  width="100%" height="100%" ></iframe>
+		<!-- <div align="center" style="width:600px;height:400px;border:0px solid gray" id="container"></div> -->
+</div>
+</body>
+</html>

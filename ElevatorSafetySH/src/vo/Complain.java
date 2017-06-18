@@ -37,7 +37,7 @@ public class Complain {
 	   private ComplianLevel complainLevel;//对应的投诉等级
 	   @ManyToOne(cascade=CascadeType.REFRESH,optional=true)
 	   @JoinColumn(name="source",insertable=false,updatable=false)
-	   private ComplianSource complainSource;//对应的投诉来源
+	   private ComplianSource complianSource;//对应的投诉来源
 	   @ManyToOne(cascade=CascadeType.REFRESH,optional=true)
 	   @JoinColumn(name="status",insertable=false,updatable=false)
 	   private DealStatus dealStatus;//对应的处理状态
@@ -134,11 +134,12 @@ public class Complain {
 	public void setComplainLevel(ComplianLevel complainLevel) {
 		this.complainLevel = complainLevel;
 	}
-	public ComplianSource getComplainSource() {
-		return complainSource;
+	
+	public ComplianSource getComplianSource() {
+		return complianSource;
 	}
-	public void setComplainSource(ComplianSource complainSource) {
-		this.complainSource = complainSource;
+	public void setComplianSource(ComplianSource complianSource) {
+		this.complianSource = complianSource;
 	}
 	public DealStatus getDealStatus() {
 		return dealStatus;

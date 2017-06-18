@@ -36,16 +36,36 @@
 					$(this).dialog("close");
 				}
 			});
+			$("#reDetail2").dialog({
+				modal:true,
+				autoOpen:false,
+				width:1050,
+				height:600,
+				buttons:{
+					"确定":function(){
+						$(this).dialog("close");
+					}
+				},
+				close:function(){
+					$(this).dialog("close");
+				}
+			});
 		});
-		function toDetail(rid,note,image,image2){
+		function toDetail(rid,note,image,image2,type){
+			var title='';
+			if(type==1){
+				title='救援演习';
+			}else{
+				title='应急维修';
+			}
 			$.getJSON("http://longwan.shifting.com.cn/pda_api.php?name=re_info&rid="+rid,"",function(v){
 				if(v[0].error=="OK"){
 					var h="<ul>";
-					h+="<li>备注：<div style='width:950px;display:block;word-break: break-all;word-wrap: break-word;'>"+note+"<div></li>";
+					h+="<li>"+title+"描述：<div style='width:950px;display:block;word-break: break-all;word-wrap: break-word;'>"+note+"<div></li>";
 					h+="<hr>";
-					h+="<li>图像个数："+image+"</li>";
+					h+="<li>"+title+"照片："+image+"</li>";
 					h+="<hr>";
-					h+="<li>已上传图像个数："+image+"</li>";
+					/* h+="<li>已上传图像个数："+image+"</li>"; */
 					if(v[0].tag.length>0){
 						h+="<li>";
 					}
@@ -53,9 +73,14 @@
 						h+="<img alt='图片不存在！' width=200 height=200 src='http://longwan.shifting.com.cn/pda_api.php?name=re_info&rid="+rid+"&image="+v[0].tag[i]+"&zoom=8'/>";
 					};	
 					h+="</ul>";
+					if(type==1){
+						$("#reDetail").html(h);
+						$("#reDetail").dialog("open");
+					}else{
+						$("#reDetail2").html(h);
+						$("#reDetail2").dialog("open");
+					}
 					
-					$("#reDetail").html(h);
-					$("#reDetail").dialog("open");
 				}
 			});
 			
@@ -104,7 +129,7 @@
 				<td>${re.arrived }</td>
 				<td>${re.work_begin }</td>
 				<td>${re.work_end }</td>
-				<td><a href="javascript:toDetail(${re.rid},'${re.note}',${re.image},${re.image2})">详细信息</a></td>
+				<td><a href="javascript:toDetail(${re.rid},'${re.note}',${re.image},${re.image2},${re.type})">详细信息</a></td>
 				
 			</tr>
 		</c:forEach>
@@ -119,6 +144,7 @@
 	<div align="right">
 		<button onclick="history.back();">返回上一页</button>
 	</div>
-	<div title="急修演习详细内容" id="reDetail"></div>
+	<div title="救援演习详细内容" id="reDetail"></div>
+	<div title="应急维修详细内容" id="reDetail2"></div>
 </body>
 </html>

@@ -69,7 +69,7 @@ public class ComplainController {
 			//符合条件的电梯编号
 			List<Integer> idList=elevatorService.getElevatorIds(id_city, id_district, id_subdistrict, id_service, id_user, id_test, desc);
 			//查询所有投诉信息
-			List<Complain> list=complainService.selectList(id_service, id_user,source,type_object, idList, 10, request);
+			List<Complain> list=complainService.selectList(  id_service, id_user,source,type_object, idList, 10, request);
 			mav.addObject("list", list);
 			mav.addObject("id_city", id_city);
 			mav.addObject("id_district", id_district);

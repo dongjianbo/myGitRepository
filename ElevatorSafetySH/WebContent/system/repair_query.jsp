@@ -39,27 +39,39 @@ $().ready(function(){
 	$("#updateDialog").dialog({
 		modal:true,
 		autoOpen:false,
-		width:500,
-		height:400,
+		width:400,
+		height:300,
 		buttons:{
 			"确定":function(){
 				var form = $("#updateForm");
 				//=================检查表单中的字段是否为空 ===================================
 				//判断文本框中的值是否为空
 			var note=$("#note").val();
+			var bool="";
 			if(note==null||note==""){
-				$("#name2").html("<i>批复信息不能为空 !!!</i>");
+				alert("请填写批复信息！");
+				return;
 			}else{
-				$("#name2").html("");
-					
-				//提交表单 
-				$.post(form.attr('action'),form.serialize(),function(a){
-					if(a=="ok"){
-						location.reload();
-					}else{
-						alert("程序有点问题哟！");
-					}
-				});
+				var radio = document.getElementsByName("radio");  
+			    for (i=0; i<radio.length; i++) {  
+			        if (radio[i].checked) {  
+			        	bool=true;
+			        }  
+			    }  
+			    if(bool=""){
+					alert("请选择是否同意！");
+					return;
+				}
+				if(bool){
+					//提交表单 
+					$.post(form.attr('action'),form.serialize(),function(a){
+						if(a=="ok"){
+							location.reload();
+						}else{
+							alert("程序有点问题哟！");
+						}
+					});
+				}
 					
 		   }
 	  },
@@ -80,11 +92,14 @@ $().ready(function(){
 		buttons:{
 			"确定":function(){
 				var form = $("#updateForm");
-			
-					
-				
-					
-		   
+				//提交表单 
+				$.post(form.attr('action'),form.serialize(),function(a){
+					if(a=="ok"){
+						location.reload();
+					}else{
+						alert("程序有点问题哟！");
+					}
+				});
 	  },
 			"关闭":function(){
 				$(this).dialog("close");
@@ -94,9 +109,184 @@ $().ready(function(){
 			$(this).dialog("close");
 		}
 	});
-	
-	
-	
+	//获取当前登录人的所在城市
+	var id_city=$("#idcity").val();
+	//如果是省直,则显示所有的城市
+	if(id_city=="00"){
+		$.getJSON("${path }/citylist/list.do","rand="+Math.random(),function(d){
+			$("#idcity1").append("<option size='"+50+"' value=''>-请选择</option>");
+			//将查询到的信息放入表单
+			for(var i=0;i<d.length;i++){
+				if(d[i].id_city!="99"&&d[i].id_city!="00"){
+				  $("#idcity1").append("<option size='"+50+"' value='"+d[i].id_city+"'>"+d[i].name_city+"</option>");
+				}
+			}
+			//如果是提交过一次
+			if("${param.id_city==null}"=="false"){
+				$("#idcity1 option").each(function(){
+					if($(this).val()=="${param.id_city}"){
+						$(this).attr("selected",true);
+						return;
+					}
+				});
+				var id_city="${param.id_city}";
+					if(id_city==""){
+						$("#iddistrict1").append("<option size='"+50+"' value=''>-请选择</option>");
+						$("#idsubdistrict1").append("<option size='"+50+"' value=''>-请选择</option>");
+						return;
+					}
+					//把数据放入下拉框
+					$.getJSON("${path }/distictlist/listByIdCity.do?id_city="+id_city,"rand="+Math.random(),function(s){
+						document.getElementById("iddistrict1").innerHTML="";
+						$("#iddistrict1").append("<option size='"+50+"' value=''>-请选择</option>");
+						for(var i=0;i<s.length;i++){
+							if(s[i].id_district=="00"){
+								continue;
+							}
+							 $("#iddistrict1").append("<option size='"+50+"' value='"+s[i].id_district+"'>"+s[i].name_district+"</option>");
+						}
+						$("#iddistrict1 option").each(function(){
+							if($(this).val()=="${param.id_district}"){
+								$(this).attr("selected",true);
+								return;
+							}
+						});
+						var id_district="${param.id_district}";
+						if(id_district==""){
+							$("#idsubdistrict1").append("<option size='"+50+"' value=''>-请选择</option>");
+							return;
+						}
+						$.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+id_district,"rand="+Math.random(),function(a){
+	 					
+							document.getElementById("idsubdistrict1").innerHTML="";
+							$("#idsubdistrict1").append("<option size='"+50+"' value=''>-请选择</option>");
+		 					 for(var i=0;i<a.length;i++){
+		 			    		$("#idsubdistrict1").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
+		 			    	}
+		 					$("#idsubdistrict1 option").each(function(){
+		 	 					if($(this).val()=="${param.id_subdistrict}"){
+		 	 						$(this).attr("selected",true);
+		 	 					}
+		 	 				});
+		 				});
+					
+					});
+				
+			}else{
+				$("#iddistrict1").append("<option size='"+50+"' value=''>-请选择</option>");
+				$("#idsubdistrict1").append("<option size='"+50+"' value=''>-请选择</option>");
+			}
+			
+// 				$("#iddistrict1").attr("disabled",true);
+// 				$("#idsubdistrict1").attr("disabled",true);
+		});
+	}else{
+		$("#idcity1").append("<option size='"+50+"' value='${login.idcity}'>${login.city.name_city}</option>");
+		var id_district=$("#iddistrict").val();
+		//如果是市直
+		if(id_district=="00"){
+			//把数据放入下拉框
+			$.getJSON("${path }/distictlist/listByIdCity.do?id_city="+id_city,"rand="+Math.random(),function(s){
+				document.getElementById("iddistrict1").innerHTML="";
+				$("#iddistrict1").append("<option size='"+50+"' value=''>-请选择</option>");
+				for(var i=0;i<s.length;i++){
+					if(s[i].id_district=="00"){
+						continue;
+					}
+					 $("#iddistrict1").append("<option size='"+50+"' value='"+s[i].id_district+"'>"+s[i].name_district+"</option>");
+				}
+				//如果提交过一次
+				if("${param.id_district==null}"=="false"){
+					$("#iddistrict1 option").each(function(){
+							if($(this).val()=="${param.id_district}"){
+								$(this).attr("selected",true);
+								return;
+							}
+						});
+					var id_district="${param.id_district}";
+					$.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+id_district,"rand="+Math.random(),function(a){
+	 					
+							document.getElementById("idsubdistrict1").innerHTML="";
+							$("#idsubdistrict1").append("<option size='"+50+"' value=''>-请选择</option>");
+		 					 for(var i=0;i<a.length;i++){
+		 			    		$("#idsubdistrict1").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
+		 			    	}
+		 					$("#idsubdistrict1 option").each(function(){
+		 	 					if($(this).val()=="${param.id_subdistrict}"){
+		 	 						$(this).attr("selected",true);
+		 	 					}
+		 	 				});
+		 				});
+					
+				}
+				$("#idsubdistrict1 option").remove();
+				$("#idsubdistrict1").append("<option size='"+50+"' value=''>-请选择</option>");
+// 					$("#idsubdistrict1").attr("disabled",true);
+					
+			});
+		}else{
+			$("#iddistrict1").append("<option size='"+50+"' value='"+id_district+"'>${login.distict.name_district}</option>");
+			var id_subdistrict=$("#idsubdistrict").val();
+			if(id_subdistrict==""){
+				$.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+id_district,"rand="+Math.random(),function(a){
+ 					
+					document.getElementById("idsubdistrict1").innerHTML="";
+					$("#idsubdistrict1").append("<option size='"+50+"' value=''>-请选择</option>");
+ 					 for(var i=0;i<a.length;i++){
+ 			    		$("#idsubdistrict1").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
+ 			    	}
+ 					$("#idsubdistrict1 option").each(function(){
+ 	 					if($(this).val()=="${param.id_subdistrict}"){
+ 	 						$(this).attr("selected",true);
+ 	 					}
+ 	 				});
+ 				});
+				$("#idsubdistrict1 option").remove();
+				$("#idsubdistrict1").append("<option size='"+50+"' value=''>-请选择</option>");
+			}else{
+				$("#idsubdistrict1 option").remove();
+				$("#idsubdistrict1").append("<option size='"+50+"' value='"+id_district+"'>${login.subdistict.name_subdistrict}</option>");
+			}
+			
+
+		}
+	}
+	$.getJSON("${path}/service/list_json.do","rand="+Math.random(),function(d){
+		$("#id_service").append("<option size='"+15+"' value='0'>-请选择</option>");
+	  //对维保单位进行循环
+	  for(var i=0;i<d.length;i++){
+		  $("#id_service").append("<option size='"+15+"' value='"+d[i].idservice+"'>"+d[i].name+"</option>");
+	  }
+	  $("#id_service option").each(function(){
+			if($(this).val()=="${param.id_service}"){
+				$(this).attr("selected",true);
+			}
+		});
+   });
+	$.getJSON("${path}/test/list_json.do","rand="+Math.random(),function(d){
+	  //对检验检测单位进行循环
+	  $("#id_test").append("<option size='"+15+"' value='0'>-请选择</option>");
+	  for(var i=0;i<d.length;i++){
+		  $("#id_test").append("<option size='"+15+"' value='"+d[i].idtest+"'>"+d[i].name+"</option>");
+	  }
+	  $("#id_test option").each(function(){
+			if($(this).val()=="${param.id_test}"){
+				$(this).attr("selected",true);
+			}
+		});
+   });
+	$.getJSON("${path}/user/selectId_user.do","rand="+Math.random(),function(d){
+		 $("#id_user").append("<option size='"+15+"' value='0'>-请选择</option>");
+    	  //对使用单位进行循环
+    	  for(var i=0;i<d.length;i++){
+    		  $("#id_user").append("<option size='"+15+"' value='"+d[i].iduser+"'>"+d[i].name+"</option>");
+    	  }
+    	  $("#id_user option").each(function(){
+				if($(this).val()=="${param.id_user}"){
+					$(this).attr("selected",true);
+				}
+			});
+       });
 });
 
 	function form_submit(ck){
@@ -112,15 +302,16 @@ $().ready(function(){
 		//开始查询个人信息
 		$.getJSON("${path }/repair_query/detail.do?rid="+did,"rand="+Math.random(),function(d){
 			//将查询到的信息放入修改表单中--注意隐藏域中的主键
-			console.log(d);
 			$("#rids").val(d.rid);
 			$("#eids").val(d.eid);
-			$("#user_safer").val(d.usersafer);
+			$("#suser1").val(d.service1.name);
+			$("#suser2").val(d.service2.name);
+			$("#ssafer").val(d.safer.name); 
 			$("#upload").val(d.upload);
 			$("#notes").val(d.note);
 			if(d.repairapprove !=""&&d.repairapprove !=null){
-				$("#approver_ack").val(d.repairapprove.approveack);
-				$("#approver").val(d.repairapprove.approver);
+				$("#approver_ack").val(d.repairapprove.approveType.approve_name);
+				$("#approver").val(d.repairapprove.approver_name); 
 				$("#notep").val(d.repairapprove.note);
 				$("#notep2").val(d.repairapprove.note2);
 				$("#approve_date").val(d.repairapprove.approve_date);
@@ -132,46 +323,168 @@ $().ready(function(){
 				}
 			}
 			if(d.repairmaint !=""&&d.repairmaint !=null){
-				$("#user1").val(d.repairmaint.user1);
-				$("#user2").val(d.repairmaint.user2);
+				$("#wuser1").val(d.repairmaint.service1.name);
+				$("#wuser2").val(d.repairmaint.service2.name);
+				$("#wsafer").val(d.repairmaint.safer.name); 
 				$("#repair_date").val(d.repairmaint.repairdate);
 				$("#image").val(d.repairmaint.image);
 				$("#notew").val(d.repairmaint.note);
+				$.getJSON("${path}/repair_query/listImageById.do?rand="+Math.random()+"&rid="+d.rid,"",function(midlist){
+					// $("#table1 tr:not(:first)").remove();
+					//$("#table2 tr:not(:first)").remove();
+					var tr1="<tr>";
+					var tr2="<tr>";
+					var a1=0;
+					var a2=0;
+					for(var i=0;i<midlist.length;i++){
+						if(midlist[i][0]==0){
+							if(a1!=0&&a1%3==0){
+								tr1+="</tr><tr>"
+							}
+							$("#sqtp").attr("style", "display:block;");  
+							tr1+="<td><img src='http://longwan.shifting.com.cn/pda_api.php?name=get_repair_image&p="+midlist[i].path+"&h=200&w=200' width=200 height=200 alt='图片不存在！'/>&nbsp;&nbsp;&nbsp;</td>";
+							a1++;
+						}
+						if(midlist[i][0]==1){
+							if(a2!=0&&a2%3==0){
+								tr2+="</tr><tr>"
+							}
+							$("#wxtp").attr("style", "display:block;"); 
+							tr2+="<td><img src='http://longwan.shifting.com.cn/pda_api.php?name=get_repair_image&p="+midlist[i].path+"&h=200&w=200' width=200 height=200 alt='图片不存在！'/>&nbsp;&nbsp;&nbsp;</td>";
+							a2++;
+						}
+					}
+					if(a1>3&&a1%3!=0){
+						for(var j=0;j<3-a1%3;j++){
+							tr1+="<td></td>"
+						}
+					}
+					if(a2>3&&a2%3!=0){
+						for(var j=0;j<3-a2%3;j++){
+							tr2+="<td></td>"
+						}
+					}
+					tr1+="</tr>";
+					tr2+="</tr>";
+					$("#table1").append(tr1);
+					$("#table2").append(tr2); 
+				});
 			}
-			
-			
-			
-			
 			$("#detailDialog").dialog("open");
-			
 		});
+		
+	}
+	function choosedistrict1(id_district){
+		//如果选择市直
+		if(id_district=="00"||id_district==""){
+			$("#idsubdistrict1 option").remove();
+			$("#idsubdistrict1").append("<option size='"+50+"' value=''>-请选择</option>");
+// 			$("#idsubdistrict1").attr("disabled",true);
+		}else{
+// 			$("#idsubdistrict1").attr("disabled",false);
+		//去城市的id
+		var id_city=document.getElementById("idcity1").value;
+		 $.getJSON("${path }/subdistictlist/listById.do?id_city="+id_city+"&id_distrct="+id_district,"rand="+Math.random(),function(a){
+			 document.getElementById("idsubdistrict1").innerHTML="";
+			 $("#idsubdistrict1").append("<option size='"+50+"' value=''>-请选择</option>");
+			 for(var i=0;i<a.length;i++){
+		    		$("#idsubdistrict1").append("<option size='"+50+"' value='"+a[i].id_subdistrict+"'>"+a[i].name_subdistrict+"</option>");
+		    	}
+		    });
+		}
+	}
+	
+	function chooseCity1(id_city){
+		if(id_city==""){
+			$("#iddistrict1 option").remove();
+			$("#idsubdistrict1 option").remove();
+			$("#iddistrict1").append("<option size='"+50+"' value=''>-请选择</option>");
+			$("#idsubdistrict1").append("<option size='"+50+"' value=''>-请选择</option>");
+// 			$("#iddistrict1").attr("disabled",true);
+// 			$("#idsubdistrict1").attr("disabled",true);
+			return;
+		}
+			$("#iddistrict1").attr("disabled",false);
+			//不同的城市选择不同的id
+			$.getJSON("${path }/distictlist/listByIdCity.do?id_city="+id_city,"rand="+Math.random(),function(s){
+				document.getElementById("iddistrict1").innerHTML="";
+				$("#iddistrict1").append("<option size='"+50+"' value=''>-请选择</option>");
+				for(var i=0;i<s.length;i++){
+					if(s[i].id_district=="00"){
+						continue;
+					}
+					 $("#iddistrict1").append("<option size='"+50+"' value='"+s[i].id_district+"'>"+s[i].name_district+"</option>");
+					}
+				$("#idsubdistrict1 option").remove();
+				$("#idsubdistrict1").append("<option size='"+50+"' value=''>-请选择</option>");
+// 				$("#idsubdistrict1").attr("disabled",true);
+			});
 		
 	}
 </script>
 </head>
 <body>
+<input type="hidden" value="${login.idcity}" id="idcity"/>
+<input type="hidden" value="${login.iddistrict}" id="iddistrict"/>
+<input type="hidden" value="${login.idsubdistrict}" id="idsubdistrict"/>
 <form action="${path }/repair_query/list.do" method="get" id="form1">
-
+<div style="margin-top: 10px;">
+	<ul>
+			<li>
+			<span>所属城市:</span><select name="id_city" id="idcity1" onchange="chooseCity1(this.value)">
+			</select>
+			<span>所属区县:</span><select name="id_district" id="iddistrict1" onchange="choosedistrict1(this.value)">
+			</select> 
+			<span>所属乡镇街道:</span><select id="idsubdistrict1" name="id_subdistrict">
+			</select>
+	</ul>
+</div>
+<br>
+<div>
+	<ul>
+			<li><span>维保单位:</span><select name="id_service" id="id_service">
+			</select>
+			<span>使用单位:</span><select name="id_user" id="id_user">
+			</select>
+			<span>检验检测单位:</span><select name="id_test" id="id_test">
+			</select>
+		</ul>
+</div>
+<br>
+<div>
+	<ul>
+		<li><span><select name="keyType" style="width: 80px;">
+			<option value="1"
+				<c:if test="${param.keyType==1 }">selected='selected'</c:if>
+			>电梯简称</option>
+			<option value="2"
+				<c:if test="${param.keyType==2 }">selected='selected'</c:if>
+			>电梯品牌</option>
+		</select></span>
+		<input type="text" id="desc" name="desc" size="33" maxlength="16" value="${desc }"/>
+		<input type="submit" style="margin-left: 470px" value="&nbsp;&nbsp;搜索&nbsp;&nbsp;"/>
+	</ul>
+</div>
+<hr style="margin-top: 10px">
 <ul>
-	
 	<li><h3>列表</h3>
 		<input type="radio" name="approve_ark" value="-1" onclick="form_submit(this.checked)"
-			<c:if test="${noticeType eq -1}">
+			<c:if test="${approve_ark eq -1}">
 				checked="checked"
 			</c:if>
 		/>全部&nbsp;&nbsp;${count }条
 		<input type="radio" name="approve_ark" value="0" onclick="form_submit(this.checked)"
-			<c:if test="${noticeType eq 0}">
+			<c:if test="${approve_ark eq 0}">
 				checked="checked"
 			</c:if>
 		/>待批复&nbsp;&nbsp;${count_approve }条
 		<input type="radio" name="approve_ark" value="1" onclick="form_submit(this.checked)"
-			<c:if test="${noticeType eq 1}">
+			<c:if test="${approve_ark eq 1}">
 				checked="checked"
 			</c:if>
 		/>已批复&nbsp;&nbsp;${count_approved }条
 		<input type="radio" name="approve_ark" value="3" onclick="form_submit(this.checked)"
-			<c:if test="${noticeType eq 3}">
+			<c:if test="${approve_ark eq 3}">
 				checked="checked"
 			</c:if>
 		/>已维修&nbsp;&nbsp;${count_repaired }条
@@ -249,10 +562,10 @@ $().ready(function(){
 	<form action="${path }/repairApprove/update.do" method="post" id="updateForm">
 		<ul>
 			<li>批复说明:
-			<li><textarea rows="5" cols="30" name="note" id="note"></textarea>*<div id="name2" style="float: right; margin-right:220" ><br>
-			<li>其他说明:
-			<li><textarea rows="5" cols="30" name="note2" id="note2"></textarea><br>
-			<li><input type="hidden" name="rid" id="rid" />
+			<li><textarea rows="5" cols="40" name="note" id="note"></textarea><br>
+			<input type="radio" name="approveack"  value="1" />同意
+			<input type="radio" name="approveack"  value="2" />不同意
+			<input type="hidden" name="rid" id="rid" />
 		</ul>
 	</form>
 </div>
@@ -266,17 +579,21 @@ $().ready(function(){
 		            <li> 维修ID:
 					<li><input type="text" id="rids" name="rids" readonly="readonly" size="30" />
 		            <li> 电梯ID:
-					<li><input type="text" id="eids" name="eids"  size="30" />
-					<li> 申报的安全员:
-					<li><input type="text" id="user_safer" name="user_safer"  size="30" />
+					<li><input type="text" id="eids" name="eids" readonly="readonly"  size="30" />
+					<li> 维保人员1:
+					<li><input type="text" id="suser1" name="user1" readonly="readonly" size="30" />
+					<li> 申报内容:
+					<li><textarea rows="5" cols="30" name="note" readonly="readonly" id="notes"></textarea>
                  </ul>
 		     </td>
 		     <td style="text-align: left;vertical-align: top;">
 		        <ul>
+		            <li> 维保人员2:
+					<li><input type="text" id="suser2" name="user2"  readonly="readonly" size="30" /> 
+					<li> 安全人员:
+					<li><input type="text" id="ssafer" name="safer"  readonly="readonly" size="30" />
 		        	<li> 申报时间:
 					<li><input type="text" id="upload" name="upload" readonly="readonly" size="30" />
-					<li> 申报内容:
-					<li><textarea rows="5" cols="30" name="note" id="notes"></textarea>
                  </ul>
 		     </td>
 		</tr>
@@ -291,17 +608,17 @@ $().ready(function(){
 		            <li> 批复状态:
 					<li><input type="text" id="approver_ack" name="approver_ack" readonly="readonly" size="30" />
 		            <li> 批复者:
-					<li><input type="text" id="approver" name="approver"  size="30" />
+					<li><input type="text" id="approver" name="approver"  readonly="readonly" size="30" />
 					<li> 批复说明:
-					<li><textarea rows="5" cols="30" name="note" id="notep"></textarea>
+					<li><textarea rows="5" cols="30" name="note" readonly="readonly" id="notep"></textarea>
                  </ul>
 		     </td>
 		     <td style="text-align: left;vertical-align: top;">
 		        <ul>
 		        	<li> 批复时间:
-					<li><input type="text" id="approve_date" name="approve_date"  size="30" />
-					<li> 其他说明:
-					<li><textarea rows="5" cols="30" name="note2" id="notep2"></textarea>
+					<li><input type="text" id="approve_date" readonly="readonly" name="approve_date"  size="30" />
+					<!-- <li> 其他说明:
+					<li><textarea rows="5" cols="30" name="note2" id="notep2"></textarea> -->
                  </ul>
 		     </td>
 		</tr>
@@ -314,11 +631,13 @@ $().ready(function(){
 			<td style="text-align: left;vertical-align: top;">
 		        <ul>
 		            <li> 维保人员1:
-					<li><input type="text" id="user1" name="user1" readonly="readonly" size="30" />
+					<li><input type="text" id="wuser1" name="user1" readonly="readonly" size="30" />
 		            <li> 维保人员2:
-					<li><input type="text" id="user2" name="user2"  size="30" />
+					<li><input type="text" id="wuser2" name="user2"  readonly="readonly" size="30" /> 
+					<li> 安全人员:
+					<li><input type="text" id="wsafer" name="safer"  readonly="readonly" size="30" />
 					<li> 维修时间:
-					<li><input type="text" id="repair_date" name="repair_date"  size="30" />
+					<li><input type="text" id="repair_date" name="repair_date"  readonly="readonly" size="30" />
                  </ul>
 		     </td>
 		     <td style="text-align: left;vertical-align: top;">
@@ -326,10 +645,20 @@ $().ready(function(){
 		        	<li> 图像个数:
 					<li><input type="text" id="image" name="image" readonly="readonly" size="30" />
 					<li> 维修说明:
-					<li><textarea rows="5" cols="30" name="note" id="notew"></textarea>
+					<li><textarea rows="5" cols="30" name="note" readonly="readonly" id="notew"></textarea>
                  </ul>
 		     </td>
 		</tr>
+	</table>
+	</div>
+	<div title="申请照片"style="display: none" id="sqtp">
+	<h3>申请照片：</h3>
+	<table width="100%" height="100%" id="table1" cellspacing="0">
+	</table>
+	</div>
+	<div title="维修照片"style="display: none" id="wxtp">
+	<h3>维修照片：</h3>
+	<table width="100%" height="100%" id="table2" cellspacing="0">
 	</table>
 	</div>
 </div>

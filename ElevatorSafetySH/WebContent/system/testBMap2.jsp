@@ -20,7 +20,7 @@
                 //默认的坐标
                 var point = new BMap.Point(${gis_x},${gis_y});
                 //设置地图的默认中心点和缩放级别
-                map.centerAndZoom(point,15);
+                map.centerAndZoom(point,13);
                 //启用鼠标滚动缩放
                 map.enableScrollWheelZoom();
                 
@@ -34,12 +34,11 @@
                 //添加比例尺控件
                 map.addControl(new BMap.ScaleControl());
                 //添加地图类型控件
-                map.addControl(new BMap.MapTypeControl());
+           /*      map.addControl(new BMap.MapTypeControl());
                 var list=eval(${elList});
                 for(var i=0;i<list.length;i++){
                 	 //设置标注的图标
                     var icon = new BMap.Icon("http://api.map.baidu.com/img/markers.png",new BMap.Size(23,25));
-                   // var icon = new BMap.Icon("http://api.go2map.com/maps/images/v2.0/flag.png",new BMap.Size(23,25));
                   //设置标注的经纬度
                     var marker = new BMap.Marker(new BMap.Point(list[i].gis_x,list[i].gis_y),{icon:icon});
                     //把标注添加到地图上
@@ -52,29 +51,16 @@
               //获取指定标记的详细信息     
                 function getAttr() {  
                     for (var i = 0; i < list.length; i++) {
-                        if (list[i].id_elevator == /* <span style="color:#ff0000;">marker</span> */this.getTitle()) {   
+                        if (list[i].id_elevator == this.getTitle()) {   
                         	var content = "<table>";  
-                            content = content + "<tr><td> 编号："+list[i].id_elevator+"</td></tr>";
-                            content = content + "<tr><td> 登记机构："+list[i].register_org+"</td></tr>"; 
-                            content = content + "<tr><td> 生产日期："+list[i].date_manufer+"</td></tr>"; 
-                            content = content + "<tr><td> 出厂编号："+list[i].code_manufer+"</td></tr>"; 
-                            content = content + "<tr><td> 土建施工单位："+list[i].constucter+"</td></tr>"; 
-                            content = content + "<tr><td> 土建验收单位名称："+list[i].accepter_construct+"</td></tr>"; 
-                            content = content + "<tr><td> 验收检验机构："+list[i].check_construct+"</td></tr>"; 
-                            content = content + "<tr><td> 安装单位："+list[i].installer.name+"</td></tr>"; 
-                            content = content + "<tr><td> 使用单位："+list[i].user.name+"</td></tr>"; 
-                            content = content + "<tr><td> 电梯所在位置："+list[i].address+"</td></tr>"; 
-                            content = content + "<tr><td> 开始使用时间："+list[i].date_enable+"</td></tr>"; 
-                            content = content + "<tr><td> 保维单位："+list[i].service.name+"</td></tr>"; 
-                            content = content + "<tr><td> 检测单位："+list[i].test.name+"</td></tr>";
-                            content = content + "<tr><td> 电梯层数："+list[i].num_floor_elevator+"</td></tr>"; 
-                            content = content + "<tr><td> 电梯简称："+list[i].desc+"</td></tr>";  
+                            content = content + "<tr><td> 编号："+list[i].id_elevator+"</td></tr>";  
+                            content = content + "<tr><td> 简称："+list[i].desc+"</td></tr>"; 
                             content += "</table>";
 	                        var infowindow = new BMap.InfoWindow(content); 
 	                        this.openInfoWindow(infowindow);
                         }  
                     }  
-                }  
+                }   */
                 /* var marker1 = new BMap.Marker(new BMap.Point(112.998419,33.009326),{icon:icon});
                 var content1 = "<table>";  
                 content1 = content1 + "<tr><td> 编号："+1111+"</td></tr>";  
@@ -87,34 +73,37 @@
                 map.addOverlay(marker1); */
                 
                 //设置标注的图标
-               // var icon = new BMap.Icon("http://api.map.baidu.com/img/markers.png",new BMap.Size(23,25));
+                var icon = new BMap.Icon("http://api.map.baidu.com/img/markers.png",new BMap.Size(23,25));
                 //设置标注的经纬度
-               // var marker = new BMap.Marker(new BMap.Point(120.162052,30.278796),{icon:icon});
+                var marker = new BMap.Marker(new BMap.Point(${gis_x},${gis_y}),{icon:icon});
+                var label = new BMap.Label("中心",{offset:new BMap.Size(-10,25)});  
+                marker.setLabel(label);  
                 //把标注添加到地图上
-               /*  map.addOverlay(marker);
-                var content = "<table>";  
-                    content = content + "<tr><td> 编号：001</td></tr>";  
+                 map.addOverlay(marker);
+               /*  var content = "<table>";  
                     content = content + "<tr><td> 地点：杭州市政府</td></tr>"; 
-                    content = content + "<tr><td> 时间：2016-06-12</td></tr>";  
                     content += "</table>";
-                var infowindow = new BMap.InfoWindow(content); */
+                var infowindow = new BMap.InfoWindow(content); 
                 //为标记添加点击事件
-               /*  marker.addEventListener("click",function(){
+                 marker.addEventListener("click",function(){
                     this.openInfoWindow(infowindow);
-                }); 
+                });  */
                 
                 //为map添加右键事件
-                var div_addmark=$("#addmarker").html();
+                /* var div_addmark=$("#addmarker").html();
                
                 var inforwindow_addmark=new BMap.InfoWindow(div_addmark,{width:200,height:200,title:"添加项目标记"});
                 map.addEventListener("rightclick",function(e){
                 	map.openInfoWindow(inforwindow_addmark,e.point);
                 	
-                }); */
+                });  */
                 //点击地图，获取经纬度坐标
-               /*  map.addEventListener("click",function(e){
+                 map.addEventListener("click",function(e){
+                	parent.$("#gis_x").val(e.point.lng);
+                	parent.$("#gis_y").val(e.point.lat);
+ 					parent.$("#gis").val(e.point.lng+","+e.point.lat);
                     $("#aa").html("经度坐标："+e.point.lng+" &nbsp;纬度坐标："+e.point.lat);
-                }); */
+                }); 
                 
                 //查询地图事件
                  /* $("#searchMap").click(function(){
@@ -131,11 +120,13 @@
     </head>
     <body>
         <div id="content" class="content">
-        <!--  <p id="aa"></p> -->
+        <p id="aa"></p> 
+        <input type="hidden" id="gis_x" name="gis_x" size="50" />
+		<input type="hidden" id="gis_y" name="gis_y" size="50" />
        	<!-- <input type="text" value="" id="keyword" />
          <input type="button" name="" id="searchMap" value="查询"  /> -->
-	        <div align="center" style="width:1370px;height:690px;border:0px solid gray" id="container"></div>
-	        <div id="addmarker" style="display: none">
+	        <div align="center" style="width:800px;height:600px;border:0px solid gray" id="container"></div>
+	        <!-- <div id="addmarker" style="display: none">
 		      	<form id="addmarker" action="" method="post">
 		      		<table>
 		      			<tr>
@@ -153,7 +144,7 @@
 		      			</tr>
 		      		</table>
 		      	</form>
-	      	</div>
+	      	</div> -->
         </div>
     </body>
 </html>

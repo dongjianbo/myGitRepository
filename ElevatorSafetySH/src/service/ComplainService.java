@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import dao.ComplainDao;
 import vo.Complain;
-import vo.Elevator;
 
 @Service
 public class ComplainService {
@@ -54,16 +53,50 @@ public class ComplainService {
 	}
 	//监管部门查所有投诉信息
 	@SuppressWarnings("unchecked")
-	public List<Complain> selectList(int type_object,int source,int status,int pageSize,HttpServletRequest request) {
+	public List<Complain> selectList( int id_service,int id_user,int source,int type_object, List<Integer> idList,int pageSize,HttpServletRequest request) {
 		DetachedCriteria dc=DetachedCriteria.forClass(Complain.class);
 		if(type_object!=-1){
 			dc.add(Restrictions.eq("type_object", type_object));
 		}
+		if(idList.isEmpty()){
+			dc.add(Restrictions.ne("type_object", 0));
+		}
+		if(type_object==0&&!idList.isEmpty()){
+			dc.add(Restrictions.in("id_object", idList));
+		}else if(type_object==1&&id_service!=0){
+			dc.add(Restrictions.eq("id_object", id_service));
+		}else if(type_object==2&&id_user!=0){
+			dc.add(Restrictions.eq("id_object", id_user));
+		}else{
+			if(!idList.isEmpty()&&id_service!=0&&id_user!=0){
+				dc.add(Restrictions.or(
+						Restrictions.or(
+								Restrictions.and(Restrictions.eq("id_object", id_service),Restrictions.eq("type_object", 1)),
+								Restrictions.and(Restrictions.eq("id_object", id_user),Restrictions.eq("type_object", 2))),
+								Restrictions.and(Restrictions.in("id_object",idList),Restrictions.eq("type_object", 0))));
+			}else if(idList.isEmpty()&&id_service!=0&&id_user!=0){
+				dc.add(Restrictions.or(
+								Restrictions.and(Restrictions.eq("id_object", id_service),Restrictions.eq("type_object", 1)),
+								Restrictions.and(Restrictions.eq("id_object", id_user),Restrictions.eq("type_object", 2))));
+			}else if(!idList.isEmpty()&&id_service==0&&id_user==0){
+				dc.add(Restrictions.or(Restrictions.or(Restrictions.and(Restrictions.in("id_object",idList),Restrictions.eq("type_object", 0)),Restrictions.eq("type_object", 1)),Restrictions.eq("type_object", 2)));
+			}else if(!idList.isEmpty()&&id_service==0&&id_user!=0){
+				dc.add(Restrictions.or(Restrictions.or(
+						Restrictions.and(Restrictions.in("id_object",idList),Restrictions.eq("type_object", 0)),
+						Restrictions.and(Restrictions.eq("id_object", id_user),Restrictions.eq("type_object", 2))),Restrictions.eq("type_object", 1)));
+			}else if(!idList.isEmpty()&&id_service!=0&&id_user==0){
+				dc.add(Restrictions.or(Restrictions.or(
+						Restrictions.and(Restrictions.in("id_object",idList),Restrictions.eq("type_object", 0)),
+						Restrictions.and(Restrictions.eq("id_object", id_service),Restrictions.eq("type_object", 1))),Restrictions.eq("type_object", 2)));
+			}else if(idList.isEmpty()&&id_service==0&&id_user!=0){
+				dc.add(Restrictions.or(Restrictions.and(Restrictions.eq("id_object", id_user),Restrictions.eq("type_object", 2)),Restrictions.eq("type_object", 1)));
+			}else if(idList.isEmpty()&&id_service!=0&&id_user==0){
+				dc.add(Restrictions.or(Restrictions.and(Restrictions.eq("id_object", id_service),Restrictions.eq("type_object", 1)),Restrictions.eq("type_object", 2)));
+			}
+					
+		}
 		if(source!=-1){
 			dc.add(Restrictions.eq("source", source));
-		}
-		if(status!=-1){
-			dc.add(Restrictions.eq("status", status));
 		}
 		dc.addOrder(Order.desc("input1"));
 		return complainDao.findPageByDcQuery(dc, pageSize, request);
