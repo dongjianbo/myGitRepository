@@ -71,6 +71,15 @@ public class ComplainController {
 			List<Integer> idList=elevatorService.getElevatorIds(id_city, id_district, id_subdistrict, id_service, id_user, id_test, desc);
 			//查询所有投诉信息
 			List<Complain> list=complainService.selectList(  id_service, id_user,source,type_object, idList, 10, request);
+			//投诉电梯数量
+			int countElevator=0;
+			//投诉维保数量
+			int countService=0;
+			//投诉使用数量
+			int countUse=0;
+			//投诉总数
+			int count=list.size();
+			
 			//设置投诉对象
 			for(Complain com:list){
 				if(com.getType_object()==0){
@@ -79,6 +88,7 @@ public class ComplainController {
 					if(e!=null){
 						com.setObjectName(e.getDesc());
 					}
+					countElevator++;
 				}
 				if(com.getType_object()==1){
 					//投诉对象为维保公司
@@ -86,6 +96,7 @@ public class ComplainController {
 					if(s!=null){
 						com.setObjectName(s.getName());
 					}
+					countService++;
 				}
 				if(com.getType_object()==2){
 					//投诉对象为使用单位
@@ -93,8 +104,13 @@ public class ComplainController {
 					if(u!=null){
 						com.setObjectName(u.getName());
 					}
+					countUse++;
 				}
 			}
+			mav.addObject("countElevator", countElevator);
+			mav.addObject("countService", countService);
+			mav.addObject("countUse", countUse);
+			mav.addObject("count", count);
 			mav.addObject("list", list);
 			mav.addObject("id_city", id_city);
 			mav.addObject("id_district", id_district);

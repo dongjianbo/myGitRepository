@@ -482,9 +482,9 @@ span{
 	</table>
 </ul>
 <ul>
-	<li>提前提示时间:年检${system_setting.alarm_test}天,半月维保${system_setting.alarm_15_service}天,
+	<li>提前提示时间:半月维保${system_setting.alarm_15_service}天,
 	季度维保${system_setting.alarm_90_service}天,半年维保${system_setting.alarm_180_service}天,
-	年度维保${system_setting.alarm_360_service}天。
+	年度维保${system_setting.alarm_360_service}天,年检${system_setting.alarm_test}天。
 </ul>
 
 </body>

@@ -503,8 +503,23 @@ $().ready(function(){
 </div>
 
 <hr style="margin-top: 10px">
-</form>
 
+</form>
+	<table cellpadding="0" cellspacing="1">
+		<tr>
+			<th width="25%">投诉总数</th>
+			<th width="25%">投诉电梯数</th>
+			<th width="25%">投诉使用单位数</th>
+			<th width="25%">投诉维保单位数</th>
+		</tr>
+		<tr>
+			<td>${count}</td>
+			<td>${countElevator}</td>
+			<td>${countUse}</td>
+			<td>${countService}</td>
+		</tr>
+	</table>
+	<br>
 	<table cellpadding="0" cellspacing="1">
 		<tr>
 			<th>投诉编号</th>

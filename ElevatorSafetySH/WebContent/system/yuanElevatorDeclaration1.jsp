@@ -25,6 +25,21 @@
 	<script type="text/javascript">
 	var dia;
 	$().ready(function(){
+		$("#mapDialog").dialog({
+			modal:true,
+			autoOpen:false,
+			width:800,
+			height:640,
+		    href: 'testBMap2.jsp',
+			buttons:{
+				"确定":function(){
+					$(this).dialog("close");
+				}
+			}, 
+			close:function(){
+				$(this).dialog("close");
+			}
+		});
 		$("#date1").datepicker({dateFormat:'yy-mm-dd'});//日期控件
 		$("#date_register").datepicker({dateFormat:'yy-mm-dd'});//日期控件
 		$("#date_enable").datepicker({dateFormat:'yy-mm-dd'});//日期控件
@@ -85,6 +100,10 @@
 		    		  $("#id_test").append("<option size='"+15+"' value='"+d[i].idtest+"'>"+d[i].name+"</option>");
 		    	  }
 		       });
+		$("#gis").click(function(){
+			document.getElementById("prodcutDetailSrc").src="${path }/elevator/map2.do";
+			$("#mapDialog").dialog("open");
+		});
 	});
 	//选择城市-----------------------------------------------
 	function chooseCity(id_city){
@@ -173,6 +192,10 @@
 						<li><select name="id_subdistrict" id="id_subdistrict"></select>
 						<li>电梯所在位置:
 					    <li><input type="text" name="address" size="50" maxlength="18"> 
+					    <li>电梯坐标:
+						<li><input type="text" id="gis" name="gis" size="50" />
+						<input type="hidden" id="gis_x" name="gis_x" size="50" />
+						<input type="hidden" id="gis_y" name="gis_y" size="50" />
 					    <li>电梯安装场所类型:
 					    <li><select name="gis_type" id="id_siteDef"> </select> 
 				        <br><br><br>
@@ -211,5 +234,9 @@
 		             </tr>
 		        </table>
 		</form>
+	<div id="mapDialog" style="display: none" title="map">
+		<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" 
+		id="prodcutDetailSrc"  scrolling="no"  width="100%" height="100%" ></iframe>
+	</div>
 </body>
 </html>
