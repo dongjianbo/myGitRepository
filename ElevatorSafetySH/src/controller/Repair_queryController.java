@@ -51,9 +51,9 @@ public class Repair_queryController {
    public ModelAndView list(String key,int approve_ark,int id_service,int id_user,int id_test,String id_city,String id_district,String id_subdistrict,String desc,HttpServletRequest request){
 	 //查找当前登录人
 	Operator op=(Operator)request.getSession().getAttribute("login");
-	if(!op.getTypeOperator().equals("00")){
+	if(!op.getTypeOperator().equals("00")&&!op.getTypeOperator().equals("50")){
 		ModelAndView mav=new ModelAndView("error");
-		mav.addObject("error","当前登录人非技术监督部门人员!");
+		mav.addObject("error","当前登录人非技术监督部门人员或房管部门人员!");
 		return mav;
 	}else{
 		op=operatorService.findById(op.getIdoperator());

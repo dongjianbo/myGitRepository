@@ -12,10 +12,14 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd 
 		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
 		">
-	
-<!-- 	spring定时任务 -->
-	<task:scheduled-tasks>
-		<task:scheduled ref="overdueTaskService" method="createTask" cron="0 30 0 * * ?"/>
-	</task:scheduled-tasks>
-
+<!-- springMVC -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
 </beans>

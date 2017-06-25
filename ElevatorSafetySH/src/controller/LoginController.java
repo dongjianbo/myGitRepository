@@ -71,7 +71,7 @@ public class LoginController {
 			   String deptName="";
 			   if(optype.equals("00")||optype.equals("01")){
 				   //技术监督部门
-				   deptName="技术监督局";
+				   deptName="质量技术监督局";
 			   }
 			   if(optype.equals("10")||optype.equals("11")){
 				   //维保单位
@@ -102,8 +102,12 @@ public class LoginController {
 				   }
 			   }
 			   if(optype.equals("50")){
-				   //技术监督部门
-				   deptName="漯河市房地产管理局";
+				   //漯河市住房保障和房屋管理局
+				   deptName="漯河市住房保障和房屋管理局";
+//				   if(op.getIddistrict()!=null&&!op.getIddistrict().equals("")&&!op.getIddistrict().equals("00")){
+//					   //分局房管人员
+//					   deptName+=op.getDistict().getName_district()+"分局";
+//				   }
 			   }
 			  
 			   request.getSession().setAttribute("deptName", deptName);

@@ -148,6 +148,19 @@ public class Maint_report_idService {
 		return mriDao.findPageByDcQuery(dc, pageSize,request);
 		
 	}
+	@SuppressWarnings("unchecked")
+	public List<Maint_detail> getListMaintDefailNO(int resultType,List<Integer> ids,int pageSize,HttpServletRequest request){
+		DetachedCriteria dc=DetachedCriteria.forClass(Maint_detail.class);
+		dc.setFetchMode("mid", FetchMode.JOIN);
+		dc.setFetchMode("mri", FetchMode.JOIN);
+		dc.createAlias("mri", "mri");
+		dc.createAlias("mri.elevator", "e");
+		dc.setFetchMode("mri.elevator", FetchMode.JOIN);
+		dc.add(Restrictions.eq("maint_result", resultType));
+		dc.add(Restrictions.in("e.id_user", ids));
+		return mriDao.findPageByDcQuery(dc, pageSize,request);
+		
+	}
 	/**
 	 * 处理不合格维保记录
 	 */

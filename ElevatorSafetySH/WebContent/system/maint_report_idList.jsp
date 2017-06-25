@@ -38,6 +38,20 @@
 					$(this).dialog("close");
 				}
 			});
+			$("#showImage").dialog({
+				modal:true,
+				autoOpen:false,
+				width:950,
+				height:500,
+				buttons:{
+					"确定":function(){
+						$(this).dialog("close");
+					}
+				},
+				close:function(){
+					$(this).dialog("close");
+				}
+			});
 		});
 		function toDetail(maint_id,maint_type){
 			$.getJSON("${path}/maint_item_def/listById.do?rand="+Math.random()+"&maint_id="+maint_id+"&maint_type="+maint_type,"",function(midlist){
@@ -55,7 +69,7 @@
 					tr1+="<td>"+midlist[i].maint_result+"</td>";
 					tr1+="<td><a style='text-decoration: underline; color:red;' href='javascript:toImage("+maint_id+","+midlist[i].maint_item_id+","+i+",\""+midlist[i].mArea.name+"\","+midlist[i].doorid+")'>"+midlist[i].info+"</a></td>";
 					tr1+="</tr>";
-					tr1+="<tr id='tr"+i+"' style='display:none'><td id='td"+i+"' align='left' colspan='7'></td></tr>"
+// 					tr1+="<tr id='tr"+i+"' style='display:none'><td id='td"+i+"' align='left' colspan='7'></td></tr>"
 					$("#table1").append(tr1);
 				}
 				$("#showDetail").dialog("open");
@@ -68,7 +82,7 @@
 			}
 			$.getJSON(url+"?maint_id="+maint_id+"&maint_item_id="+maint_item_id,"",function(md){
 				$("#td"+ii).html("");
-				var table="<table  bgcolor='#ff00ff'>";
+				var table="<table  bgcolor='#ff00ff' cellpadding='0' cellspacing='1'>";
 				if((md[0]!=null&&md[0]!="")||md[1]>0){
 					$("#tr"+ii).show();
 					//$("#td"+ii).append("<h3 align='left'>备注："+decodeURI(md[0])+"</h3>");
@@ -100,8 +114,11 @@
 					table+="</tr>";
 				}
 				table+="</table>";
-				$("#td"+ii).append(table);
-				$("#showDetail").scrollTop($("#showDetail").scrollTop()+240);
+				$("#showImage").html("");
+				$("#showImage").append(table);
+				$("#showImage").dialog("open");
+				//$("#td"+ii).append(table);
+				//$("#showDetail").scrollTop($("#showDetail").scrollTop()+240);
 				
 			});
 		}
@@ -174,6 +191,6 @@
 				
 			
 </div>
-
+<div id="showImage"></div>
 </body>
 </html>

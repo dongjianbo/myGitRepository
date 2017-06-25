@@ -264,7 +264,7 @@ span{
     		  $("#id_siteDef").append("<option size='"+15+"' value='"+d[i].idsite+"'>"+d[i].site_name+"</option>");
     	  }
     	  $("#id_siteDef option").each(function(){
-				if($(this).val()=="${param.idsite}"){
+				if($(this).val()=="${param.gis_type}"){
 					$(this).attr("selected",true);
 				}
 			});

@@ -149,9 +149,7 @@ function closeme(){
 				<div style="width: 55%;display: inline-block;text-align: right">
 <%-- 				${login.city.name_city}${login.distict.name_district}${login.subdistict.name_subdistrict}&nbsp;&nbsp;&nbsp;&nbsp; --%>
 				<c:if test="${operator_type.id_operator_type=='00'||operator_type.id_operator_type=='01'}">
-				  ${login.city.name_city}质量</c:if>${deptName}&nbsp;&nbsp;
-				  <c:if test="${login.distict.id_district ne '00'}">
-				  	${login.distict.name_district}${login.subdistict.name_subdistrict}分局&nbsp;&nbsp;
+				  ${login.city.name_city}</c:if>${deptName}<c:if test="${(operator_type.id_operator_type=='00'||operator_type.id_operator_type=='50')&&login.distict.id_district ne '00'}">${login.distict.name_district}${login.subdistict.name_subdistrict}分局&nbsp;&nbsp;
 				  </c:if>
 <%-- 				${login.role.name_role } --%>
 				</div>
@@ -194,13 +192,15 @@ function closeme(){
 				
 			</td>
 			<td height="90%"><div class="div1" id="right" style="height: 100%">
-					<iframe width="100%" height="100%" frameborder="0" marginheight="0" scrolling="no"
+					<iframe width="100%" height="100%" frameborder="0" marginheight="0" scrolling="auto"
 						marginwidth="0" id="_root" name="_root" src="
 						<c:if test="${operator_type.id_operator_type=='00'||operator_type.id_operator_type=='01'}">
-				   ${path }/elevator/search.do?id_service=0&id_user=0&id_test=0&key=first&keyType=1
+<%-- 				   ${path }/elevator/search.do?id_service=0&id_user=0&id_test=0&key=first&keyType=1 --%>
+				    ${path }/system/testBMap.jsp
 				   </c:if>
 				   <c:if test="${operator_type.id_operator_type=='10'||operator_type.id_operator_type=='11'}">
-				    ${path }/service/search.do
+<%-- 				    ${path }/service/search.do --%>
+				    ${path }/system/testBMap.jsp
 				   </c:if>
 				   <c:if test="${operator_type.id_operator_type=='20'||operator_type.id_operator_type=='21'||operator_type.id_operator_type=='40'}">
 				    ${path }/user/search.do?iduser=0
@@ -209,7 +209,8 @@ function closeme(){
 				    ${path }/test/search.do
 				   </c:if>
 				   <c:if test="${operator_type.id_operator_type=='50'}">
-				    ${path }/citymanager/search.do?id_service=0&id_user=0&id_test=0&key=first&keyType=1
+<%-- 				    ${path }/citymanager/search.do?id_service=0&id_user=0&id_test=0&key=first&keyType=1 --%>
+				  	 ${path }/system/testBMap.jsp
 				   </c:if>
 						"></iframe>
 				</div></td>

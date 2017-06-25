@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import dao.DeptGroupDao;
+import service.DeptGroupService;
 import service.Maint_report_idService;
 import service.OperatorService;
+import vo.DeptGroup;
 import vo.Maint_detail;
 import vo.Maint_report_id;
 import vo.Operator;
@@ -23,6 +26,8 @@ public class Maint_report_idController {
 	public Maint_report_idService maint_report_idService;
 	@Resource
 	public OperatorService operatorService;
+	@Resource
+	public DeptGroupService deptGroupService;
 	
 	//任务量列表
 	@RequestMapping("listForTask")
@@ -54,13 +59,22 @@ public class Maint_report_idController {
 	public ModelAndView listForMaintDetail_NO(int resultType,HttpServletRequest request){
 		//获得当前登录人所属单位
 		Operator op=(Operator)request.getSession().getAttribute("login");
-		if(!op.getTypeOperator().equals("20")&&!op.getTypeOperator().equals("21")){
+		if(!op.getTypeOperator().equals("20")&&!op.getTypeOperator().equals("21")&&!op.getTypeOperator().equals("40")){
 			ModelAndView mav=new ModelAndView("error");
 			mav.addObject("error","当前登录人非使用单位人员!");
 			return mav;
 		}else{
 			op=operatorService.findById(op.getIdoperator());
-			List<Maint_detail> list=maint_report_idService.getListMaintDefailNO(resultType,op.getIdOrganization(),10,request);
+			List<Maint_detail> list=null;
+			
+			if(op.getTypeOperator().equals("40")){
+				//如果是集团单位成员,查询该集团单位下的使用单位id
+				List<Integer> ids=deptGroupService.getUserIds(op.getIdOrganization());
+				list=maint_report_idService.getListMaintDefailNO(resultType,ids,10,request);
+			}else{
+				list=maint_report_idService.getListMaintDefailNO(resultType,op.getIdOrganization(),10,request);
+			}
+			
 			ModelAndView mav=new ModelAndView("system/maint_detail_NO_List");
 			mav.addObject("resultType",resultType);
 			mav.addObject("list", list);

@@ -25,6 +25,7 @@ import vo.Complain;
 import vo.Elevator;
 import vo.Operator;
 import vo.Service1;
+import vo.Servicer;
 import vo.User;
 
 @Controller
@@ -70,6 +71,30 @@ public class ComplainController {
 			List<Integer> idList=elevatorService.getElevatorIds(id_city, id_district, id_subdistrict, id_service, id_user, id_test, desc);
 			//查询所有投诉信息
 			List<Complain> list=complainService.selectList(  id_service, id_user,source,type_object, idList, 10, request);
+			//设置投诉对象
+			for(Complain com:list){
+				if(com.getType_object()==0){
+					//投诉对象为电梯
+					Elevator e=elevatorService.getEById(com.getId_object());
+					if(e!=null){
+						com.setObjectName(e.getDesc());
+					}
+				}
+				if(com.getType_object()==1){
+					//投诉对象为维保公司
+					Service1 s=serviceService.findById(com.getId_object());
+					if(s!=null){
+						com.setObjectName(s.getName());
+					}
+				}
+				if(com.getType_object()==2){
+					//投诉对象为使用单位
+					User u=userService.findById(com.getId_object());
+					if(u!=null){
+						com.setObjectName(u.getName());
+					}
+				}
+			}
 			mav.addObject("list", list);
 			mav.addObject("id_city", id_city);
 			mav.addObject("id_district", id_district);
@@ -110,6 +135,30 @@ public class ComplainController {
 			List<Integer> idList=userService.idList(id_user, ids);
 			//查询当前所有投诉信息
 			List<Complain> list=complainService.selectList(id_user, ids,10, request, idList);
+			//设置投诉对象
+			for(Complain com:list){
+				if(com.getType_object()==0){
+					//投诉对象为电梯
+					Elevator e=elevatorService.getEById(com.getId_object());
+					if(e!=null){
+						com.setObjectName(e.getDesc());
+					}
+				}
+				if(com.getType_object()==1){
+					//投诉对象为维保公司
+					Service1 s=serviceService.findById(com.getId_object());
+					if(s!=null){
+						com.setObjectName(s.getName());
+					}
+				}
+				if(com.getType_object()==2){
+					//投诉对象为使用单位
+					User u=userService.findById(com.getId_object());
+					if(u!=null){
+						com.setObjectName(u.getName());
+					}
+				}
+			}
 			mav.addObject("list", list);
 			return mav;
 		}
@@ -132,6 +181,30 @@ public class ComplainController {
 			List<Integer> idList=serviceService.idList(id_service);
 			//查询所有投诉信息
 			List<Complain> list=complainService.selectList(id_service,10, request, idList);
+			//设置投诉对象
+			for(Complain com:list){
+				if(com.getType_object()==0){
+					//投诉对象为电梯
+					Elevator e=elevatorService.getEById(com.getId_object());
+					if(e!=null){
+						com.setObjectName(e.getDesc());
+					}
+				}
+				if(com.getType_object()==1){
+					//投诉对象为维保公司
+					Service1 s=serviceService.findById(com.getId_object());
+					if(s!=null){
+						com.setObjectName(s.getName());
+					}
+				}
+				if(com.getType_object()==2){
+					//投诉对象为使用单位
+					User u=userService.findById(com.getId_object());
+					if(u!=null){
+						com.setObjectName(u.getName());
+					}
+				}
+			}
 			mav.addObject("list", list);
 			return mav;
 		}

@@ -43,7 +43,7 @@ span{
 		<tr>
 			<th>投诉编号</th>
 			<th>被投诉对象类型</th>
-			<th>被投诉对象顺序号</th>
+			<th>被投诉对象</th>
 			<th>投诉级别</th>
 			<th>投诉来源</th>
 			<th>联系方式 </th>
@@ -60,7 +60,7 @@ span{
 		<tr>
 			<td> ${n.cid}</td>
 			<td>${n.complainObject.type_name}</td>
-			<td>${n.id_object}</td>
+			<td>${n.objectName}</td>
 			<td>${n.complainLevel.level_name}</td>
 			<td>${n.complainSource.source_name}</td>
 			<td>${n.contact}</td>

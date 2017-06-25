@@ -37,7 +37,7 @@ public class ComplainService {
 					Restrictions.and(Restrictions.in("id_object",idList),
 							Restrictions.eq("type_object", 0))));
 		}
-		dc.addOrder(Order.desc("input1"));
+		dc.addOrder(Order.desc("date1"));
 		return complainDao.findPageByDcQuery(dc, pageSize, request);
 	}
 	//维保单位查所有投诉信息
@@ -48,7 +48,7 @@ public class ComplainService {
 				Restrictions.eq("type_object", 1)),
 				Restrictions.and(Restrictions.in("id_object",idList),
 						Restrictions.eq("type_object", 0))));
-		dc.addOrder(Order.desc("input1"));
+		dc.addOrder(Order.desc("date1"));
 		return complainDao.findPageByDcQuery(dc, pageSize, request);
 	}
 	//监管部门查所有投诉信息

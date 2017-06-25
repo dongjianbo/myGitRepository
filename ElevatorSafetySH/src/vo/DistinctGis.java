@@ -13,8 +13,8 @@ public class DistinctGis {
 	   private int id;
 	   private String id_distinct;
 	   private int level;
-	   private Float gis_x;
-	   private Float gis_y;
+	   private double gis_x;
+	   private double gis_y;
 	
 	public String getId_distinct() {
 		return id_distinct;
@@ -28,16 +28,16 @@ public class DistinctGis {
 	public void setLevel(int level) {
 		this.level = level;
 	}
-	public Float getGis_x() {
+	public double getGis_x() {
 		return gis_x;
 	}
-	public void setGis_x(Float gis_x) {
+	public void setGis_x(double gis_x) {
 		this.gis_x = gis_x;
 	}
-	public Float getGis_y() {
+	public double getGis_y() {
 		return gis_y;
 	}
-	public void setGis_y(Float gis_y) {
+	public void setGis_y(double gis_y) {
 		this.gis_y = gis_y;
 	}
 	public int getId() {

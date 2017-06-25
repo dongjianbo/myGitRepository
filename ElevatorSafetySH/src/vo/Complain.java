@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "complains")
@@ -18,7 +19,11 @@ public class Complain {
 	   @GeneratedValue(strategy=GenerationType.AUTO)
 	   private int cid;
 	   private int type_object;
+	   //投诉对象
 	   private int id_object;
+	   //投诉对象名称
+	   @Transient
+	   private String objectName;
 	   private int level;
 	   private int source;
 	   private String contact;
@@ -146,6 +151,12 @@ public class Complain {
 	}
 	public void setDealStatus(DealStatus dealStatus) {
 		this.dealStatus = dealStatus;
+	}
+	public String getObjectName() {
+		return objectName;
+	}
+	public void setObjectName(String objectName) {
+		this.objectName = objectName;
 	}
 	
 	

@@ -106,7 +106,7 @@
 		           <td>
 		           <ul>
 		           <li>登记机构:
-		           <li><input type="text" name="register_org" size="50" value="${deptName }" readonly="readonly"/>
+		           <li><input type="text" name="register_org" size="50" value="${login.city.name_city}${deptName }" readonly="readonly"/>
 		           <li>特种设备登记代码:
 		           <li><input type="text" name="register_code" id="register_code" size="50" maxlength="21" placeholder="请输入特种设备登记代码"/>*
 		           <li>特种设备代码:

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -62,6 +65,7 @@ import vo.History_list;
 import vo.History_listKey;
 import vo.Manufer;
 import vo.Modellist;
+import vo.Notice;
 import vo.Operator;
 import vo.Register_status_def;
 import vo.Safer;
@@ -127,6 +131,8 @@ public class ElevatorController {
 	public Elevator_type_defService elevatorTypeDefService;
 	@Resource
 	public DistinctGisService distinctGisService;
+	@Resource
+	public System_settingService systemSettingSevice;
 	
 	@RequestMapping("insert")
 	public String insert(Elevator elevator,HttpServletRequest request,HttpServletResponse response){
@@ -906,36 +912,123 @@ public class ElevatorController {
 		return jsonarray.toString();
 	}
 	// 地图
-	@RequestMapping("map")
-	public ModelAndView map(HttpServletRequest request) {
+	@RequestMapping(value="map",produces="text/html;charset=utf-8")
+	@ResponseBody
+	public String map(HttpServletRequest request) {
+		Map<String, Object> result=new HashMap<String, Object>();
 		//查找当前登录人
 		Operator op=(Operator)request.getSession().getAttribute("login");
-		if(!op.getTypeOperator().equals("00")){
-			ModelAndView mav=new ModelAndView("error");
-			mav.addObject("error","当前登录人非技术监督部门人员!");
-			return mav;
-		}else{
-			op=operatorService.findById(op.getIdoperator());
-				//第一次登录，没有查询，所以得从session中取地址
-				String id_city=op.getIdcity();
-				String id_district=op.getIddistrict();
-				String id_subdistrict=op.getIdsubdistrict();
-				DistinctGis distinctGis=distinctGisService.selectByDisId(op.getIddistrict());
-				Float gis_x=distinctGis.getGis_x();
-				Float gis_y=distinctGis.getGis_y();
-				System.out.println("id_city:"+id_city);
-				System.out.println("id_district:"+id_district);
-				System.out.println("id_subdistrict:"+id_subdistrict);
-				//符合条件的电梯编号
-				List<Integer> idList=elevatorService.getElevatorIds(id_city, id_district, id_subdistrict, 0, 0, 0, null);
-				List<Elevator> elList=elevatorService.getElevatorByIdList(idList);
-				JSONArray jsonarray=JSONArray.fromObject(elList);
-				ModelAndView mav = new ModelAndView("system/testBMap");
-				mav.addObject("gis_x",gis_x);
-				mav.addObject("gis_y",gis_y);
-				mav.addObject("elList",jsonarray);
-				return mav;
+//		op=operatorService.findById(op.getIdoperator());
+		//查找该登录人所在的区域
+		String id_city=op.getIdcity();
+		String id_district=op.getIddistrict();
+		String id_subdistrict=op.getIdsubdistrict();
+		DistinctGis distinctGis=distinctGisService.selectByDisId(op.getIddistrict());
+		result.put("distinctGis", distinctGis);
+		//符合条件的电梯编号
+		List<Integer> idList=elevatorService.getElevatorIds(id_city, id_district, id_subdistrict, 0, 0, 0, null);
+		List<Elevator> elList=elevatorService.getElevatorByIdList(idList);
+		//检验电梯是否有逾期、通知的维保记录
+		/*
+		 判断逾期规则：
+		  半月维保：elevator_state 中 15，90，180，360 四个时间离今天都超过了15天。
+		  季度维保：elevator_state 中 90，180，360  三个中最大值离今天都超过了90天。
+		  半年维保：elevator_state 中 180，360 二个中的最大值离今天都超过了180天。
+		  年度维保：elevator_state 中 360 离今天已超过了360天。
+		 年检：last_round中的时间距今天已经超过一年。
+		 */
+		//查询出系统中设置的提示时间
+		System_setting ss=systemSettingSevice.list().get(0);
+		for(Elevator e:elList){
+			boolean is15=false;//半月维保是否逾期
+			boolean is90=false;//季度维保是否逾期
+			boolean is180=false;//半年维保是否逾期
+			boolean is360=false;//年度维保是否逾期
+			boolean isround=false;//年检是否逾期
+			boolean pro15=false;//半月维保是否到了提示时间
+			boolean pro90=false;//季度维保是否到了提示时间
+			boolean pro180=false;//半年维保是否到了提示时间
+			boolean pro360=false;//年度维保是否到了提示时间
+			boolean proround=false;//年检是否到了提示时间
+			//查询该电梯的维保记录
+			Elevator_state es=esService.findById(e.getId_elevator());
+			//取出四个日期
+			long last_15_service=DateUtils.parse(es.getLast_15_service()).getTime();
+			long last_90_service=DateUtils.parse(es.getLast_90_service()).getTime();
+			long last_180_service=DateUtils.parse(es.getLast_180_service()).getTime();
+			long last_360_service=DateUtils.parse(es.getLast_360_service()).getTime();
+			long last_round=DateUtils.parse(es.getLastrounds()).getTime();
+			List<Long> services=new ArrayList<Long>();
+			services.add(last_15_service);
+			services.add(last_90_service);
+			services.add(last_180_service);
+			services.add(last_360_service);
+			//找出四个中的最大值
+			long max_4=Collections.max(services);
+			//找出后三个中的最大值
+			services.remove(0);
+			long max_3=Collections.max(services);
+			//找出后两个中的最大值
+			services.remove(0);
+			long max_2=Collections.max(services);
+			//找出最后一个值
+			long max_1=last_360_service;
+			//获得当前日期
+			long today=DateUtils.parse(DateUtils.format1(new Date())).getTime();
+			
+			//判断该电梯半月维保是否逾期
+			if((today-max_4)>(15L*24*60*60*1000)){
+				is15=true;
+			}else if((today-max_4)>(15L*24*60*60*1000-ss.getAlarm_15_service()*24L*60*60*1000)){
+				//判断该电梯半月维保是否已到提示时间
+				pro15=true;
+			}
+			//判断该电梯季度维保是否逾期
+			if((today-max_3)>(90L*24*60*60*1000)){
+				is90=true;
+			}else if((today-max_4)>(90L*24*60*60*1000-ss.getAlarm_90_service()*24L*60*60*1000)){
+				//判断该电梯季度维保是否已到提示时间
+				pro90=true;
+			}
+			//判断该电梯半年维保是否逾期
+			if((today-max_2)>(180L*24*60*60*1000)){
+				is180=true;
+			}else if((today-max_4)>(180L*24*60*60*1000-ss.getAlarm_180_service()*24L*60*60*1000)){
+				//判断该电梯半年维保是否已到提示时间
+				pro180=true;
+			}
+			//判断该电梯半年维保是否逾期
+			if((today-max_1)>(360L*24*60*60*1000)){
+				is360=true;
+			}else if((today-max_4)>(360L*24*60*60*1000-ss.getAlarm_360_service()*24L*60*60*1000)){
+				//判断该电梯半月维保是否已到提示时间
+				pro360=true;
+			}
+			//判断该电梯年检是否逾期
+			if((today-last_round)>(365L*24*60*60*1000)){
+				isround=true;
+			}else if((today-max_4)>(365L*24*60*60*1000-ss.getAlarm_rounds()*24L*60*60*1000)){
+				//判断该电梯半月维保是否已到提示时间
+				proround=true;
+			}
+			/*
+			 * 地图上电梯颜色显示规则：
+			 * 有任何逾期：红色
+			 * 无逾期，有任何一个提示：蓝色
+			 * 无逾期，无提示：绿色
+			 */
+			if(is15||is90||is180||is360||isround){
+				e.setMarkerType("red");
+			}else if(pro15||pro90||pro180||pro360||proround){
+				e.setMarkerType("blue");
+			}else{
+				e.setMarkerType("green");
+			}
 		}
+		result.put("elList",elList);
+		JSONObject jsonMap=JSONObject.fromObject(result);
+		return jsonMap.toString();
+		
 	}
 	// 地图
 	@RequestMapping("map2")
@@ -953,8 +1046,9 @@ public class ElevatorController {
 				String id_district=op.getIddistrict();
 				String id_subdistrict=op.getIdsubdistrict();
 				DistinctGis distinctGis=distinctGisService.selectByDisId(op.getIddistrict());
-				Float gis_x=distinctGis.getGis_x();
-				Float gis_y=distinctGis.getGis_y();
+				double gis_x=distinctGis.getGis_x();
+				double gis_y=distinctGis.getGis_y();
+				int level=distinctGis.getLevel();
 				System.out.println("id_city:"+id_city);
 				System.out.println("id_district:"+id_district);
 				System.out.println("id_subdistrict:"+id_subdistrict);
@@ -965,6 +1059,7 @@ public class ElevatorController {
 				ModelAndView mav = new ModelAndView("system/testBMap2");
 				mav.addObject("gis_x",gis_x);
 				mav.addObject("gis_y",gis_y);
+				mav.addObject("level",level);
 //				mav.addObject("elList",jsonarray);
 				return mav;
 		}

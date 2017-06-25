@@ -682,6 +682,16 @@ public class ServiceService {
 		} 
 		@Resource
 		public Maint_report_idDao mriDao;
+		/**
+		 * 查询维保记录列表
+		 * @param id_service
+		 * @param maint_type
+		 * @param start
+		 * @param end
+		 * @param idservicer
+		 * @param request
+		 * @return
+		 */
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		public List<Maint_report_id> listByTaskType(int id_service,int maint_type,String start,String end,int idservicer,HttpServletRequest request){
 			String sql1="select id_elevator from elevator where id_service="+id_service;
@@ -709,9 +719,9 @@ public class ServiceService {
 				if(mri.getMaint_type()==1){
 					//如果是半月维保，最后一次（含半月维保，季度维保，半年维保，全年维保）与本次  时间超过15天
 					//查询上一次维保时间
-					String maint_upload=DateUtils.format(mri.getMaint_upload());
-					String sql="select to_days('"+maint_upload+"')-to_days(max(maint_upload)) from maint_report_id "
-							+ "where maint_upload<'"+maint_upload+"' "
+					String maint_date=DateUtils.format(mri.getMaint_date());
+					String sql="select to_days('"+maint_date+"')-to_days(max(maint_upload)) from maint_report_id "
+							+ "where maint_upload<'"+maint_date+"' "
 									+ "and elevator_id="+mri.getElevator_id()+" "
 											+ "and maint_type in (1,2,3,4)";
 					Object obj=mriDao.getObjectBySQL(sql);
@@ -726,9 +736,9 @@ public class ServiceService {
 				}
 				if(mri.getMaint_type()==2){
 					//判断季度维保逾期，最后一次（含季度维保，半年维保，全年维保）与本次时间超过90天
-					String maint_upload=DateUtils.format(mri.getMaint_upload());
-					String sql="select to_days('"+maint_upload+"')-to_days(max(maint_upload)) from maint_report_id "
-							+ "where maint_upload<'"+maint_upload+"' "
+					String maint_date=DateUtils.format(mri.getMaint_date());
+					String sql="select to_days('"+maint_date+"')-to_days(max(maint_upload)) from maint_report_id "
+							+ "where maint_upload<'"+maint_date+"' "
 									+ "and elevator_id="+mri.getElevator_id()+" "
 											+ "and maint_type in (2,3,4)";
 					Object obj=mriDao.getObjectBySQL(sql);
@@ -743,9 +753,9 @@ public class ServiceService {
 				}
 				if(mri.getMaint_type()==3){
 					//判断半年维保逾期，最后一次（半年维保，全年维保）与本次时间超过180天
-					String maint_upload=DateUtils.format(mri.getMaint_upload());
-					String sql="select to_days('"+maint_upload+"')-to_days(max(maint_upload)) from maint_report_id "
-							+ "where maint_upload<'"+maint_upload+"' "
+					String maint_date=DateUtils.format(mri.getMaint_date());
+					String sql="select to_days('"+maint_date+"')-to_days(max(maint_upload)) from maint_report_id "
+							+ "where maint_upload<'"+maint_date+"' "
 									+ "and elevator_id="+mri.getElevator_id()+" "
 											+ "and maint_type in (3,4)";
 					Object obj=mriDao.getObjectBySQL(sql);
@@ -760,9 +770,9 @@ public class ServiceService {
 				}
 				if(mri.getMaint_type()==4){
 					//判断全年维保逾期，上次全年维保与本次时间超过365天
-					String maint_upload=DateUtils.format(mri.getMaint_upload());
-					String sql="select to_days('"+maint_upload+"')-to_days(max(maint_upload)) from maint_report_id "
-							+ "where maint_upload<'"+maint_upload+"' "
+					String maint_date=DateUtils.format(mri.getMaint_date());
+					String sql="select to_days('"+maint_date+"')-to_days(max(maint_upload)) from maint_report_id "
+							+ "where maint_upload<'"+maint_date+"' "
 									+ "and elevator_id="+mri.getElevator_id()+" "
 											+ "and maint_type=4";
 					Object obj=mriDao.getObjectBySQL(sql);

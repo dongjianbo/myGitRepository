@@ -8,9 +8,13 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
+
 
 import dao.ElevatorDao;
 import dao.Elevator_stateDao;
@@ -37,6 +41,7 @@ public class NoticeService {
 	 */
 	@SuppressWarnings("unchecked")
 	public void createTask(){
+		Logger.getLogger(this.getClass().getName()).log(Priority.DEBUG,"SPRING定时器任务已启动...");
 		/*
 			更新记录notice中this_service为空的记录
 	
@@ -116,9 +121,13 @@ public class NoticeService {
 			全年维保 last_service=last_360_service
 		*/
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator_state.class);
+		//只查询已注册的电梯
+		List<Integer> ids=eDao.getListBySQL("select id_elevator from elevator where register_status=1");
+		dc.add(Restrictions.in("idelevator", ids));
 		//巡检不查询
 		List<Elevator_state> eslist= esDao.getListByDc(dc);
 		for(Elevator_state es:eslist){
+			Logger.getLogger(this.getClass().getName()).log(Priority.DEBUG,"现在检查"+es.getIdelevator()+"号电梯的维保记录。");
 			//取出四个日期
 			long last_15_service=DateUtils.parse(es.getLast_15_service()).getTime();
 			long last_90_service=DateUtils.parse(es.getLast_90_service()).getTime();
@@ -140,13 +149,19 @@ public class NoticeService {
 			//找出最后一个值
 			long max_1=last_360_service;
 			//获得当前日期
-			long today=System.currentTimeMillis();
+			long today=DateUtils.parse(DateUtils.format1(new Date())).getTime();
 			//获得当前电梯的维保单位
 			int id_service=eDao.get(Elevator.class, es.getIdelevator()).getId_service();
 			//获得当前电梯的使用单位
 			int id_user=eDao.get(Elevator.class, es.getIdelevator()).getId_user();
+			
+			Logger.getLogger(this.getClass().getName()).log(Priority.DEBUG,"today is:"+today);
+			Logger.getLogger(this.getClass().getName()).log(Priority.DEBUG,"最后一次半月维保时间是："+max_4+",至今已过："+(today-max_4));
+			Logger.getLogger(this.getClass().getName()).log(Priority.DEBUG,"最后一次季度维保时间是："+max_3+",至今已过："+(today-max_3));
+			Logger.getLogger(this.getClass().getName()).log(Priority.DEBUG,"最后一次半年维保时间是："+max_2+",至今已过："+(today-max_2));
+			Logger.getLogger(this.getClass().getName()).log(Priority.DEBUG,"最后一次年度维保时间是："+max_1+",至今已过："+(today-max_1));
 			//判断该电梯半月维保是否逾期
-			if(today-max_4>(15*24*60*60*1000)){
+			if((today-max_4)>(15L*24*60*60*1000)){
 				Notice notice=new Notice();
 				notice.setMaint_type(1);
 				notice.setId_elevator(es.getIdelevator());
@@ -156,14 +171,14 @@ public class NoticeService {
 				notice.setDate_notice(DateUtils.format1(new Date()));
 				try {
 					saveOrUpdateNotice(notice);
-					System.out.println(es.getIdelevator()+"号电梯半月维保已逾期！");
+					Logger.getLogger(this.getClass().getName()).log(Priority.DEBUG,es.getIdelevator()+"号电梯半月维保已逾期！");
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 			//判断该电梯季度维保是否逾期
-			if(today-max_3>(90*24*60*60*1000)){
+			if((today-max_3)>(90L*24*60*60*1000)){
 				Notice notice=new Notice();
 				notice.setMaint_type(2);
 				notice.setId_elevator(es.getIdelevator());
@@ -173,14 +188,14 @@ public class NoticeService {
 				notice.setDate_notice(DateUtils.format1(new Date()));
 				try {
 					saveOrUpdateNotice(notice);
-					System.out.println(es.getIdelevator()+"号电梯季度维保已逾期！");
+					Logger.getLogger(this.getClass().getName()).log(Priority.DEBUG,es.getIdelevator()+"号电梯季度维保已逾期！");
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 			//判断该电梯半年维保是否逾期
-			if(today-max_2>(180*24*60*60*1000)){
+			if((today-max_2)>(180L*24*60*60*1000)){
 				Notice notice=new Notice();
 				notice.setMaint_type(3);
 				notice.setId_elevator(es.getIdelevator());
@@ -190,14 +205,14 @@ public class NoticeService {
 				notice.setDate_notice(DateUtils.format1(new Date()));
 				try {
 					saveOrUpdateNotice(notice);
-					System.out.println(es.getIdelevator()+"号电梯半年维保已逾期！");
+					Logger.getLogger(this.getClass().getName()).log(Priority.DEBUG,es.getIdelevator()+"号电梯半年维保已逾期！");
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 			//判断该电梯半年维保是否逾期
-			if(today-max_1>(360*24*60*60*1000)){
+			if((today-max_1)>(360L*24*60*60*1000)){
 				Notice notice=new Notice();
 				notice.setMaint_type(4);
 				notice.setId_elevator(es.getIdelevator());
@@ -207,7 +222,7 @@ public class NoticeService {
 				notice.setDate_notice(DateUtils.format1(new Date()));
 				try {
 					saveOrUpdateNotice(notice);
-					System.out.println(es.getIdelevator()+"号电梯全年维保已逾期！");
+					Logger.getLogger(this.getClass().getName()).log(Priority.DEBUG,es.getIdelevator()+"号电梯全年维保已逾期！");
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -225,9 +240,11 @@ public class NoticeService {
 		dc.add(Restrictions.eq("maint_type", notice.getMaint_type()));
 		dc.add(Restrictions.eq("last_service", notice.getLast_service()));
 		List<Notice> nlist=nDao.getListByDc(dc);
+		
 		if(nlist==null||nlist.isEmpty()){
-		//插入该记录
-		nDao.save(notice);	
+			System.out.println("检查："+notice.getId_elevator()+",已存在逾期记录："+nlist.size());
+			//插入该记录
+			nDao.save(notice);	
 		}
 	}
 	@SuppressWarnings("unchecked")

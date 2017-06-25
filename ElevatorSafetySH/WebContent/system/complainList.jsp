@@ -504,40 +504,29 @@ $().ready(function(){
 
 <hr style="margin-top: 10px">
 </form>
-<ul>
-	<li><table cellpadding="0" cellspacing="1">
+
+	<table cellpadding="0" cellspacing="1">
 		<tr>
 			<th>投诉编号</th>
 			<th>投诉级别</th>
-			<th>被投诉对象类型</th>
-			<th>被投诉对象顺序号</th>
+			<th>投诉类别</th>
+			<th>投诉对象</th>
 			<th>投诉来源</th>
 			<th>投诉内容</th>
+			<th>投诉时间 </th>
 			<th>联系方式 </th>
-			<th>处理状态</th>
-			<th>处理结果说明</th>
-			<th>投诉录入人员姓名</th>
-			<th>投诉录入时间 </th>
-			<th>处理录入人员姓名</th>
-			<th>处理录入时间</th>
-			<th style="width:50px">操作</th>
-			
+			<th>操作</th>
 		</tr>
 		<c:forEach items="${list}" var="n">
 		<tr>
 			<td> ${n.cid}</td>
 			<td>${n.complainLevel.level_name}</td>
 			<td>${n.complainObject.type_name}</td>
-			<td>${n.id_object}</td>
+			<td>${n.objectName}</td>
 			<td>${n.complianSource.source_name}</td>
 			<td><a href="javascript:showContentDialog(${n.content})">${n.content}</a></td>
-			<td>${n.contact}</td>
-			<td>${n.dealStatus.deal_name}</td>
-			<td>${n.result}</td>
-			<td>${n.input1}</td>
 			<td>${n.date1}</td>
-			<td>${n.iput2}</td>
-			<td>${n.date2}</td>
+			<td>${n.contact}</td>
 			<td>
 			<c:if test="${n.status eq 0 }">
 				<a href="javascript:showDialog(${n.cid})">投诉处理</a>&nbsp;&nbsp;&nbsp;
@@ -546,13 +535,10 @@ $().ready(function(){
 		</tr>
 		</c:forEach>
 		<tr>
-		  <td colspan="14" style="text-align: right;"><input type="button" onclick="showToDialog()"  style="margin-left: 200px;width: 100px;" value="投诉录入"/></td>
-		</tr>
-		<tr>
 		  <td colspan="14" style="text-align: left;">${pagination}</td>
 		</tr>
 	</table>
-</ul>
+
 <div id="complainDialog" style="display: none" title="投诉处理">
 	<form action="${path }/complain/dealComplain.do" method="post" id="complainForm">
 		<ul>

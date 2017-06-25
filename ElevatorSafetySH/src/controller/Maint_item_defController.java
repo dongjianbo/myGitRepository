@@ -30,18 +30,21 @@ public class Maint_item_defController {
 			Object[] obj=(Object[])midService.getDetail(maint_id, mid.getMaint_item_id());
 			String info="";
 			if(obj[0]!=null&&!obj[0].equals("")){
-				try {
-					info+=URLDecoder.decode(obj[0].toString(),"UTF-8");
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//				try {
+//					info+=URLDecoder.decode(obj[0].toString(),"UTF-8");
+					info+="说明";
+//				} catch (UnsupportedEncodingException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 			}
 			if(obj[1]!=null&&Integer.parseInt(obj[1].toString())>0){
 				if (info!=""&&info!=null) {
-					info += "/" + obj[1] + "p";
+//					info += "/" + obj[1] + "p";
+					info+="/照片";
 				}else{
-					info += obj[1] + "p";
+//					info += obj[1] + "p";
+					info+="照片";
 				}
 			}
 			if(obj[2]!=null){
@@ -66,15 +69,22 @@ public class Maint_item_defController {
 			Object[] obj=(Object[])midService.getDoorDetail(maint_id, mid.getMaint_item_id());
 			String info="";
 			if(obj[0]!=null&&!obj[0].equals("")){
-				try {
-					info+=URLDecoder.decode(obj[0].toString(),"UTF-8");
-				} catch (UnsupportedEncodingException e) {
+//				try {
+//					info+=URLDecoder.decode(obj[0].toString(),"UTF-8");
+					info+="说明";
+//				} catch (UnsupportedEncodingException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//					e.printStackTrace();
+//				}
 			}
 			if(obj[1]!=null&&Integer.parseInt(obj[1].toString())>0){
-				info+="/"+obj[1]+"p";
+				if (info!=""&&info!=null) {
+	//				info += "/" + obj[1] + "p";
+					info+="/照片";
+				}else{
+	//				info += obj[1] + "p";
+					info+="照片";
+				}
 			}
 			if(obj[2]!=null){
 				//为mid设置检测结果

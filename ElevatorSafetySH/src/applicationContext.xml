@@ -69,16 +69,11 @@
 			advice-ref="txAdvice" />
 		<aop:advisor advice-ref="loginAdvice" pointcut="execution(* controller.*Controller.*(..))"/>
 	</aop:config>
-	<!-- springMVC -->
-	<bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix">
-			<value>/</value>
-		</property>
-		<property name="suffix">
-			<value>.jsp</value>
-		</property>
-	</bean>
+	
 
-
+	<!-- 	spring定时任务 -->
+	<task:scheduled-tasks>
+	<!-- 位于NoticeService -->
+		<task:scheduled ref="overdueTaskService" method="createTask" cron="0 30 0 * * ?"/>
+	</task:scheduled-tasks>
 </beans>
