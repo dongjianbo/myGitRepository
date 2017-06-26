@@ -236,6 +236,8 @@ public class ElevatorController {
 		el.setCheck_construct_code(elevator.getCheck_construct_code());
 		el.setDate_register(elevator.getDate_register());
 		el.setDate_enable(elevator.getDate_enable());
+		el.setGis_x(elevator.getGis_y());
+		el.setGis_y(elevator.getGis_x());
 		int id_elevator=-1;
 		try {
 			id_elevator = Integer.parseInt(elevatorService.insert(el).toString());
@@ -952,78 +954,84 @@ public class ElevatorController {
 			boolean proround=false;//年检是否到了提示时间
 			//查询该电梯的维保记录
 			Elevator_state es=esService.findById(e.getId_elevator());
-			//取出四个日期
-			long last_15_service=DateUtils.parse(es.getLast_15_service()).getTime();
-			long last_90_service=DateUtils.parse(es.getLast_90_service()).getTime();
-			long last_180_service=DateUtils.parse(es.getLast_180_service()).getTime();
-			long last_360_service=DateUtils.parse(es.getLast_360_service()).getTime();
-			long last_round=DateUtils.parse(es.getLastrounds()).getTime();
-			List<Long> services=new ArrayList<Long>();
-			services.add(last_15_service);
-			services.add(last_90_service);
-			services.add(last_180_service);
-			services.add(last_360_service);
-			//找出四个中的最大值
-			long max_4=Collections.max(services);
-			//找出后三个中的最大值
-			services.remove(0);
-			long max_3=Collections.max(services);
-			//找出后两个中的最大值
-			services.remove(0);
-			long max_2=Collections.max(services);
-			//找出最后一个值
-			long max_1=last_360_service;
-			//获得当前日期
-			long today=DateUtils.parse(DateUtils.format1(new Date())).getTime();
-			
-			//判断该电梯半月维保是否逾期
-			if((today-max_4)>(15L*24*60*60*1000)){
-				is15=true;
-			}else if((today-max_4)>(15L*24*60*60*1000-ss.getAlarm_15_service()*24L*60*60*1000)){
-				//判断该电梯半月维保是否已到提示时间
-				pro15=true;
-			}
-			//判断该电梯季度维保是否逾期
-			if((today-max_3)>(90L*24*60*60*1000)){
-				is90=true;
-			}else if((today-max_4)>(90L*24*60*60*1000-ss.getAlarm_90_service()*24L*60*60*1000)){
-				//判断该电梯季度维保是否已到提示时间
-				pro90=true;
-			}
-			//判断该电梯半年维保是否逾期
-			if((today-max_2)>(180L*24*60*60*1000)){
-				is180=true;
-			}else if((today-max_4)>(180L*24*60*60*1000-ss.getAlarm_180_service()*24L*60*60*1000)){
-				//判断该电梯半年维保是否已到提示时间
-				pro180=true;
-			}
-			//判断该电梯半年维保是否逾期
-			if((today-max_1)>(360L*24*60*60*1000)){
-				is360=true;
-			}else if((today-max_4)>(360L*24*60*60*1000-ss.getAlarm_360_service()*24L*60*60*1000)){
-				//判断该电梯半月维保是否已到提示时间
-				pro360=true;
-			}
-			//判断该电梯年检是否逾期
-			if((today-last_round)>(365L*24*60*60*1000)){
-				isround=true;
-			}else if((today-max_4)>(365L*24*60*60*1000-ss.getAlarm_rounds()*24L*60*60*1000)){
-				//判断该电梯半月维保是否已到提示时间
-				proround=true;
-			}
-			/*
-			 * 地图上电梯颜色显示规则：
-			 * 有任何逾期：红色
-			 * 无逾期，有任何一个提示：蓝色
-			 * 无逾期，无提示：绿色
-			 */
-			if(is15||is90||is180||is360||isround){
-				e.setMarkerType("red");
-			}else if(pro15||pro90||pro180||pro360||proround){
-				e.setMarkerType("blue");
+			if(es!=null){
+				//取出四个日期
+				long last_15_service=DateUtils.parse(es.getLast_15_service()).getTime();
+				long last_90_service=DateUtils.parse(es.getLast_90_service()).getTime();
+				long last_180_service=DateUtils.parse(es.getLast_180_service()).getTime();
+				long last_360_service=DateUtils.parse(es.getLast_360_service()).getTime();
+				long last_round=DateUtils.parse(es.getLastrounds()).getTime();
+				List<Long> services=new ArrayList<Long>();
+				services.add(last_15_service);
+				services.add(last_90_service);
+				services.add(last_180_service);
+				services.add(last_360_service);
+				//找出四个中的最大值
+				long max_4=Collections.max(services);
+				//找出后三个中的最大值
+				services.remove(0);
+				long max_3=Collections.max(services);
+				//找出后两个中的最大值
+				services.remove(0);
+				long max_2=Collections.max(services);
+				//找出最后一个值
+				long max_1=last_360_service;
+				//获得当前日期
+				long today=DateUtils.parse(DateUtils.format1(new Date())).getTime();
+				
+				//判断该电梯半月维保是否逾期
+				if((today-max_4)>(15L*24*60*60*1000)){
+					is15=true;
+				}else if((today-max_4)>(15L*24*60*60*1000-ss.getAlarm_15_service()*24L*60*60*1000)){
+					//判断该电梯半月维保是否已到提示时间
+					pro15=true;
+				}
+				//判断该电梯季度维保是否逾期
+				if((today-max_3)>(90L*24*60*60*1000)){
+					is90=true;
+				}else if((today-max_4)>(90L*24*60*60*1000-ss.getAlarm_90_service()*24L*60*60*1000)){
+					//判断该电梯季度维保是否已到提示时间
+					pro90=true;
+				}
+				//判断该电梯半年维保是否逾期
+				if((today-max_2)>(180L*24*60*60*1000)){
+					is180=true;
+				}else if((today-max_4)>(180L*24*60*60*1000-ss.getAlarm_180_service()*24L*60*60*1000)){
+					//判断该电梯半年维保是否已到提示时间
+					pro180=true;
+				}
+				//判断该电梯半年维保是否逾期
+				if((today-max_1)>(360L*24*60*60*1000)){
+					is360=true;
+				}else if((today-max_4)>(360L*24*60*60*1000-ss.getAlarm_360_service()*24L*60*60*1000)){
+					//判断该电梯半月维保是否已到提示时间
+					pro360=true;
+				}
+				//判断该电梯年检是否逾期
+				if((today-last_round)>(365L*24*60*60*1000)){
+					isround=true;
+				}else if((today-max_4)>(365L*24*60*60*1000-ss.getAlarm_rounds()*24L*60*60*1000)){
+					//判断该电梯半月维保是否已到提示时间
+					proround=true;
+				}
+				/*
+				 * 地图上电梯颜色显示规则：
+				 * 有任何逾期：红色
+				 * 无逾期，有任何一个提示：蓝色
+				 * 无逾期，无提示：绿色
+				 */
+				if(is15||is90||is180||is360||isround){
+					e.setMarkerType("red");
+				}else if(pro15||pro90||pro180||pro360||proround){
+					e.setMarkerType("blue");
+				}else{
+					e.setMarkerType("green");
+				}
 			}else{
-				e.setMarkerType("green");
+				//没有维保记录，一律以红色显示
+				e.setMarkerType("red");
 			}
+			
 		}
 		result.put("elList",elList);
 		JSONObject jsonMap=JSONObject.fromObject(result);
