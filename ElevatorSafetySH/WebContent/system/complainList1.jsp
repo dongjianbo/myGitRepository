@@ -62,7 +62,7 @@ span{
 			<td>${n.complainObject.type_name}</td>
 			<td>${n.objectName}</td>
 			<td>${n.complainLevel.level_name}</td>
-			<td>${n.complainSource.source_name}</td>
+			<td>${n.complianSource.source_name}</td>
 			<td>${n.contact}</td>
 			<td>${n.content}</td>
 			<td>${n.dealStatus.deal_name}</td>
