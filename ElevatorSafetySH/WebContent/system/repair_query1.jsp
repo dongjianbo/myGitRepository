@@ -110,7 +110,7 @@ function showDetail(did){
 <input type="hidden" name="iduser" id="iduser" value="${iduser }"/>
 <ul>
 	
-	<li><h3>列表</h3>
+	<li><h3>维修信息列表</h3>
 		<input type="radio" name="approve_ark" value="-1" onclick="form_submit(this.checked)"
 			<c:if test="${approve_ark eq -1}">
 				checked="checked"

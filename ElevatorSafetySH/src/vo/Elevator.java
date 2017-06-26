@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -95,7 +96,10 @@ public class Elevator {
 	//地图上该电梯的颜色
 	@Transient
 	private String markerType;
-	
+	/*维保日期一对一*/
+	@OneToOne
+    @JoinColumn(name = "id_elevator")
+    private Elevator_state elevator_state;
 
 	public int getId_elevator() {
 		return id_elevator;
@@ -455,6 +459,14 @@ public class Elevator {
 
 	public void setMarkerType(String markerType) {
 		this.markerType = markerType;
+	}
+
+	public Elevator_state getElevator_state() {
+		return elevator_state;
+	}
+
+	public void setElevator_state(Elevator_state elevator_state) {
+		this.elevator_state = elevator_state;
 	}
 	
 }

@@ -16,7 +16,7 @@ import javax.persistence.Transient;
 public class Complain {
 	 @Id
 	   @Column(name="cid")
-	   @GeneratedValue(strategy=GenerationType.AUTO)
+	   @GeneratedValue(strategy=GenerationType.IDENTITY)
 	   private int cid;
 	   private int type_object;
 	   //Õ∂Àﬂ∂‘œÛ
