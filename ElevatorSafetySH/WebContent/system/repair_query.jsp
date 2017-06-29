@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+      <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -336,21 +337,23 @@ $().ready(function(){
 					var tr2="<tr>";
 					var a1=0;
 					var a2=0;
+					$("#table1").html("");
+					$("#table2").html("");
 					for(var i=0;i<midlist.length;i++){
-						if(midlist[i][0]==0){
+						if(midlist[i].key.type==0){
 							if(a1!=0&&a1%3==0){
 								tr1+="</tr><tr>"
 							}
 							$("#sqtp").attr("style", "display:block;");  
-							tr1+="<td><img src='http://longwan.shifting.com.cn/pda_api.php?name=get_repair_image&p="+midlist[i].path+"&h=200&w=200' width=200 height=200 alt='图片不存在！'/>&nbsp;&nbsp;&nbsp;</td>";
+							tr1+="<td><img src='http://120.27.196.90/pda_api.php?name=get_repair_image&p="+midlist[i].path+"&h=200&w=200' width=200 height=200 alt='图片不存在！'/>&nbsp;</td>";
 							a1++;
 						}
-						if(midlist[i][0]==1){
+						if(midlist[i].key.type==1){
 							if(a2!=0&&a2%3==0){
 								tr2+="</tr><tr>"
 							}
 							$("#wxtp").attr("style", "display:block;"); 
-							tr2+="<td><img src='http://longwan.shifting.com.cn/pda_api.php?name=get_repair_image&p="+midlist[i].path+"&h=200&w=200' width=200 height=200 alt='图片不存在！'/>&nbsp;&nbsp;&nbsp;</td>";
+							tr2+="<td><img src='http://120.27.196.90/pda_api.php?name=get_repair_image&p="+midlist[i].path+"&h=200&w=200' width=200 height=200 alt='图片不存在！'/>&nbsp;</td>";
 							a2++;
 						}
 					}
@@ -518,7 +521,7 @@ $().ready(function(){
 				</c:choose>
 			</td>
 			<td>${n.elevator.desc }</td>
-			<td>${n.upload }</td>
+			<td>${fn:substring(n.upload,0,10) }</td>
 			<td>
 			<c:choose>
 			    <c:when test="${empty n.repairapprove}">
@@ -528,7 +531,7 @@ $().ready(function(){
 			        ${n.repairapprove.approveType.approve_name}
 			    </c:otherwise>
 			</c:choose></td>
-			<td>${n.repairapprove.approve_date }</td>
+			<td>${fn:substring(n.repairapprove.approve_date,0,10) }</td>
 			<td>${n.note}</td>
 			<td>${n.repairapprove.note }</td>
 			<td>${n.repairmaint.note }</td>

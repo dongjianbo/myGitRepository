@@ -17,10 +17,12 @@ import service.ApproveAckService;
 import service.DeptGroupService;
 import service.ElevatorService;
 import service.OperatorService;
+import service.RepairImageService;
 import service.Repair_queryService;
 import service.ServiceService;
 import service.UserService;
 import vo.Operator;
+import vo.RepairImage;
 import vo.Repair_query;
 import vo.Service1;
 import vo.User;
@@ -43,6 +45,8 @@ public class Repair_queryController {
 	public OperatorService operatorService;
 	@Resource
 	public ElevatorService elevatorService;
+	@Resource
+	public RepairImageService repairImageService;
    
    
    
@@ -113,9 +117,19 @@ public class Repair_queryController {
 	public String detail(Repair_query repair_query){
 	   repair_query=repair_queryService.findById(repair_query.getRid());
 	   Operator operator=new Operator();
-		if (repair_query.getRepairapprove() != null) {
-			operator = operatorService.selectById(repair_query.getRepairapprove().getApprover());
-			repair_query.getRepairapprove().setApprover_name(operator.getName());
+		if (repair_query!=null&&repair_query.getRepairapprove()!=null) {
+			if(repair_query.getRepairapprove().getApprover()!=null){
+				operator = operatorService.selectById(repair_query.getRepairapprove().getApprover());
+				if(operator!=null){
+					repair_query.getRepairapprove().setApprover_name(operator.getName());
+				}else{
+					repair_query.getRepairapprove().setApprover_name("");
+				}
+			}
+			else{
+				repair_query.getRepairapprove().setApprover_name("");
+			}
+			
 		}
 	   JSONObject object=JSONObject.fromObject(repair_query);
 	   return object.toString();
@@ -124,7 +138,7 @@ public class Repair_queryController {
    @RequestMapping(value="listImageById",produces="text/html;charset=utf-8")
 	@ResponseBody
 	public String listImageById(int rid){
-	   List<Operator> obj=operatorService.getImageList(rid);
+	   List<RepairImage> obj=repairImageService.getImageList(rid);
 		JSONArray array=JSONArray.fromObject(obj);
 		return array.toString();
 	}

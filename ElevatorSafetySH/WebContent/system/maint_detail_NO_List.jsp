@@ -57,6 +57,7 @@
 		$("#addNote").dialog("open");
 	}
 	</script>
+	
 </head>
 <body>
 <ul>

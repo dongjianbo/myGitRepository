@@ -953,7 +953,7 @@ public class ElevatorController {
 			boolean pro360=false;//年度维保是否到了提示时间
 			boolean proround=false;//年检是否到了提示时间
 			//查询该电梯的维保记录
-			Elevator_state es=esService.findById(e.getId_elevator());
+			Elevator_state es=e.getElevator_state();
 			if(es!=null){
 				//取出四个日期
 				long last_15_service=DateUtils.parse(es.getLast_15_service()).getTime();

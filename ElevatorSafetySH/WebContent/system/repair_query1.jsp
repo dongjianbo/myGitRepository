@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+     <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -41,16 +42,8 @@ $().ready(function(){
 		height:600,
 		buttons:{
 			"确定":function(){
-				var form = $("#updateForm");
-			
-					
-				
-					
-		   
-	  },
-			"关闭":function(){
 				$(this).dialog("close");
-			}
+	  		}
 		},
 		close:function(){
 			$(this).dialog("close");
@@ -94,10 +87,6 @@ function showDetail(did){
 			$("#image").val(d.repairmaint.image);
 			$("#notew").val(d.repairmaint.note);
 		}
-		
-		
-		
-		
 		$("#detailDialog").dialog("open");
 		
 	});
@@ -155,7 +144,7 @@ function showDetail(did){
 			    </c:otherwise>
 				</c:choose></td>
 			<td>${n.elevator.desc }</td>
-			<td>${n.upload }</td>
+			<td>${fn:substring(n.upload,0,10) }</td>
 			<td>
 			<c:choose>
 			    <c:when test="${empty n.repairapprove}">
@@ -165,7 +154,7 @@ function showDetail(did){
 			        ${n.repairapprove.approveType.approve_name}
 			    </c:otherwise>
 			</c:choose></td>
-			<td>${n.repairapprove.approve_date }</td>
+			<td>${fn:substring(n.repairapprove.approve_date,0,10) }</td>
 			<td>${n.note}</td>
 			<td>${n.repairapprove.note }</td>
 			<td>${n.repairmaint.note }</td>
@@ -184,23 +173,23 @@ function showDetail(did){
 			<td style="text-align: left;vertical-align: top;">
 		        <ul>
 		            <li> 维修ID:
-					<li><input type="text" id="rids" name="rids" readonly="readonly" size="30" />
+					<li><input type="text" id="rids" name="rids" readonly="readonly" size="45" />
 		            <li> 电梯ID:
-					<li><input type="text" id="eids" name="eids"  size="30" />
+					<li><input type="text" id="eids" name="eids"  size="45" />
 					<li> 维保人员1:
-					<li><input type="text" id="suser1" name="user1" readonly="readonly" size="30" />
+					<li><input type="text" id="suser1" name="user1" readonly="readonly" size="45" />
 					<li> 申报内容:
-					<li><textarea rows="5" cols="30" name="note" id="notes"></textarea>
+					<li><textarea rows="5" cols="45" name="note" id="notes"></textarea>
                  </ul>
 		     </td>
 		     <td style="text-align: left;vertical-align: top;">
 		        <ul>
 		            <li> 维保人员2:
-					<li><input type="text" id="suser2" name="user2"  size="30" /> 
+					<li><input type="text" id="suser2" name="user2"  size="45" /> 
 					<li> 安全人员:
-					<li><input type="text" id="ssafer" name="safer"  size="30" />
+					<li><input type="text" id="ssafer" name="safer"  size="45" />
 		        	<li> 申报时间:
-					<li><input type="text" id="upload" name="upload" readonly="readonly" size="30" />
+					<li><input type="text" id="upload" name="upload" readonly="readonly" size="45" />
                  </ul>
 		     </td>
 		</tr>
@@ -213,17 +202,17 @@ function showDetail(did){
 			<td style="text-align: left;vertical-align: top;">
 		        <ul>
 		            <li> 批复状态:
-					<li><input type="text" id="approver_ack" name="approver_ack" readonly="readonly" size="30" />
+					<li><input type="text" id="approver_ack" name="approver_ack" readonly="readonly" size="45" />
 		            <li> 批复者:
-					<li><input type="text" id="approver" name="approver"  size="30" />
+					<li><input type="text" id="approver" name="approver" readonly="readonly" size="45" />
 					<li> 批复说明:
-					<li><textarea rows="5" cols="30" name="note" id="notep"></textarea>
+					<li><textarea rows="5" cols="45" name="note" id="notep" readonly="readonly"></textarea>
                  </ul>
 		     </td>
 		     <td style="text-align: left;vertical-align: top;">
 		        <ul>
 		        	<li> 批复时间:
-					<li><input type="text" id="approve_date" name="approve_date"  size="30" />
+					<li><input type="text" id="approve_date" name="approve_date" readonly="readonly" size="45" />
 					<!-- <li> 其他说明:
 					<li><textarea rows="5" cols="30" name="note2" id="notep2"></textarea> -->
                  </ul>
@@ -238,21 +227,21 @@ function showDetail(did){
 			<td style="text-align: left;vertical-align: top;">
 		        <ul>
 		            <li> 维保人员1:
-					<li><input type="text" id="wuser1" name="user1" readonly="readonly" size="30" />
+					<li><input type="text" id="wuser1" name="user1" readonly="readonly" size="45" />
 		            <li> 维保人员2:
-					<li><input type="text" id="wuser2" name="user2"  size="30" /> 
+					<li><input type="text" id="wuser2" name="user2" readonly="readonly" size="45" /> 
 					<li> 安全人员:
-					<li><input type="text" id="wsafer" name="safer"  size="30" />
+					<li><input type="text" id="wsafer" name="safer" readonly="readonly" size="45" />
 					<li> 维修时间:
-					<li><input type="text" id="repair_date" name="repair_date"  size="30" />
+					<li><input type="text" id="repair_date" name="repair_date" readonly="readonly" size="45" />
                  </ul>
 		     </td>
 		     <td style="text-align: left;vertical-align: top;">
 		        <ul>
 		        	<li> 图像个数:
-					<li><input type="text" id="image" name="image" readonly="readonly" size="30" />
+					<li><input type="text" id="image" name="image" readonly="readonly" size="45" />
 					<li> 维修说明:
-					<li><textarea rows="5" cols="30" name="note" id="notew"></textarea>
+					<li><textarea rows="5" cols="45" readonly="readonly" name="note" id="notew"></textarea>
                  </ul>
 		     </td>
 		</tr>

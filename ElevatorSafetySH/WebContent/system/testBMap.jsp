@@ -27,7 +27,7 @@
                      //var icon = new BMap.Icon("http://api.map.baidu.com/img/markers.png",new BMap.Size(23,25));
                      var icon = new BMap.Icon("${path}/images/markers.png",new BMap.Size(23,25), {
                          offset: new BMap.Size(10, 25), // 指定定位位置
-                         imageOffset: new BMap.Size(0, 0 - 3 * 25) // 设置图片偏移
+                         imageOffset: new BMap.Size(0, 0 - 0 * 25) // 设置图片偏移
                      });
                
                    	//设置标注的经纬度

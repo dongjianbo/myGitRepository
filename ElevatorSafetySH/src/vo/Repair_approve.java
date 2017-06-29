@@ -18,8 +18,8 @@ public class Repair_approve {
 	@Column(name = "rid")
 	private int rid;
 	@Column(name = "approver_ack")
-	private int approveack;
-	private int approver;
+	private Integer approveack;
+	private Integer approver;
 	@Transient
 	private String approver_name;
 	@Column(name = "approve_date")
@@ -51,18 +51,18 @@ public class Repair_approve {
 		this.rid = rid;
 	}
 	
-	public int getApprover() {
+	public Integer getApprover() {
 		return approver;
 	}
-	public void setApprover(int approver) {
+	public void setApprover(Integer approver) {
 		this.approver = approver;
 	}
 	
 	
-	public int getApproveack() {
+	public Integer getApproveack() {
 		return approveack;
 	}
-	public void setApproveack(int approveack) {
+	public void setApproveack(Integer approveack) {
 		this.approveack = approveack;
 	}
 	public String getApprove_date() {

@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "repair_maint")
@@ -21,10 +22,11 @@ public class Repair_maint {
 	private int user1;
 	private int user2;
 	private int user3;
-	@Column(name = "repair_date")
+	//@Column(name = "repair_date")
+	@Transient
 	private String repairdate;
 	private int image;
-	@Column(name = "last_modified")
+	@Column(name = "upload")
 	private String lastmodified;
 	
 	
