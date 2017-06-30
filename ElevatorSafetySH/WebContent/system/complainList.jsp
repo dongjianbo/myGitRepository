@@ -28,7 +28,6 @@ span{
 	<script src="${path}/jquery/ui/jquery.ui.draggable.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.position.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.resizable.js"></script>
-	<script src="${path}/jquery/ui/jquery.ui.button.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.dialog.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.effect.js"></script>
 <script type="text/javascript">
@@ -365,7 +364,7 @@ $().ready(function(){
 		$("#complainDialog").dialog("open");
 	}
 	function showContentDialog(content){
-		$("#content_show").val(content);
+		$("#content_show").html(content);
 		$("#contentDialog").dialog("open");
 	}
 	function showToDialog(){
@@ -503,8 +502,9 @@ $().ready(function(){
 </div>
 
 <hr style="margin-top: 10px">
-
 </form>
+<ul>
+	<li>
 	<table cellpadding="0" cellspacing="1">
 		<tr>
 			<th width="25%">投诉总数</th>
@@ -519,7 +519,9 @@ $().ready(function(){
 			<td>${countService}</td>
 		</tr>
 	</table>
-	<br>
+	<li>投诉信息列表
+
+	<li>
 	<table cellpadding="0" cellspacing="1">
 		<tr>
 			<th>投诉编号</th>
@@ -539,7 +541,7 @@ $().ready(function(){
 			<td>${n.complainObject.type_name}</td>
 			<td>${n.objectName}</td>
 			<td>${n.complianSource.source_name}</td>
-			<td><a href="javascript:showContentDialog(${n.content})">${n.content}</a></td>
+			<td><a href="javascript:showContentDialog('${n.content}')">${n.content}</a></td>
 			<td>${n.date1}</td>
 			<td>${n.contact}</td>
 			<td>
@@ -553,12 +555,17 @@ $().ready(function(){
 		  <td colspan="14" style="text-align: left;">${pagination}</td>
 		</tr>
 	</table>
-
+	<li>
+	<div style="text-align: right;">
+		<input type="button" onclick="showToDialog()"  style="margin-left: 200px;width: 100px;" value="投诉录入"/>
+	</div>
+		
+</ul>
 <div id="complainDialog" style="display: none" title="投诉处理">
 	<form action="${path }/complain/dealComplain.do" method="post" id="complainForm">
 		<ul>
 			<li>处理意见:
-			<li><textarea rows="5" cols="30" name="result" id="result"></textarea><br>
+			<li><textarea rows="10" cols="45" name="result" id="result"></textarea><br>
 			<li><input type="hidden" name="cid" id="cid" />
 		</ul>
 	</form>
@@ -566,35 +573,34 @@ $().ready(function(){
 <div id="contentDialog" style="display: none" title="投诉内容">
 	<form action="${path }/complain/dealComplain.do" method="post" id="complainForm">
 		<ul>
-			<li>投诉内容:
-			<li><textarea rows="5" cols="30" name="content_show" id="content_show"></textarea><br>
+			<li><p id="content_show"></p>
 		</ul>
 	</form>
 </div>
-<div id="toComplainDialog" style="display: none" title="投诉录入">
+<div id="toComplainDialog" style="display: none" title="投诉录入" align="left">
 	<form action="${path }/complain/insertComplain.do" method="post" id="complainInsertForm">
-		<table width="100%" height="100%" id="table" cellspacing="0">
+		<table width="100%" height="100%" id="table" cellspacing="0" align="left">
 			<tr>
-				<td>
+				<td style="text-align: left;">
 					<ul>
 						<li>被投诉对象类型:
-						<li><select name="type_object" id="type_object1"  size="30" onchange="chooseObject(this.value)"></select><br>
+						<li><select name="type_object" id="type_object1" onchange="chooseObject(this.value)"></select><br>
 						<li>投诉级别:
-						<li><select name="level" id="level"  size="30"></select><br>
+						<li><select name="level" id="level" ></select><br>
 						<li>投诉内容:
-						<li><textarea rows="5" cols="30" name="content" id="content"></textarea><br>
+						<li><textarea rows="5" cols="40" name="content" id="content"></textarea><br>
 					</ul>
 				</td>
-				<td>
+				<td style="text-align: left;">
 					<ul>
 						<li>被投诉对象:
-						<li><select name="object" id="object" size="30"></select><br>
+						<li><select name="object" id="object"></select><br>
 						<li>投诉来源:
-						<li><select name="source" id="source1" size="30"></select><br>
+						<li><select name="source" id="source1"></select><br>
 						<!-- <li>被投诉对象编号: -->
 						<input type="hidden" name="id_object" id="id_object" /><br>
 						<li>联系方式:
-						<li><input type="text" name="contact" id="contact"  size="30"/><br>
+						<li><input type="text" name="contact" id="contact"  size="38"/><br>
 					</ul>
 				</td>
 			</tr>

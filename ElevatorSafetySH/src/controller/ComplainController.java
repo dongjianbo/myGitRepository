@@ -21,6 +21,7 @@ import service.ElevatorService;
 import service.OperatorService;
 import service.ServiceService;
 import service.UserService;
+import util.DateUtils;
 import vo.Complain;
 import vo.Elevator;
 import vo.Operator;
@@ -264,6 +265,9 @@ public class ComplainController {
 			Operator op=(Operator)request.getSession().getAttribute("login");
 			complain.setStatus(0);
 			complain.setInput1(op.getName());
+			//Í¶ËßÊ±¼ä 
+			Date now=new Date();
+			complain.setDate1(DateUtils.format1(now));
 			complainService.insert(complain);
 	        return "ok";
 		}

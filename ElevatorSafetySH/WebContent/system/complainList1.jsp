@@ -21,56 +21,49 @@ span{
 	padding-left: 50px;
 }
 </style>
-		<script src="${path}/jquery/jquery-1.10.2.js"></script>
-<script src="${path}/jquery/ui/jquery.ui.core.js"></script>
+	<script src="${path}/jquery/jquery-1.10.2.js"></script>
+	<script src="${path}/jquery/ui/jquery.ui.core.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.widget.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.mouse.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.button.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.draggable.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.position.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.resizable.js"></script>
-	<script src="${path}/jquery/ui/jquery.ui.button.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.dialog.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.effect.js"></script>
 <script type="text/javascript">
-
+function showContentDialog(content){
+	$("#content_show").val(content);
+	$("#contentDialog").dialog("open");
+}
 </script>
 </head>
 <body>
 
 <ul>
+	<li><h3>使用单位投诉查询列表：</h3>
 	<li><table cellpadding="0" cellspacing="1">
 		<tr>
 			<th>投诉编号</th>
-			<th>被投诉对象类型</th>
-			<th>被投诉对象</th>
 			<th>投诉级别</th>
+			<th>投诉类别</th>
+			<th>投诉对象</th>
 			<th>投诉来源</th>
-			<th>联系方式 </th>
 			<th>投诉内容</th>
-			<th>处理状态</th>
-			<th>处理结果说明</th>
-			<th>投诉录入人员姓名</th>
-			<th>投诉录入时间 </th>
-			<th>处理录入人员姓名</th>
-			<th>处理录入时间</th>
+			<th>投诉时间 </th>
+			<th>联系方式 </th>
 			
 		</tr>
 		<c:forEach items="${list}" var="n">
 		<tr>
 			<td> ${n.cid}</td>
+			<td>${n.complainLevel.level_name}</td>
 			<td>${n.complainObject.type_name}</td>
 			<td>${n.objectName}</td>
-			<td>${n.complainLevel.level_name}</td>
 			<td>${n.complianSource.source_name}</td>
-			<td>${n.contact}</td>
 			<td>${n.content}</td>
-			<td>${n.dealStatus.deal_name}</td>
-			<td>${n.result}</td>
-			<td>${n.input1}</td>
 			<td>${n.date1}</td>
-			<td>${n.iput2}</td>
-			<td>${n.date2}</td>
+			<td>${n.contact}</td>
 		</tr>
 		</c:forEach>
 		<tr>
@@ -80,6 +73,13 @@ span{
 </ul>
 
 
-
+<div id="contentDialog" style="display: none" title="投诉内容">
+	<form action="${path }/complain/dealComplain.do" method="post" id="complainForm">
+		<ul>
+			<li>投诉内容:
+			<li><textarea rows="5" cols="30" name="content_show" id="content_show"></textarea><br>
+		</ul>
+	</form>
+</div>
 </body>
 </html>
