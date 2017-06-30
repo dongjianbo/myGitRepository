@@ -47,35 +47,36 @@ $().ready(function(){
 				var form = $("#updateForm");
 				//=================检查表单中的字段是否为空 ===================================
 				//判断文本框中的值是否为空
-			var note=$("#note").val();
-			var bool="";
-			if(note==null||note==""){
-				alert("请填写批复信息！");
-				return;
-			}else{
-				var radio = document.getElementsByName("radio");  
-			    for (i=0; i<radio.length; i++) {  
-			        if (radio[i].checked) {  
-			        	bool=true;
-			        }  
-			    }  
-			    if(bool=""){
-					alert("请选择是否同意！");
+				var note=$("#note").val();
+				var bool="";
+				if(note==null||note==""){
+					alert("请填写批复信息！");
 					return;
-				}
-				if(bool){
-					//提交表单 
-					$.post(form.attr('action'),form.serialize(),function(a){
-						if(a=="ok"){
-							location.reload();
-						}else{
-							alert("程序有点问题哟！");
-						}
-					});
-				}
-					
-		   }
-	  },
+				}else{
+					var radio = document.getElementsByName("approveack");
+				    for (i=0; i<radio.length; i++) {
+				        if (radio[i].checked==true) {  
+				        	bool=true;
+				        	break;
+				        }  
+				    }
+				    if(bool==""){
+						alert("请选择是否同意！");
+						return;
+					}
+					if(bool){
+						//提交表单 
+						$.post(form.attr('action'),form.serialize(),function(a){
+							if(a=="ok"){
+								location.reload();
+							}else{
+								alert("程序有点问题哟！");
+							}
+						});
+					}
+						
+			   }
+		  },
 			"关闭":function(){
 				$(this).dialog("close");
 			}
@@ -92,19 +93,8 @@ $().ready(function(){
 		height:600,
 		buttons:{
 			"确定":function(){
-				var form = $("#updateForm");
-				//提交表单 
-				$.post(form.attr('action'),form.serialize(),function(a){
-					if(a=="ok"){
-						location.reload();
-					}else{
-						alert("程序有点问题哟！");
-					}
-				});
-	  },
-			"关闭":function(){
 				$(this).dialog("close");
-			}
+	  		}
 		},
 		close:function(){
 			$(this).dialog("close");
@@ -297,6 +287,8 @@ $().ready(function(){
 	}
 	function showUpdate(did){
 		$("#rid").val(did);
+		$("#note").val("");
+		$("input[name='approveack']").attr("checked",false);
 		$("#updateDialog").dialog("open");
 	}
 	function showDetail(did){
@@ -561,7 +553,7 @@ $().ready(function(){
 </ul>
 
 
-<div id="updateDialog" style="display: none" title="批复">
+<div id="updateDialog" title="批复">
 	<form action="${path }/repairApprove/update.do" method="post" id="updateForm">
 		<ul>
 			<li>批复说明:
@@ -572,7 +564,7 @@ $().ready(function(){
 		</ul>
 	</form>
 </div>
-<div id="detailDialog" style="display: none" title="详细信息">
+<div id="detailDialog" title="详细信息">
 	<div title="申请信息">
 	<h3>申请信息：</h3>
 	<table width="100%" height="100%" id="table" cellspacing="0">
