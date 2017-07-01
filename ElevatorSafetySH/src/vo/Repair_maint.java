@@ -1,5 +1,7 @@
 package vo;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "repair_maint")
@@ -22,13 +23,8 @@ public class Repair_maint {
 	private int user1;
 	private int user2;
 	private int user3;
-	//@Column(name = "repair_date")
-	@Transient
-	private String repairdate;
 	private int image;
-	@Column(name = "upload")
-	private String lastmodified;
-	
+	private Date upload;
 	
 	
 	@ManyToOne(cascade=CascadeType.REFRESH,optional=true)
@@ -67,23 +63,17 @@ public class Repair_maint {
 	public void setUser2(int user2) {
 		this.user2 = user2;
 	}
-	public String getRepairdate() {
-		return repairdate;
+	public Date getUpload() {
+		return upload;
 	}
-	public void setRepairdate(String repairdate) {
-		this.repairdate = repairdate;
+	public void setUpload(Date upload) {
+		this.upload = upload;
 	}
 	public int getImage() {
 		return image;
 	}
 	public void setImage(int image) {
 		this.image = image;
-	}
-	public String getLastmodified() {
-		return lastmodified;
-	}
-	public void setLastmodified(String lastmodified) {
-		this.lastmodified = lastmodified;
 	}
 	public int getUser3() {
 		return user3;

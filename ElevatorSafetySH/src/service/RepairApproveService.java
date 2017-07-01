@@ -17,6 +17,8 @@ public class RepairApproveService {
   public Serializable insert(Repair_approve repair_approve){
 		return repairApproveDao.save(repair_approve);
 	}
-	
+  public void update(Repair_approve repair_approve){
+		repairApproveDao.update(repair_approve);
+	}
 }
 

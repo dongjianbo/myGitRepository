@@ -10,7 +10,7 @@
 <link href="${path}/css/table.css" rel="stylesheet" type="text/css">
 
 <link rel="stylesheet" href="${path}/jquery/themes/base/jquery.ui.all.css">
-<style type="text/css">
+<!-- <style type="text/css">
 a{
 	text-decoration: underline;
 	
@@ -20,7 +20,7 @@ span{
 	font-weight: bold;
 	padding-left: 50px;
 }
-</style>
+</style> -->
 	<script src="${path}/jquery/jquery-1.10.2.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.core.js"></script>
 	<script src="${path}/jquery/ui/jquery.ui.widget.js"></script>

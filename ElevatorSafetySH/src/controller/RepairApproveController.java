@@ -24,13 +24,13 @@ public class RepairApproveController {
 	 @RequestMapping(value="update",produces="text/html;charset=utf-8")
 		@ResponseBody
 		public String update(Repair_approve repair_approve,HttpServletRequest request){
-		   Date date=new Date();
+		 	Date date=new Date();
 			SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
 			String s=format.format(date);
 			repair_approve.setApprove_date(s);
 			Operator op=(Operator)request.getSession().getAttribute("login");
 			repair_approve.setApprover(op.getIdoperator());
-			repairApproveService.insert(repair_approve);
+			repairApproveService.update(repair_approve);
 			return "ok";
 		}
 }

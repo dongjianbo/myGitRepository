@@ -74,12 +74,12 @@ public class Repair_queryController {
 		ModelAndView mav = new ModelAndView("system/repair_query");
 		//符合条件的电梯编号
 		List<Integer> idList=elevatorService.getElevatorIds(id_city, id_district, id_subdistrict, id_service, id_user, id_test, desc);
+		int count=repair_queryService.listCount(-1,idList);
+	   	//查询所有维修申请记录
+	   	List<Repair_query> listAll=repair_queryService.list(-1,count, request,idList );
 		//查询维修申请记录
 		List<Repair_query> list=repair_queryService.list(approve_ark,10, request,idList);
-	   	//查询所有维修申请记录
-	   	List<Repair_query> listAll=repair_queryService.list(-1,10, request,idList );
-	   	mav.addObject("list", list);
-	   	int count=repair_queryService.listCount(-1,idList);
+	   
 	   	int count_approve=0;
 	   	int count_repaired=repair_queryService.listCount(3,idList);
 	   	int count_approved=repair_queryService.listCount(1,idList);
@@ -102,6 +102,7 @@ public class Repair_queryController {
 		mav.addObject("id_district", id_district);
 		mav.addObject("id_subdistrict", id_subdistrict);
 		mav.addObject("desc",desc);
+	   	mav.addObject("list", list);
 	   	
 	   	return mav;
 	}
@@ -170,12 +171,12 @@ public class Repair_queryController {
 			ids=null;
 		}
 		List<Integer> idList=userService.idList(id_user, ids);
+		int count=repair_queryService.listCount(-1,idList);
+	   	//查询所有维修申请记录
+	   	List<Repair_query> listAll=repair_queryService.list(-1,count, request,idList);
 		//查询维修申请记录
 	   	List<Repair_query> list=repair_queryService.list(approve_ark,10, request,idList);
-	   	//查询所有维修申请记录
-	   	List<Repair_query> listAll=repair_queryService.list(-1,10, request,idList);
 	   	mav.addObject("list", list);
-		int count=repair_queryService.listCount(-1,idList);
 	   	int count_approve=0;
 	   	int count_repaired=repair_queryService.listCount(3,idList);
 	   	int count_approved=repair_queryService.listCount(1,idList);
