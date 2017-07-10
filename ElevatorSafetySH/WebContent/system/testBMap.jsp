@@ -14,15 +14,29 @@
         <script type="text/javascript" src="http://api.map.baidu.com/api?ak=7cEfQTOD2S32tvOBCAI8CCT1OxWtQNRp&v=2.0&services=false"></script>
     	<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
     	<script type="text/javascript">
-    	
     		$().ready(function(){
+    			//获取欢度和高度
+    			height = document.documentElement.clientHeight;
+        	    width = document.documentElement.clientWidth;
     			//获取当前map信息
     			$.getJSON("${path}/elevator/map.do","rand="+Math.random(),function(r){
+    				/**宽度高度自适应*/
+        	    	colHeight = height-document.getElementById("container").offsetTop;
+        	    	colWidth = width+10-document.getElementById("container").offsetLeft;
+    				//房管部门不允许显示该div
+        	    	 if(r.roleId==18){
+        	    		$("#savePointDiv").attr("style", "display:none;");
+        	    	}else{
+        	    		colHeight = colHeight -40;
+        	    	} 
+    				//设置欢度和高度
+        	    	document.getElementById("container").style.height=colHeight+"px";
+         	    	document.getElementById("container").style.width=colWidth+"px";
     				//创建Map实例,参数为Map层的ID
                     var map = new BMap.Map("container");
                     //默认的坐标
                     var point = new BMap.Point(r.distinctGis.gis_x,r.distinctGis.gis_y);
-                   
+                    $("#id_distinct").val(r.distinctGis.id_distinct);
                   //设置标注的图标
                      //var icon = new BMap.Icon("http://api.map.baidu.com/img/markers.png",new BMap.Size(23,25));
                      var icon = new BMap.Icon("${path}/images/markers.png",new BMap.Size(23,25), {
@@ -75,7 +89,6 @@
                       	//设置标注的经纬度
                         var marker = new BMap.Marker(new BMap.Point(r.elList[i].gis_x,r.elList[i].gis_y),{icon:icon});
                         //把标注添加到地图上
-              
                         map.addOverlay(marker);
                         var label = new BMap.Label(r.elList[i].desc,{offset:new BMap.Size(-10,25)});  
                         marker.setLabel(label);  
@@ -104,13 +117,38 @@
         	                        this.openInfoWindow(infowindow);
                         		}
                         	}
-                        	
-                                 
-                             
                         }  
+                      //点击地图，获取经纬度坐标
+                        map.addEventListener("click",function(e){
+                       	$("#gis_x").val(e.point.lng);
+                       	$("#gis_y").val(e.point.lat);
+                       // $("#aa").html("经度坐标："+e.point.lng+" &nbsp;纬度坐标："+e.point.lat);
+                       });
                     }
     			});
-    			
+    			$("#marksubmit").click(function(){
+        			if($("#gis_x").val()==""||$("#gis_x").val()==null){
+        				alert("请选择位置");
+        				return;
+        			}
+        			if($("#gis_y").val()==""||$("#gis_y").val()==null){
+        				alert("请选择位置");
+        				return;
+        			}
+    	   			 if(confirm('确定修改中心位置为当前坐标吗?')){ 
+    	   			//提交表单 
+    	   				var form = $("#savePoint");
+ 						$.post(form.attr('action'),form.serialize(),function(a){
+ 							if(a=="ok"){
+ 								$("#gis_x").val("");
+ 		                       	$("#gis_y").val("");
+ 								location.reload();
+ 							}else{
+ 								alert("程序有点问题哟！");
+ 							}
+ 						});
+    	   			 }
+        		});
     		});   
               
     		function ck1(r,i,m){
@@ -134,7 +172,6 @@
             	alert("${path}/maint_report_id/listForTask.do?maint_type=123&elevator_id="+eid);
         		location.href="${path}/maint_report_id/listForTask.do?maint_type=123&elevator_id="+eid;
             }
-        	
     	</script>
     </head>
     <body>
@@ -143,21 +180,16 @@
        	<!-- <input type="text" value="" id="keyword" />
          <input type="button" name="" id="searchMap" value="查询"  /> -->
 	        <div align="center" style="width:1370px;height:690px;border:0px solid gray" id="container"></div>
-	        <div id="addmarker" style="display: none">
-		      	<form id="addmarker" action="" method="post">
+	        <div  id="savePointDiv">
+		      	<form id="savePoint" action="${path }/elevator/updateGis.do" method="post">
+		      	<input type="hidden" id="id_distinct" name="id_distinct"  size="50" />
 		      		<table>
 		      			<tr>
-		      				<td>请选择该标记对应的项目:</td>
-		      			</tr>
-		      			<tr>
-		      				<td>
-			      				<select style="width: 200px">
-			      					<option>请选择</option>
-			      				</select>
-		      				</td>
-		      			</tr>
-		      			<tr>
-		      				<td align="right"><input id="marksubmit" type="submit" value="确定"/></td>
+		      				<td>经度:</td>
+		      				<td><input readonly type="text" id="gis_x" name="gis_x" size="50" /></td>
+		      				<td>纬度:</td>
+		      				<td><input readonly type="text" id="gis_y" name="gis_y" size="50" /></td>
+		      				<td align="right"><input id="marksubmit" type="button" value="确定"/></td>
 		      			</tr>
 		      		</table>
 		      	</form>

@@ -2,10 +2,13 @@ package service;
 
 import javax.annotation.Resource;
 
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
 import dao.DistinctGisDao;
 import vo.DistinctGis;
+import vo.Elevator;
 
 @Service
 public class DistinctGisService {
@@ -29,6 +32,21 @@ public class DistinctGisService {
 		     dis.setGis_x((Double)objClass[3]);
 		     dis.setGis_y((Double)objClass[4]);
 		return dis;
+	}
+
+/**
+ * 根据id_distinct获取坐标信息
+ * @param id_distinct
+ * @return
+ */
+	public DistinctGis getByDId(String id_distinct) {
+		DetachedCriteria dc=DetachedCriteria.forClass(DistinctGis.class);
+		dc.add(Restrictions.eq("id_distinct", id_distinct));
+		return (DistinctGis)distinctGisDao.getListByDc(dc).get(0);
+	}
+
+	public void update(DistinctGis e) {
+		distinctGisDao.update(e);
 	}
 }
 
