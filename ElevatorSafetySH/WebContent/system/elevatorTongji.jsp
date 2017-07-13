@@ -318,6 +318,9 @@ span{
 			});
 		
 	}
+	function URLencode(key,id_service,id_test,id_user,id_city,id_district,id_subdistrict,keyType,desc) {
+        location.href="${path }/elevator/listForSearch.do?key="+key+"&id_service="+id_service+"&id_test="+id_test+"&id_user="+id_user+"&id_city="+id_city+"&id_district="+id_district+"&id_subdistrict="+id_subdistrict+"&keyType="+keyType+"&desc="+encodeURIComponent(desc);
+    }
 </script>
 </head>
 <body>
@@ -375,11 +378,16 @@ span{
 		<th>已注销数量</th>
 	</tr>
 	<tr>
-		<td><a href="${path }/elevator/listForSearch.do?key=count&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}">${count }</a></td>
-		<td><a href="${path }/elevator/listForSearch.do?key=count_registed&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}">${count_registed}</a></td>
-		<td><a href="${path }/elevator/listForSearch.do?key=count_noregist&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}">${count_noregist }</a></td>
-		<td><a href="${path }/elevator/listForSearch.do?key=count_stop&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}">${count_stop }</a></td>
-		<td><a href="${path }/elevator/listForSearch.do?key=count_destory&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}">${count_destory}</a></td>
+		<td><a href="javascript:void(0);"onclick="javascript:URLencode('count','${param.id_service}','${param.id_test}','${param.id_user}','${id_city}','${id_district}','${id_subdistrict}','${param.keyType}','${desc}');">${count }</a></td>
+		<td><a href="javascript:void(0);"onclick="javascript:URLencode('count_registed','${param.id_service}','${param.id_test}','${param.id_user}','${id_city}','${id_district}','${id_subdistrict}','${param.keyType}','${desc}');">${count_registed }</a></td>
+		<td><a href="javascript:void(0);"onclick="javascript:URLencode('count_noregist','${param.id_service}','${param.id_test}','${param.id_user}','${id_city}','${id_district}','${id_subdistrict}','${param.keyType}','${desc}');">${count_noregist }</a></td>
+		<td><a href="javascript:void(0);"onclick="javascript:URLencode('count_stop','${param.id_service}','${param.id_test}','${param.id_user}','${id_city}','${id_district}','${id_subdistrict}','${param.keyType}','${desc}');">${count_stop }</a></td>
+		<td><a href="javascript:void(0);"onclick="javascript:URLencode('count_destory','${param.id_service}','${param.id_test}','${param.id_user}','${id_city}','${id_district}','${id_subdistrict}','${param.keyType}','${desc}');">${count_destory }</a></td>
+		<%-- <td><a href="${path }/elevator/listForSearch.do?key=count&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&keyType=${param.keyType}&desc=${desc}">${count }</a></td>
+		<td><a href="${path }/elevator/listForSearch.do?key=count_registed&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&keyType=${param.keyType}&desc=${desc}">${count_registed}</a></td>
+		<td><a href="${path }/elevator/listForSearch.do?key=count_noregist&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&keyType=${param.keyType}&desc=${desc}">${count_noregist }</a></td>
+		<td><a href="${path }/elevator/listForSearch.do?key=count_stop&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&keyType=${param.keyType}&desc=${desc}">${count_stop }</a></td>
+		<td><a href="${path }/elevator/listForSearch.do?key=count_destory&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&keyType=${param.keyType}&desc=${desc}">${count_destory}</a></td> --%>
 	</tr>
 	</table>
 	<li><h3>正常运行电梯统计</h3>

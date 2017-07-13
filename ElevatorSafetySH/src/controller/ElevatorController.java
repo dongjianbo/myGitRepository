@@ -2,6 +2,7 @@ package controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.net.URLDecoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -420,8 +421,10 @@ public class ElevatorController {
 
 		// 点击统计中的数字进入电梯列表
 		@RequestMapping("listForSearch")
-		public ModelAndView listForSearch(String key, String search, HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,Integer keyType,String desc,String elevator_type,String gis_type) {
-			//Operator op=(Operator)request.getSession().getAttribute("login");
+
+		public ModelAndView listForSearch(String key, String search, HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,int keyType,String desc,String elevator_type,String gis_type) {
+			System.out.println( key+"-"+search+"-"+id_city+"-"+id_district+"-"+id_subdistrict+"-"+id_service+"-"+id_user+"-"+id_test+"-"+keyType+"-"+desc+"-"+elevator_type+"-"+gis_type);
+			Operator op=(Operator)request.getSession().getAttribute("login");
 			//
 			List<Elevator> list = new ArrayList<Elevator>();
 			//因为是在url后面传过来的，所以需要转码
@@ -788,6 +791,7 @@ public class ElevatorController {
 				mav.addObject("servicerCountForCity",servicerCountForCity);
 				mav.addObject("gis_type",gis_type);
 				mav.addObject("saferCountForCity",saferCountForCity);
+				mav.addObject("desc",desc);
 				return mav;
 			}
 		}
@@ -1040,10 +1044,21 @@ public class ElevatorController {
 			}
 			
 		}
+		result.put("roleId",op.getRole().getIdrole());
 		result.put("elList",elList);
 		JSONObject jsonMap=JSONObject.fromObject(result);
 		return jsonMap.toString();
 		
+	}
+	//部门位置信息更改
+	@RequestMapping("updateGis")
+	@ResponseBody
+	public String updateDistinctGis(DistinctGis e,HttpServletRequest request){
+		DistinctGis e_old=distinctGisService.getByDId(e.getId_distinct());
+		e_old.setGis_x(e.getGis_x());
+		e_old.setGis_y(e.getGis_y());
+		distinctGisService.update(e_old);
+		return "ok";
 	}
 	// 地图
 	@RequestMapping("map2")

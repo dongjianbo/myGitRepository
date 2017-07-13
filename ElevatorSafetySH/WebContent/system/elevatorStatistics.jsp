@@ -372,6 +372,9 @@ span{
 		$("#notice").html(message);
 		$("#notice").dialog("open");
 	}
+	function URLencode(key,elevator_type,id_service,id_test,id_user,id_city,id_district,id_subdistrict,keyType,gis_type,desc) {
+        location.href="${path }/elevator/listForSearch.do?key="+key+"&elevator_type="+elevator_type+"&id_service="+id_service+"&id_test="+id_test+"&id_user="+id_user+"&id_city="+id_city+"&id_district="+id_district+"&id_subdistrict="+id_subdistrict+"&keyType="+keyType+"&gis_type="+gis_type+"&desc="+encodeURIComponent(desc);
+    }
 </script>
 </head>
 <body>
@@ -446,19 +449,24 @@ span{
 		<a 
 			<c:if test="${countFor!=0 }">
 				style="color:green"
-			href="${path }/elevator/listForSearch.do?key=count&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}&gis_type=${gis_type}"</c:if>>
+				href="javascript:void(0);"
+				onclick="javascript:URLencode('count','','${param.id_service}','${param.id_test}','${param.id_user}','${id_city}','${id_district}','${id_subdistrict}','${param.keyType}','${gis_type}','${desc}');"
+				<%-- href="${path }/elevator/listForSearch.do?key=count&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&keyType=${param.keyType}&gis_type=${gis_type}&desc=${desc}" --%>
+			</c:if>>
 			${countFor}
 		</a>
 		</td>
 		<c:forEach items="${values }" var="v">
 			<td>
 			<a 
-			<c:if test="${v.value!=0 }">
-				style="color:green"
-			
-			href="${path }/elevator/listForSearch.do?key=countByType&elevator_type=${v.key }&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}&gis_type=${gis_type}"</c:if>>
-			${v.value }
-		</a></td>
+				<c:if test="${v.value!=0 }">
+					style="color:green"
+					href="javascript:void(0);"
+					onclick="javascript:URLencode('countByType','${v.key }','${param.id_service}','${param.id_test}','${param.id_user}','${id_city}','${id_district}','${id_subdistrict}','${param.keyType}','${gis_type}','${desc}');"
+					<%-- href="${path }/elevator/listForSearch.do?key=countByType&elevator_type=${v.key }&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&keyType=${param.keyType}&gis_type=${gis_type}&desc=${desc}" --%>
+				</c:if>>
+				${v.value }
+			</a></td>
 		</c:forEach>
 	</tr>
 	<tr>
@@ -466,15 +474,21 @@ span{
 		<td><a 
 			<c:if test="${countFor15Years!=0 }">
 				style="color:green"
-			href="${path }/elevator/listForSearch.do?key=count15Years&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}&gis_type=${gis_type}"</c:if>>
+				href="javascript:void(0);"
+				onclick="javascript:URLencode('count15Years','','${param.id_service}','${param.id_test}','${param.id_user}','${id_city}','${id_district}','${id_subdistrict}','${param.keyType}','${gis_type}','${desc}');"
+				<%-- href="${path }/elevator/listForSearch.do?key=count15Years&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&keyType=${param.keyType}&gis_type=${gis_type}&desc=${desc}" --%>
+			</c:if>>
 			${countFor15Years}
 		</a></td>
 		<c:forEach items="${oldvalues }" var="v2">
 			<td><a 
-			<c:if test="${v2.value!=0 }">
-				style="color:green"
-			href="${path }/elevator/listForSearch.do?key=count15YearsByType&elevator_type=${v2.key }&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&desc=${desc}&keyType=${param.keyType}&gis_type=${gis_type}"</c:if>>
-			${v2.value }
+				<c:if test="${v2.value!=0 }">
+					style="color:green"
+					href="javascript:void(0);"
+					onclick="javascript:URLencode('count15YearsByType','${v2.key }','${param.id_service}','${param.id_test}','${param.id_user}','${id_city}','${id_district}','${id_subdistrict}','${param.keyType}','${gis_type}','${desc}');"
+					<%-- href="${path }/elevator/listForSearch.do?key=count15YearsByType&elevator_type=${v2.key }&id_service=${param.id_service}&id_test=${param.id_test}&id_user=${param.id_user}&id_city=${id_city}&id_district=${id_district}&id_subdistrict=${id_subdistrict}&keyType=${param.keyType}&gis_type=${gis_type}&desc=${desc}" --%>
+				</c:if>>
+				${v2.value }
 		</a></td>
 		</c:forEach>
 	</tr>

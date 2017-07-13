@@ -15,6 +15,12 @@
     	<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
     	<script type="text/javascript">
     		$().ready(function(){
+    			height = document.documentElement.clientHeight;
+    	    	width = document.documentElement.clientWidth;
+    	    	colHeight = height-document.getElementById("container").offsetTop;
+    	    	colWidth = width-document.getElementById("container").offsetLeft;
+    	    	document.getElementById("container").style.height=colHeight+"px";
+    	    	document.getElementById("container").style.width=colWidth+"px";
     			//创建Map实例,参数为Map层的ID
                 var map = new BMap.Map("container");
                 //默认的坐标
@@ -103,7 +109,7 @@
                 	parent.$("#gis_y").val(e.point.lat);
  					parent.$("#gis").val(e.point.lng+","+e.point.lat);
                     $("#aa").html("经度坐标："+e.point.lng+" &nbsp;纬度坐标："+e.point.lat);
-                }); 
+                });
                 
                 //查询地图事件
                  /* $("#searchMap").click(function(){
@@ -125,7 +131,7 @@
 		<input type="hidden" id="gis_y" name="gis_y" size="50" />
        	<!-- <input type="text" value="" id="keyword" />
          <input type="button" name="" id="searchMap" value="查询"  /> -->
-	        <div align="center" style="width:800px;height:600px;border:0px solid gray" id="container"></div>
+	        <div align="center" style="width:100%;height:100%;border:0px solid gray" id="container"></div>
 	        <!-- <div id="addmarker" style="display: none">
 		      	<form id="addmarker" action="" method="post">
 		      		<table>
