@@ -65,45 +65,71 @@ public class NoticeService {
 			long last_180_service=DateUtils.parse(es.getLast_180_service()).getTime();
 			long last_360_service=DateUtils.parse(es.getLast_360_service()).getTime();
 			long last_service=DateUtils.parse(n.getLast_service()).getTime();
-			List<Long> services=new ArrayList<Long>();
-			services.add(last_15_service);
-			services.add(last_90_service);
-			services.add(last_180_service);
-			services.add(last_360_service);
-			//找出四个中的最大值
-			long max_4=Collections.max(services);
-			//找出后三个中的最大值
-			services.remove(0);
-			long max_3=Collections.max(services);
-			//找出后两个中的最大值
-			services.remove(0);
-			long max_2=Collections.max(services);
-			//找出最后一个值
-			long max_1=last_360_service;
 			//判断是否要更新
 			if(n.getMaint_type()==1){
-				//半月维保
-				if(max_4>last_service){
-					n.setThis_service(DateUtils.format1(new Date(max_4)));
+				//如果是半月维保，取所有大于last_service中最小的那个
+				List<Long> services=new ArrayList<Long>();
+				//凡是大于last_service的添加到services中去。
+				if(last_15_service>last_service){
+					services.add(last_15_service);
+				}
+				if(last_90_service>last_service){
+					services.add(last_90_service);
+				}
+				if(last_180_service>last_service){
+					services.add(last_180_service);
+				}
+				if(last_360_service>last_service){
+					services.add(last_360_service);
+				}
+				if(services.size()>0){
+					//找出集合中的最小值
+					long min=Collections.min(services);
+					n.setThis_service(DateUtils.format1(new Date(min)));
 					nDao.update(n);
 				}
 			}
 			if(n.getMaint_type()==2){
-				//季度维保
-				if(max_3>last_service){
-					n.setThis_service(DateUtils.format1(new Date(max_3)));
+				//如果是季度维保，取90,180,360中大于last_service中最小的那个
+				List<Long> services=new ArrayList<Long>();
+				//凡是大于last_service的添加到services中去。
+				if(last_90_service>last_service){
+					services.add(last_90_service);
+				}
+				if(last_180_service>last_service){
+					services.add(last_180_service);
+				}
+				if(last_360_service>last_service){
+					services.add(last_360_service);
+				}
+				if(services.size()>0){
+					//找出集合中的最小值
+					long min=Collections.min(services);
+					n.setThis_service(DateUtils.format1(new Date(min)));
 					nDao.update(n);
 				}
 			}
 			if(n.getMaint_type()==3){
-				if(max_2>last_service){
-					n.setThis_service(DateUtils.format1(new Date(max_2)));
+				//如果是半年维保，取180,360大于last_service中最小的那个
+				List<Long> services=new ArrayList<Long>();
+				//凡是大于last_service的添加到services中去。
+				if(last_180_service>last_service){
+					services.add(last_180_service);
+				}
+				if(last_360_service>last_service){
+					services.add(last_360_service);
+				}
+				if(services.size()>0){
+					//找出集合中的最小值
+					long min=Collections.min(services);
+					n.setThis_service(DateUtils.format1(new Date(min)));
 					nDao.update(n);
 				}
 			}
 			if(n.getMaint_type()==4){
-				if(max_1>last_service){
-					n.setThis_service(DateUtils.format1(new Date(max_1)));
+				//如果是年度维保，取360大于last_service
+				if(last_360_service>last_service){
+					n.setThis_service(DateUtils.format1(new Date(last_360_service)));
 					nDao.update(n);
 				}
 			}

@@ -1,5 +1,7 @@
 package controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -401,7 +403,12 @@ public class ElevatorController {
 				mav.addObject("id_city", id_city);
 				mav.addObject("id_district", id_district);
 				mav.addObject("id_subdistrict", id_subdistrict);
-				mav.addObject("desc",desc);
+				try {
+					mav.addObject("desc",URLEncoder.encode(desc,"UTF-8"));
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				//系统设置中的提示天数
 				List<System_setting> system_settingList=system_settingService.list();
 				if(system_settingList!=null&&system_settingList.size()>0){
@@ -413,8 +420,8 @@ public class ElevatorController {
 
 		// 点击统计中的数字进入电梯列表
 		@RequestMapping("listForSearch")
-		public ModelAndView listForSearch(String key, String search, HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,int keyType,String desc,String elevator_type,String gis_type) {
-			Operator op=(Operator)request.getSession().getAttribute("login");
+		public ModelAndView listForSearch(String key, String search, HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,Integer keyType,String desc,String elevator_type,String gis_type) {
+			//Operator op=(Operator)request.getSession().getAttribute("login");
 			//
 			List<Elevator> list = new ArrayList<Elevator>();
 			//因为是在url后面传过来的，所以需要转码
