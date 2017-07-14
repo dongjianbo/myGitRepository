@@ -404,8 +404,14 @@ public class ElevatorController {
 				mav.addObject("id_city", id_city);
 				mav.addObject("id_district", id_district);
 				mav.addObject("id_subdistrict", id_subdistrict);
+				
 				try {
-					mav.addObject("desc",URLEncoder.encode(desc,"UTF-8"));
+					if(desc!=null&&!"".equals(desc)){
+						mav.addObject("desc",URLEncoder.encode(desc,"UTF-8"));
+					}else{
+						mav.addObject("desc",null);
+					}
+					
 				} catch (UnsupportedEncodingException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1057,6 +1063,7 @@ public class ElevatorController {
 		DistinctGis e_old=distinctGisService.getByDId(e.getId_distinct());
 		e_old.setGis_x(e.getGis_x());
 		e_old.setGis_y(e.getGis_y());
+		e_old.setLevel(e.getLevel());
 		distinctGisService.update(e_old);
 		return "ok";
 	}

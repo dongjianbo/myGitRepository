@@ -15,6 +15,8 @@
     	<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
     	<script type="text/javascript">
     		$().ready(function(){
+    			//创建Map实例,参数为Map层的ID
+                var map = new BMap.Map("container");
     			//获取欢度和高度
     			height = document.documentElement.clientHeight;
         	    width = document.documentElement.clientWidth;
@@ -32,8 +34,7 @@
     				//设置欢度和高度
         	    	document.getElementById("container").style.height=colHeight+"px";
          	    	document.getElementById("container").style.width=colWidth+"px";
-    				//创建Map实例,参数为Map层的ID
-                    var map = new BMap.Map("container");
+    				
                     //默认的坐标
                     var point = new BMap.Point(r.distinctGis.gis_x,r.distinctGis.gis_y);
                     $("#id_distinct").val(r.distinctGis.id_distinct);
@@ -122,6 +123,7 @@
                         map.addEventListener("click",function(e){
                        	$("#gis_x").val(e.point.lng);
                        	$("#gis_y").val(e.point.lat);
+                       	$("#map_level").val(this.getZoom());
                        // $("#aa").html("经度坐标："+e.point.lng+" &nbsp;纬度坐标："+e.point.lat);
                        });
                     }
@@ -142,6 +144,7 @@
  							if(a=="ok"){
  								$("#gis_x").val("");
  		                       	$("#gis_y").val("");
+ 		                       	
  								location.reload();
  							}else{
  								alert("程序有点问题哟！");
@@ -188,7 +191,9 @@
 		      				<td>经度:</td>
 		      				<td><input readonly type="text" id="gis_x" name="gis_x" size="50" /></td>
 		      				<td>纬度:</td>
-		      				<td><input readonly type="text" id="gis_y" name="gis_y" size="50" /></td>
+		      				<td><input readonly type="text" id="gis_y" name="gis_y" size="50" />
+		      				<input type="hidden" id="map_level" name="level"/>
+		      				</td>
 		      				<td align="right"><input id="marksubmit" type="button" value="确定"/></td>
 		      			</tr>
 		      		</table>
