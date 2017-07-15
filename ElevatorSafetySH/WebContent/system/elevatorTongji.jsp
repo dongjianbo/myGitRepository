@@ -1,3 +1,4 @@
+<%@page import="java.net.URLDecoder"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -319,7 +320,7 @@ span{
 		
 	}
 	function URLencode(key,id_service,id_test,id_user,id_city,id_district,id_subdistrict,keyType,desc) {
-        location.href="${path }/elevator/listForSearch.do?key="+key+"&id_service="+id_service+"&id_test="+id_test+"&id_user="+id_user+"&id_city="+id_city+"&id_district="+id_district+"&id_subdistrict="+id_subdistrict+"&keyType="+keyType+"&desc="+encodeURIComponent(desc);
+        location.href="${path }/elevator/listForSearch.do?key="+key+"&id_service="+id_service+"&id_test="+id_test+"&id_user="+id_user+"&id_city="+id_city+"&id_district="+id_district+"&id_subdistrict="+id_subdistrict+"&keyType="+keyType+"&desc="+desc;
     }
 </script>
 </head>
@@ -361,7 +362,15 @@ span{
 				<c:if test="${param.keyType==2 }">selected='selected'</c:if>
 			>电梯品牌</option>
 		</select></span>
-		<input type="text" id="desc" name="desc" size="33" maxlength="16" value="${desc }"/>
+		<%
+			Object desc_o=request.getAttribute("desc");
+			String desc_dcoder="";
+			if(desc_o!=null){
+				desc_dcoder=URLDecoder.decode(desc_o.toString(),"UTF-8");
+			}
+			
+		%>
+		<input type="text" id="desc" name="desc" size="33" maxlength="16" value="<%=desc_dcoder%>"/>
 		<input type="submit" style="margin-left: 470px" value="&nbsp;&nbsp;搜索&nbsp;&nbsp;"/>
 	</ul>
 </div>

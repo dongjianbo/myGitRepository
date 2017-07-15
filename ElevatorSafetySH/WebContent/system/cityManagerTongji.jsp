@@ -357,7 +357,7 @@ span{
 				<c:if test="${param.keyType==2 }">selected='selected'</c:if>
 			>电梯品牌</option>
 		</select></span>
-		<input type="text" id="desc" name="desc" size="33" maxlength="16" value="${desc }"/>
+		<input type="text" id="desc" name="desc" size="33" maxlength="16" value="${edesc }"/>
 		<input type="submit" style="margin-left: 470px" value="&nbsp;&nbsp;搜索&nbsp;&nbsp;"/>
 	</ul>
 </div>

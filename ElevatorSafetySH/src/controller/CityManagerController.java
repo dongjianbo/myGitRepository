@@ -1,5 +1,7 @@
 package controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,7 +128,18 @@ public class CityManagerController {
 			mav.addObject("id_city", id_city);
 			mav.addObject("id_district", id_district);
 			mav.addObject("id_subdistrict", id_subdistrict);
-			mav.addObject("desc",desc);
+			mav.addObject("edesc",desc);
+			try {
+				if(desc!=null&&!"".equals(desc)){
+					mav.addObject("desc",URLEncoder.encode(desc,"UTF-8"));
+				}else{
+					mav.addObject("desc",null);
+				}
+				
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			//系统设置中的提示天数
 			List<System_setting> system_settingList=system_settingService.list();
 			if(system_settingList!=null&&system_settingList.size()>0){
