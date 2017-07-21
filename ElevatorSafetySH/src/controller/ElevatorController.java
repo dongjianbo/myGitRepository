@@ -239,8 +239,8 @@ public class ElevatorController {
 		el.setCheck_construct_code(elevator.getCheck_construct_code());
 		el.setDate_register(elevator.getDate_register());
 		el.setDate_enable(elevator.getDate_enable());
-		el.setGis_x(elevator.getGis_y());
-		el.setGis_y(elevator.getGis_x());
+		el.setGis_x(elevator.getGis_x());
+		el.setGis_y(elevator.getGis_y());
 		int id_elevator=-1;
 		try {
 			id_elevator = Integer.parseInt(elevatorService.insert(el).toString());
