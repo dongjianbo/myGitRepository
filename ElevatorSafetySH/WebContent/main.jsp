@@ -14,19 +14,19 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>
 <c:if test="${operator_type.id_operator_type=='00'||operator_type.id_operator_type=='01'}">
-河南省电梯安全监管（漯河）中心
+湖北省电梯安全监管中心
 </c:if>
 <c:if test="${operator_type.id_operator_type=='10'||operator_type.id_operator_type=='11'}">
-河南省电梯安全监督维保中心
+湖北省电梯安全监督维保中心
 </c:if>
 <c:if test="${operator_type.id_operator_type=='20'||operator_type.id_operator_type=='21'||operator_type.id_operator_type=='40'}">
-河南省电梯安全监督用户中心
+湖北省电梯安全监督用户中心
 </c:if>
 <c:if test="${operator_type.id_operator_type=='30'||operator_type.id_operator_type=='31'}">
-河南省电梯安全监督检验检测中心
+湖北省电梯安全监督检验检测中心
 </c:if>
 <c:if test="${operator_type.id_operator_type=='50'}">
-河南省电梯安全监管（漯河）房管中心
+湖北省电梯安全监管房管中心
 </c:if>
 </title>
 <link href="${path}/css/system.css" rel="stylesheet" type="text/css">
@@ -127,19 +127,19 @@ function closeme(){
 				<ul>
 				<li><div style="font-size: 30px;margin-top: 10px;">
 				 <c:if test="${operator_type.id_operator_type=='00'||operator_type.id_operator_type=='01'}">
-				   河南省电梯安全监管（漯河）中心
+				   湖北省电梯安全监管中心
 			     </c:if>
 			     <c:if test="${operator_type.id_operator_type=='10'||operator_type.id_operator_type=='11'}">
-				   河南省电梯安全监督维保中心
+				   湖北省电梯安全监督维保中心
 				   </c:if>
 				   <c:if test="${operator_type.id_operator_type=='20'||operator_type.id_operator_type=='21'||operator_type.id_operator_type=='40'}">
-				   河南省电梯安全监督用户中心
+				   湖北省电梯安全监督用户中心
 				   </c:if>
 				   <c:if test="${operator_type.id_operator_type=='30'||operator_type.id_operator_type=='31'}">
-				   河南省电梯安全监督检验检测中心
+				   湖北省电梯安全监督检验检测中心
 				   </c:if>
 				   <c:if test="${operator_type.id_operator_type=='50'}">
-				   河南省电梯安全监管（漯河）房管中心
+				   湖北省电梯安全监管房管中心
 				   </c:if>
 				</div>
 				<li><div style="font-size:14px;text-align: left;margin-left: 100px;">

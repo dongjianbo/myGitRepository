@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>河南省电梯安全监督管理信息平台</title>
+<title>湖北省电梯安全监督管理信息平台</title>
 <style type="text/css">
 .title1 {
 	font-family: "华文行楷";
@@ -29,7 +29,7 @@
 </style>
 </head>
 <body bgcolor="#efffff">
-	<h1 align="center" class="title1">河南省电梯安全监督管理信息平台</h1>
+	<h1 align="center" class="title1">湖北省电梯安全监督管理信息平台</h1>
 	<table align="center" width="100%">
 		<tr>
 			<td width="50%" style="text-align: right"><img
