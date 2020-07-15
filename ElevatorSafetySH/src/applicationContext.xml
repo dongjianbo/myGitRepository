@@ -44,6 +44,8 @@
 			</props>
 		</property>
 	</bean>
+	<!-- 字符编码 -->
+	
 	<!-- 事务 -->
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">

@@ -337,7 +337,7 @@ $().ready(function(){
 								tr1+="</tr><tr>"
 							}
 							$("#sqtp").attr("style", "display:block;");  
-							tr1+="<td><img src='http://120.27.196.90/pda_api.php?name=get_repair_image&p="+midlist[i].path+"&h=200&w=200' width=200 height=200 alt='图片不存在！'/>&nbsp;</td>";
+							tr1+="<td><img src='http://121.196.194.54/pda_api.php?name=get_repair_image&p="+midlist[i].path+"&h=200&w=200' width=200 height=200 alt='图片不存在！'/>&nbsp;</td>";
 							a1++;
 						}
 						if(midlist[i].key.type==1){
@@ -345,7 +345,7 @@ $().ready(function(){
 								tr2+="</tr><tr>"
 							}
 							$("#wxtp").attr("style", "display:block;"); 
-							tr2+="<td><img src='http://120.27.196.90/pda_api.php?name=get_repair_image&p="+midlist[i].path+"&h=200&w=200' width=200 height=200 alt='图片不存在！'/>&nbsp;</td>";
+							tr2+="<td><img src='http://121.196.194.54/pda_api.php?name=get_repair_image&p="+midlist[i].path+"&h=200&w=200' width=200 height=200 alt='图片不存在！'/>&nbsp;</td>";
 							a2++;
 						}
 					}

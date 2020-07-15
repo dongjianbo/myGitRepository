@@ -14,19 +14,19 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>
 <c:if test="${operator_type.id_operator_type=='00'||operator_type.id_operator_type=='01'}">
-湖北省电梯安全监管中心
+洲智电梯安全监管中心
 </c:if>
 <c:if test="${operator_type.id_operator_type=='10'||operator_type.id_operator_type=='11'}">
-湖北省电梯安全监督维保中心
+洲智电梯安全监督维保中心
 </c:if>
 <c:if test="${operator_type.id_operator_type=='20'||operator_type.id_operator_type=='21'||operator_type.id_operator_type=='40'}">
-湖北省电梯安全监督用户中心
+洲智电梯安全监督用户中心
 </c:if>
 <c:if test="${operator_type.id_operator_type=='30'||operator_type.id_operator_type=='31'}">
-湖北省电梯安全监督检验检测中心
+洲智电梯安全监督检验检测中心
 </c:if>
 <c:if test="${operator_type.id_operator_type=='50'}">
-湖北省电梯安全监管房管中心
+洲智电梯安全监管房管中心
 </c:if>
 </title>
 <link href="${path}/css/system.css" rel="stylesheet" type="text/css">
@@ -77,9 +77,9 @@ li {
 <script src="${path}/jquery/ui/jquery.ui.draggable.js"></script>
 <script src="${path}/jquery/ui/jquery.ui.position.js"></script>
 <script src="${path}/jquery/ui/jquery.ui.resizable.js"></script>
-<script src="${path}/jquery/ui/jquery.ui.button.js"></script>
 <script src="${path}/jquery/ui/jquery.ui.dialog.js"></script>
 <script src="${path}/jquery/ui/jquery.ui.effect.js"></script>
+<script type="text/javascript" src="${path}/jquery/ui/jquery.ui.menu.js"></script>
 <script type="text/javascript">
 /*
 $(function() {
@@ -107,15 +107,7 @@ $().ready(function(){
 	});
 });
 function closeme(){ 
-	var browserName=navigator.appName; 
-	if (browserName=="Netscape") { 
-		window.open('','_parent',''); 
-		window.close(); 
-	} 
-	else if (browserName=="Microsoft Internet Explorer") { 
-		window.opener = "whocares"; 
-		window.close(); 
-	} 
+	window.top.location.href="${path}/login/logout.do";
 } 
 </script>
 
@@ -127,19 +119,19 @@ function closeme(){
 				<ul>
 				<li><div style="font-size: 30px;margin-top: 10px;">
 				 <c:if test="${operator_type.id_operator_type=='00'||operator_type.id_operator_type=='01'}">
-				   湖北省电梯安全监管中心
+				   洲智电梯安全监管中心
 			     </c:if>
 			     <c:if test="${operator_type.id_operator_type=='10'||operator_type.id_operator_type=='11'}">
-				   湖北省电梯安全监督维保中心
+				   洲智电梯安全监督维保中心
 				   </c:if>
 				   <c:if test="${operator_type.id_operator_type=='20'||operator_type.id_operator_type=='21'||operator_type.id_operator_type=='40'}">
-				   湖北省电梯安全监督用户中心
+				   洲智电梯安全监督用户中心
 				   </c:if>
 				   <c:if test="${operator_type.id_operator_type=='30'||operator_type.id_operator_type=='31'}">
-				   湖北省电梯安全监督检验检测中心
+				  洲智电梯安全监督检验检测中心
 				   </c:if>
 				   <c:if test="${operator_type.id_operator_type=='50'}">
-				   湖北省电梯安全监管房管中心
+				   洲智电梯安全监管房管中心
 				   </c:if>
 				</div>
 				<li><div style="font-size:14px;text-align: left;margin-left: 100px;">

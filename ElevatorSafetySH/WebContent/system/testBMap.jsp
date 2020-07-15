@@ -5,14 +5,29 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Simple Map</title>
-        <style type="text/css">
-            body, html {width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
-            p{margin-left:5px; font-size:14px;}
-            #container{width: 100%;height: 100%;
-            }
-        </style>
-        <script type="text/javascript" src="http://api.map.baidu.com/api?ak=7cEfQTOD2S32tvOBCAI8CCT1OxWtQNRp&v=2.0&services=false"></script>
-    	<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
+    <link href="${path}/css/system.css" rel="stylesheet" type="text/css">
+	<link href="${path}/css/table.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="${path}/jquery/themes/base/jquery.ui.all.css">
+    <style type="text/css">
+        body, html {width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+        p{margin-left:5px; font-size:14px;}
+        #container{width: 100%;height: 100%;
+        }
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?ak=7cEfQTOD2S32tvOBCAI8CCT1OxWtQNRp&v=2.0&services=false"></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
+	<script src="${path}/jquery/jquery-1.10.2.js"></script>
+	<script src="${path}/jquery/ui/jquery.ui.core.js"></script>
+	<script src="${path}/jquery/ui/jquery.ui.widget.js"></script>
+	<script src="${path}/jquery/ui/jquery.ui.mouse.js"></script>
+	<script src="${path}/jquery/ui/jquery.ui.button.js"></script>
+	<script src="${path}/jquery/ui/jquery.ui.draggable.js"></script>
+	<script src="${path}/jquery/ui/jquery.ui.position.js"></script>
+	<script src="${path}/jquery/ui/jquery.ui.resizable.js"></script>
+	<script src="${path}/jquery/ui/jquery.ui.button.js"></script>
+	<script src="${path}/jquery/ui/jquery.ui.dialog.js"></script>
+	<script src="${path}/jquery/ui/jquery.ui.effect.js"></script>
+	
     	<script type="text/javascript">
     		$().ready(function(){
     			//创建Map实例,参数为Map层的ID
@@ -31,25 +46,23 @@
         	    	}else{
         	    		colHeight = colHeight -40;
         	    	} 
-    				//设置欢度和高度
+    				//设置宽度和高度
         	    	document.getElementById("container").style.height=colHeight+"px";
          	    	document.getElementById("container").style.width=colWidth+"px";
     				
                     //默认的坐标
                     var point = new BMap.Point(r.distinctGis.gis_x,r.distinctGis.gis_y);
                     $("#id_distinct").val(r.distinctGis.id_distinct);
-                  //设置标注的图标
+                  	//设置标注的图标
                      //var icon = new BMap.Icon("http://api.map.baidu.com/img/markers.png",new BMap.Size(23,25));
-                     var icon = new BMap.Icon("${path}/images/markers.png",new BMap.Size(23,25), {
-                         offset: new BMap.Size(10, 25), // 指定定位位置
-                         imageOffset: new BMap.Size(0, 0 - 0 * 25) // 设置图片偏移
-                     });
-               
+                    var icon = new BMap.Icon("${path}/images/markers.png",new BMap.Size(23,25), {
+                        offset: new BMap.Size(10, 25), // 指定定位位置
+                        imageOffset: new BMap.Size(0, 0 - 0 * 25) // 设置图片偏移
+                    });
                    	//设置标注的经纬度
-                     var markerCenter = new BMap.Marker(point,{icon:icon});
-                     //把标注添加到地图上
-           
-                        map.addOverlay(markerCenter);
+                    var markerCenter = new BMap.Marker(point,{icon:icon});
+                    //把标注添加到地图上
+                    map.addOverlay(markerCenter);
                     //设置地图的默认中心点和缩放级别
                     map.centerAndZoom(point,r.distinctGis.level);
                     //启用鼠标滚动缩放
@@ -89,14 +102,31 @@
                   		}
                       	//设置标注的经纬度
                         var marker = new BMap.Marker(new BMap.Point(r.elList[i].gis_x,r.elList[i].gis_y),{icon:icon});
-                        //把标注添加到地图上
+                        
+                      	//把标注添加到地图上
                         map.addOverlay(marker);
                         var label = new BMap.Label(r.elList[i].desc,{offset:new BMap.Size(-10,25)});  
                         marker.setLabel(label);  
                         marker.setTitle(r.elList[i].id_elevator);  
-                    
+                      	//设置右键菜单
+                        var contextMenu=new BMap.ContextMenu();
+                        var runningStatus=function(){
+                        	var title=this.getTitle();
+                        	$.post("${path}/elevator/existsEdevice.do","eid="+this.getTitle(),function(r){
+                				if(r=="true"){
+                					$("#noInstall").dialog("open");
+                				}else{
+                					location.href="${path}/elevator/getRunningStatus.do?eid="+title;
+                				}
+                			});
+                        }
+                        contextMenu.addItem(new BMap.MenuItem("详细信息",getAttr.bind(marker)));
+                        contextMenu.addItem(new BMap.MenuItem("实时运行",runningStatus.bind(marker)));
+                        
+                        marker.addContextMenu(contextMenu);
                         //marker.addEventListener("click",ck1(r,i,marker));
-                        marker.addEventListener("click",getAttr);
+                        //marker.addEventListener("click",getAttr);
+                        
                       //获取指定标记的详细信息     
                         function getAttr() {
                         	for (var i=0;i<r.elList.length;i++) {
@@ -152,9 +182,27 @@
  						});
     	   			 }
         		});
+    			$("#noInstall").dialog({
+    				title:"暂未安装",
+    				modal:true,
+    				autoOpen:false,
+    				width:350,
+    				height:150,
+    				buttons:{
+    					"确定":function(){
+    						$(this).dialog("close");
+    					}
+    				},
+    				close:function(){
+    					$(this).dialog("close");
+    				}
+    			});
+    			
+    			//紧急救援消息监听
+    			//setTimeout(emergencyRescue, 1000);
     		});   
               
-    		function ck1(r,i,m){
+    		/* function ck1(r,i,m){
             	var content = "<table>";  
 //              content = content + "<tr><td> 编号："+r.elList[i].id_elevator+"</td></tr>";
                 content = content + "<tr><td> 电梯简称："+r.elList[i].desc+"</td><td> 电梯型号："+r.elList[i].model.modelname+"</td></tr>";  
@@ -170,11 +218,64 @@
                 content += "</table>";
                 var infowindow = new BMap.InfoWindow(content); 
                 m.openInfoWindow(infowindow);
-        	}
+        	} */
     		function marker_click(eid){
             	alert("${path}/maint_report_id/listForTask.do?maint_type=123&elevator_id="+eid);
         		location.href="${path}/maint_report_id/listForTask.do?maint_type=123&elevator_id="+eid;
             }
+    		//紧急救援
+    		function emergencyRescue(){
+				$.getJSON("${path}/elevator/emergencyRescue.do","rand="+Math.random(),function(r){
+					for(var i=0;i<r.length;i++){
+						var alarms=r[i];
+						if(alarms[4]==null){
+							//将当前时间设为接受时间
+							$.post("${path}/elevator/setReveice.do?","e_data_alarm_id="+alarms[1],function(m){
+								$("#emergencyRescue").dialog({
+				    				modal:true,
+				    				autoOpen:false,
+				    				width:550,
+				    				height:250,
+				    				buttons:{
+				    					"确定":function(){
+				    						location.href="${path}/system/pgLiveMultiRender2.jsp?edataalarmsid="+alarms[1]+"&eno="+alarms[2];
+				    						$(this).dialog("close");
+				    					}
+				    				},
+				    				close:function(){
+				    					$(this).dialog("close");
+				    				}
+				    			});
+								$("#emergencyRescue").html("电梯:"+alarms[6]+"("+alarms[2]+")请求紧急救援！");
+								$("#emergencyRescue").dialog("open");
+								return;
+							});
+							break;
+						}
+						if(alarms[4]!=null&&alarms[5]==null){
+							$("#emergencyRescue").dialog({
+			    				modal:true,
+			    				autoOpen:false,
+			    				width:550,
+			    				height:250,
+			    				buttons:{
+			    					"确定":function(){
+			    						location.href="${path}/system/pgLiveMultiRender2.jsp?edataalarmsid="+alarms[1]+"&eno="+alarms[2];
+			    						$(this).dialog("close");
+			    					}
+			    				},
+			    				close:function(){
+			    					$(this).dialog("close");
+			    				}
+			    			});
+							$("#emergencyRescue").html("电梯"+alarms[6]+"("+alarms[2]+")请求紧急救援！");
+							$("#emergencyRescue").dialog("open");
+							break;
+						}
+					}
+				});
+    		}
+    		
     	</script>
     </head>
     <body>
@@ -200,5 +301,9 @@
 		      	</form>
 	      	</div>
         </div>
+        <div id="emergencyRescue" title="紧急救援！"></div>
+        <div id="noInstall">
+			<p>该电梯未安装监控设备！</p>
+		</div>
     </body>
 </html>

@@ -50,6 +50,12 @@ public class BaseDao extends HibernateByDCPageUtil{
 		List list=session.createSQLQuery(sql).list();
 		return list;
 	}
+	@SuppressWarnings("unchecked")
+	public <T> List<T> listBySQLQuery(String sql,Class<T> c){
+		Session session=this.getSessionFactory().getCurrentSession();
+		List<T> list=session.createSQLQuery(sql).addEntity(c).list();
+		return list;
+	}
 	@SuppressWarnings({ "rawtypes" })
 	public Object getObjectBySQL(String sql){
 		Session session=this.getSessionFactory().getCurrentSession();

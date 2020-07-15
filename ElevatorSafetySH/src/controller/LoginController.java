@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -71,7 +72,7 @@ public class LoginController {
 			   String deptName="";
 			   if(optype.equals("00")||optype.equals("01")){
 				   //技术监督部门
-				   deptName="质量技术监督局";
+				   deptName="市场监督管理局";
 			   }
 			   if(optype.equals("10")||optype.equals("11")){
 				   //维保单位
@@ -123,4 +124,9 @@ public class LoginController {
 		}
 			 
 	 }
+   @RequestMapping("logout")
+   public String LogOut(HttpServletRequest request,HttpServletResponse response){
+	   request.getSession().invalidate();
+	   return "login";
+   }
  }

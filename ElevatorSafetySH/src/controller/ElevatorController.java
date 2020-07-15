@@ -2,7 +2,6 @@ package controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.net.URLDecoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,13 +19,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import service.CitylistService;
@@ -57,6 +53,7 @@ import service.TestService;
 import service.UserService;
 import util.DateUtils;
 import vo.DistinctGis;
+import vo.E_data_history;
 import vo.Elevator;
 import vo.Elevator_door;
 import vo.Elevator_doorKey;
@@ -68,7 +65,6 @@ import vo.History_list;
 import vo.History_listKey;
 import vo.Manufer;
 import vo.Modellist;
-import vo.Notice;
 import vo.Operator;
 import vo.Register_status_def;
 import vo.Safer;
@@ -430,7 +426,7 @@ public class ElevatorController {
 
 		public ModelAndView listForSearch(String key, String search, HttpServletRequest request,String id_city,String id_district,String id_subdistrict,int id_service,int id_user,int id_test,int keyType,String desc,String elevator_type,String gis_type) {
 			System.out.println( key+"-"+search+"-"+id_city+"-"+id_district+"-"+id_subdistrict+"-"+id_service+"-"+id_user+"-"+id_test+"-"+keyType+"-"+desc+"-"+elevator_type+"-"+gis_type);
-			Operator op=(Operator)request.getSession().getAttribute("login");
+			
 			//
 			List<Elevator> list = new ArrayList<Elevator>();
 			//因为是在url后面传过来的，所以需要转码
@@ -1100,5 +1096,71 @@ public class ElevatorController {
 //				mav.addObject("elList",jsonarray);
 				return mav;
 		}
+	}
+	/**
+	 * 2020-7-4增加实时运行状态
+	 */
+	@RequestMapping("getRunningStatus")
+	public ModelAndView getRunningStatus(HttpServletRequest request,int eid){
+		Elevator e=elevatorService.getEById(eid);
+		List<E_data_history> hlist=elevatorService.getElevatorRunningStatus(eid);
+		ModelAndView mav=new ModelAndView("system/elevatorRunningStatus");
+		mav.addObject("e",e);
+		if(hlist!=null&&hlist.size()!=0){
+			E_data_history history=hlist.get(0);
+			mav.addObject("history", history);
+		}else{
+			mav.addObject("history", null);
+		}
+		return mav;
+	}
+	/**
+	 * 实时运行页面刷新
+	 * @param eid
+	 * @return
+	 */
+	@RequestMapping(value="jsonRunningStatus",produces={"application/json;charset=utf-8"})
+	@ResponseBody
+	public String jsonRunningStatus(int eid){
+		Elevator e=elevatorService.getEById(eid);
+		List<E_data_history> hlist=elevatorService.getElevatorRunningStatus(eid);
+		HashMap<String, Object> map=new HashMap<String, Object>();
+		map.put("e", e);
+		if(hlist!=null&&hlist.size()!=0){
+			E_data_history history=hlist.get(0);
+			map.put("history", history);
+		}else{
+			map.put("history", null);
+		}
+		return JSONObject.fromObject(map).toString();
+	}
+	@RequestMapping("existsEdevice")
+	@ResponseBody
+	public String existsEdevice(int eid){
+		Object obj=elevatorService.getEdevice(eid);
+		return String.valueOf(obj==null);
+	}
+	/**
+	 * 2020-7-4紧急救援
+	 */
+	@RequestMapping(value="emergencyRescue",produces={"application/json;charset=utf-8"})
+	@ResponseBody
+	public String emergencyRescue(HttpServletRequest request){
+		@SuppressWarnings("rawtypes")
+		List alarmList=elevatorService.getEDataAlarms();
+		JSONArray array=JSONArray.fromObject(alarmList);
+		return array.toString();
+	}
+	@RequestMapping("setReveice")
+	@ResponseBody
+	public String setReveice(HttpServletRequest request,int e_data_alarm_id){
+		elevatorService.updateReceivedTime(e_data_alarm_id);
+		return "success";
+	}
+	@RequestMapping("setFinished")
+	public ModelAndView setFinished(HttpServletRequest request,int e_data_alarm_id){
+		elevatorService.updateFinishedTime(e_data_alarm_id);
+		ModelAndView mav=new ModelAndView("system/testBMap");
+		return mav;
 	}
 }

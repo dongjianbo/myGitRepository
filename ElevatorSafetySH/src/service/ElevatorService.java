@@ -14,9 +14,14 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
+
+import dao.EDeviceDao;
 import dao.ElevatorDao;
 import dao.Elevator_tag_init_taskDao;
 import vo.Approve_ack;
+import vo.E_Device;
+import vo.E_data_alarm;
+import vo.E_data_history;
 import vo.Elevator;
 
 
@@ -27,6 +32,8 @@ public class ElevatorService {
 	public ElevatorDao elevatorDao;
 	@Resource
 	public Elevator_tag_init_taskDao etitDao;
+	@Resource
+	public EDeviceDao edeviceDao;
 	public Serializable insert(Elevator elevator){
 		return elevatorDao.save(elevator);
 	}
@@ -2046,6 +2053,35 @@ public class ElevatorService {
 		DetachedCriteria dc=DetachedCriteria.forClass(Elevator.class);
 		dc.add(Restrictions.in("id_elevator", idList));
 		return elevatorDao.getListByDc(dc);
+	}
+	//获取电梯实时运行状态
+	public List<E_data_history> getElevatorRunningStatus(int eid){
+		//需要数据：电梯运行方向，门开关状态，楼层，故障与否 是否有人
+		String sql="select h.* from e_data_history h join e_data_status s on h.e_data_history_id=s.e_data_history_id "+
+					"join edevice d on s.e_no=d.e_no where d.id_elevator="+eid;
+		return edeviceDao.listBySQLQuery(sql, E_data_history.class);
+	}
+	//是否有电梯实时运行记录
+	public Object getEdevice(int eid){
+		String sql="select 1 from edevice where id_elevator="+eid;
+		return edeviceDao.getObjectBySQL(sql);
+	}
+	@SuppressWarnings("rawtypes")
+	public List getEDataAlarms(){
+		String sql="select d.id_elevator,a.*,e.desc from e_data_alarm a "
+				+ "join e_data_status s on a.e_data_alarm_id=s.e_data_alarm_id "
+				+ "join edevice d on s.e_no=d.e_no "
+				+ "join elevator e on e.id_elevator=d.id_elevator";
+		List alarmList=elevatorDao.listBySQLQuery(sql);
+		return alarmList;
+	}
+	public void updateReceivedTime(int e_data_alarm_id){
+		String sql="update e_data_alarm set received=now() where e_data_alarm_id="+e_data_alarm_id;
+		elevatorDao.executeUpdate(sql);
+	}
+	public void updateFinishedTime(int e_data_alarm_id){
+		String sql="update e_data_alarm set finished=now() where e_data_alarm_id="+e_data_alarm_id;
+		elevatorDao.executeUpdate(sql);
 	}
 	
 	

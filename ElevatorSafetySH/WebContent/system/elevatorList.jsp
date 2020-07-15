@@ -36,6 +36,21 @@
 					$(this).dialog("close");
 				}
 			});
+			$("#noInstall").dialog({
+				title:"暂未安装",
+				modal:true,
+				autoOpen:false,
+				width:350,
+				height:150,
+				buttons:{
+					"确定":function(){
+						$(this).dialog("close");
+					}
+				},
+				close:function(){
+					$(this).dialog("close");
+				}
+			});
 		});
 		function toDetail(id_elevator){
 			
@@ -70,10 +85,23 @@
 		function toRescue_exercise(id_elevator){
 			location.href="${path}/rescue_exercise/rescue_exerciseList.do?eid="+id_elevator;
 		}
+		//获取实时运行状态
+		function toRunningStatus(id_elevator){
+			$.post("${path}/elevator/existsEdevice.do","eid="+id_elevator,function(r){
+				if(r=="true"){
+					$("#noInstall").dialog("open");
+				}else{
+					location.href="${path}/elevator/getRunningStatus.do?eid="+id_elevator;
+				}
+			});
+		}
 		
 	</script>
 </head>
 <body>
+<div id="noInstall">
+	<p>该电梯未安装监控设备！</p>
+</div>
 <!-- 	技术监督人员电梯列表不要搜索，与上一个页面重复 -->
 	<c:if test="${requestMapping ne 'elevator'}">
 		<form action="${path}/${requestMapping }/listForSearch.do" method="post">
@@ -110,7 +138,8 @@
 				<a href="javascript:toService2(${e.id_elevator})">巡视记录</a>&nbsp;&nbsp;&nbsp;
 				<a href="javascript:toRescue_exercise(${e.id_elevator})">急修演习</a>&nbsp;&nbsp;&nbsp;
 <%-- 				<a href="javascript:toService3(${e.id_elevator})">年检记录</a> --%>
-				<a href="#">年检记录</a>
+				<a href="#">年检记录</a>&nbsp;&nbsp;&nbsp;
+				<a href="javascript:toRunningStatus(${e.id_elevator},'${e.desc }')">实时运行</a>
 				</td>
 			</tr>
 		</c:forEach>
