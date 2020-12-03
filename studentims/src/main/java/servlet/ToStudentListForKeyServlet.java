@@ -37,13 +37,14 @@ public class ToStudentListForKeyServlet extends HttpServlet {
 		//获取页面提交的关键字
 		request.setCharacterEncoding("UTF-8");
 		String key=request.getParameter("key");
+		String grade=request.getParameter("grade");
 		int page=Integer.parseInt(request.getParameter("page"));
 		//创建分页组件
 		Pagenation p=new Pagenation();
 		p.setPage(page);
 		//调用dao的相关方法,获取关键字下的搜索记录
 		StudentDao sdao=new StudentDaoImp();
-		List<Student> slist=sdao.studentList(key,p);
+		List<Student> slist=sdao.studentList(grade,key,p);
 		request.setAttribute("slist", slist);
 		request.setAttribute("p", p);
 		//转发和重定向

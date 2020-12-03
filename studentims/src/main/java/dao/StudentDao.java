@@ -33,7 +33,7 @@ public interface StudentDao {
 	 * @return
 	 */
 	public List<Student> studentList();
-	public List<Student> studentList(String key,Pagenation p);
+	public List<Student> studentList(String grade,String key,Pagenation p);
 	/**
 	 * 学生修改页面之前的查询
 	 *

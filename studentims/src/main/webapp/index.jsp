@@ -1,3 +1,4 @@
+<%@page import="java.util.Date"%>
 <%@page import="table.Account"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -30,6 +31,9 @@
      	if(obj!=null){
      		acc=(Account)obj;		
      	}
+     	Date d=new Date();
+     	int year=d.getYear()+1900-2000;
+     	request.setAttribute("year", year);
     %>				
 	<div class="jumbotron">
 		<div class="col-md-offset-1">
@@ -60,7 +64,7 @@
 	        	<ul class="dropdown-menu">
 	        		<li><a href="${pageContext.request.contextPath}/importStudent.jsp">批量导入学员</a></li>
 		            <li><a href="${pageContext.request.contextPath}/teacher/ToCreateStudentServlet">学员信息录入</a></li>
-		            <li><a href="${pageContext.request.contextPath}/teacher/ToStudentListForKeyServlet?page=1&key=">学员信息列表</a></li>
+		            <li><a href="${pageContext.request.contextPath}/teacher/ToStudentListForKeyServlet?page=1&grade=${year }&key=">学员信息列表</a></li>
 		            <li><a href="${pageContext.request.contextPath}/studentUpdate.jsp?m=xg">学员信息修改</a></li>
 		            <li role="separator" class="divider"></li>
 		            <li><a href="${pageContext.request.contextPath}/studentUpdate.jsp?m=tx">学员退学办理</a></li>
@@ -113,7 +117,7 @@
 	        	<ul class="dropdown-menu">
 	        		<li><a href="${pageContext.request.contextPath}/importStudent.jsp">批量导入学员</a></li>
 		            <li><a href="${pageContext.request.contextPath}/teacher/ToCreateStudentServlet">学员信息录入</a></li>
-		            <li><a href="${pageContext.request.contextPath}/teacher/ToStudentListForKeyServlet?page=1&key=">学员信息列表</a></li>
+		            <li><a href="${pageContext.request.contextPath}/teacher/ToStudentListForKeyServlet?page=1&grade=${year }&key=">学员信息列表</a></li>
 		            <li><a href="${pageContext.request.contextPath}/studentUpdate.jsp?m=xg">学员信息修改</a></li>
 		            <li role="separator" class="divider"></li>
 		            <li><a href="${pageContext.request.contextPath}/studentUpdate.jsp?m=tx">学员退学办理</a></li>
@@ -163,14 +167,14 @@
     </nav>
     <iframe name="content" style="width:100%;height:700px;border:0;padding-top: 50px;"
     	<c:if test="${user.role==1 or user.role==3}">
-    		src="${pageContext.request.contextPath}/teacher/ToStudentListForKeyServlet?page=1&key="
+    		src="${pageContext.request.contextPath}/teacher/ToStudentListForKeyServlet?page=1&grade=${year}&key="
     	</c:if>
     	<c:if test="${user.role==2}">
     		src="${pageContext.request.contextPath }/student/StudentDetailServlet?sid=${user.sid}"
     	</c:if>
     ></iframe>
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/bootstrap-3.3.7-dist/js/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="${pageContext.request.contextPath}/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 </body>

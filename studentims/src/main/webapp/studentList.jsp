@@ -1,3 +1,4 @@
+<%@page import="java.util.Date"%>
 <%@page import="table.Student"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -25,8 +26,41 @@
 </head>
 <body>
 	<div class="row" style="margin-bottom:50px;">
-		<div class="col-md-offset-6 col-md-6">
+		<div class="col-md-offset-4 col-md-8">
 			<form class="form-inline" action="${pageContext.request.contextPath}/teacher/ToStudentListForKeyServlet" method="get">
+			  <div class="form-group">
+			    <label for="exampleInputName2">请选择年级</label>
+			    <select class="form-control" name="grade" >
+			    	<%
+			    		Date d=new Date();
+			    		int year=d.getYear()+1900;
+			    		for(int i=year;i>=2018;i--){
+			    			%>
+			    			<option value="<%=i-2000%>" 
+			    				<%
+			    					if(request.getParameter("grade").equals((i-2000)+"")){
+			    						%>
+			    						selected="selected"
+			    						<%
+			    					}
+			    				%>
+			    			><%=i%>级
+			    			<%
+			    		}
+			    	%>
+			    	<option value="0" 
+			    		<%
+	    					if(request.getParameter("grade").equals("0")){
+	    						%>
+	    						selected="selected"
+	    						<%
+	    					}
+	    				%>
+			    	>全部年级
+			    </select>
+			    
+			   
+			  </div>
 			  <div class="form-group">
 			    <label for="exampleInputName2">请输入关键字</label>
 			    <input type="text" class="form-control" id="exampleInputName2" name="key" value="${param.key}" placeholder="姓名/班级/性别/籍贯">
@@ -97,7 +131,7 @@
 	</c:if>
 	
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/bootstrap-3.3.7-dist/js/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="${pageContext.request.contextPath}/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
     <script type="text/javascript">

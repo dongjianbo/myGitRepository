@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import database.MySqlDataSource;
@@ -129,9 +130,15 @@ public class StudentDaoImp implements StudentDao{
 
 	@Override
 	public List<Student> studentList() {
+		/*取今年年份
+		Date d=new Date();
+		@SuppressWarnings("deprecation")
+		int year=d.getYear()+1900-2000;
+		*/
 		List<Student> stlist=new ArrayList<>();
 		String sql="SELECT s.*,bj.cname,a.uname "
 				+ "from student s left join banji bj on s.bjid=bj.id left join account a on s.sid=a.sid "
+				//+ "where bj.cname like '"+year+"%'"
 				+ "order by bj.cname desc,s.sname asc;";
 		Connection con=MySqlDataSource.getCon();
 		
@@ -161,16 +168,23 @@ public class StudentDaoImp implements StudentDao{
 		return stlist;
 	}
 	@Override
-	public List<Student> studentList(String key,Pagenation p) {
+	public List<Student> studentList(String grade,String key,Pagenation p) {
 		
 		List<Student> stlist=new ArrayList<>();
 		String sql="SELECT s.*,bj.cname,a.uname from student s left join banji bj on s.bjid=bj.id left join account a on s.sid=a.sid "
-				+ "where sname like ? or bj.cname like ? or jiguan like ? or ssex like ? "+
-				"limit "+(p.getPage()-1)*p.getRows()+","+p.getRows();
+				+ "where (sname like ? or bj.cname like ? or jiguan like ? or ssex like ? )";
+		if(!grade.trim().equals("0")){
+			sql+=" and bj.cname like '"+grade+"%'";
+		}
+		sql+=" limit "+(p.getPage()-1)*p.getRows()+","+p.getRows();
+		//System.out.println(sql);
 		//需要获取当前key条件下一共有多少条?
 		String sql_count="SELECT count(*) from student s left join banji bj on s.bjid=bj.id left join account a on s.sid=a.sid "
-				+ "where sname like ? or bj.cname like ? or jiguan like ? or ssex like ?";
-		
+				+ "where (sname like ? or bj.cname like ? or jiguan like ? or ssex like ?)";
+		if(!grade.trim().equals("0")){
+			sql_count+=" and bj.cname like '"+grade+"%'";
+		}
+		//System.out.println(sql_count);
 		try {
 			Connection con=MySqlDataSource.getCon();
 			PreparedStatement ps=con.prepareStatement(sql);
