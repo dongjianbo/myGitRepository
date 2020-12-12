@@ -215,7 +215,7 @@
 			$("#myform1").submit();
 		});
 		$("#gis").click(function(){
-			document.getElementById("prodcutDetailSrc").src="${path }/elevator/map2.do";
+			document.getElementById("prodcutDetailSrc").src="${path }/elevator/map2.do?rand="+Math.random();
 			$("#mapDialog").dialog("open");
 		});
 	});

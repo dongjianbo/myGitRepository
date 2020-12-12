@@ -12,7 +12,7 @@
             }
         </style>
         <script type="text/javascript" src="http://api.map.baidu.com/api?ak=7cEfQTOD2S32tvOBCAI8CCT1OxWtQNRp&v=2.0&services=false"></script>
-    	<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
+    	<script type="text/javascript" src="${path }/jquery/jquery-1.9.1.js"></script>
     	<script type="text/javascript">
     		$().ready(function(){
     			height = document.documentElement.clientHeight;
@@ -108,7 +108,14 @@
                 	parent.$("#gis_x").val(e.point.lng);
                 	parent.$("#gis_y").val(e.point.lat);
  					parent.$("#gis").val(e.point.lng+","+e.point.lat);
+ 					
                     $("#aa").html("经度坐标："+e.point.lng+" &nbsp;纬度坐标："+e.point.lat);
+                    map.clearOverlays();
+                    var marker = new BMap.Marker(new BMap.Point(e.point.lng,e.point.lat),{icon:icon});
+                    var label = new BMap.Label("电梯坐标",{offset:new BMap.Size(-10,25)});  
+                    marker.setLabel(label);  
+                    //把标注添加到地图上
+                    map.addOverlay(marker);
                 });
                 
                 //查询地图事件
