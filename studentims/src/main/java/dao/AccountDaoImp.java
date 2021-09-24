@@ -8,6 +8,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.PreparedStatement;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import database.MySqlDataSource;
 import table.Account;
@@ -19,8 +20,6 @@ public class AccountDaoImp implements AccountDao{
 		//获取数据连接
 		//编写sql语句
 		//封装数据
-		
-		
 		//使用数据库已经编写好的存储过程进行判断
 		Connection con=MySqlDataSource.getCon();
 		try {
@@ -34,6 +33,9 @@ public class AccountDaoImp implements AccountDao{
 			con.close();
 			return i;
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch (NullPointerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -149,7 +151,7 @@ public class AccountDaoImp implements AccountDao{
 
 	@Override
 	public int changePassword(int id,String password, String newpassword) {
-		int i=-1;
+		AtomicInteger i= new AtomicInteger(-1);
 		String sql1="select 1 from account where password=password(?) and id=?";
 		
 		String sql="update account set password=password(?) where id=?";
@@ -163,19 +165,19 @@ public class AccountDaoImp implements AccountDao{
 				PreparedStatement ps=con.prepareStatement(sql);
 				ps.setString(1, newpassword);
 				ps.setInt(2,id);
-				i=ps.executeUpdate();
+				i.set(ps.executeUpdate());
 				ps.close();
 			}else{
-				i=0;
+				i.set(0);
 			}
 			ps1.close();
 			con.close();
-			return i;
+			return i.get();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return -1;
+		return i.get();
 	}
 	@Override
 	public boolean exists(String uname) {
